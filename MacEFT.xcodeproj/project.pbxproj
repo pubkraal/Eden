@@ -17,6 +17,7 @@
 		525B8AAF133BEB52006A3728 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 525B8AAD133BEB52006A3728 /* InfoPlist.strings */; };
 		525B8AB2133BEB52006A3728 /* MacEFTTests.h in Resources */ = {isa = PBXBuildFile; fileRef = 525B8AB1133BEB52006A3728 /* MacEFTTests.h */; };
 		525B8AB4133BEB52006A3728 /* MacEFTTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 525B8AB3133BEB52006A3728 /* MacEFTTests.m */; };
+		525B8ABF133BEBC1006A3728 /* README in Resources */ = {isa = PBXBuildFile; fileRef = 525B8ABE133BEBC1006A3728 /* README */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,20 +36,21 @@
 		525B8A8C133BEB52006A3728 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		525B8A8D133BEB52006A3728 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		525B8A8E133BEB52006A3728 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		525B8A91133BEB52006A3728 /* MacEFT-Info.plist */ = {isa = PBXFileReference; path = "MacEFT-Info.plist"; sourceTree = "<group>"; };
+		525B8A91133BEB52006A3728 /* MacEFT-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MacEFT-Info.plist"; sourceTree = "<group>"; };
 		525B8A93133BEB52006A3728 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		525B8A95133BEB52006A3728 /* MacEFT-Prefix.pch */ = {isa = PBXFileReference; path = "MacEFT-Prefix.pch"; sourceTree = "<group>"; };
+		525B8A95133BEB52006A3728 /* MacEFT-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MacEFT-Prefix.pch"; sourceTree = "<group>"; };
 		525B8A96133BEB52006A3728 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		525B8A99133BEB52006A3728 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
-		525B8A9B133BEB52006A3728 /* MacEFTAppDelegate.h */ = {isa = PBXFileReference; path = MacEFTAppDelegate.h; sourceTree = "<group>"; };
+		525B8A9B133BEB52006A3728 /* MacEFTAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MacEFTAppDelegate.h; sourceTree = "<group>"; };
 		525B8A9C133BEB52006A3728 /* MacEFTAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MacEFTAppDelegate.m; sourceTree = "<group>"; };
 		525B8A9F133BEB52006A3728 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		525B8AA6133BEB52006A3728 /* MacEFTTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MacEFTTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
-		525B8AAC133BEB52006A3728 /* MacEFTTests-Info.plist */ = {isa = PBXFileReference; path = "MacEFTTests-Info.plist"; sourceTree = "<group>"; };
+		525B8AAC133BEB52006A3728 /* MacEFTTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MacEFTTests-Info.plist"; sourceTree = "<group>"; };
 		525B8AAE133BEB52006A3728 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		525B8AB0133BEB52006A3728 /* MacEFTTests-Prefix.pch */ = {isa = PBXFileReference; path = "MacEFTTests-Prefix.pch"; sourceTree = "<group>"; };
+		525B8AB0133BEB52006A3728 /* MacEFTTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MacEFTTests-Prefix.pch"; sourceTree = "<group>"; };
 		525B8AB1133BEB52006A3728 /* MacEFTTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MacEFTTests.h; sourceTree = "<group>"; };
 		525B8AB3133BEB52006A3728 /* MacEFTTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MacEFTTests.m; sourceTree = "<group>"; };
+		525B8ABE133BEBC1006A3728 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +76,7 @@
 		525B8A7A133BEB51006A3728 = {
 			isa = PBXGroup;
 			children = (
+				525B8ABD133BEBAD006A3728 /* Resources */,
 				525B8A8F133BEB52006A3728 /* MacEFT */,
 				525B8AAA133BEB52006A3728 /* MacEFTTests */,
 				525B8A88133BEB52006A3728 /* Frameworks */,
@@ -152,6 +155,14 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		525B8ABD133BEBAD006A3728 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				525B8ABE133BEBC1006A3728 /* README */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -225,6 +236,7 @@
 				525B8A94133BEB52006A3728 /* InfoPlist.strings in Resources */,
 				525B8A9A133BEB52006A3728 /* Credits.rtf in Resources */,
 				525B8AA0133BEB52006A3728 /* MainMenu.xib in Resources */,
+				525B8ABF133BEBC1006A3728 /* README in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
