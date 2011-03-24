@@ -1,0 +1,459 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		525B8A8A133BEB52006A3728 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 525B8A89133BEB52006A3728 /* Cocoa.framework */; };
+		525B8A94133BEB52006A3728 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 525B8A92133BEB52006A3728 /* InfoPlist.strings */; };
+		525B8A97133BEB52006A3728 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 525B8A96133BEB52006A3728 /* main.m */; };
+		525B8A9A133BEB52006A3728 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 525B8A98133BEB52006A3728 /* Credits.rtf */; };
+		525B8A9D133BEB52006A3728 /* MacEFTAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 525B8A9C133BEB52006A3728 /* MacEFTAppDelegate.m */; };
+		525B8AA0133BEB52006A3728 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 525B8A9E133BEB52006A3728 /* MainMenu.xib */; };
+		525B8AA7133BEB52006A3728 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 525B8A89133BEB52006A3728 /* Cocoa.framework */; };
+		525B8AAF133BEB52006A3728 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 525B8AAD133BEB52006A3728 /* InfoPlist.strings */; };
+		525B8AB2133BEB52006A3728 /* MacEFTTests.h in Resources */ = {isa = PBXBuildFile; fileRef = 525B8AB1133BEB52006A3728 /* MacEFTTests.h */; };
+		525B8AB4133BEB52006A3728 /* MacEFTTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 525B8AB3133BEB52006A3728 /* MacEFTTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		525B8AA8133BEB52006A3728 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 525B8A7C133BEB51006A3728 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 525B8A84133BEB52006A3728;
+			remoteInfo = MacEFT;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		525B8A85133BEB52006A3728 /* MacEFT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacEFT.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		525B8A89133BEB52006A3728 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		525B8A8C133BEB52006A3728 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		525B8A8D133BEB52006A3728 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		525B8A8E133BEB52006A3728 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		525B8A91133BEB52006A3728 /* MacEFT-Info.plist */ = {isa = PBXFileReference; path = "MacEFT-Info.plist"; sourceTree = "<group>"; };
+		525B8A93133BEB52006A3728 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		525B8A95133BEB52006A3728 /* MacEFT-Prefix.pch */ = {isa = PBXFileReference; path = "MacEFT-Prefix.pch"; sourceTree = "<group>"; };
+		525B8A96133BEB52006A3728 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		525B8A99133BEB52006A3728 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		525B8A9B133BEB52006A3728 /* MacEFTAppDelegate.h */ = {isa = PBXFileReference; path = MacEFTAppDelegate.h; sourceTree = "<group>"; };
+		525B8A9C133BEB52006A3728 /* MacEFTAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MacEFTAppDelegate.m; sourceTree = "<group>"; };
+		525B8A9F133BEB52006A3728 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		525B8AA6133BEB52006A3728 /* MacEFTTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MacEFTTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		525B8AAC133BEB52006A3728 /* MacEFTTests-Info.plist */ = {isa = PBXFileReference; path = "MacEFTTests-Info.plist"; sourceTree = "<group>"; };
+		525B8AAE133BEB52006A3728 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		525B8AB0133BEB52006A3728 /* MacEFTTests-Prefix.pch */ = {isa = PBXFileReference; path = "MacEFTTests-Prefix.pch"; sourceTree = "<group>"; };
+		525B8AB1133BEB52006A3728 /* MacEFTTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MacEFTTests.h; sourceTree = "<group>"; };
+		525B8AB3133BEB52006A3728 /* MacEFTTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MacEFTTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		525B8A82133BEB52006A3728 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				525B8A8A133BEB52006A3728 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		525B8AA2133BEB52006A3728 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				525B8AA7133BEB52006A3728 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		525B8A7A133BEB51006A3728 = {
+			isa = PBXGroup;
+			children = (
+				525B8A8F133BEB52006A3728 /* MacEFT */,
+				525B8AAA133BEB52006A3728 /* MacEFTTests */,
+				525B8A88133BEB52006A3728 /* Frameworks */,
+				525B8A86133BEB52006A3728 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		525B8A86133BEB52006A3728 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				525B8A85133BEB52006A3728 /* MacEFT.app */,
+				525B8AA6133BEB52006A3728 /* MacEFTTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		525B8A88133BEB52006A3728 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				525B8A89133BEB52006A3728 /* Cocoa.framework */,
+				525B8A8B133BEB52006A3728 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		525B8A8B133BEB52006A3728 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				525B8A8C133BEB52006A3728 /* AppKit.framework */,
+				525B8A8D133BEB52006A3728 /* CoreData.framework */,
+				525B8A8E133BEB52006A3728 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		525B8A8F133BEB52006A3728 /* MacEFT */ = {
+			isa = PBXGroup;
+			children = (
+				525B8A9B133BEB52006A3728 /* MacEFTAppDelegate.h */,
+				525B8A9C133BEB52006A3728 /* MacEFTAppDelegate.m */,
+				525B8A9E133BEB52006A3728 /* MainMenu.xib */,
+				525B8A90133BEB52006A3728 /* Supporting Files */,
+			);
+			path = MacEFT;
+			sourceTree = "<group>";
+		};
+		525B8A90133BEB52006A3728 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				525B8A91133BEB52006A3728 /* MacEFT-Info.plist */,
+				525B8A92133BEB52006A3728 /* InfoPlist.strings */,
+				525B8A95133BEB52006A3728 /* MacEFT-Prefix.pch */,
+				525B8A96133BEB52006A3728 /* main.m */,
+				525B8A98133BEB52006A3728 /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		525B8AAA133BEB52006A3728 /* MacEFTTests */ = {
+			isa = PBXGroup;
+			children = (
+				525B8AB1133BEB52006A3728 /* MacEFTTests.h */,
+				525B8AB3133BEB52006A3728 /* MacEFTTests.m */,
+				525B8AAB133BEB52006A3728 /* Supporting Files */,
+			);
+			path = MacEFTTests;
+			sourceTree = "<group>";
+		};
+		525B8AAB133BEB52006A3728 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				525B8AAC133BEB52006A3728 /* MacEFTTests-Info.plist */,
+				525B8AAD133BEB52006A3728 /* InfoPlist.strings */,
+				525B8AB0133BEB52006A3728 /* MacEFTTests-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		525B8A84133BEB52006A3728 /* MacEFT */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 525B8AB7133BEB52006A3728 /* Build configuration list for PBXNativeTarget "MacEFT" */;
+			buildPhases = (
+				525B8A81133BEB52006A3728 /* Sources */,
+				525B8A82133BEB52006A3728 /* Frameworks */,
+				525B8A83133BEB52006A3728 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MacEFT;
+			productName = MacEFT;
+			productReference = 525B8A85133BEB52006A3728 /* MacEFT.app */;
+			productType = "com.apple.product-type.application";
+		};
+		525B8AA5133BEB52006A3728 /* MacEFTTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 525B8ABA133BEB52006A3728 /* Build configuration list for PBXNativeTarget "MacEFTTests" */;
+			buildPhases = (
+				525B8AA1133BEB52006A3728 /* Sources */,
+				525B8AA2133BEB52006A3728 /* Frameworks */,
+				525B8AA3133BEB52006A3728 /* Resources */,
+				525B8AA4133BEB52006A3728 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				525B8AA9133BEB52006A3728 /* PBXTargetDependency */,
+			);
+			name = MacEFTTests;
+			productName = MacEFTTests;
+			productReference = 525B8AA6133BEB52006A3728 /* MacEFTTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		525B8A7C133BEB51006A3728 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = Netframe;
+			};
+			buildConfigurationList = 525B8A7F133BEB51006A3728 /* Build configuration list for PBXProject "MacEFT" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 525B8A7A133BEB51006A3728;
+			productRefGroup = 525B8A86133BEB52006A3728 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				525B8A84133BEB52006A3728 /* MacEFT */,
+				525B8AA5133BEB52006A3728 /* MacEFTTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		525B8A83133BEB52006A3728 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				525B8A94133BEB52006A3728 /* InfoPlist.strings in Resources */,
+				525B8A9A133BEB52006A3728 /* Credits.rtf in Resources */,
+				525B8AA0133BEB52006A3728 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		525B8AA3133BEB52006A3728 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				525B8AAF133BEB52006A3728 /* InfoPlist.strings in Resources */,
+				525B8AB2133BEB52006A3728 /* MacEFTTests.h in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		525B8AA4133BEB52006A3728 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		525B8A81133BEB52006A3728 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				525B8A97133BEB52006A3728 /* main.m in Sources */,
+				525B8A9D133BEB52006A3728 /* MacEFTAppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		525B8AA1133BEB52006A3728 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				525B8AB4133BEB52006A3728 /* MacEFTTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		525B8AA9133BEB52006A3728 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 525B8A84133BEB52006A3728 /* MacEFT */;
+			targetProxy = 525B8AA8133BEB52006A3728 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		525B8A92133BEB52006A3728 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				525B8A93133BEB52006A3728 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		525B8A98133BEB52006A3728 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				525B8A99133BEB52006A3728 /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		525B8A9E133BEB52006A3728 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				525B8A9F133BEB52006A3728 /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		525B8AAD133BEB52006A3728 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				525B8AAE133BEB52006A3728 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		525B8AB5133BEB52006A3728 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		525B8AB6133BEB52006A3728 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		525B8AB8133BEB52006A3728 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MacEFT/MacEFT-Prefix.pch";
+				INFOPLIST_FILE = "MacEFT/MacEFT-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		525B8AB9133BEB52006A3728 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MacEFT/MacEFT-Prefix.pch";
+				INFOPLIST_FILE = "MacEFT/MacEFT-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		525B8ABB133BEB52006A3728 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/MacEFT.app/Contents/MacOS/MacEFT";
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MacEFTTests/MacEFTTests-Prefix.pch";
+				INFOPLIST_FILE = "MacEFTTests/MacEFTTests-Info.plist";
+				OTHER_LDFLAGS = (
+					"-framework",
+					SenTestingKit,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		525B8ABC133BEB52006A3728 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/MacEFT.app/Contents/MacOS/MacEFT";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MacEFTTests/MacEFTTests-Prefix.pch";
+				INFOPLIST_FILE = "MacEFTTests/MacEFTTests-Info.plist";
+				OTHER_LDFLAGS = (
+					"-framework",
+					SenTestingKit,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		525B8A7F133BEB51006A3728 /* Build configuration list for PBXProject "MacEFT" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				525B8AB5133BEB52006A3728 /* Debug */,
+				525B8AB6133BEB52006A3728 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		525B8AB7133BEB52006A3728 /* Build configuration list for PBXNativeTarget "MacEFT" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				525B8AB8133BEB52006A3728 /* Debug */,
+				525B8AB9133BEB52006A3728 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		525B8ABA133BEB52006A3728 /* Build configuration list for PBXNativeTarget "MacEFTTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				525B8ABB133BEB52006A3728 /* Debug */,
+				525B8ABC133BEB52006A3728 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 525B8A7C133BEB51006A3728 /* Project object */;
+}
