@@ -18,6 +18,12 @@
 		525B8AB2133BEB52006A3728 /* MacEFTTests.h in Resources */ = {isa = PBXBuildFile; fileRef = 525B8AB1133BEB52006A3728 /* MacEFTTests.h */; };
 		525B8AB4133BEB52006A3728 /* MacEFTTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 525B8AB3133BEB52006A3728 /* MacEFTTests.m */; };
 		525B8ABF133BEBC1006A3728 /* README in Resources */ = {isa = PBXBuildFile; fileRef = 525B8ABE133BEBC1006A3728 /* README */; };
+		526ED099133E3FE900F26046 /* Account.m in Sources */ = {isa = PBXBuildFile; fileRef = 526ED098133E3FE900F26046 /* Account.m */; };
+		526ED09C133E3FF400F26046 /* Character.m in Sources */ = {isa = PBXBuildFile; fileRef = 526ED09B133E3FF400F26046 /* Character.m */; };
+		526ED09F133E401800F26046 /* EveObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 526ED09E133E401800F26046 /* EveObject.m */; };
+		526ED0A2133E402F00F26046 /* EveShip.m in Sources */ = {isa = PBXBuildFile; fileRef = 526ED0A1133E402E00F26046 /* EveShip.m */; };
+		526ED0A5133E403A00F26046 /* EveModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 526ED0A4133E403A00F26046 /* EveModule.m */; };
+		526ED0A8133E404500F26046 /* EveCharge.m in Sources */ = {isa = PBXBuildFile; fileRef = 526ED0A7133E404500F26046 /* EveCharge.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +57,18 @@
 		525B8AB1133BEB52006A3728 /* MacEFTTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MacEFTTests.h; sourceTree = "<group>"; };
 		525B8AB3133BEB52006A3728 /* MacEFTTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MacEFTTests.m; sourceTree = "<group>"; };
 		525B8ABE133BEBC1006A3728 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		526ED097133E3FE900F26046 /* Account.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Account.h; sourceTree = "<group>"; };
+		526ED098133E3FE900F26046 /* Account.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Account.m; sourceTree = "<group>"; };
+		526ED09A133E3FF400F26046 /* Character.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Character.h; sourceTree = "<group>"; };
+		526ED09B133E3FF400F26046 /* Character.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Character.m; sourceTree = "<group>"; };
+		526ED09D133E401800F26046 /* EveObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EveObject.h; sourceTree = "<group>"; };
+		526ED09E133E401800F26046 /* EveObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveObject.m; sourceTree = "<group>"; };
+		526ED0A0133E402E00F26046 /* EveShip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EveShip.h; sourceTree = "<group>"; };
+		526ED0A1133E402E00F26046 /* EveShip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveShip.m; sourceTree = "<group>"; };
+		526ED0A3133E403A00F26046 /* EveModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EveModule.h; sourceTree = "<group>"; };
+		526ED0A4133E403A00F26046 /* EveModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveModule.m; sourceTree = "<group>"; };
+		526ED0A6133E404500F26046 /* EveCharge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EveCharge.h; sourceTree = "<group>"; };
+		526ED0A7133E404500F26046 /* EveCharge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveCharge.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,9 +133,9 @@
 		525B8A8F133BEB52006A3728 /* MacEFT */ = {
 			isa = PBXGroup;
 			children = (
+				526ED096133E3FA300F26046 /* model */,
 				525B8A9B133BEB52006A3728 /* MacEFTAppDelegate.h */,
 				525B8A9C133BEB52006A3728 /* MacEFTAppDelegate.m */,
-				525B8A9E133BEB52006A3728 /* MainMenu.xib */,
 				525B8A90133BEB52006A3728 /* Supporting Files */,
 			);
 			path = MacEFT;
@@ -158,9 +176,37 @@
 		525B8ABD133BEBAD006A3728 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				526ED094133E3F2E00F26046 /* Windows */,
 				525B8ABE133BEBC1006A3728 /* README */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		526ED094133E3F2E00F26046 /* Windows */ = {
+			isa = PBXGroup;
+			children = (
+				525B8A9E133BEB52006A3728 /* MainMenu.xib */,
+			);
+			name = Windows;
+			sourceTree = "<group>";
+		};
+		526ED096133E3FA300F26046 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				526ED097133E3FE900F26046 /* Account.h */,
+				526ED098133E3FE900F26046 /* Account.m */,
+				526ED09A133E3FF400F26046 /* Character.h */,
+				526ED09B133E3FF400F26046 /* Character.m */,
+				526ED09D133E401800F26046 /* EveObject.h */,
+				526ED09E133E401800F26046 /* EveObject.m */,
+				526ED0A0133E402E00F26046 /* EveShip.h */,
+				526ED0A1133E402E00F26046 /* EveShip.m */,
+				526ED0A3133E403A00F26046 /* EveModule.h */,
+				526ED0A4133E403A00F26046 /* EveModule.m */,
+				526ED0A6133E404500F26046 /* EveCharge.h */,
+				526ED0A7133E404500F26046 /* EveCharge.m */,
+			);
+			name = model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -274,6 +320,12 @@
 			files = (
 				525B8A97133BEB52006A3728 /* main.m in Sources */,
 				525B8A9D133BEB52006A3728 /* MacEFTAppDelegate.m in Sources */,
+				526ED099133E3FE900F26046 /* Account.m in Sources */,
+				526ED09C133E3FF400F26046 /* Character.m in Sources */,
+				526ED09F133E401800F26046 /* EveObject.m in Sources */,
+				526ED0A2133E402F00F26046 /* EveShip.m in Sources */,
+				526ED0A5133E403A00F26046 /* EveModule.m in Sources */,
+				526ED0A8133E404500F26046 /* EveCharge.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -318,6 +370,7 @@
 				525B8A9F133BEB52006A3728 /* en */,
 			);
 			name = MainMenu.xib;
+			path = MacEFT;
 			sourceTree = "<group>";
 		};
 		525B8AAD133BEB52006A3728 /* InfoPlist.strings */ = {
@@ -456,6 +509,7 @@
 				525B8AB9133BEB52006A3728 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		525B8ABA133BEB52006A3728 /* Build configuration list for PBXNativeTarget "MacEFTTests" */ = {
 			isa = XCConfigurationList;
@@ -464,6 +518,7 @@
 				525B8ABC133BEB52006A3728 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
