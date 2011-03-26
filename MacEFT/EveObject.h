@@ -10,7 +10,7 @@
 
 
 @interface EveObject : NSObject {
-    
+    NSString *name;
 }
 
 @end

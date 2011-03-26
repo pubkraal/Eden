@@ -7,10 +7,23 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "EveObject.h"
 
+typedef unsigned int uint;
 
 @interface EveShip : EveObject {
+    uint highSlots;
+    uint medSlots;
+    uint lowSlots;
     
+    uint missileHardpoints;
+    uint turretHardpoints;
+
+    float basePowergrid;
+    float baseCPU;
 }
+
+@property(readwrite) uint highSlots, medSlots, lowSlots, missileHardPoints, turretHardpoints;
+@property(readwrite) float basePowergrid, baseCPU;
 
 @end

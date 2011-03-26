@@ -11,4 +11,7 @@
 
 @implementation EveShip
 
+@synthesize highSlots, medSlots, lowSlots, missileHardPoints, turretHardpoints;
+@synthesize basePowergrid, baseCPU;
+
 @end
