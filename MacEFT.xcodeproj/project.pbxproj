@@ -24,6 +24,20 @@
 		526ED0A2133E402F00F26046 /* EveShip.m in Sources */ = {isa = PBXBuildFile; fileRef = 526ED0A1133E402E00F26046 /* EveShip.m */; };
 		526ED0A5133E403A00F26046 /* EveModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 526ED0A4133E403A00F26046 /* EveModule.m */; };
 		526ED0A8133E404500F26046 /* EveCharge.m in Sources */ = {isa = PBXBuildFile; fileRef = 526ED0A7133E404500F26046 /* EveCharge.m */; };
+		527917C5133FA9B9009C694C /* Skill.m in Sources */ = {isa = PBXBuildFile; fileRef = 527917C4133FA9B9009C694C /* Skill.m */; };
+		527917C9133FAB9F009C694C /* EveCorporation.m in Sources */ = {isa = PBXBuildFile; fileRef = 527917C8133FAB9E009C694C /* EveCorporation.m */; };
+		527917CC133FABA7009C694C /* EveAlliance.m in Sources */ = {isa = PBXBuildFile; fileRef = 527917CB133FABA7009C694C /* EveAlliance.m */; };
+		527917D0133FAD16009C694C /* EveAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 527917CF133FAD16009C694C /* EveAPI.m */; };
+		52791801133FB01E009C694C /* NSObject+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 527917F0133FB01E009C694C /* NSObject+JSON.m */; };
+		52791802133FB01E009C694C /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 527917F2133FB01E009C694C /* SBJsonParser.m */; };
+		52791803133FB01E009C694C /* SBJsonStreamParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 527917F4133FB01E009C694C /* SBJsonStreamParser.m */; };
+		52791804133FB01E009C694C /* SBJsonStreamParserAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 527917F6133FB01E009C694C /* SBJsonStreamParserAdapter.m */; };
+		52791805133FB01E009C694C /* SBJsonStreamParserState.m in Sources */ = {isa = PBXBuildFile; fileRef = 527917F8133FB01E009C694C /* SBJsonStreamParserState.m */; };
+		52791806133FB01E009C694C /* SBJsonStreamWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 527917FA133FB01E009C694C /* SBJsonStreamWriter.m */; };
+		52791807133FB01E009C694C /* SBJsonStreamWriterState.m in Sources */ = {isa = PBXBuildFile; fileRef = 527917FC133FB01E009C694C /* SBJsonStreamWriterState.m */; };
+		52791808133FB01E009C694C /* SBJsonTokeniser.m in Sources */ = {isa = PBXBuildFile; fileRef = 527917FE133FB01E009C694C /* SBJsonTokeniser.m */; };
+		52791809133FB01E009C694C /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 52791800133FB01E009C694C /* SBJsonWriter.m */; };
+		5279180B133FB058009C694C /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 5279180A133FB058009C694C /* LICENSE */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +83,34 @@
 		526ED0A4133E403A00F26046 /* EveModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveModule.m; sourceTree = "<group>"; };
 		526ED0A6133E404500F26046 /* EveCharge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EveCharge.h; sourceTree = "<group>"; };
 		526ED0A7133E404500F26046 /* EveCharge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveCharge.m; sourceTree = "<group>"; };
+		527917C3133FA9B9009C694C /* Skill.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Skill.h; sourceTree = "<group>"; };
+		527917C4133FA9B9009C694C /* Skill.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Skill.m; sourceTree = "<group>"; };
+		527917C7133FAB9E009C694C /* EveCorporation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EveCorporation.h; sourceTree = "<group>"; };
+		527917C8133FAB9E009C694C /* EveCorporation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveCorporation.m; sourceTree = "<group>"; };
+		527917CA133FABA7009C694C /* EveAlliance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EveAlliance.h; sourceTree = "<group>"; };
+		527917CB133FABA7009C694C /* EveAlliance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveAlliance.m; sourceTree = "<group>"; };
+		527917CE133FAD16009C694C /* EveAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EveAPI.h; sourceTree = "<group>"; };
+		527917CF133FAD16009C694C /* EveAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveAPI.m; sourceTree = "<group>"; };
+		527917EE133FB01E009C694C /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
+		527917EF133FB01E009C694C /* NSObject+JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+JSON.h"; sourceTree = "<group>"; };
+		527917F0133FB01E009C694C /* NSObject+JSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+JSON.m"; sourceTree = "<group>"; };
+		527917F1133FB01E009C694C /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
+		527917F2133FB01E009C694C /* SBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonParser.m; sourceTree = "<group>"; };
+		527917F3133FB01E009C694C /* SBJsonStreamParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamParser.h; sourceTree = "<group>"; };
+		527917F4133FB01E009C694C /* SBJsonStreamParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamParser.m; sourceTree = "<group>"; };
+		527917F5133FB01E009C694C /* SBJsonStreamParserAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamParserAdapter.h; sourceTree = "<group>"; };
+		527917F6133FB01E009C694C /* SBJsonStreamParserAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamParserAdapter.m; sourceTree = "<group>"; };
+		527917F7133FB01E009C694C /* SBJsonStreamParserState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamParserState.h; sourceTree = "<group>"; };
+		527917F8133FB01E009C694C /* SBJsonStreamParserState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamParserState.m; sourceTree = "<group>"; };
+		527917F9133FB01E009C694C /* SBJsonStreamWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamWriter.h; sourceTree = "<group>"; };
+		527917FA133FB01E009C694C /* SBJsonStreamWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamWriter.m; sourceTree = "<group>"; };
+		527917FB133FB01E009C694C /* SBJsonStreamWriterState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamWriterState.h; sourceTree = "<group>"; };
+		527917FC133FB01E009C694C /* SBJsonStreamWriterState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamWriterState.m; sourceTree = "<group>"; };
+		527917FD133FB01E009C694C /* SBJsonTokeniser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonTokeniser.h; sourceTree = "<group>"; };
+		527917FE133FB01E009C694C /* SBJsonTokeniser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonTokeniser.m; sourceTree = "<group>"; };
+		527917FF133FB01E009C694C /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
+		52791800133FB01E009C694C /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
+		5279180A133FB058009C694C /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +175,7 @@
 		525B8A8F133BEB52006A3728 /* MacEFT */ = {
 			isa = PBXGroup;
 			children = (
+				527917CD133FACFE009C694C /* Utility */,
 				526ED096133E3FA300F26046 /* model */,
 				525B8A9B133BEB52006A3728 /* MacEFTAppDelegate.h */,
 				525B8A9C133BEB52006A3728 /* MacEFTAppDelegate.m */,
@@ -178,6 +221,7 @@
 			children = (
 				526ED094133E3F2E00F26046 /* Windows */,
 				525B8ABE133BEBC1006A3728 /* README */,
+				5279180A133FB058009C694C /* LICENSE */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -205,8 +249,50 @@
 				526ED0A4133E403A00F26046 /* EveModule.m */,
 				526ED0A6133E404500F26046 /* EveCharge.h */,
 				526ED0A7133E404500F26046 /* EveCharge.m */,
+				527917C3133FA9B9009C694C /* Skill.h */,
+				527917C4133FA9B9009C694C /* Skill.m */,
+				527917C7133FAB9E009C694C /* EveCorporation.h */,
+				527917C8133FAB9E009C694C /* EveCorporation.m */,
+				527917CA133FABA7009C694C /* EveAlliance.h */,
+				527917CB133FABA7009C694C /* EveAlliance.m */,
 			);
 			name = model;
+			sourceTree = "<group>";
+		};
+		527917CD133FACFE009C694C /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				527917D1133FAF3C009C694C /* JSON */,
+				527917CE133FAD16009C694C /* EveAPI.h */,
+				527917CF133FAD16009C694C /* EveAPI.m */,
+			);
+			name = Utility;
+			sourceTree = "<group>";
+		};
+		527917D1133FAF3C009C694C /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				527917EE133FB01E009C694C /* JSON.h */,
+				527917EF133FB01E009C694C /* NSObject+JSON.h */,
+				527917F0133FB01E009C694C /* NSObject+JSON.m */,
+				527917F1133FB01E009C694C /* SBJsonParser.h */,
+				527917F2133FB01E009C694C /* SBJsonParser.m */,
+				527917F3133FB01E009C694C /* SBJsonStreamParser.h */,
+				527917F4133FB01E009C694C /* SBJsonStreamParser.m */,
+				527917F5133FB01E009C694C /* SBJsonStreamParserAdapter.h */,
+				527917F6133FB01E009C694C /* SBJsonStreamParserAdapter.m */,
+				527917F7133FB01E009C694C /* SBJsonStreamParserState.h */,
+				527917F8133FB01E009C694C /* SBJsonStreamParserState.m */,
+				527917F9133FB01E009C694C /* SBJsonStreamWriter.h */,
+				527917FA133FB01E009C694C /* SBJsonStreamWriter.m */,
+				527917FB133FB01E009C694C /* SBJsonStreamWriterState.h */,
+				527917FC133FB01E009C694C /* SBJsonStreamWriterState.m */,
+				527917FD133FB01E009C694C /* SBJsonTokeniser.h */,
+				527917FE133FB01E009C694C /* SBJsonTokeniser.m */,
+				527917FF133FB01E009C694C /* SBJsonWriter.h */,
+				52791800133FB01E009C694C /* SBJsonWriter.m */,
+			);
+			name = JSON;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -283,6 +369,7 @@
 				525B8A9A133BEB52006A3728 /* Credits.rtf in Resources */,
 				525B8AA0133BEB52006A3728 /* MainMenu.xib in Resources */,
 				525B8ABF133BEBC1006A3728 /* README in Resources */,
+				5279180B133FB058009C694C /* LICENSE in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -326,6 +413,19 @@
 				526ED0A2133E402F00F26046 /* EveShip.m in Sources */,
 				526ED0A5133E403A00F26046 /* EveModule.m in Sources */,
 				526ED0A8133E404500F26046 /* EveCharge.m in Sources */,
+				527917C5133FA9B9009C694C /* Skill.m in Sources */,
+				527917C9133FAB9F009C694C /* EveCorporation.m in Sources */,
+				527917CC133FABA7009C694C /* EveAlliance.m in Sources */,
+				527917D0133FAD16009C694C /* EveAPI.m in Sources */,
+				52791801133FB01E009C694C /* NSObject+JSON.m in Sources */,
+				52791802133FB01E009C694C /* SBJsonParser.m in Sources */,
+				52791803133FB01E009C694C /* SBJsonStreamParser.m in Sources */,
+				52791804133FB01E009C694C /* SBJsonStreamParserAdapter.m in Sources */,
+				52791805133FB01E009C694C /* SBJsonStreamParserState.m in Sources */,
+				52791806133FB01E009C694C /* SBJsonStreamWriter.m in Sources */,
+				52791807133FB01E009C694C /* SBJsonStreamWriterState.m in Sources */,
+				52791808133FB01E009C694C /* SBJsonTokeniser.m in Sources */,
+				52791809133FB01E009C694C /* SBJsonWriter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
