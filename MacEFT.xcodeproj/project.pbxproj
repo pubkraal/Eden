@@ -18,6 +18,7 @@
 		525B8AB2133BEB52006A3728 /* MacEFTTests.h in Resources */ = {isa = PBXBuildFile; fileRef = 525B8AB1133BEB52006A3728 /* MacEFTTests.h */; };
 		525B8AB4133BEB52006A3728 /* MacEFTTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 525B8AB3133BEB52006A3728 /* MacEFTTests.m */; };
 		525B8ABF133BEBC1006A3728 /* README in Resources */ = {isa = PBXBuildFile; fileRef = 525B8ABE133BEBC1006A3728 /* README */; };
+		525C81371340FDCF008316B7 /* EveAPIResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 525C81361340FDCE008316B7 /* EveAPIResult.m */; };
 		526ED099133E3FE900F26046 /* Account.m in Sources */ = {isa = PBXBuildFile; fileRef = 526ED098133E3FE900F26046 /* Account.m */; };
 		526ED09C133E3FF400F26046 /* Character.m in Sources */ = {isa = PBXBuildFile; fileRef = 526ED09B133E3FF400F26046 /* Character.m */; };
 		526ED09F133E401800F26046 /* EveObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 526ED09E133E401800F26046 /* EveObject.m */; };
@@ -71,6 +72,8 @@
 		525B8AB1133BEB52006A3728 /* MacEFTTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MacEFTTests.h; sourceTree = "<group>"; };
 		525B8AB3133BEB52006A3728 /* MacEFTTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MacEFTTests.m; sourceTree = "<group>"; };
 		525B8ABE133BEBC1006A3728 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		525C81351340FDCE008316B7 /* EveAPIResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EveAPIResult.h; sourceTree = "<group>"; };
+		525C81361340FDCE008316B7 /* EveAPIResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveAPIResult.m; sourceTree = "<group>"; };
 		526ED097133E3FE900F26046 /* Account.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Account.h; sourceTree = "<group>"; };
 		526ED098133E3FE900F26046 /* Account.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Account.m; sourceTree = "<group>"; };
 		526ED09A133E3FF400F26046 /* Character.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Character.h; sourceTree = "<group>"; };
@@ -265,6 +268,8 @@
 				527917D1133FAF3C009C694C /* JSON */,
 				527917CE133FAD16009C694C /* EveAPI.h */,
 				527917CF133FAD16009C694C /* EveAPI.m */,
+				525C81351340FDCE008316B7 /* EveAPIResult.h */,
+				525C81361340FDCE008316B7 /* EveAPIResult.m */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -426,6 +431,7 @@
 				52791807133FB01E009C694C /* SBJsonStreamWriterState.m in Sources */,
 				52791808133FB01E009C694C /* SBJsonTokeniser.m in Sources */,
 				52791809133FB01E009C694C /* SBJsonWriter.m in Sources */,
+				525C81371340FDCF008316B7 /* EveAPIResult.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
