@@ -9,6 +9,9 @@
 #import "EveAPI.h"
 
 
-@implementation EveAPI
+@implementation EveAPI : NSObject {
+    
+    
+}
 
 @end
