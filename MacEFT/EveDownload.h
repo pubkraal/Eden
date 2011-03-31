@@ -15,6 +15,29 @@
 // has finished and/or has an error. Number of arguments TBD, but I'm thinking an
 // NSData * for the result and an NSError ** for any errors that happen.
 
+// Change: callback_t will now be EveCallback, and it will be an full-fledged class
+// instead of an structure. The reason for this is that we need an NSArray of
+// callbacks passed to EveDownload, and NSArray can only hold objects of type id.
+
+
+@interface EveCallback : NSObject {
+@private
+    SEL selector;
+	id object;
+}
+
+- (id)initWithSelector:(SEL)aSelector andObject:(id)anObject;
+- (void)callWithObject:(id)anObject;
+- (void)dealloc;
+
++ (EveCallback *)callbackWithSelector:(SEL)aSelector andObject:(id)anObject;
+
+@property (retain) id object;
+@property (assign) SEL selector;
+
+@end
+
+
 typedef struct callback callback_t;
 
 struct callback {
@@ -27,23 +50,25 @@ struct callback {
 @interface EveThreadInfo : NSObject {
 @private
     NSString * URL;
-	uint64_t totalBytes;
-	uint64_t downloaded;
+	uint64_t expectedLength;
+	uint64_t receivedLength;
 	NSError * error;
-	NSData * result;
-	callback_t callback;
+	NSMutableData * result;
+	EveCallback * callback;
+	NSURLConnection * connection;
 }
 
-- (id)initWithURL:(NSString *) url;
+- (id)initWithURLString:(NSString *) url;
 - (void)dealloc;
 
 
+@property (retain) NSURLConnection * connection;
 @property (retain) NSString * URL;
 @property (retain) NSError * error;
-@property (assign) uint64_t totalBytes;
-@property (assign) uint64_t downloaded;
-@property (retain) NSData * result;
-@property callback_t callback;
+@property (assign) uint64_t expectedLength;
+@property (assign) uint64_t receivedLength;
+@property (retain) NSMutableData * result;
+@property (retain) EveCallback * callback;
 
 @end
 
@@ -52,16 +77,43 @@ struct callback {
 // Querying will be KVC-compliant.
 
 @interface EveDownload : NSObject {
-	NSMutableDictionary * threads;
+	NSDictionary * downloads;
+	uint64_t expectedLength;
+	uint64_t receivedLength;
+	EveCallback * mainCallback;
+	unsigned non_finished;
 }
 
-- (id)initWithURLList:(NSArray *)urls andCallbacks:(NSArray *)callbacks finished:(callback_t)finished;
-- (id)initWithURLList:(NSArray *)urls finished:(callback_t)finished;
+@property (readonly) NSDictionary * downloads;
+@property (retain) EveCallback * mainCallback;
 
-@property (readonly) NSMutableDictionary * threads;
+- (id)initWithURLList:(NSArray *)urls andCallbacks:(NSArray *)callbacks finished:(EveCallback *)finished;
+- (id)initWithURLList:(NSArray *)urls finished:(EveCallback *)finished;
+
+- (void)start;
+
+// Delegated messages from NSURLConnection
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response;
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data;
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error;
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection;
+
+// Querying messages
+
+@property (assign) uint64_t expectedLength;
+@property (assign) uint64_t receivedLength;
+
+- (uint64_t)expectedLengthForURL:(NSString *)url;
+- (uint64_t)receivedLengthForURL:(NSString *)url;
+
+// Etc
+
+- (EveThreadInfo *)infoForConnection:(NSURLConnection *)connection;
+- (void)dealloc;
 
 @end
 
 // Convenience function for creating callbacks.
 
-callback_t EveMakeCallback(SEL, id);
+EveCallback * EveMakeCallback(SEL, id);
