@@ -11,50 +11,15 @@
 #include <unistd.h>
 
 
-// A simple callback structure, so we can warn the application when the download
-// has finished and/or has an error. Number of arguments TBD, but I'm thinking an
-// NSData * for the result and an NSError ** for any errors that happen.
+// Information for each download.
 
-// Change: callback_t will now be EveCallback, and it will be an full-fledged class
-// instead of an structure. The reason for this is that we need an NSArray of
-// callbacks passed to EveDownload, and NSArray can only hold objects of type id.
-
-
-@interface EveCallback : NSObject {
-@private
-    SEL selector;
-	id object;
-}
-
-- (id)initWithSelector:(SEL)aSelector andObject:(id)anObject;
-- (void)callWithObject:(id)anObject;
-- (void)dealloc;
-
-+ (EveCallback *)callbackWithSelector:(SEL)aSelector andObject:(id)anObject;
-
-@property (retain) id object;
-@property (assign) SEL selector;
-
-@end
-
-
-typedef struct callback callback_t;
-
-struct callback {
-	SEL selector;
-	id object;
-};
-
-// Information for each download thread.
-
-@interface EveThreadInfo : NSObject {
+@interface EveDownloadInfo : NSObject {
 @private
     NSString * URL;
 	uint64_t expectedLength;
 	uint64_t receivedLength;
 	NSError * error;
 	NSMutableData * result;
-	EveCallback * callback;
 	NSURLConnection * connection;
 }
 
@@ -68,28 +33,45 @@ struct callback {
 @property (assign) uint64_t expectedLength;
 @property (assign) uint64_t receivedLength;
 @property (retain) NSMutableData * result;
-@property (retain) EveCallback * callback;
+
+- (NSData *)data; // returns a static version of the mutable result.
 
 @end
 
-// The object which performs the download and the multitasking. It will call the callbacks
-// when it's finished downloading. It will also allow querying for dynamic update of the interface.
-// Querying will be KVC-compliant.
+// Declaring a protocol for delegates. Delegates should handle the completion
+// of each individual download and the completion of the whole batch.
+
+@class EveDownload;
+
+@protocol EveDownloadDelegate <NSObject>
+
+- (void)didFinishDownload:(EveDownload *)download forKey:(NSString *)key withData:(NSData *)data error:(NSError *)error;
+- (void)didFinishDownload:(EveDownload *)download withResults:(NSDictionary *)results;
+
+
+@end
+
+// The object which performs the download and the multitasking. When each
+// download finished, and when all of them are finished, it will call the
+// respective methods in the delegate. The expectedLength and
+// receivedLength properties of both the EveDownload object and each individual
+// download are observable.
+
 
 @interface EveDownload : NSObject {
 	NSDictionary * downloads;
 	uint64_t expectedLength;
 	uint64_t receivedLength;
-	EveCallback * mainCallback;
 	unsigned non_finished;
+	NSObject <EveDownloadDelegate> * delegate;
 }
 
+@property (retain) NSObject <EveDownloadDelegate> * delegate;
 @property (readonly) NSDictionary * downloads;
-@property (retain) EveCallback * mainCallback;
 
-- (id)initWithURLList:(NSDictionary *)urls andCallbacks:(NSDictionary *)callbacks finished:(EveCallback *)finished;
-- (id)initWithURLList:(NSDictionary *)urls finished:(EveCallback *)finished;
+// Starting up
 
+- (id)initWithURLList:(NSDictionary *)urls;
 - (void)start;
 
 // Delegated messages from NSURLConnection
@@ -104,16 +86,21 @@ struct callback {
 @property (assign) uint64_t expectedLength;
 @property (assign) uint64_t receivedLength;
 
-- (uint64_t)expectedLengthForName:(NSString *)name;
-- (uint64_t)receivedLengthForName:(NSString *)name;
+- (void)addObserver:(NSObject *)anObserver; // Convenience method to observe all available properties.
+- (void)removeObserver:(NSObject *)anObserver; // Convenience method to remove all observers.
 
-// Etc
+- (NSDictionary *)results; // All the data downloaded and errors in a dictionary.
 
-- (EveThreadInfo *)infoForConnection:(NSURLConnection *)connection;
+// Etc.
+
+- (EveDownloadInfo *)infoForConnection:(NSURLConnection *)connection; // Look up the downloads dictionary for the corresponding info.
+
+// Cleaning the house
+
 - (void)dealloc;
 
 @end
 
-// Convenience function for creating callbacks.
 
-EveCallback * EveMakeCallback(SEL, id);
+
+

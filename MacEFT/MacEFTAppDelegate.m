@@ -10,19 +10,43 @@
 
 @implementation MacEFTAppDelegate
 
-@synthesize window, label1, label2, label3, label4, label5;
-@synthesize val1, val2, val3, val4, val5;
-@synthesize max1, max2, max3, max4, max5;
+@synthesize window;
+
+@synthesize maxValues, currentValues, indicators, labels;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-	unsigned i;
+	[self setMaxValues:[NSMutableDictionary dictionaryWithObjectsAndKeys:\
+						[NSNumber numberWithInt:100], @"song1", \
+						[NSNumber numberWithInt:100], @"song2", \
+						[NSNumber numberWithInt:100], @"song3", \
+						[NSNumber numberWithInt:100], @"song4", \
+						[NSNumber numberWithInt:100], @"total", \
+						nil]];
+
+	[self setCurrentValues:[NSMutableDictionary dictionaryWithObjectsAndKeys:\
+						[NSNumber numberWithInt:0], @"song1", \
+						[NSNumber numberWithInt:0], @"song2", \
+						[NSNumber numberWithInt:0], @"song3", \
+						[NSNumber numberWithInt:0], @"song4", \
+						[NSNumber numberWithInt:0], @"total", \
+						nil]];
 	
-	[self setLabel1:@"text 1"];
-	[self setLabel2:@"text 2"];
-	[self setLabel3:@"text 3"];
-	[self setLabel4:@"text 4"];
-	[self setLabel5:@"text 5"];
+	[self setLabels:[NSMutableDictionary dictionaryWithObjectsAndKeys:\
+						@"Song 1", @"song1", \
+						@"Song 2", @"song2", \
+						@"Song 3", @"song3", \
+						@"Song 4", @"song4", \
+						@"Total", @"total", \
+						nil]];
+	
+	[self setIndicators:[NSDictionary dictionaryWithObjectsAndKeys:\
+						p1, @"song1", \
+						p2, @"song2", \
+						p3, @"song3", \
+						p4, @"song4", \
+						p5, @"total", \
+						nil]];	
 	
 	URLList = [[NSDictionary alloc] initWithObjectsAndKeys:\
 			   @"http://team.fatal1ty.free.fr/Damn%20That%20Music%20Made%20my%20Way/Coldplay/Viva%20La%20Vida/01%20%20Coldplay%20-%20Life%20In%20Technicolor.mp3", @"song1", \
@@ -31,164 +55,103 @@
 			   @"http://team.fatal1ty.free.fr/Damn%20That%20Music%20Made%20my%20Way/Coldplay/Viva%20La%20Vida/04%20%20Coldplay%20-%2042.mp3", @"song4", \
 			   nil];
 	
-	cbList = [[NSDictionary alloc] initWithObjectsAndKeys:\
-			  EveMakeCallback(@selector(song1Finished:), self), @"song1", \
-			  EveMakeCallback(@selector(song2Finished:), self), @"song2", \
-			  EveMakeCallback(@selector(song3Finished:), self), @"song3", \
-			  EveMakeCallback(@selector(song4Finished:), self), @"song4", \
-			  nil];
-	
-	for (i = 1; i <= 5; i++) {
-		[self setValue:[NSNumber numberWithInt:0] forKeyPath:[NSString stringWithFormat:@"val%u", i]];
-		[self setValue:[NSNumber numberWithInt:100] forKeyPath:[NSString stringWithFormat:@"max%u", i]];
-	}
-	
 }
 
 - (IBAction)startDownloads:(id)aButton {
 	EveDownload * download;
+	NSProgressIndicator * indic;
 	
-	download = [[EveDownload alloc] initWithURLList:URLList andCallbacks:cbList finished:EveMakeCallback(@selector(allFinished:), self)];
+	download = [[EveDownload alloc] initWithURLList:URLList];
 	
-	[download addObserver:self forKeyPath:@"downloads.song1.expectedLength" options:NSKeyValueObservingOptionNew context:nil];
-	[download addObserver:self forKeyPath:@"downloads.song1.receivedLength" options:NSKeyValueObservingOptionNew context:nil];
-	[download addObserver:self forKeyPath:@"downloads.song2.expectedLength" options:NSKeyValueObservingOptionNew context:nil];
-	[download addObserver:self forKeyPath:@"downloads.song2.receivedLength" options:NSKeyValueObservingOptionNew context:nil];
-	[download addObserver:self forKeyPath:@"downloads.song3.expectedLength" options:NSKeyValueObservingOptionNew context:nil];
-	[download addObserver:self forKeyPath:@"downloads.song3.receivedLength" options:NSKeyValueObservingOptionNew context:nil];
-	[download addObserver:self forKeyPath:@"downloads.song4.expectedLength" options:NSKeyValueObservingOptionNew context:nil];
-	[download addObserver:self forKeyPath:@"downloads.song4.receivedLength" options:NSKeyValueObservingOptionNew context:nil];
-	[download addObserver:self forKeyPath:@"expectedLength" options:NSKeyValueObservingOptionNew context:nil];
-	[download addObserver:self forKeyPath:@"receivedLength" options:NSKeyValueObservingOptionNew context:nil];
 	
-	[p1 setUsesThreadedAnimation:YES];
-	[p2 setUsesThreadedAnimation:YES];
-	[p3 setUsesThreadedAnimation:YES];
-	[p4 setUsesThreadedAnimation:YES];
-	[p5 setUsesThreadedAnimation:YES];
+	[download addObserver:self];
+	[download setDelegate:self];
+	
+	for (indic in [[self indicators] allValues]) {
+		[indic setUsesThreadedAnimation:YES];
+	}
 	
 	[download start];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-	SEL selector;
-	unsigned prop;
+	NSArray * pathComponents;
+	NSString * key, * type;
 	
-	selector = ([keyPath hasSuffix:@"receivedLength"]) ? @selector(setDoubleValue:) : @selector(setMaxValue:);
+	pathComponents = [keyPath componentsSeparatedByString:@"."];
 	
-	if ([keyPath rangeOfString:@"song1"].location != NSNotFound) {
-		prop = 1;
-	}
-	else if ([keyPath rangeOfString:@"song2"].location != NSNotFound) {
-		prop = 2;
-	}
-	else if ([keyPath rangeOfString:@"song3"].location != NSNotFound) {
-		prop = 3;
-	}
-	else if ([keyPath rangeOfString:@"song4"].location != NSNotFound) {
-		prop = 4;
+	if ([pathComponents count] < 3) {
+		// This means it's an event relative to the download object itself
+		
+		key  = @"total";
+		type = keyPath;
 	}
 	else {
-		prop = 5;
+		key  = [pathComponents objectAtIndex:1];
+		type = [pathComponents objectAtIndex:2];
 	}
 	
-	[self performSelectorInBackground:selector withObject:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:prop], @"number", [change objectForKey:NSKeyValueChangeNewKey], @"value", nil]];
+	type = ([type isEqualToString:@"expectedLength"]) ? @"maxValues" : @"currentValues";
 	
-	
+	[self performSelectorInBackground:@selector(updateWithData:) withObject:[NSDictionary dictionaryWithObjectsAndKeys: \
+																			 key, @"key", \
+																			 type, @"type", \
+																			 [change objectForKey:NSKeyValueChangeNewKey], @"value", \
+																			 nil]];
 }
 
-- (void)setDoubleValue:(NSDictionary *)data {
-	NSString * propIntValue;
-	NSString * propString;
-	NSString * propMax;
-	NSString * propStringValue;
-	NSNumber * num;
-	NSNumber * value;
+- (void)updateWithData:(id)theData {
 	NSAutoreleasePool * pool;
+	NSDictionary * data;
+	NSString * keyPath, * type, * key, * labelFormat;
+	id value;
 	
 	pool = [[NSAutoreleasePool alloc] init];
+
+	keyPath     = @"%@.%@";
+	labelFormat = @"%@ of %@ bytes downloaded";
 	
-	num   = [data objectForKey:@"number"];
+	data  = (NSDictionary *) theData;
+	type  = [data objectForKey:@"type"];
+	key   = [data objectForKey:@"key"];
 	value = [data objectForKey:@"value"];
 	
-	propMax         = [NSString stringWithFormat:@"max%@", num];
-	propIntValue    = [NSString stringWithFormat:@"val%@", num];
-	propString      = [NSString stringWithFormat:@"label%@", num];
-	propStringValue = [NSString stringWithFormat:@"%@ of %@ bytes", value, [self valueForKeyPath:propMax]];
+	[self setValue:value forKeyPath:[NSString stringWithFormat:keyPath, type, key]];
 	
-	[self setValue:value forKeyPath:propIntValue];
-	[self setValue:propStringValue forKeyPath:propString];
+	if ([type isEqualToString:@"maxValues"]) {
+		[[self labels] setValue:[NSString stringWithFormat:labelFormat, [[self currentValues] objectForKey:key], value] forKey:key];
+	}
+	else {
+		[[self labels] setValue:[NSString stringWithFormat:labelFormat, value, [[self maxValues] objectForKey:key]] forKey:key];
+	}
 	
-	[pool drain];
-	
-}
-
-- (void)setMaxValue:(NSDictionary *)data {
-	NSString * propIntValue;
-	NSString * propString;
-	NSString * propVal;
-	NSString * propStringValue;
-	NSNumber * num;
-	NSNumber * value;
-	NSAutoreleasePool * pool;
-	
-	pool = [[NSAutoreleasePool alloc] init];
-	
-	
-	num   = [data objectForKey:@"number"];
-	value = [data objectForKey:@"value"];
-	
-	propVal         = [NSString stringWithFormat:@"val%@", num];
-	propIntValue    = [NSString stringWithFormat:@"max%@", num];
-	propString      = [NSString stringWithFormat:@"label%@", num];
-	propStringValue = [NSString stringWithFormat:@"%@ of %@ bytes", [self valueForKeyPath:propVal], value];
-	
-	[self setValue:value forKeyPath:propIntValue];
-	[self setValue:propStringValue forKeyPath:propString];
-
 	[pool drain];
 }
 
-
-- (void)song1Finished:(NSDictionary *)data {
-	NSLog(@"Song 1 finished)");
+- (void)didFinishDownload:(EveDownload *)download forKey:(NSString *)key withData:(NSData *)data error:(NSError *)error {
+	NSLog(@"Download %@ has finished.", key);
 	
-	if ([data valueForKey:@"error"]) {
-		NSLog(@"An error occurred: %@", [(NSError *) [data valueForKey:@"error"] localizedDescription]);
+	if (error) {
+		NSLog(@"An error occured: %@", [error localizedDescription]);
 	}
 }
 
-- (void)song2Finished:(NSDictionary *)data {
-	NSLog(@"Song 2 finished)");
+- (void)didFinishDownload:(EveDownload *)download withResults:(NSDictionary *)results {
+	NSString * key;
+	NSDictionary * result;
 	
-	if ([data valueForKey:@"error"]) {
-		NSLog(@"An error occurred: %@", [(NSError *) [data valueForKey:@"error"] localizedDescription]);
+	NSLog(@"All downloads have finished!");
+	
+	for (key in [results allKeys]) {
+		result = [results objectForKey:key];
+		
+		NSLog(@"- %@: %@", key, ([result objectForKey:@"error"]) ? @"Failure" : @"Success");
 	}
 }
 
-- (void)song3Finished:(NSDictionary *)data {
-	NSLog(@"Song 3 finished)");
-	
-	if ([data valueForKey:@"error"]) {
-		NSLog(@"An error occurred: %@", [(NSError *) [data valueForKey:@"error"] localizedDescription]);
-	}
-}
-
-- (void)song4Finished:(NSDictionary *)data {
-	NSLog(@"Song 4 finished)");
-	
-	if ([data valueForKey:@"error"]) {
-		NSLog(@"An error occurred: %@", [(NSError *) [data valueForKey:@"error"] localizedDescription]);
-	}
-}
-
-- (void)allFinished:(NSData *)data {
-	NSLog(@"All finished!");
-}
 
 - (void)dealloc {
 	[URLList release];
-	[cbList release];
 	
 	[super dealloc];
 }

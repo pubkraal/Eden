@@ -9,34 +9,30 @@
 #import <Cocoa/Cocoa.h>
 #import "EveDownload.h"
 
-@interface MacEFTAppDelegate : NSObject <NSApplicationDelegate> {
+@interface MacEFTAppDelegate : NSObject <NSApplicationDelegate, EveDownloadDelegate> {
 @private
     NSWindow *window;
-	NSString * label1, * label2, * label3, * label4, * label5;
 	IBOutlet NSProgressIndicator * p1, * p2, * p3, * p4, * p5;
-	NSDictionary * URLList, * cbList;
-	NSNumber * max1, * max2, * max3, * max4, * max5;
-	NSNumber * val1, * val2, * val3, * val4, * val5;
+	NSDictionary * URLList;
+	
+	NSMutableDictionary * maxValues;
+	NSMutableDictionary * currentValues;
+	NSDictionary * indicators;
+	NSMutableDictionary * labels;
 }
 
 @property (assign) IBOutlet NSWindow *window;
-@property (retain) NSString * label1, * label2, * label3, * label4, * label5;
-@property (retain) NSNumber * max1, * max2, * max3, * max4, * max5;
-@property (retain) NSNumber * val1, * val2, * val3, * val4, * val5;
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context;
+@property (retain) NSMutableDictionary * maxValues;
+@property (retain) NSMutableDictionary * currentValues;
+@property (retain) NSDictionary * indicators;
+@property (retain) NSMutableDictionary * labels;
 
 - (IBAction)startDownloads:(id)aButton;
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context;
 
-- (void)song1Finished:(NSData *)data;
-- (void)song2Finished:(NSData *)data;
-- (void)song3Finished:(NSData *)data;
-- (void)song4Finished:(NSData *)data;
+- (void)updateWithData:(id)theData;
 
-- (void)allFinished:(NSData *)data;
-
-- (void)setDoubleValue:(NSDictionary *)data;
-- (void)setMaxValue:(NSDictionary *)data;
 
 - (void)dealloc;
 @end

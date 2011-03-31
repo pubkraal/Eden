@@ -8,39 +8,10 @@
 
 #import "EveDownload.h"
 
-@implementation EveCallback
 
-@synthesize selector, object;
+@implementation EveDownloadInfo
 
-- (id)initWithSelector:(SEL)aSelector andObject:(id)anObject {
-	if ((self = [super init])) {
-		[self setSelector:aSelector];
-		[self setObject:anObject];
-	}
-	
-	return self;
-}
-
-- (void)callWithObject:(id)anObject {
-	[[self object] performSelector:[self selector] withObject:anObject];
-}
-
-- (void)dealloc {
-	[self setObject:nil];
-	
-	[super dealloc];
-}
-
-+ (EveCallback *)callbackWithSelector:(SEL)aSelector andObject:(id)anObject {
-	return [[[EveCallback alloc] initWithSelector:aSelector andObject:anObject] autorelease];
-}
-
-@end
-
-
-@implementation EveThreadInfo
-
-@synthesize URL, error, expectedLength, receivedLength, result, callback, connection;
+@synthesize URL, error, expectedLength, receivedLength, result, connection;
 
 - (id)initWithURLString:(NSString *) url {
 	if ((self = [super init])) {
@@ -48,7 +19,6 @@
 
 		[self setError:nil];
 		[self setResult:nil];
-		[self setCallback:nil];
 
 		[self setExpectedLength:0L];
 		[self setReceivedLength:0L];
@@ -59,11 +29,14 @@
 	return self;
 }
 
+- (NSData *)data {
+	return [NSData dataWithData:[self result]];
+}
+
 - (void)dealloc {
 	[self setURL:nil];
 	[self setError:nil];
 	[self setResult:nil];
-	[self setCallback:nil];
 	[self setConnection:nil];
 	
 	[super dealloc];
@@ -74,36 +47,26 @@
 
 @implementation EveDownload
 
-@synthesize downloads, expectedLength, receivedLength, mainCallback;
+@synthesize downloads, expectedLength, receivedLength, delegate;
 
-- (id)initWithURLList:(NSDictionary *)urls andCallbacks:(NSDictionary *)callbacks finished:(EveCallback *)finished {
+- (id)initWithURLList:(NSDictionary *)urls {
 	NSMutableDictionary * d;
 	NSString * name, * str_url;
-	EveThreadInfo * info;
+	EveDownloadInfo * info;
 	
 	if ((self = [super init])) {
 		d = [[NSMutableDictionary alloc] initWithCapacity:10];
 		
 		for (name in [urls allKeys]) {
 			str_url = [urls objectForKey: name];
-			info    = [[EveThreadInfo alloc] initWithURLString:str_url];
+			info    = [[EveDownloadInfo alloc] initWithURLString:str_url];
 			
 			[d setObject:info forKey:name];
 			
 			[info release];
 		}
 		
-		if (callbacks) {
-			for (name in [d allKeys]) {
-				if ([[callbacks allKeys] indexOfObject:name] != NSNotFound) {
-					[(EveThreadInfo *) [d objectForKey:name] setCallback:[callbacks objectForKey:name]];
-				}
-			}
-		}
-		
 		non_finished = 0;
-		
-		[self setMainCallback:finished];
 		
 		downloads = [[NSDictionary alloc] initWithDictionary:d];
 		[d release];
@@ -112,15 +75,11 @@
 	return self;
 }
 
-- (id)initWithURLList:(NSDictionary *)urls finished:(EveCallback *)finished {
-	return [self initWithURLList:urls andCallbacks:nil finished:finished];
-}
-
 - (void)start {
 	NSURLRequest * request;
 	NSURLConnection * connection;
 	NSURL * url;
-	EveThreadInfo * info;
+	EveDownloadInfo * info;
 	
 	non_finished = (unsigned) [downloads count];
 	
@@ -141,7 +100,7 @@
 
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
-	EveThreadInfo * info;
+	EveDownloadInfo * info;
 	
 	info = [self infoForConnection:connection];
 	
@@ -152,7 +111,7 @@
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
-	EveThreadInfo * info;
+	EveDownloadInfo * info;
 	
 	info = [self infoForConnection:connection];
 	
@@ -162,64 +121,84 @@
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-	EveThreadInfo * info;
-	NSDictionary * retval;
+	EveDownloadInfo * info;
 
-	info   = [self infoForConnection:connection];
-	retval = [[NSDictionary alloc] initWithObjectsAndKeys:nil, @"data", error, @"error", nil];
+	info = [self infoForConnection:connection];
 	
 	[info setError:error];
 	
-	[[info callback] callWithObject:retval];
-	
-	[retval release];
-	
+	if ([self delegate]) {
+		[[self delegate] didFinishDownload:self forKey:[[downloads allKeysForObject:info] objectAtIndex:0] \
+										withData:nil error:error];
+	}
+
 	non_finished--;
 	
 	if (!non_finished) {
-		[[self mainCallback] callWithObject:downloads];
+		if ([self delegate]) {
+			[[self delegate] didFinishDownload:self withResults:[self results]];
+		}
 	}
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-	EveThreadInfo * info;
-	NSDictionary * retval;
+	EveDownloadInfo * info;
 	
 	info   = [self infoForConnection:connection];
-	retval = [[NSDictionary alloc] initWithObjectsAndKeys:(NSData *) [info result], @"data", nil, @"error", nil];
 	
-	[[info callback] callWithObject:retval];
-	
-	[retval release];
-	
+	if ([self delegate]) {
+		[[self delegate] didFinishDownload:self forKey:[[downloads allKeysForObject:info] objectAtIndex:0] \
+								  withData:[info data] error:nil];
+	}
+
 	non_finished--;
 	
 	if (!non_finished) {
-		[[self mainCallback] callWithObject:downloads];
+		if ([self delegate]) {
+			[[self delegate] didFinishDownload:self withResults:[self results]];
+		}
 	}
 	
 }
 
-- (uint64_t)expectedLengthForName:(NSString *)name {
-	@try {
-		return [(EveThreadInfo *) [downloads objectForKey:name] expectedLength];
-	}
-	@catch (NSException *exception) {
-		return 0;
+- (void)addObserver:(NSObject *)anObserver {
+	NSString * keyPath, * key;
+	
+	keyPath = @"downloads.%@.%@";
+	
+	[self addObserver:anObserver forKeyPath:@"expectedLength" \
+			  options:NSKeyValueObservingOptionNew context:self];
+
+	[self addObserver:anObserver forKeyPath:@"receivedLength" \
+			  options:NSKeyValueObservingOptionNew context:self];
+
+	
+	for (key in [downloads allKeys]) {
+		[self addObserver:anObserver forKeyPath:[NSString stringWithFormat:keyPath, key, @"expectedLength"] \
+				  options:NSKeyValueObservingOptionNew context:self];
+
+		[self addObserver:anObserver forKeyPath:[NSString stringWithFormat:keyPath, key, @"receivedLength"] \
+				  options:NSKeyValueObservingOptionNew context:self];
 	}
 }
 
-- (uint64_t)receivedLengthForName:(NSString *)name {
-	@try {
-		return [(EveThreadInfo *) [downloads objectForKey:name] receivedLength];
-	}
-	@catch (NSException *exception) {
-		return 0;
+- (void)removeObserver:(NSObject *)anObserver {
+	NSString * keyPath, * key;
+	
+	keyPath = @"downloads.%@.%@";
+
+	[self removeObserver:anObserver forKeyPath:@"expectedLength"];
+	[self removeObserver:anObserver forKeyPath:@"receivedLength"];
+	
+	
+	for (key in [downloads allKeys]) {
+		[self removeObserver:anObserver forKeyPath:[NSString stringWithFormat:keyPath, key, @"expectedLength"]];
+		[self removeObserver:anObserver forKeyPath:[NSString stringWithFormat:keyPath, key, @"receivedLength"]];
 	}
 }
 
-- (EveThreadInfo *)infoForConnection:(NSURLConnection *)connection {
-	EveThreadInfo * info, * cursor;
+- (EveDownloadInfo *)infoForConnection:(NSURLConnection *)connection {
+	EveDownloadInfo * info, * cursor;
 	
 	info = nil;
 	
@@ -230,15 +209,42 @@
 	return info;
 }
 
+
 - (void)dealloc {
-	[self setMainCallback:nil];
 	[downloads release];
 	
 	[super dealloc];
 }
 
+- (NSDictionary *)results {
+	NSMutableDictionary * results;
+	NSDictionary * retval, * data;
+	NSString * key;
+	EveDownloadInfo * info;
+	
+	results = [[NSMutableDictionary alloc] init];
+	
+	for (key in [downloads allKeys]) {
+		info = [downloads objectForKey:key];
+		
+		data = [[NSDictionary alloc] initWithObjectsAndKeys: \
+				[info data], @"data", \
+				[info error], @"error", \
+				nil];
+		
+		[results setValue:data forKey:key];
+		
+		[data release];
+	}
+	
+	retval = [NSDictionary dictionaryWithDictionary:results];
+	
+	[results release];
+	
+	return retval;
+}
+
 @end
 
-EveCallback * EveMakeCallback(SEL selector, id object) {
-	return [EveCallback callbackWithSelector:selector andObject:object];
-}
+
+
