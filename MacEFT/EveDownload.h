@@ -87,8 +87,8 @@ struct callback {
 @property (readonly) NSDictionary * downloads;
 @property (retain) EveCallback * mainCallback;
 
-- (id)initWithURLList:(NSArray *)urls andCallbacks:(NSArray *)callbacks finished:(EveCallback *)finished;
-- (id)initWithURLList:(NSArray *)urls finished:(EveCallback *)finished;
+- (id)initWithURLList:(NSDictionary *)urls andCallbacks:(NSDictionary *)callbacks finished:(EveCallback *)finished;
+- (id)initWithURLList:(NSDictionary *)urls finished:(EveCallback *)finished;
 
 - (void)start;
 
@@ -104,8 +104,8 @@ struct callback {
 @property (assign) uint64_t expectedLength;
 @property (assign) uint64_t receivedLength;
 
-- (uint64_t)expectedLengthForURL:(NSString *)url;
-- (uint64_t)receivedLengthForURL:(NSString *)url;
+- (uint64_t)expectedLengthForName:(NSString *)name;
+- (uint64_t)receivedLengthForName:(NSString *)name;
 
 // Etc
 

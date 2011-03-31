@@ -76,34 +76,27 @@
 
 @synthesize downloads, expectedLength, receivedLength, mainCallback;
 
-- (id)initWithURLList:(NSArray *)urls andCallbacks:(NSArray *)callbacks finished:(EveCallback *)finished {
-	id raw_url;
+- (id)initWithURLList:(NSDictionary *)urls andCallbacks:(NSDictionary *)callbacks finished:(EveCallback *)finished {
 	NSMutableDictionary * d;
-	NSString * str_url;
+	NSString * name, * str_url;
 	EveThreadInfo * info;
-	EveCallback * cb;
 	
 	if ((self = [super init])) {
 		d = [[NSMutableDictionary alloc] initWithCapacity:10];
 		
-		for (raw_url in urls) {
-			str_url = (NSString *) raw_url; // probably needs some error checking
+		for (name in [urls allKeys]) {
+			str_url = [urls objectForKey: name];
 			info    = [[EveThreadInfo alloc] initWithURLString:str_url];
 			
-			[d setObject:info forKey:str_url];
+			[d setObject:info forKey:name];
 			
 			[info release];
 		}
 		
 		if (callbacks) {
-			for (cb in callbacks) {
-				@try {
-					str_url = [urls objectAtIndex:[callbacks indexOfObject:cb]];
-					
-					[(EveThreadInfo *) [d objectForKey:str_url] setCallback:cb];
-				}
-				@catch (NSException * ex) {
-					break;
+			for (name in [d allKeys]) {
+				if ([[callbacks allKeys] indexOfObject:name] != NSNotFound) {
+					[(EveThreadInfo *) [d objectForKey:name] setCallback:[callbacks objectForKey:name]];
 				}
 			}
 		}
@@ -119,7 +112,7 @@
 	return self;
 }
 
-- (id)initWithURLList:(NSArray *)urls finished:(EveCallback *)finished {
+- (id)initWithURLList:(NSDictionary *)urls finished:(EveCallback *)finished {
 	return [self initWithURLList:urls andCallbacks:nil finished:finished];
 }
 
@@ -131,7 +124,7 @@
 	
 	non_finished = (unsigned) [downloads count];
 	
-	for (info in downloads) {
+	for (info in [downloads allValues]) {
 		url        = [NSURL URLWithString:[info URL]];
 		request    = [[NSURLRequest alloc] initWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:30.0];
 		connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
@@ -207,18 +200,18 @@
 	
 }
 
-- (uint64_t)expectedLengthForURL:(NSString *)url {
+- (uint64_t)expectedLengthForName:(NSString *)name {
 	@try {
-		return [(EveThreadInfo *) [downloads objectForKey:url] expectedLength];
+		return [(EveThreadInfo *) [downloads objectForKey:name] expectedLength];
 	}
 	@catch (NSException *exception) {
 		return 0;
 	}
 }
 
-- (uint64_t)receivedLengthForURL:(NSString *)url {
+- (uint64_t)receivedLengthForName:(NSString *)name {
 	@try {
-		return [(EveThreadInfo *) [downloads objectForKey:url] receivedLength];
+		return [(EveThreadInfo *) [downloads objectForKey:name] receivedLength];
 	}
 	@catch (NSException *exception) {
 		return 0;
@@ -230,7 +223,7 @@
 	
 	info = nil;
 	
-	for (cursor in downloads) {
+	for (cursor in [downloads allValues]) {
 		if ([cursor connection] == connection) info = cursor;
 	}
 	
