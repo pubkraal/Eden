@@ -118,6 +118,7 @@
 	[[info result] appendData:data];
 	[info setReceivedLength:([info receivedLength] + [data length])];
 	[self setReceivedLength:([self receivedLength] + [data length])];
+	
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
@@ -145,7 +146,7 @@
 	EveDownloadInfo * info;
 	
 	info   = [self infoForConnection:connection];
-	
+
 	if ([self delegate]) {
 		[[self delegate] didFinishDownload:self forKey:[[downloads allKeysForObject:info] objectAtIndex:0] \
 								  withData:[info data] error:nil];
@@ -203,7 +204,10 @@
 	info = nil;
 	
 	for (cursor in [downloads allValues]) {
-		if ([cursor connection] == connection) info = cursor;
+		if ([cursor connection] == connection) {
+			info = cursor;
+			break;
+		}
 	}
 	
 	return info;

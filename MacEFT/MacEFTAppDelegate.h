@@ -13,20 +13,25 @@
 @private
     NSWindow *window;
 	IBOutlet NSProgressIndicator * p1, * p2, * p3, * p4, * p5;
+	IBOutlet NSTextField * l1, * l2, * l3, * l4, * l5;
 	NSDictionary * URLList;
 	
 	NSMutableDictionary * maxValues;
 	NSMutableDictionary * currentValues;
-	NSDictionary * indicators;
 	NSMutableDictionary * labels;
+
+	NSDictionary * indicators;
+	NSDictionary * textFields;
+	
 }
 
 @property (assign) IBOutlet NSWindow *window;
 
 @property (retain) NSMutableDictionary * maxValues;
 @property (retain) NSMutableDictionary * currentValues;
-@property (retain) NSDictionary * indicators;
 @property (retain) NSMutableDictionary * labels;
+@property (retain) NSDictionary * indicators;
+@property (retain) NSDictionary * textFields;
 
 - (IBAction)startDownloads:(id)aButton;
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context;

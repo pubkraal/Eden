@@ -12,7 +12,7 @@
 
 @synthesize window;
 
-@synthesize maxValues, currentValues, indicators, labels;
+@synthesize maxValues, currentValues, indicators, labels, textFields;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
@@ -46,13 +46,22 @@
 						p3, @"song3", \
 						p4, @"song4", \
 						p5, @"total", \
-						nil]];	
+						nil]];
+	
+	[self setTextFields:[NSDictionary dictionaryWithObjectsAndKeys:\
+						 l1, @"song1", \
+						 l2, @"song2", \
+						 l3, @"song3", \
+						 l4, @"song4", \
+						 l5, @"total", \
+						 nil]];
+
 	
 	URLList = [[NSDictionary alloc] initWithObjectsAndKeys:\
-			   @"http://team.fatal1ty.free.fr/Damn%20That%20Music%20Made%20my%20Way/Coldplay/Viva%20La%20Vida/01%20%20Coldplay%20-%20Life%20In%20Technicolor.mp3", @"song1", \
-			   @"http://team.fatal1ty.free.fr/Damn%20That%20Music%20Made%20my%20Way/Coldplay/Viva%20La%20Vida/02%20%20Coldplay%20-%20Cemeteries%20Of%20London.mp3", @"song2", \
-			   @"http://team.fatal1ty.free.fr/Damn%20That%20Music%20Made%20my%20Way/Coldplay/Viva%20La%20Vida/03%20%20Coldplay%20-%20Lost.mp3", @"song3", \
-			   @"http://team.fatal1ty.free.fr/Damn%20That%20Music%20Made%20my%20Way/Coldplay/Viva%20La%20Vida/04%20%20Coldplay%20-%2042.mp3", @"song4", \
+			   @"http://wiki.icmc.usp.br/images/7/73/SCC211Cap1.pdf", @"song1", \
+			   @"http://wiki.icmc.usp.br/images/3/37/SCC211Cap2_1.pdf", @"song2", \
+			   @"http://wiki.icmc.usp.br/images/7/71/SCC211Cap2_2.pdf", @"song3", \
+			   @"http://wiki.icmc.usp.br/images/1/1e/SCC211Cap3.pdf", @"song4", \
 			   nil];
 	
 }
@@ -76,7 +85,11 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
 	NSArray * pathComponents;
-	NSString * key, * type;
+	NSString * key, * type, * labelFormat;
+	id value;
+
+	value       = [change objectForKey:NSKeyValueChangeNewKey];
+	labelFormat = @"%@ of %@ bytes downloaded";
 	
 	pathComponents = [keyPath componentsSeparatedByString:@"."];
 	
@@ -91,62 +104,67 @@
 		type = [pathComponents objectAtIndex:2];
 	}
 	
-	type = ([type isEqualToString:@"expectedLength"]) ? @"maxValues" : @"currentValues";
+	if ([type isEqualToString:@"expectedLength"]) {
+		type = @"maxValues";
+		[[self labels] setValue:[NSString stringWithFormat:labelFormat, [[self currentValues] objectForKey:key], value] forKey:key];
+	}
+	else {
+		type = @"currentValues";
+		[[self labels] setValue:[NSString stringWithFormat:labelFormat, value, [[self maxValues] objectForKey:key]] forKey:key];
+	}
 	
 	[self performSelectorInBackground:@selector(updateWithData:) withObject:[NSDictionary dictionaryWithObjectsAndKeys: \
 																			 key, @"key", \
 																			 type, @"type", \
-																			 [change objectForKey:NSKeyValueChangeNewKey], @"value", \
+																			 value, @"value", \
 																			 nil]];
 }
 
 - (void)updateWithData:(id)theData {
 	NSAutoreleasePool * pool;
 	NSDictionary * data;
-	NSString * keyPath, * type, * key, * labelFormat;
-	id value;
+	NSString * keyPath;
 	
 	pool = [[NSAutoreleasePool alloc] init];
 
-	keyPath     = @"%@.%@";
-	labelFormat = @"%@ of %@ bytes downloaded";
+	data    = (NSDictionary *) theData;
+	keyPath = @"%@.%@";
 	
-	data  = (NSDictionary *) theData;
-	type  = [data objectForKey:@"type"];
-	key   = [data objectForKey:@"key"];
-	value = [data objectForKey:@"value"];
+	[self setValue:[data objectForKey:@"value"] forKeyPath:[NSString stringWithFormat:keyPath, [data objectForKey:@"type"], [data objectForKey:@"key"]]];
 	
-	[self setValue:value forKeyPath:[NSString stringWithFormat:keyPath, type, key]];
-	
-	if ([type isEqualToString:@"maxValues"]) {
-		[[self labels] setValue:[NSString stringWithFormat:labelFormat, [[self currentValues] objectForKey:key], value] forKey:key];
-	}
-	else {
-		[[self labels] setValue:[NSString stringWithFormat:labelFormat, value, [[self maxValues] objectForKey:key]] forKey:key];
-	}
 	
 	[pool drain];
 }
 
 - (void)didFinishDownload:(EveDownload *)download forKey:(NSString *)key withData:(NSData *)data error:(NSError *)error {
-	NSLog(@"Download %@ has finished.", key);
+	NSString * content;
 	
-	if (error) {
-		NSLog(@"An error occured: %@", [error localizedDescription]);
-	}
+	content = (error) ? [error localizedDescription] : [NSString stringWithFormat:@"Download %@ has finished.", key];
+
+	[self setValue:content forKeyPath:[NSString stringWithFormat:@"labels.%@", key]];
+
 }
 
 - (void)didFinishDownload:(EveDownload *)download withResults:(NSDictionary *)results {
 	NSString * key;
 	NSDictionary * result;
+	unsigned success, failure;
 	
-	NSLog(@"All downloads have finished!");
+	success = 0;
 	
 	for (key in [results allKeys]) {
 		result = [results objectForKey:key];
 		
-		NSLog(@"- %@: %@", key, ([result objectForKey:@"error"]) ? @"Failure" : @"Success");
+		if (![result objectForKey:@"error"]) success++;
 	}
+	
+	failure = (unsigned) [results count] - success;
+	
+	[self setValue:[NSString stringWithFormat:@"All downloads have finished! Successes: %u - Failures %u", success, failure] forKeyPath:@"labels.total"];
+	
+	[download removeObserver:self];
+	
+	[download release];
 }
 
 

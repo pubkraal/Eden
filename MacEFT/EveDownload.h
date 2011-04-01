@@ -30,9 +30,9 @@
 @property (retain) NSURLConnection * connection;
 @property (retain) NSString * URL;
 @property (retain) NSError * error;
+@property (retain) NSMutableData * result;
 @property (assign) uint64_t expectedLength;
 @property (assign) uint64_t receivedLength;
-@property (retain) NSMutableData * result;
 
 - (NSData *)data; // returns a static version of the mutable result.
 
