@@ -12,7 +12,7 @@
 
 @synthesize window;
 
-@synthesize maxValues, currentValues, indicators, labels, textFields;
+@synthesize maxValues, currentValues, indicators, labels;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
@@ -48,14 +48,6 @@
 						p5, @"total", \
 						nil]];
 	
-	[self setTextFields:[NSDictionary dictionaryWithObjectsAndKeys:\
-						 l1, @"song1", \
-						 l2, @"song2", \
-						 l3, @"song3", \
-						 l4, @"song4", \
-						 l5, @"total", \
-						 nil]];
-
 	
 	URLList = [[NSDictionary alloc] initWithObjectsAndKeys:\
 			   @"http://wiki.icmc.usp.br/images/7/73/SCC211Cap1.pdf", @"song1", \
