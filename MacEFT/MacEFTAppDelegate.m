@@ -50,7 +50,7 @@
 	
 	
 	URLList = [[NSDictionary alloc] initWithObjectsAndKeys:\
-			   @"http://wiki.icmc.usp.br/images/7/73/SCC211Cap1.pdf", @"song1", \
+			   @"http://wiki.icmc.usp.br/images/7/73/SCC211Cap1.pdfxs", @"song1", \
 			   @"http://wiki.icmc.usp.br/images/3/37/SCC211Cap2_1.pdf", @"song2", \
 			   @"http://wiki.icmc.usp.br/images/7/71/SCC211Cap2_2.pdf", @"song3", \
 			   @"http://wiki.icmc.usp.br/images/1/1e/SCC211Cap3.pdf", @"song4", \

@@ -45,9 +45,11 @@
 
 @protocol EveDownloadDelegate <NSObject>
 
-- (void)didFinishDownload:(EveDownload *)download forKey:(NSString *)key withData:(NSData *)data error:(NSError *)error;
 - (void)didFinishDownload:(EveDownload *)download withResults:(NSDictionary *)results;
 
+@optional
+
+- (void)didFinishDownload:(EveDownload *)download forKey:(NSString *)key withData:(NSData *)data error:(NSError *)error;
 
 @end
 

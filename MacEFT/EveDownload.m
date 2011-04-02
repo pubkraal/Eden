@@ -24,7 +24,7 @@
 		[self setReceivedLength:0L];
 		
 		[self setConnection:nil];
-}
+	}
 	
 	return self;
 }
@@ -51,15 +51,15 @@
 
 - (id)initWithURLList:(NSDictionary *)urls {
 	NSMutableDictionary * d;
-	NSString * name, * str_url;
+	NSString * name, * strURL;
 	EveDownloadInfo * info;
 	
 	if ((self = [super init])) {
 		d = [[NSMutableDictionary alloc] initWithCapacity:10];
 		
 		for (name in [urls allKeys]) {
-			str_url = [urls objectForKey: name];
-			info    = [[EveDownloadInfo alloc] initWithURLString:str_url];
+			strURL = [urls objectForKey: name];
+			info   = [[EveDownloadInfo alloc] initWithURLString:strURL];
 			
 			[d setObject:info forKey:name];
 			
@@ -101,12 +101,36 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
 	EveDownloadInfo * info;
+	NSHTTPURLResponse * httpResponse;
+	NSError * error;
+	NSDictionary * errorInfo;
+	NSString * errorDesc;
+	long statusCode;
 	
-	info = [self infoForConnection:connection];
+	statusCode = -1;
 	
-	if ([response expectedContentLength] != NSURLResponseUnknownLength) {
-		[info setExpectedLength:((uint64_t) [response expectedContentLength])];
-		[self setExpectedLength:([self expectedLength] + [response expectedContentLength])];
+	if ([response respondsToSelector:@selector(statusCode)]) {
+		httpResponse = (NSHTTPURLResponse *) response;
+		statusCode   = [httpResponse statusCode];
+
+		if (statusCode >= 400) {
+			[connection cancel];
+			
+			errorDesc = [NSString stringWithFormat:@"Server returned status code %d", statusCode];
+			errorInfo = [NSDictionary dictionaryWithObject:errorDesc forKey:NSLocalizedDescriptionKey];
+			error     = [NSError errorWithDomain:NSCocoaErrorDomain code:statusCode userInfo:errorInfo];
+
+			[self connection:connection didFailWithError:error];
+		}
+	}
+	
+	if (statusCode < 400) {
+		info = [self infoForConnection:connection];
+		
+		if ([response expectedContentLength] != NSURLResponseUnknownLength) {
+			[info setExpectedLength:((uint64_t) [response expectedContentLength])];
+			[self setExpectedLength:([self expectedLength] + [response expectedContentLength])];
+		}
 	}
 }
 
@@ -128,18 +152,14 @@
 	
 	[info setError:error];
 	
-	if ([self delegate]) {
+	if ([self delegate] && [[self delegate] respondsToSelector:@selector(didFinishDownload:forKey:withData:error:)]) {
 		[[self delegate] didFinishDownload:self forKey:[[downloads allKeysForObject:info] objectAtIndex:0] \
 										withData:nil error:error];
 	}
 
 	non_finished--;
 	
-	if (!non_finished) {
-		if ([self delegate]) {
-			[[self delegate] didFinishDownload:self withResults:[self results]];
-		}
-	}
+	if ([self delegate] && !non_finished) [[self delegate] didFinishDownload:self withResults:[self results]];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
@@ -147,18 +167,14 @@
 	
 	info   = [self infoForConnection:connection];
 
-	if ([self delegate]) {
+	if ([self delegate] && [[self delegate] respondsToSelector:@selector(didFinishDownload:forKey:withData:error:)]) {
 		[[self delegate] didFinishDownload:self forKey:[[downloads allKeysForObject:info] objectAtIndex:0] \
 								  withData:[info data] error:nil];
 	}
 
 	non_finished--;
 	
-	if (!non_finished) {
-		if ([self delegate]) {
-			[[self delegate] didFinishDownload:self withResults:[self results]];
-		}
-	}
+	if ([self delegate] && !non_finished) [[self delegate] didFinishDownload:self withResults:[self results]];
 	
 }
 
