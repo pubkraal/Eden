@@ -120,9 +120,9 @@
 	pool = [[NSAutoreleasePool alloc] init];
 
 	data    = (NSDictionary *) theData;
-	keyPath = @"%@.%@";
+	keyPath = [NSString stringWithFormat:@"%@.%@", [data objectForKey:@"type"], [data objectForKey:@"key"]];
 	
-	[self setValue:[data objectForKey:@"value"] forKeyPath:[NSString stringWithFormat:keyPath, [data objectForKey:@"type"], [data objectForKey:@"key"]]];
+	[self setValue:[data objectForKey:@"value"] forKeyPath:keyPath];
 	
 	
 	[pool drain];
@@ -142,15 +142,15 @@
 	NSDictionary * result;
 	unsigned success, failure;
 	
-	success = 0;
-	
+	failure = 0;
+
 	for (key in [results allKeys]) {
 		result = [results objectForKey:key];
 		
-		if (![result objectForKey:@"error"]) success++;
+		if ([result objectForKey:@"error"] != [NSNull null]) failure++;
 	}
 	
-	failure = (unsigned) [results count] - success;
+	success = (unsigned) [results count] - failure;
 	
 	[self setValue:[NSString stringWithFormat:@"All downloads have finished! Successes: %u - Failures %u", success, failure] forKeyPath:@"labels.total"];
 	

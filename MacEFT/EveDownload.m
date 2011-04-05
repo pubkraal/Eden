@@ -118,7 +118,7 @@
 			
 			errorDesc = [NSString stringWithFormat:@"Server returned status code %d", statusCode];
 			errorInfo = [NSDictionary dictionaryWithObject:errorDesc forKey:NSLocalizedDescriptionKey];
-			error     = [NSError errorWithDomain:NSCocoaErrorDomain code:statusCode userInfo:errorInfo];
+			error     = [NSError errorWithDomain:@"HTTP Error" code:statusCode userInfo:errorInfo];
 
 			[self connection:connection didFailWithError:error];
 		}
@@ -146,36 +146,32 @@
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-	EveDownloadInfo * info;
-
-	info = [self infoForConnection:connection];
-	
-	[info setError:error];
-	
-	if ([self delegate] && [[self delegate] respondsToSelector:@selector(didFinishDownload:forKey:withData:error:)]) {
-		[[self delegate] didFinishDownload:self forKey:[[downloads allKeysForObject:info] objectAtIndex:0] \
-										withData:nil error:error];
-	}
-
-	non_finished--;
-	
-	if ([self delegate] && !non_finished) [[self delegate] didFinishDownload:self withResults:[self results]];
+	[self downloadFinished:connection withError:error];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+	[self downloadFinished:connection withError:nil];
+}
+
+- (void)downloadFinished:(NSURLConnection *)connection withError:(NSError *)error {
 	EveDownloadInfo * info;
+	NSData * data;
+	NSString * key;
 	
-	info   = [self infoForConnection:connection];
+	info = [self infoForConnection:connection];
+	data = (error) ? nil : [info data];
+	key  = [[downloads allKeysForObject:info] objectAtIndex:0];
 
+	[info setError:error];
+	
 	if ([self delegate] && [[self delegate] respondsToSelector:@selector(didFinishDownload:forKey:withData:error:)]) {
-		[[self delegate] didFinishDownload:self forKey:[[downloads allKeysForObject:info] objectAtIndex:0] \
-								  withData:[info data] error:nil];
+		[[self delegate] didFinishDownload:self forKey:key withData:data error:error];
 	}
-
+	
 	non_finished--;
 	
-	if ([self delegate] && !non_finished) [[self delegate] didFinishDownload:self withResults:[self results]];
-	
+	if ([self delegate] && !non_finished)
+		[[self delegate] didFinishDownload:self withResults:[self results]];
 }
 
 - (void)addObserver:(NSObject *)anObserver {
@@ -240,17 +236,19 @@
 	NSMutableDictionary * results;
 	NSDictionary * retval, * data;
 	NSString * key;
+	NSError * error;
 	EveDownloadInfo * info;
 	
 	results = [[NSMutableDictionary alloc] init];
 	
 	for (key in [downloads allKeys]) {
-		info = [downloads objectForKey:key];
+		info  = [downloads objectForKey:key];
+		error = [info error];
 		
-		data = [[NSDictionary alloc] initWithObjectsAndKeys: \
-				[info data], @"data", \
-				[info error], @"error", \
-				nil];
+		data  = [[NSDictionary alloc] initWithObjectsAndKeys: \
+				 (error) ? [NSNull null] : [info data], @"data", \
+				 (error) ? error : [NSNull null], @"error", \
+				 nil];
 		
 		[results setValue:data forKey:key];
 		

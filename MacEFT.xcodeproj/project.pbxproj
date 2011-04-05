@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3A0197661343BD7200B40E81 /* EveDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A0197651343BD7200B40E81 /* EveDownload.m */; };
+		3A2E95EC134BB5720060A8E0 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = 3A2E95E9134BB5720060A8E0 /* sqlite3.c */; };
 		525B8A8A133BEB52006A3728 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 525B8A89133BEB52006A3728 /* Cocoa.framework */; };
 		525B8A94133BEB52006A3728 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 525B8A92133BEB52006A3728 /* InfoPlist.strings */; };
 		525B8A97133BEB52006A3728 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 525B8A96133BEB52006A3728 /* main.m */; };
@@ -55,6 +56,9 @@
 /* Begin PBXFileReference section */
 		3A0197641343BD7200B40E81 /* EveDownload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EveDownload.h; sourceTree = "<group>"; };
 		3A0197651343BD7200B40E81 /* EveDownload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveDownload.m; sourceTree = "<group>"; };
+		3A2E95E9134BB5720060A8E0 /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sqlite3.c; sourceTree = "<group>"; };
+		3A2E95EA134BB5720060A8E0 /* sqlite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite3.h; sourceTree = "<group>"; };
+		3A2E95EB134BB5720060A8E0 /* sqlite3ext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite3ext.h; sourceTree = "<group>"; };
 		525B8A85133BEB52006A3728 /* MacEFT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacEFT.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		525B8A89133BEB52006A3728 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		525B8A8C133BEB52006A3728 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -139,6 +143,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3A2E95E3134AD7960060A8E0 /* SQLBridge */ = {
+			isa = PBXGroup;
+			children = (
+				3A2E95E5134AD7B70060A8E0 /* sqlite3 */,
+			);
+			name = SQLBridge;
+			sourceTree = "<group>";
+		};
+		3A2E95E5134AD7B70060A8E0 /* sqlite3 */ = {
+			isa = PBXGroup;
+			children = (
+				3A2E95E9134BB5720060A8E0 /* sqlite3.c */,
+				3A2E95EA134BB5720060A8E0 /* sqlite3.h */,
+				3A2E95EB134BB5720060A8E0 /* sqlite3ext.h */,
+			);
+			name = sqlite3;
+			sourceTree = "<group>";
+		};
 		525B8A7A133BEB51006A3728 = {
 			isa = PBXGroup;
 			children = (
@@ -268,6 +290,7 @@
 		527917CD133FACFE009C694C /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				3A2E95E3134AD7960060A8E0 /* SQLBridge */,
 				527917D1133FAF3C009C694C /* JSON */,
 				527917CE133FAD16009C694C /* EveAPI.h */,
 				527917CF133FAD16009C694C /* EveAPI.m */,
@@ -438,6 +461,7 @@
 				52791809133FB01E009C694C /* SBJsonWriter.m in Sources */,
 				525C81371340FDCF008316B7 /* EveAPIResult.m in Sources */,
 				3A0197661343BD7200B40E81 /* EveDownload.m in Sources */,
+				3A2E95EC134BB5720060A8E0 /* sqlite3.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

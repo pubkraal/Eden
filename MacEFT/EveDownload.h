@@ -83,6 +83,8 @@
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error;
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection;
 
+- (void)downloadFinished:(NSURLConnection *) connection withError:(NSError *)error;
+
 // Querying messages
 
 @property (assign) uint64_t expectedLength;
