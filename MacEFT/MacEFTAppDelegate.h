@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "EveDownload.h"
+#import "SQLBridge.h"
 
 @interface MacEFTAppDelegate : NSObject <NSApplicationDelegate, EveDownloadDelegate> {
 @private
@@ -30,6 +31,8 @@
 @property (retain) NSMutableDictionary * labels;
 @property (retain) NSDictionary * indicators;
 
+- (void)prepareDownloads;
+- (void)testSQL;
 - (IBAction)startDownloads:(id)aButton;
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context;
 

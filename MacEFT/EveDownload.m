@@ -118,7 +118,7 @@
 			
 			errorDesc = [NSString stringWithFormat:@"Server returned status code %d", statusCode];
 			errorInfo = [NSDictionary dictionaryWithObject:errorDesc forKey:NSLocalizedDescriptionKey];
-			error     = [NSError errorWithDomain:@"HTTP Error" code:statusCode userInfo:errorInfo];
+			error     = [NSError errorWithDomain:@"HTTPError" code:statusCode userInfo:errorInfo];
 
 			[self connection:connection didFailWithError:error];
 		}

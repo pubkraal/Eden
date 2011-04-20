@@ -14,8 +14,34 @@
 
 @synthesize maxValues, currentValues, indicators, labels;
 
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
-{
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+	[self testSQL];
+	[self prepareDownloads];
+	
+}
+
+- (void)testSQL {
+	SQLBridge * bridge;
+	NSError * sqlError;
+	NSString * dbPath;
+	
+	sqlError = nil;
+	dbPath   = [[NSBundle mainBundle] pathForResource:@"evedump" ofType:@"db"];
+	
+	if (dbPath) {
+		bridge = [[SQLBridge alloc] initWithPath:dbPath error:&sqlError];
+		
+		if (sqlError) {
+			NSLog(@"Error: %@\nCode: %lu", [sqlError localizedDescription], [sqlError code]);
+		}
+		
+		[bridge release];
+	}
+	else NSLog(@"Path not found.");
+	
+}
+
+- (void)prepareDownloads {
 	[self setMaxValues:[NSMutableDictionary dictionaryWithObjectsAndKeys:\
 						[NSNumber numberWithInt:100], @"song1", \
 						[NSNumber numberWithInt:100], @"song2", \
