@@ -41,6 +41,12 @@
 	
 }
 
+- (IBAction)openDBTest:(id)aButton {
+	// WRONG! Use NSWindowController or a subclass of it.
+	
+	[NSBundle loadNibNamed:@"DBTest" owner:self];
+}
+
 - (void)prepareDownloads {
 	[self setMaxValues:[NSMutableDictionary dictionaryWithObjectsAndKeys:\
 						[NSNumber numberWithInt:100], @"song1", \

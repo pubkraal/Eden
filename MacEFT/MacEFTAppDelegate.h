@@ -34,6 +34,7 @@
 - (void)prepareDownloads;
 - (void)testSQL;
 - (IBAction)startDownloads:(id)aButton;
+- (IBAction)openDBTest:(id)aButton;
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context;
 
 - (void)updateWithData:(id)theData;

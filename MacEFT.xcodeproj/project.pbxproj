@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		3A0197661343BD7200B40E81 /* EveDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A0197651343BD7200B40E81 /* EveDownload.m */; };
 		3A6823AE135D39E20017E4FA /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A6823AD135D39E20017E4FA /* libsqlite3.dylib */; };
+		3A7615E0135ED4FD005A191C /* evedump.db in Resources */ = {isa = PBXBuildFile; fileRef = 3A7615DF135ED4FD005A191C /* evedump.db */; };
+		3A7615E2135ED59D005A191C /* DBTest.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A7615E1135ED59D005A191C /* DBTest.xib */; };
+		3A7615E5135ED6E4005A191C /* DBTestDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A7615E4135ED6E4005A191C /* DBTestDelegate.m */; };
 		3AF0C5E9134FDAB500E47914 /* SQLBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AF0C5E8134FDAB500E47914 /* SQLBridge.m */; };
 		525B8A8A133BEB52006A3728 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 525B8A89133BEB52006A3728 /* Cocoa.framework */; };
 		525B8A94133BEB52006A3728 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 525B8A92133BEB52006A3728 /* InfoPlist.strings */; };
@@ -58,6 +61,10 @@
 		3A0197641343BD7200B40E81 /* EveDownload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EveDownload.h; sourceTree = "<group>"; };
 		3A0197651343BD7200B40E81 /* EveDownload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveDownload.m; sourceTree = "<group>"; };
 		3A6823AD135D39E20017E4FA /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libsqlite3.dylib; sourceTree = "<group>"; };
+		3A7615DF135ED4FD005A191C /* evedump.db */ = {isa = PBXFileReference; lastKnownFileType = file; name = evedump.db; path = MacEFT/evedump.db; sourceTree = "<group>"; };
+		3A7615E1135ED59D005A191C /* DBTest.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DBTest.xib; sourceTree = "<group>"; };
+		3A7615E3135ED6E4005A191C /* DBTestDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBTestDelegate.h; sourceTree = "<group>"; };
+		3A7615E4135ED6E4005A191C /* DBTestDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBTestDelegate.m; sourceTree = "<group>"; };
 		3AF0C5E7134FDAB500E47914 /* SQLBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLBridge.h; sourceTree = "<group>"; };
 		3AF0C5E8134FDAB500E47914 /* SQLBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQLBridge.m; sourceTree = "<group>"; };
 		525B8A85133BEB52006A3728 /* MacEFT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacEFT.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -202,6 +209,8 @@
 				525B8A9B133BEB52006A3728 /* MacEFTAppDelegate.h */,
 				525B8A9C133BEB52006A3728 /* MacEFTAppDelegate.m */,
 				525B8A90133BEB52006A3728 /* Supporting Files */,
+				3A7615E3135ED6E4005A191C /* DBTestDelegate.h */,
+				3A7615E4135ED6E4005A191C /* DBTestDelegate.m */,
 			);
 			path = MacEFT;
 			sourceTree = "<group>";
@@ -241,6 +250,7 @@
 		525B8ABD133BEBAD006A3728 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3A7615DF135ED4FD005A191C /* evedump.db */,
 				526ED094133E3F2E00F26046 /* Windows */,
 				525B8ABE133BEBC1006A3728 /* README */,
 				5279180A133FB058009C694C /* LICENSE */,
@@ -252,6 +262,7 @@
 			isa = PBXGroup;
 			children = (
 				525B8A9E133BEB52006A3728 /* MainMenu.xib */,
+				3A7615E1135ED59D005A191C /* DBTest.xib */,
 			);
 			name = Windows;
 			sourceTree = "<group>";
@@ -397,6 +408,8 @@
 				525B8AA0133BEB52006A3728 /* MainMenu.xib in Resources */,
 				525B8ABF133BEBC1006A3728 /* README in Resources */,
 				5279180B133FB058009C694C /* LICENSE in Resources */,
+				3A7615E0135ED4FD005A191C /* evedump.db in Resources */,
+				3A7615E2135ED59D005A191C /* DBTest.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -456,6 +469,7 @@
 				525C81371340FDCF008316B7 /* EveAPIResult.m in Sources */,
 				3A0197661343BD7200B40E81 /* EveDownload.m in Sources */,
 				3AF0C5E9134FDAB500E47914 /* SQLBridge.m in Sources */,
+				3A7615E5135ED6E4005A191C /* DBTestDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
