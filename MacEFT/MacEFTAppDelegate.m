@@ -12,12 +12,13 @@
 
 @synthesize window;
 
-@synthesize maxValues, currentValues, indicators, labels;
+@synthesize maxValues, currentValues, indicators, labels, winControllers;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 	[self testSQL];
 	[self prepareDownloads];
 	
+	[self setWinControllers:[NSMutableArray array]];
 }
 
 - (void)testSQL {
@@ -42,9 +43,40 @@
 }
 
 - (IBAction)openDBTest:(id)aButton {
-	// WRONG! Use NSWindowController or a subclass of it.
+	NSWindowController * con;
 	
-	[NSBundle loadNibNamed:@"DBTest" owner:self];
+	con = [[NSWindowController alloc] initWithWindowNibName:@"DBTest"];
+
+	[[self winControllers] addObject:con];
+	
+	[con loadWindow];
+
+	[[con window] makeKeyAndOrderFront:con];
+	[[con window] setReleasedWhenClosed:YES];
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleCloseWindow:) name:NSWindowWillCloseNotification object:[con window]];
+	
+	[con release];
+}
+
+- (void)handleCloseWindow:(NSNotification *)notification {
+	NSWindowController * cursor;
+	BOOL found;
+
+	found = NO;
+	
+	for (cursor in [self winControllers]) {
+		if ([cursor window] == [notification object]) {
+			found = YES;
+			break;
+		}
+	}
+	
+	if (found) {
+		[[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowWillCloseNotification object:[cursor window]];
+		[[[cursor window] delegate] autorelease];
+		[[self winControllers] removeObject:cursor];
+	}
 }
 
 - (void)prepareDownloads {
@@ -199,3 +231,4 @@
 }
 
 @end
+

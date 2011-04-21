@@ -12,22 +12,17 @@
 @interface DBTestDelegate : NSObject {
 @private
 	IBOutlet NSWindow * win;
-	IBOutlet MacEFTAppDelegate * parent;
+	IBOutlet NSWindowController * parent;
+	IBOutlet NSArrayController * dataController;
+	NSMutableArray * data;
 }
 
-@property (retain) NSWindow * win;
-@property (retain) MacEFTAppDelegate * parent;
+@property (assign) NSWindow * win;
+@property (assign) NSWindowController * parent;
+@property (assign) NSArrayController * dataController;
+
+@property (retain) NSMutableArray * data;
 
 - (void)awakeFromNib;
-- (void)handleCloseWindow:(NSNotification *)notification;
-
-@end
-
-@interface VerboseWindow : NSWindow {
-	
-}
-
-- (void)dealloc;
-- (void)release;
 
 @end

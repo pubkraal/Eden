@@ -10,11 +10,10 @@
 
 @implementation SQLBridge
 
-@synthesize database, lastError;
+@synthesize lastError, views;
 
 - (id)initWithPath:(NSString *)dbPath error:(NSError **)error{
 	int rc;
-	NSString * errorMsg;
 	
     if ((self = [super init])) {
 		database = NULL;
@@ -22,26 +21,392 @@
 		rc = sqlite3_open([dbPath UTF8String], &database);
 		
 		if (rc) {
-			errorMsg = [NSString stringWithUTF8String:sqlite3_errmsg(database)];
-			
-			[self setErrorWithDesc:errorMsg andCode:(long) rc];
-			
+			[self setErrorToDatabaseErrorWithCode:rc];
+
 			if (error) (*error) = [self lastError];
 			
 			sqlite3_close(database);
-			database = NULL;
+			database    = NULL;
+			numberTypes = nil;
 		}
-
+		else {
+			numberTypes = [[NSDictionary alloc] initWithObjectsAndKeys:\
+						   [NSNumber numberWithInt:SQLITE_INTEGER], @"BOOL", \
+						   [NSNumber numberWithInt:SQLITE_INTEGER], @"char", \
+						   [NSNumber numberWithInt:SQLITE_INTEGER], @"int", \
+						   [NSNumber numberWithInt:SQLITE_INTEGER], @"short", \
+						   [NSNumber numberWithInt:SQLITE_INTEGER], @"unsigned char", \
+						   [NSNumber numberWithInt:SQLITE_INTEGER], @"unsigned int", \
+						   [NSNumber numberWithInt:SQLITE_INTEGER], @"unsigned short", \
+						   [NSNumber numberWithInt:INTEGER64], @"long", \
+						   [NSNumber numberWithInt:INTEGER64], @"long long", \
+						   [NSNumber numberWithInt:INTEGER64], @"NSInteger", \
+						   [NSNumber numberWithInt:INTEGER64], @"unsigned long", \
+						   [NSNumber numberWithInt:INTEGER64], @"unsigned long long", \
+						   [NSNumber numberWithInt:INTEGER64], @"NSUInteger", \
+						   [NSNumber numberWithInt:SQLITE_FLOAT], @"double", \
+						   [NSNumber numberWithInt:SQLITE_FLOAT], @"float", \
+						   nil];
+		}
     }
     
     return self;
 }
 
-- (void)dealloc
-{
-	if (database) sqlite3_close(database);
+- (void)preloadViews {
+	
+	
+}
 
-    [super dealloc];
+- (NSDictionary *)query:(NSString *)sql, ... {
+	va_list args;
+	NSDictionary * result;
+	
+	va_start(args, sql);
+	
+	result = [self query:sql withArgs:args];
+
+	va_end(args);
+	
+	return result;
+}
+
+- (NSDictionary *)query:(NSString *)sql withArgs:(va_list)args {
+	sqlite3_stmt * statement;
+	NSDictionary * result;
+	
+	statement = [self prepareStatement:sql withArgs:args];
+	
+	if (statement) result = [self performQuery:statement];
+	else result = nil;
+	
+	return result;
+}
+
+- (NSDictionary *)query:(NSString *)sql withDictionary:(NSDictionary *)args {
+	sqlite3_stmt * statement;
+	NSDictionary * result;
+	
+	statement = [self prepareStatement:sql withDictionary:args];
+	
+	if (statement) result = [self performQuery:statement];
+	else result = nil;
+	
+	return result;
+}
+
+- (NSDictionary *)performQuery:(sqlite3_stmt *)statement {
+	NSMutableArray * columns, * data;
+	NSMutableDictionary * row;
+	NSDictionary * result;
+	NSString * colName;
+	int i, colCount, errCode;
+	NSObject * value;
+	
+	columns  = [[NSMutableArray alloc] init];
+	colCount = sqlite3_column_count(statement);
+	
+	for (i = 0; i < colCount; i++) {
+		colName = [[NSString alloc] initWithUTF8String:sqlite3_column_name(statement, i)];
+		
+		[columns addObject:colName];
+		[colName release];
+	}
+	
+	data = [[NSMutableArray alloc] init];
+	
+	while ((errCode = sqlite3_step(statement)) == SQLITE_ROW) {
+		row = [[NSMutableDictionary alloc] init];
+		
+		for (i = 0; i < colCount; i++) {
+			colName = [columns objectAtIndex:i];
+			value   = [self valueForColumn:i ofStatement:statement];
+			
+			[row setValue:value forKey:colName];
+		}
+		
+		[data addObject:row];
+		
+		[row release];
+	}
+	
+	if (errCode == SQLITE_DONE) {
+		result = [NSDictionary dictionaryWithObjectsAndKeys:\
+				  [NSArray arrayWithArray:data], @"data", \
+				  [NSArray arrayWithArray:columns], @"columns", \
+				  nil];
+	}
+	else {
+		result = nil;
+		[self setErrorToDatabaseError];
+	}
+	
+	[data release];
+	[columns release];
+	sqlite3_finalize(statement);
+	
+	return result;
+}
+
+- (BOOL)execute:(NSString *)sql, ... {
+	BOOL success;
+	va_list args;
+	
+	va_start(args, sql);
+	
+	success = [self execute:sql withArgs:args];
+	
+	va_end(args);
+	
+	return success;
+}
+
+- (BOOL)execute:(NSString *)sql withArgs:(va_list)args {
+	BOOL success;
+	sqlite3_stmt * statement;
+	int errCode;
+	
+	statement = [self prepareStatement:sql withArgs:args];
+	
+	if (statement) {
+		errCode = sqlite3_step(statement);
+		
+		if ((errCode == SQLITE_DONE) || (errCode == SQLITE_ROW)) success = YES;
+		else {
+			[self setErrorToDatabaseError];
+			success = NO;
+		}
+	}
+	else success = NO;
+	
+	
+	return success;
+}
+
+- (sqlite3_stmt *)prepareStatement:(NSString *)sql, ... {
+	sqlite3_stmt * statement;
+	va_list args;
+	
+	va_start(args, sql);
+	
+	statement = [self prepareStatement:sql withArgs:args];
+	
+	va_end(args);
+	
+	return statement;
+}
+
+- (sqlite3_stmt *)prepareStatement:(NSString *)sql withArgs:(va_list)args {
+	/* Parameter types:
+	 * 
+	 * SQLite     - Cocoa
+	 * blob       - NSData
+	 * double     - NSNumber initWithDouble: / initWithFloat:
+	 * int/int64  - NSNumber initWithXXX:, XXX being neither Double nor Float
+	 * text       - NSString
+	 * null       - NSNull
+	 *
+	 * If any other type if passed to this function, it will fail, set
+	 * [self lastError] and return NULL.
+	 *
+	 * Also, variadic functions have no way of knowing if the number of
+	 * parameters you sent match the number that is expected by the SQL
+	 * expression, so, be careful with those.
+	 *
+	 */
+	
+	sqlite3_stmt * statement;
+	const char * cSQL;
+	NSObject * arg;
+	int i, count;
+	
+	cSQL = [sql UTF8String];
+	
+	if (sqlite3_prepare_v2(database, cSQL, (int) strlen(cSQL) + 1, &statement, NULL) == SQLITE_OK) {
+		count = sqlite3_bind_parameter_count(statement);
+		
+		for (i = 1; (i <= count) && statement; i++) { // Parameters in SQLite begins at index 1
+			arg = va_arg(args, NSObject *);
+			
+			[self bindValue:arg toStatement:&statement atIndex:i];
+		}
+	}
+	else {
+		[self setErrorToDatabaseErrorWithCode:sqlite3_finalize(statement)];
+		
+		statement = NULL;
+	}
+	
+	return statement;
+}
+
+- (sqlite3_stmt *)prepareStatement:(NSString *)sql withDictionary:(NSDictionary *)args {
+	sqlite3_stmt * statement;
+	const char * cSQL;
+	NSObject * arg;
+	int i, count;
+	NSString * key, * errorMsg;
+	
+	cSQL = [sql UTF8String];
+	
+	if (sqlite3_prepare_v2(database, cSQL, (int) strlen(cSQL) + 1, &statement, NULL) == SQLITE_OK) {
+		count = sqlite3_bind_parameter_count(statement);
+		
+		for (i = 1; (i <= count) && statement; i++) { // Parameters in SQLite begins at index 1
+			key = [[NSString alloc] initWithUTF8String:sqlite3_bind_parameter_name(statement, i)];
+			arg = [args objectForKey:key];
+			
+			if (arg == nil) {
+				errorMsg = [NSString stringWithFormat:@"Value to bind paramenter \"%@\" not found in the dictionary:\n%@", key, args];
+				[self setErrorWithDesc:errorMsg andCode:SQLBRIDGE_PARAMETER_NOT_FOUND];
+				sqlite3_finalize(statement);
+				statement = NULL;
+			}
+			else [self bindValue:arg toStatement:&statement atIndex:i];
+
+			[key release];
+		}
+	}
+	else {
+		[self setErrorToDatabaseErrorWithCode:sqlite3_finalize(statement)];
+		
+		statement = NULL;
+	}
+	
+	return statement;
+}
+
+- (sqlite3_stmt *)prepareStatement:(NSString *)sql withArray:(NSArray *)args {
+	sqlite3_stmt * statement;
+	const char * cSQL;
+	NSObject * arg;
+	int i, count;
+	NSString * errorMsg;
+	
+	cSQL = [sql UTF8String];
+	
+	if (sqlite3_prepare_v2(database, cSQL, (int) strlen(cSQL) + 1, &statement, NULL) == SQLITE_OK) {
+		count = sqlite3_bind_parameter_count(statement);
+		
+		if (count > [args count]) {
+			errorMsg = [NSString stringWithFormat:@"The array should have at least %d elements, but it only has %lu.", count, [args count]];
+			[self setErrorWithDesc:errorMsg andCode:SQLBRIDGE_PARAMETER_NOT_FOUND];
+			sqlite3_finalize(statement);
+			statement = NULL;
+		}
+		
+		for (i = 1; (i <= count) && statement; i++) { // Parameters in SQLite begins at index 1
+			arg = [args objectAtIndex:i];
+			
+			[self bindValue:arg toStatement:&statement atIndex:i];
+		}
+	}
+	else {
+		[self setErrorToDatabaseErrorWithCode:sqlite3_finalize(statement)];
+		
+		statement = NULL;
+	}
+	
+	return statement;
+}
+
+- (void)checkBindForStatement:(sqlite3_stmt **)stmt_ptr withCode:(int)code {
+	if (code != SQLITE_OK) {
+		[self setErrorToDatabaseErrorWithCode:code];
+		sqlite3_finalize(*stmt_ptr);
+		*stmt_ptr = NULL;
+	}
+}
+
+- (NSObject *)valueForColumn:(int)i ofStatement:(sqlite3_stmt *)stmt {
+	/* This can only be called for a statement that has returned SQLITE_ROW
+	 * to a sqlite3_step() call.
+	 */
+	
+	int colType;
+	NSObject * value;
+	long long intVal;
+	
+	colType = sqlite3_column_type(stmt, i);
+	
+	if (colType == SQLITE_TEXT) {
+		value = [NSString stringWithUTF8String:(char *) sqlite3_column_text(stmt, i)];
+	} else if (colType == SQLITE_INTEGER) {
+		intVal = sqlite3_column_int64(stmt, i);
+		
+		if (intVal > INT_MAX) {
+			value = [NSNumber numberWithLongLong:intVal];
+		}
+		else {
+			value = [NSNumber numberWithInt:(int) intVal];
+		}
+	}
+	else if (colType == SQLITE_FLOAT) {
+		value = [NSNumber numberWithDouble:sqlite3_column_double(stmt, i)];
+	}
+	else if (colType == SQLITE_BLOB) {
+		value = [NSData dataWithBytes:sqlite3_column_blob(stmt, i) length:sqlite3_column_bytes(stmt, i)];
+	}
+	else if (colType == SQLITE_NULL) {
+		value = [NSNull null];
+	}
+	
+	return value;
+}
+
+- (void)bindValue:(NSObject *)value toStatement:(sqlite3_stmt **)stmt_ptr atIndex:(int)i {
+	int errCode;
+	NSString * numberType;
+	sqlite3_stmt * statement;
+	
+	statement = *stmt_ptr;
+	
+	if ([value isKindOfClass:[NSNull class]]) {
+		errCode = sqlite3_bind_null(statement, i);
+		
+		[self checkBindForStatement:stmt_ptr withCode:errCode];
+	}
+	else if ([value isKindOfClass:[NSString class]]) {
+		errCode = sqlite3_bind_text(statement, i, [(NSString *) value UTF8String], -1, SQLITE_TRANSIENT);
+		
+		[self checkBindForStatement:stmt_ptr withCode:errCode];
+	}
+	else if ([value isKindOfClass:[NSNumber class]]) {
+		numberType = [NSString stringWithUTF8String:[(NSNumber *)value objCType]];
+		
+		if ([[numberTypes objectForKey:numberType] intValue] == SQLITE_FLOAT) {
+			errCode = sqlite3_bind_double(statement, i, [(NSNumber *) value doubleValue]);
+		}
+		else if ([[numberTypes objectForKey:numberType] intValue] == SQLITE_INTEGER) {
+			errCode = sqlite3_bind_int(statement, i, [(NSNumber *) value intValue]);
+		}
+		else if ([[numberTypes objectForKey:numberType] intValue] == INTEGER64) {
+			errCode = sqlite3_bind_int64(statement, i, (sqlite3_int64) [(NSNumber *) value longLongValue]);
+		}
+		
+		[self checkBindForStatement:stmt_ptr withCode:errCode];
+	}
+	else if ([value isKindOfClass:[NSData class]]) {
+		if ([(NSData *) value length] > INT_MAX) {
+			/* sqlite3_bind_blob() can't accept blobs with size greater than
+			 * the greatest number that can be stored in int.
+			 */
+			
+			[self setErrorWithDesc:@"You can't have a blob with size greater than the greatest number that an int can hold." andCode:SQLBRIDGE_DATA_TOO_LONG];
+			sqlite3_finalize(statement);
+			*stmt_ptr = NULL;
+		}
+		else {
+			errCode = sqlite3_bind_blob(statement, i, [(NSData *) value bytes], (int) [(NSData *) value length], SQLITE_TRANSIENT);
+			
+			[self checkBindForStatement:stmt_ptr withCode:errCode];
+		}
+	}
+	else {
+		[self setErrorWithDesc:[NSString stringWithFormat:@"Invalid type to interact with database: %@", NSStringFromClass([value class])] andCode:SQLBRIDGE_INVALID_TYPE];
+		sqlite3_finalize(statement);
+		*stmt_ptr = NULL;
+	}
 }
 
 - (void)setErrorWithDesc:(NSString *)description andCode:(long)code {
@@ -56,6 +421,32 @@
 	[self setLastError:newError];
 	
 	[newError release];
+}
+
+- (void)setErrorToDatabaseErrorWithCode:(int)code {
+	NSString * errorMsg;
+	
+	errorMsg = [NSString stringWithUTF8String:sqlite3_errmsg(database)];
+	[self setErrorWithDesc:errorMsg andCode:code];
+}
+
+- (void)setErrorToDatabaseError {
+	int code;
+	
+	code = sqlite3_errcode(database);
+	[self setErrorToDatabaseErrorWithCode:code];
+}
+
+
+- (void)dealloc
+{
+	if (database) {
+		sqlite3_close(database);
+		[numberTypes release];
+	}
+	
+	
+    [super dealloc];
 }
 
 @end

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3A0197661343BD7200B40E81 /* EveDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A0197651343BD7200B40E81 /* EveDownload.m */; };
+		3A286A7D135FFD0E0089D6DB /* SQLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A286A7C135FFD0E0089D6DB /* SQLView.m */; };
 		3A6823AE135D39E20017E4FA /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A6823AD135D39E20017E4FA /* libsqlite3.dylib */; };
 		3A7615E0135ED4FD005A191C /* evedump.db in Resources */ = {isa = PBXBuildFile; fileRef = 3A7615DF135ED4FD005A191C /* evedump.db */; };
 		3A7615E2135ED59D005A191C /* DBTest.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A7615E1135ED59D005A191C /* DBTest.xib */; };
@@ -60,6 +61,8 @@
 /* Begin PBXFileReference section */
 		3A0197641343BD7200B40E81 /* EveDownload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EveDownload.h; sourceTree = "<group>"; };
 		3A0197651343BD7200B40E81 /* EveDownload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveDownload.m; sourceTree = "<group>"; };
+		3A286A7B135FFD0E0089D6DB /* SQLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLView.h; sourceTree = "<group>"; };
+		3A286A7C135FFD0E0089D6DB /* SQLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQLView.m; sourceTree = "<group>"; };
 		3A6823AD135D39E20017E4FA /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libsqlite3.dylib; sourceTree = "<group>"; };
 		3A7615DF135ED4FD005A191C /* evedump.db */ = {isa = PBXFileReference; lastKnownFileType = file; name = evedump.db; path = MacEFT/evedump.db; sourceTree = "<group>"; };
 		3A7615E1135ED59D005A191C /* DBTest.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DBTest.xib; sourceTree = "<group>"; };
@@ -157,6 +160,8 @@
 			children = (
 				3AF0C5E7134FDAB500E47914 /* SQLBridge.h */,
 				3AF0C5E8134FDAB500E47914 /* SQLBridge.m */,
+				3A286A7B135FFD0E0089D6DB /* SQLView.h */,
+				3A286A7C135FFD0E0089D6DB /* SQLView.m */,
 			);
 			name = SQLBridge;
 			sourceTree = "<group>";
@@ -470,6 +475,7 @@
 				3A0197661343BD7200B40E81 /* EveDownload.m in Sources */,
 				3AF0C5E9134FDAB500E47914 /* SQLBridge.m in Sources */,
 				3A7615E5135ED6E4005A191C /* DBTestDelegate.m in Sources */,
+				3A286A7D135FFD0E0089D6DB /* SQLView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

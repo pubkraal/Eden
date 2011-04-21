@@ -22,6 +22,8 @@
 
 	NSDictionary * indicators;
 	
+	NSMutableArray * winControllers;
+	
 }
 
 @property (assign) IBOutlet NSWindow *window;
@@ -30,6 +32,7 @@
 @property (retain) NSMutableDictionary * currentValues;
 @property (retain) NSMutableDictionary * labels;
 @property (retain) NSDictionary * indicators;
+@property (retain) NSMutableArray * winControllers;
 
 - (void)prepareDownloads;
 - (void)testSQL;
@@ -39,6 +42,8 @@
 
 - (void)updateWithData:(id)theData;
 
+- (void)handleCloseWindow:(NSNotification *)notification;
 
 - (void)dealloc;
 @end
+
