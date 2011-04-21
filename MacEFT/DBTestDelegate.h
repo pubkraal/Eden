@@ -8,6 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 #import "MacEFTAppDelegate.h"
+#import "SQLBridge.h"
+
 
 @interface DBTestDelegate : NSObject {
 @private

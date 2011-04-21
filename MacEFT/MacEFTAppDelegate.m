@@ -23,6 +23,7 @@
 
 - (void)testSQL {
 	SQLBridge * bridge;
+	SQLView * view;
 	NSError * sqlError;
 	NSString * dbPath;
 	
@@ -35,10 +36,23 @@
 		if (sqlError) {
 			NSLog(@"Error: %@\nCode: %lu", [sqlError localizedDescription], [sqlError code]);
 		}
+
+		NSLog(@"Views: %@\n", [bridge views]);
+		
+		for (view in [[bridge views] allValues]) {
+			if ([view loadValues]) {
+				NSLog(@"View %@:\n- Columns: %@\n- Data: %@\n", [view tableName], [view columns], [view rows]);
+			}
+			else {
+				sqlError = [[view bridge] lastError];
+				NSLog(@"Error: %@\nCode: %lu", [sqlError localizedDescription], [sqlError code]);
+			}
+		}
 		
 		[bridge release];
 	}
 	else NSLog(@"Path not found.");
+	
 	
 }
 

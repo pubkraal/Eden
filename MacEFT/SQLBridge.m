@@ -47,15 +47,33 @@
 						   [NSNumber numberWithInt:SQLITE_FLOAT], @"double", \
 						   [NSNumber numberWithInt:SQLITE_FLOAT], @"float", \
 						   nil];
+			
+			[self setViews:[NSMutableDictionary dictionary]];
+			
+			if (![self preloadViews] && error) {
+				(*error) = [self lastError];
+			}
+			
+			
 		}
     }
     
     return self;
 }
 
-- (void)preloadViews {
+- (BOOL)preloadViews {
+	NSDictionary * queryResult, * row;
+	SQLView * newView;
 	
+	queryResult = [self query:_Q_GET_VIEWS];
 	
+	if (queryResult) {
+		for (row in [queryResult objectForKey:SQLBRIDGE_DATA]) {
+			newView = [SQLView viewWithBridge:self andTableName:[row objectForKey:_Q_VIEW_KEY]];
+		}
+	}
+	
+	return !!queryResult;
 }
 
 - (NSDictionary *)query:(NSString *)sql, ... {
@@ -88,6 +106,18 @@
 	NSDictionary * result;
 	
 	statement = [self prepareStatement:sql withDictionary:args];
+	
+	if (statement) result = [self performQuery:statement];
+	else result = nil;
+	
+	return result;
+}
+
+- (NSDictionary *)query:(NSString *)sql withArray:(NSArray *)args {
+	sqlite3_stmt * statement;
+	NSDictionary * result;
+	
+	statement = [self prepareStatement:sql withArray:args];
 	
 	if (statement) result = [self performQuery:statement];
 	else result = nil;
@@ -132,8 +162,8 @@
 	
 	if (errCode == SQLITE_DONE) {
 		result = [NSDictionary dictionaryWithObjectsAndKeys:\
-				  [NSArray arrayWithArray:data], @"data", \
-				  [NSArray arrayWithArray:columns], @"columns", \
+				  [NSArray arrayWithArray:data], SQLBRIDGE_DATA, \
+				  [NSArray arrayWithArray:columns], SQLBRIGDE_COLUMNS, \
 				  nil];
 	}
 	else {
@@ -164,21 +194,53 @@
 - (BOOL)execute:(NSString *)sql withArgs:(va_list)args {
 	BOOL success;
 	sqlite3_stmt * statement;
-	int errCode;
 	
 	statement = [self prepareStatement:sql withArgs:args];
 	
-	if (statement) {
-		errCode = sqlite3_step(statement);
-		
-		if ((errCode == SQLITE_DONE) || (errCode == SQLITE_ROW)) success = YES;
-		else {
-			[self setErrorToDatabaseError];
-			success = NO;
-		}
-	}
+	if (statement) success = [self performExecute:statement];
 	else success = NO;
 	
+	
+	return success;
+}
+
+- (BOOL)execute:(NSString *)sql withDictionary:(NSDictionary *)args {
+	BOOL success;
+	sqlite3_stmt * statement;
+	
+	statement = [self prepareStatement:sql withDictionary:args];
+	
+	if (statement) success = [self performExecute:statement];
+	else success = NO;
+	
+	
+	return success;
+}
+
+- (BOOL)execute:(NSString *)sql withArray:(NSArray *)args {
+	BOOL success;
+	sqlite3_stmt * statement;
+	
+	statement = [self prepareStatement:sql withArray:args];
+	
+	if (statement) success = [self performExecute:statement];
+	else success = NO;
+	
+	
+	return success;
+}
+
+- (BOOL)performExecute:(sqlite3_stmt *)statement {
+	BOOL success;
+	int errCode;
+	
+	errCode = sqlite3_step(statement);
+	
+	if ((errCode == SQLITE_DONE) || (errCode == SQLITE_ROW)) success = YES;
+	else {
+		[self setErrorToDatabaseError];
+		success = NO;
+	}
 	
 	return success;
 }
@@ -443,6 +505,7 @@
 	if (database) {
 		sqlite3_close(database);
 		[numberTypes release];
+		[self setViews:nil];
 	}
 	
 	
