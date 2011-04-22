@@ -12,85 +12,26 @@
 
 @synthesize window;
 
-@synthesize maxValues, currentValues, indicators, labels, winControllers;
+@synthesize maxValues, currentValues, indicators, labels;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-	[self testSQL];
 	[self prepareDownloads];
-	
-	[self setWinControllers:[NSMutableArray array]];
-}
-
-- (void)testSQL {
-	SQLBridge * bridge;
-	SQLView * view;
-	NSError * sqlError;
-	NSString * dbPath;
-	
-	sqlError = nil;
-	dbPath   = [[NSBundle mainBundle] pathForResource:@"evedump" ofType:@"db"];
-	
-	if (dbPath) {
-		bridge = [[SQLBridge alloc] initWithPath:dbPath error:&sqlError];
-		
-		if (sqlError) {
-			NSLog(@"Error: %@\nCode: %lu", [sqlError localizedDescription], [sqlError code]);
-		}
-
-		NSLog(@"Views: %@\n", [bridge views]);
-		
-		for (view in [[bridge views] allValues]) {
-			if ([view loadValues]) {
-				NSLog(@"View %@:\n- Columns: %@\n- Data: %@\n", [view tableName], [view columns], [view rows]);
-			}
-			else {
-				sqlError = [[view bridge] lastError];
-				NSLog(@"Error: %@\nCode: %lu", [sqlError localizedDescription], [sqlError code]);
-			}
-		}
-		
-		[bridge release];
-	}
-	else NSLog(@"Path not found.");
-	
-	
+	dbTestWindow = nil;
 }
 
 - (IBAction)openDBTest:(id)aButton {
-	NSWindowController * con;
+	if (!dbTestWindow) {
+		dbTestWindow = [[NSWindowController alloc] initWithWindowNibName:@"DBTest"];
+		
+		[dbTestWindow loadWindow];
+	}
+	[[dbTestWindow window] makeKeyAndOrderFront:dbTestWindow];
 	
-	con = [[NSWindowController alloc] initWithWindowNibName:@"DBTest"];
-
-	[[self winControllers] addObject:con];
-	
-	[con loadWindow];
-
-	[[con window] makeKeyAndOrderFront:con];
-	[[con window] setReleasedWhenClosed:YES];
-	
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleCloseWindow:) name:NSWindowWillCloseNotification object:[con window]];
-	
-	[con release];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleCloseWindow:) name:NSWindowWillCloseNotification object:[dbTestWindow window]];
 }
 
 - (void)handleCloseWindow:(NSNotification *)notification {
-	NSWindowController * cursor;
-	BOOL found;
 
-	found = NO;
-	
-	for (cursor in [self winControllers]) {
-		if ([cursor window] == [notification object]) {
-			found = YES;
-			break;
-		}
-	}
-	
-	if (found) {
-		[[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowWillCloseNotification object:[cursor window]];
-		[[[cursor window] delegate] autorelease];
-		[[self winControllers] removeObject:cursor];
-	}
 }
 
 - (void)prepareDownloads {
@@ -240,6 +181,7 @@
 
 - (void)dealloc {
 	[URLList release];
+	[dbTestWindow release];
 	
 	[super dealloc];
 }

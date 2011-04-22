@@ -10,13 +10,17 @@
 
 @implementation SQLBridge
 
-@synthesize lastError, views;
+@synthesize lastError, views, delegate, trueViews;
 
 - (id)initWithPath:(NSString *)dbPath error:(NSError **)error{
 	int rc;
 	
     if ((self = [super init])) {
-		database = NULL;
+		database  = NULL;
+		[self clearError];
+		[self setDelegate:nil];
+		[self setViews:nil];
+		[self setTrueViews:nil];
 		
 		rc = sqlite3_open([dbPath UTF8String], &database);
 		
@@ -49,31 +53,80 @@
 						   nil];
 			
 			[self setViews:[NSMutableDictionary dictionary]];
-			
-			if (![self preloadViews] && error) {
-				(*error) = [self lastError];
-			}
-			
-			
 		}
     }
     
     return self;
 }
 
++ (id)bridgeWithPath:(NSString *)dbPath error:(NSError **)error {
+	return [[[self alloc] initWithPath:dbPath error:error] autorelease];
+}
+
 - (BOOL)preloadViews {
 	NSDictionary * queryResult, * row;
-	SQLView * newView;
+	id newView;
+	Class cls;
+	NSMutableArray * newTrueViews;
 	
-	queryResult = [self query:_Q_GET_VIEWS];
+	queryResult = [self query:_Q_GET_OBJECTS];
 	
 	if (queryResult) {
+		newTrueViews = [NSMutableArray array];
+		
 		for (row in [queryResult objectForKey:SQLBRIDGE_DATA]) {
-			newView = [SQLView viewWithBridge:self andTableName:[row objectForKey:_Q_VIEW_KEY]];
+			if ([[row objectForKey:_Q_TYPE_KEY] isEqualToString:@"view"]) {
+				cls = [self classForView:[row objectForKey:_Q_NAME_KEY]];
+
+				[newTrueViews addObject:[row objectForKey:_Q_NAME_KEY]];
+			}
+			else {
+				cls = [self classForTable:[row objectForKey:_Q_NAME_KEY]];
+			}
+			
+			newView = [cls viewWithBridge:self andTableName:[row objectForKey:_Q_NAME_KEY]];
+
 		}
+		
+		[self setTrueViews:newTrueViews];
 	}
 	
 	return !!queryResult;
+}
+
+- (Class)classForView:(NSString *)view {
+	Class cls;
+	
+	if ([[self delegate] respondsToSelector:@selector(classForView:)]) {
+		cls = [[self delegate] classForView:view];
+	}
+	else cls = [SQLView class];
+	
+	return cls;
+}
+
+- (Class)classForTable:(NSString *)table {
+	Class cls;
+	
+	if ([[self delegate] respondsToSelector:@selector(classForTable::)]) {
+		cls = [[self delegate] classForTable:table];
+	}
+	else cls = [SQLTable class];
+	
+	return cls;
+}
+
+- (BOOL)loadViewsValues {
+	SQLView * view;
+	BOOL success;
+	
+	for (view in [[self views] allValues]) {
+		success = [view loadValues];
+		
+		if (!success) break;
+	}
+	
+	return success;
 }
 
 - (NSDictionary *)query:(NSString *)sql, ... {
@@ -93,6 +146,10 @@
 	sqlite3_stmt * statement;
 	NSDictionary * result;
 	
+	[self clearError];
+	
+	NSLog(@"Query: %@", sql);
+	
 	statement = [self prepareStatement:sql withArgs:args];
 	
 	if (statement) result = [self performQuery:statement];
@@ -105,6 +162,10 @@
 	sqlite3_stmt * statement;
 	NSDictionary * result;
 	
+	[self clearError];
+	
+	NSLog(@"Query: %@", sql);
+	
 	statement = [self prepareStatement:sql withDictionary:args];
 	
 	if (statement) result = [self performQuery:statement];
@@ -116,6 +177,10 @@
 - (NSDictionary *)query:(NSString *)sql withArray:(NSArray *)args {
 	sqlite3_stmt * statement;
 	NSDictionary * result;
+	
+	[self clearError];
+	
+	NSLog(@"Query: %@", sql);
 	
 	statement = [self prepareStatement:sql withArray:args];
 	
@@ -195,6 +260,10 @@
 	BOOL success;
 	sqlite3_stmt * statement;
 	
+	[self clearError];
+	
+	NSLog(@"Execute: %@", sql);
+	
 	statement = [self prepareStatement:sql withArgs:args];
 	
 	if (statement) success = [self performExecute:statement];
@@ -208,6 +277,10 @@
 	BOOL success;
 	sqlite3_stmt * statement;
 	
+	[self clearError];
+
+	NSLog(@"Execute: %@", sql);
+
 	statement = [self prepareStatement:sql withDictionary:args];
 	
 	if (statement) success = [self performExecute:statement];
@@ -220,6 +293,10 @@
 - (BOOL)execute:(NSString *)sql withArray:(NSArray *)args {
 	BOOL success;
 	sqlite3_stmt * statement;
+	
+	[self clearError];
+
+	NSLog(@"Execute: %@", sql);
 	
 	statement = [self prepareStatement:sql withArray:args];
 	
@@ -316,10 +393,10 @@
 		
 		for (i = 1; (i <= count) && statement; i++) { // Parameters in SQLite begins at index 1
 			key = [[NSString alloc] initWithUTF8String:sqlite3_bind_parameter_name(statement, i)];
-			arg = [args objectForKey:key];
+			arg = [args objectForKey:[key substringWithRange:NSMakeRange(1, [key length] - 1)]];
 			
 			if (arg == nil) {
-				errorMsg = [NSString stringWithFormat:@"Value to bind paramenter \"%@\" not found in the dictionary:\n%@", key, args];
+				errorMsg = [NSString stringWithFormat:@"Value to bind parameter \"%@\" not found in the dictionary:\n%@", key, args];
 				[self setErrorWithDesc:errorMsg andCode:SQLBRIDGE_PARAMETER_NOT_FOUND];
 				sqlite3_finalize(statement);
 				statement = NULL;
@@ -471,12 +548,20 @@
 	}
 }
 
+- (NSNumber *)lastInsertRowID {
+	NSNumber * rowID;
+	
+	rowID = [NSNumber numberWithLong:sqlite3_last_insert_rowid(database)];
+	
+	return rowID;
+}
+
 - (void)setErrorWithDesc:(NSString *)description andCode:(long)code {
 	NSError * newError;
 	NSDictionary * errorInfo;
 	
 	errorInfo = [[NSDictionary alloc] initWithObjectsAndKeys:description, NSLocalizedDescriptionKey, nil];
-	newError  = [[NSError alloc] initWithDomain:@"SQLError" code:code userInfo:errorInfo];
+	newError  = [[NSError alloc] initWithDomain:SQLBRIDGE_DOMAIN code:code userInfo:errorInfo];
 	
 	[errorInfo release];
 	
@@ -499,15 +584,32 @@
 	[self setErrorToDatabaseErrorWithCode:code];
 }
 
+- (void)clearError {
+	[self setLastError:nil];
+}
+
+- (NSArray *)viewsNames {
+	return [[self views] allKeys];
+}
+
+- (NSArray *)viewsValues {
+	return [[self views] allValues];
+}
+
+- (void)attachViewsToArrayController:(NSArrayController *)controller {
+	[controller bind:@"contentArray" toObject:self withKeyPath:@"viewsValues" options:nil];
+}
 
 - (void)dealloc
 {
 	if (database) {
 		sqlite3_close(database);
 		[numberTypes release];
-		[self setViews:nil];
 	}
 	
+	[self setViews:nil];
+	[self setLastError:nil];
+	[self setDelegate:nil];
 	
     [super dealloc];
 }

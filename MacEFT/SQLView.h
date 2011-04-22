@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "SQLBridge.h"
 
 @class SQLBridge;
 
@@ -16,19 +15,45 @@
     NSString * tableName;
 	SQLBridge * bridge;
 	
-	NSArray * columns;
-	NSDictionary * rows;
+	NSArray * columns, * rows;
+	
+	NSArrayController * arrayController;
+	
+	BOOL containsData;
 }
 
 @property (readonly) NSString * tableName;
 @property (readonly) SQLBridge * bridge;
 
 @property (retain) NSArray * columns;
-@property (retain) NSDictionary * rows;
+@property (retain) NSArray * rows;
+
+@property (retain) NSArrayController * arrayController;
+
+@property (assign) BOOL containsData;
+
 
 - (id)initWithBridge:(SQLBridge *)aBridge andTableName:(NSString *)aTableName;
-+ (SQLView *) viewWithBridge:(SQLBridge *)aBridge andTableName:(NSString *)aTableName;
++ (id)viewWithBridge:(SQLBridge *)aBridge andTableName:(NSString *)aTableName;
 
 - (BOOL)loadValues;
 
+
+
+// UI
+
+- (void)attachToTableView:(NSTableView *)view;
+- (void)dettachFromTableView:(NSTableView *)view;
+- (void)attachToArrayController:(NSArrayController *)controller andTableView:(NSTableView *)view;
+- (void)dettachFromArrayController:(NSArrayController *)controller andTableView:(NSTableView *)view;
+- (NSString *)titleForColumn:(NSString *)column;
+- (NSDictionary *)bindingOptionsForArrayController;
+- (NSDictionary *)bindingOptionsForColumn:(NSString *)column;
+- (void)modifyPropertiesOfTableColumn:(NSTableColumn *)tableColumn forColumn:(NSString *)column;
+- (void)modifyPropertiesOfArrayController:(NSArrayController *)controller;
+- (void)modifyPropertiesOfTableView:(NSTableView *)tableView;
+
 @end
+
+#import "SQLBridge.h"
+// What is this, I don't even...

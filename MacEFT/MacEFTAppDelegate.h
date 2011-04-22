@@ -21,9 +21,7 @@
 	NSMutableDictionary * labels;
 
 	NSDictionary * indicators;
-	
-	NSMutableArray * winControllers;
-	
+	NSWindowController * dbTestWindow;
 }
 
 @property (assign) IBOutlet NSWindow *window;
@@ -32,10 +30,8 @@
 @property (retain) NSMutableDictionary * currentValues;
 @property (retain) NSMutableDictionary * labels;
 @property (retain) NSDictionary * indicators;
-@property (retain) NSMutableArray * winControllers;
 
 - (void)prepareDownloads;
-- (void)testSQL;
 - (IBAction)startDownloads:(id)aButton;
 - (IBAction)openDBTest:(id)aButton;
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context;
