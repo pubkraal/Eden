@@ -2,70 +2,45 @@
 //  SQLTable.h
 //  MacEFT
 //
-//  Created by ugo pozo on 4/21/11.
+//  Created by ugo pozo on 4/24/11.
 //  Copyright 2011 Netframe. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#import "SQLBridge.h"
+#import "SQLView.h"
 
 @class SQLBridge;
 
 @interface SQLTable : SQLView {
 @private
-    NSMutableArray * mutableRows;
 	NSDictionary * metadata;
-	NSString * numericPrimaryKey, * primaryKey;
-	NSLock * databaseAccessLock;
+	NSString * numericPrimaryKey;
+	NSArray * primaryKeys;
+	
+	NSDictionary * rowsByPK; 
 }
 
-@property (retain) NSMutableArray * rows;
 @property (retain) NSDictionary * metadata;
 @property (retain) NSString * numericPrimaryKey;
-@property (retain) NSString * primaryKey;
+@property (retain) NSArray * primaryKeys;
+@property (retain) NSDictionary * rowsByPK;
+@property (readonly) NSArray * metadataArray;
 
-// Initializers
+- (BOOL)loadMetadata;
+- (void)updateLookup;
 
-- (void)autoObserveRows:(NSArray *)rows;
-
-// Primitive Foreign Key
-
-- (NSObject *)referenceForRow:(NSMutableDictionary *)row;
-- (NSObject *)referenceForRowAtIndex:(NSUInteger)idx;
-
-// SQL Interface
-
-- (BOOL)performInsertRow:(NSMutableDictionary *)row;
-- (BOOL)performDeleteRow:(NSMutableDictionary *)row;
-- (BOOL)performUpdateRow:(NSMutableDictionary *)row withValue:(NSObject *)value forKey:(NSString *)key;
-
-// Convenience functions for insertion
-
-- (NSMutableDictionary *)emptyRow;
-- (NSMutableDictionary *)newRow;
-
-// Array accessors
-
-- (NSUInteger)countOfRows;
-- (id)objectInRowsAtIndex:(NSUInteger)idx;
-- (void)insertObject:(id)anObject inRowsAtIndex:(NSUInteger)idx;
-- (void)insertInRows:(id)anObject;
-- (void)removeObjectFromRowsAtIndex:(NSUInteger)idx;
-- (void)replaceObjectInRowsAtIndex:(NSUInteger)idx withObject:(id)anObject;
-- (NSUInteger)indexOfObjectInRows:(id)obj;
-
-// Observer convenience functions
-
-- (void)addObserverForRow:(NSMutableDictionary *)row;
-- (void)removeObserverForRow:(NSMutableDictionary *)row;
-- (void)addObserverForRowAtIndex:(NSUInteger)idx;
-- (void)removeObserverForRowAtIndex:(NSUInteger)idx;
-- (void)addObserverForAllRows;
-- (void)removeObserverForAllRows;
+- (NSArray *)keyForRow:(NSDictionary *)row;
+- (NSArray *)keyForRowAtIndex:(NSUInteger)idx;
+- (id)rowWithKey:(NSArray *)key;
+- (NSUInteger)indexOfRowWithKey:(NSArray *)key;
 
 
-// Clean up
+- (NSDictionary *)foreignObjectForKey:(NSString *)key inRow:(NSDictionary *)row;
+- (NSDictionary *)foreignObjectForKey:(NSString *)key inRowAtIndex:(NSUInteger)idx;
 
-- (void)dealloc;
+- (NSArray *)foreignObjectsInTable:(NSString *)tableName usingColumn:(NSString *)otherKey forRow:(NSDictionary *)row;
+- (NSArray *)foreignObjectsInTable:(NSString *)tableName usingColumn:(NSString *)otherKey forRowAtIndex:(NSUInteger)idx;
+- (NSArray *)foreignObjectsInTable:(NSString *)tableName usingPrimaryKeyForRow:(NSDictionary *)row;
+- (NSArray *)foreignObjectsInTable:(NSString *)tableName usingPrimaryKeyForRowAtIndex:(NSUInteger)idx;
 
 @end

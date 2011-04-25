@@ -6,7 +6,10 @@
 //  Copyright 2011 Netframe. All rights reserved.
 //
 
-#import "SQLBridge.h"
+#import "SQLBridge_object.h"
+#import "SQLView.h"
+#import "SQLTable.h"
+#import "SQLMutableTable.h"
 
 @implementation SQLBridge
 
@@ -31,27 +34,8 @@
 			
 			sqlite3_close(database);
 			database    = NULL;
-			numberTypes = nil;
 		}
 		else {
-			numberTypes = [[NSDictionary alloc] initWithObjectsAndKeys:\
-						   [NSNumber numberWithInt:SQLITE_INTEGER], @"BOOL", \
-						   [NSNumber numberWithInt:SQLITE_INTEGER], @"char", \
-						   [NSNumber numberWithInt:SQLITE_INTEGER], @"int", \
-						   [NSNumber numberWithInt:SQLITE_INTEGER], @"short", \
-						   [NSNumber numberWithInt:SQLITE_INTEGER], @"unsigned char", \
-						   [NSNumber numberWithInt:SQLITE_INTEGER], @"unsigned int", \
-						   [NSNumber numberWithInt:SQLITE_INTEGER], @"unsigned short", \
-						   [NSNumber numberWithInt:INTEGER64], @"long", \
-						   [NSNumber numberWithInt:INTEGER64], @"long long", \
-						   [NSNumber numberWithInt:INTEGER64], @"NSInteger", \
-						   [NSNumber numberWithInt:INTEGER64], @"unsigned long", \
-						   [NSNumber numberWithInt:INTEGER64], @"unsigned long long", \
-						   [NSNumber numberWithInt:INTEGER64], @"NSUInteger", \
-						   [NSNumber numberWithInt:SQLITE_FLOAT], @"double", \
-						   [NSNumber numberWithInt:SQLITE_FLOAT], @"float", \
-						   nil];
-			
 			[self setViews:[NSMutableDictionary dictionary]];
 		}
     }
@@ -90,7 +74,7 @@
 		
 		[self setTrueViews:newTrueViews];
 	}
-	
+
 	return !!queryResult;
 }
 
@@ -108,26 +92,82 @@
 - (Class)classForTable:(NSString *)table {
 	Class cls;
 	
-	if ([[self delegate] respondsToSelector:@selector(classForTable::)]) {
+	if ([[self delegate] respondsToSelector:@selector(classForTable:)]) {
 		cls = [[self delegate] classForTable:table];
 	}
-	else cls = [SQLTable class];
+	else cls = [SQLMutableTable class];
 	
 	return cls;
 }
 
-- (BOOL)loadViewsValues {
-	SQLView * view;
-	BOOL success;
+- (BOOL)shouldAutoloadView:(NSString *)viewName {
+	BOOL autoload;
 	
-	for (view in [[self views] allValues]) {
-		success = [view loadValues];
-		
-		if (!success) break;
+	if ([[self delegate] respondsToSelector:@selector(shouldAutoloadView:)]) {
+		autoload = [[self delegate] shouldAutoloadView:viewName];
 	}
+	else autoload = YES;
+	
+	return autoload;
+}
+
+- (BOOL)buildLookupForTable:(NSString *)table {
+	BOOL lookup;
+	
+	if ([[self delegate] respondsToSelector:@selector(buildLookupForTable:)]) {
+		lookup = [[self delegate] buildLookupForTable:table];
+	}
+	else lookup = YES;
+	
+	return lookup;
+}
+
+
+
+
+- (BOOL)loadViewsValues {
+	__block BOOL success;
+	
+	[[self views] enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL * stop) {
+		if ([self shouldAutoloadView:(NSString *)key]) {
+			success = [(SQLView *) obj loadValues];
+			*stop   = !success;
+		}
+	}];
 	
 	return success;
 }
+
+// Views
+
+
+- (SQLView *)makeView:(NSString *)viewName asQuery:(NSString *)sql {
+	NSString * query;
+	Class cls;
+	SQLView * view;
+
+	if ([[[self views] allKeys] indexOfObject:viewName] != NSNotFound) {
+		return [[self views] objectForKey:viewName];
+	}
+
+	query = [NSString stringWithFormat:_Q_TEMP_VIEW, viewName, sql];
+	
+	if ([self execute:query]) {
+		cls  = [self classForView:viewName];
+		view = [cls viewWithBridge:self andTableName:viewName];
+		
+		[[self trueViews] addObject:viewName];
+
+		[view loadValues];
+	}
+	else view = nil;
+
+	return view;
+
+}
+
+
+// Statements
 
 - (NSDictionary *)query:(NSString *)sql, ... {
 	va_list args;
@@ -224,7 +264,7 @@
 		
 		[row release];
 	}
-	
+
 	if (errCode == SQLITE_DONE) {
 		result = [NSDictionary dictionaryWithObjectsAndKeys:\
 				  [NSArray arrayWithArray:data], SQLBRIDGE_DATA, \
@@ -312,12 +352,9 @@
 	int errCode;
 	
 	errCode = sqlite3_step(statement);
-	
-	if ((errCode == SQLITE_DONE) || (errCode == SQLITE_ROW)) success = YES;
-	else {
-		[self setErrorToDatabaseError];
-		success = NO;
-	}
+	success = ((errCode == SQLITE_DONE) || (errCode == SQLITE_ROW));
+
+	if (!success) [self setErrorToDatabaseError];
 	
 	return success;
 }
@@ -435,7 +472,7 @@
 		}
 		
 		for (i = 1; (i <= count) && statement; i++) { // Parameters in SQLite begins at index 1
-			arg = [args objectAtIndex:i];
+			arg = [args objectAtIndex:i - 1];
 			
 			[self bindValue:arg toStatement:&statement atIndex:i];
 		}
@@ -495,8 +532,9 @@
 
 - (void)bindValue:(NSObject *)value toStatement:(sqlite3_stmt **)stmt_ptr atIndex:(int)i {
 	int errCode;
-	NSString * numberType;
+	const char * numberType;
 	sqlite3_stmt * statement;
+	long long tempInt;
 	
 	statement = *stmt_ptr;
 	
@@ -511,19 +549,30 @@
 		[self checkBindForStatement:stmt_ptr withCode:errCode];
 	}
 	else if ([value isKindOfClass:[NSNumber class]]) {
-		numberType = [NSString stringWithUTF8String:[(NSNumber *)value objCType]];
+		numberType = [(NSNumber *) value objCType];
 		
-		if ([[numberTypes objectForKey:numberType] intValue] == SQLITE_FLOAT) {
+		if (strchr("cislCISLB", *numberType)) {
+			tempInt = [(NSNumber *) value longLongValue];
+			
+			if (tempInt <= INT_MAX) {
+				errCode = sqlite3_bind_int(statement, i, [(NSNumber *) value intValue]);
+			}
+			else {
+				errCode = sqlite3_bind_int64(statement, i, (sqlite3_int64) tempInt);
+			}
+
+		}
+		else if (strchr("fd", *numberType)) {
 			errCode = sqlite3_bind_double(statement, i, [(NSNumber *) value doubleValue]);
+
 		}
-		else if ([[numberTypes objectForKey:numberType] intValue] == SQLITE_INTEGER) {
-			errCode = sqlite3_bind_int(statement, i, [(NSNumber *) value intValue]);
+		else {
+			[self setErrorWithDesc:[NSString stringWithFormat:@"Invalid type to interact with database: NSNumber with objCType %s", numberType] andCode:SQLBRIDGE_INVALID_TYPE];
+			sqlite3_finalize(statement);
+			*stmt_ptr = NULL;
 		}
-		else if ([[numberTypes objectForKey:numberType] intValue] == INTEGER64) {
-			errCode = sqlite3_bind_int64(statement, i, (sqlite3_int64) [(NSNumber *) value longLongValue]);
-		}
-		
-		[self checkBindForStatement:stmt_ptr withCode:errCode];
+
+		if (*stmt_ptr) [self checkBindForStatement:stmt_ptr withCode:errCode];
 	}
 	else if ([value isKindOfClass:[NSData class]]) {
 		if ([(NSData *) value length] > INT_MAX) {
@@ -555,6 +604,7 @@
 	
 	return rowID;
 }
+
 
 - (void)setErrorWithDesc:(NSString *)description andCode:(long)code {
 	NSError * newError;
@@ -604,7 +654,6 @@
 {
 	if (database) {
 		sqlite3_close(database);
-		[numberTypes release];
 	}
 	
 	[self setViews:nil];

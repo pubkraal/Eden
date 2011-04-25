@@ -18,7 +18,7 @@
 	NSArray * columns, * rows;
 	
 	NSArrayController * arrayController;
-	
+
 	BOOL containsData;
 }
 
@@ -32,13 +32,17 @@
 
 @property (assign) BOOL containsData;
 
-
 - (id)initWithBridge:(SQLBridge *)aBridge andTableName:(NSString *)aTableName;
 + (id)viewWithBridge:(SQLBridge *)aBridge andTableName:(NSString *)aTableName;
 
 - (BOOL)loadValues;
+- (void)doSetRows:(NSArray *)newRows;
 
+// Readonly array acessors
 
+- (NSUInteger)countOfRows;
+- (id)objectInRowsAtIndex:(NSUInteger)idx;
+- (NSUInteger)indexOfObjectInRows:(id)obj;
 
 // UI
 
@@ -55,5 +59,5 @@
 
 @end
 
-#import "SQLBridge.h"
-// What is this, I don't even...
+
+

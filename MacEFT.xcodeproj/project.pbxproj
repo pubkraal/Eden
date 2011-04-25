@@ -10,10 +10,12 @@
 		3A0197661343BD7200B40E81 /* EveDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A0197651343BD7200B40E81 /* EveDownload.m */; };
 		3A286A7D135FFD0E0089D6DB /* SQLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A286A7C135FFD0E0089D6DB /* SQLView.m */; };
 		3A28FC3E1361727800B251C6 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A28FC3D1361727800B251C6 /* libsqlite3.dylib */; };
+		3A5897B9136594F30064CEB8 /* evedump_notrans_nomaps.db in Resources */ = {isa = PBXBuildFile; fileRef = 3A5897B8136594F30064CEB8 /* evedump_notrans_nomaps.db */; };
 		3A7615E0135ED4FD005A191C /* evedump.db in Resources */ = {isa = PBXBuildFile; fileRef = 3A7615DF135ED4FD005A191C /* evedump.db */; };
 		3A7615E2135ED59D005A191C /* DBTest.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A7615E1135ED59D005A191C /* DBTest.xib */; };
 		3A7615E5135ED6E4005A191C /* DBTestDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A7615E4135ED6E4005A191C /* DBTestDelegate.m */; };
-		3AA8544A1361016F0099C073 /* SQLTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AA854491361016F0099C073 /* SQLTable.m */; };
+		3A7EA09A1364FF59002DCB5E /* SQLTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A7EA0991364FF59002DCB5E /* SQLTable.m */; };
+		3AA8544A1361016F0099C073 /* SQLMutableTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AA854491361016F0099C073 /* SQLMutableTable.m */; };
 		3AF0C5E9134FDAB500E47914 /* SQLBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AF0C5E8134FDAB500E47914 /* SQLBridge.m */; };
 		525B8A8A133BEB52006A3728 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 525B8A89133BEB52006A3728 /* Cocoa.framework */; };
 		525B8A94133BEB52006A3728 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 525B8A92133BEB52006A3728 /* InfoPlist.strings */; };
@@ -65,12 +67,16 @@
 		3A286A7B135FFD0E0089D6DB /* SQLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLView.h; sourceTree = "<group>"; };
 		3A286A7C135FFD0E0089D6DB /* SQLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQLView.m; sourceTree = "<group>"; };
 		3A28FC3D1361727800B251C6 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = ../../../../usr/lib/libsqlite3.dylib; sourceTree = "<group>"; };
+		3A5897B8136594F30064CEB8 /* evedump_notrans_nomaps.db */ = {isa = PBXFileReference; lastKnownFileType = file; name = evedump_notrans_nomaps.db; path = MacEFT/evedump_notrans_nomaps.db; sourceTree = "<group>"; };
 		3A7615DF135ED4FD005A191C /* evedump.db */ = {isa = PBXFileReference; lastKnownFileType = file; name = evedump.db; path = MacEFT/evedump.db; sourceTree = "<group>"; };
 		3A7615E1135ED59D005A191C /* DBTest.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DBTest.xib; sourceTree = "<group>"; };
 		3A7615E3135ED6E4005A191C /* DBTestDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBTestDelegate.h; sourceTree = "<group>"; };
 		3A7615E4135ED6E4005A191C /* DBTestDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBTestDelegate.m; sourceTree = "<group>"; };
-		3AA854481361016F0099C073 /* SQLTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLTable.h; sourceTree = "<group>"; };
-		3AA854491361016F0099C073 /* SQLTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQLTable.m; sourceTree = "<group>"; };
+		3A7EA0971364FEE1002DCB5E /* SQLMutableTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLMutableTable.h; sourceTree = "<group>"; };
+		3A7EA0981364FF59002DCB5E /* SQLTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLTable.h; sourceTree = "<group>"; };
+		3A7EA0991364FF59002DCB5E /* SQLTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQLTable.m; sourceTree = "<group>"; };
+		3A7EA09B13650448002DCB5E /* SQLBridge_object.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLBridge_object.h; sourceTree = "<group>"; };
+		3AA854491361016F0099C073 /* SQLMutableTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQLMutableTable.m; sourceTree = "<group>"; };
 		3AF0C5E7134FDAB500E47914 /* SQLBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLBridge.h; sourceTree = "<group>"; };
 		3AF0C5E8134FDAB500E47914 /* SQLBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQLBridge.m; sourceTree = "<group>"; };
 		525B8A85133BEB52006A3728 /* MacEFT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacEFT.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -165,8 +171,11 @@
 				3AF0C5E8134FDAB500E47914 /* SQLBridge.m */,
 				3A286A7B135FFD0E0089D6DB /* SQLView.h */,
 				3A286A7C135FFD0E0089D6DB /* SQLView.m */,
-				3AA854481361016F0099C073 /* SQLTable.h */,
-				3AA854491361016F0099C073 /* SQLTable.m */,
+				3A7EA0971364FEE1002DCB5E /* SQLMutableTable.h */,
+				3AA854491361016F0099C073 /* SQLMutableTable.m */,
+				3A7EA0981364FF59002DCB5E /* SQLTable.h */,
+				3A7EA0991364FF59002DCB5E /* SQLTable.m */,
+				3A7EA09B13650448002DCB5E /* SQLBridge_object.h */,
 			);
 			name = SQLBridge;
 			sourceTree = "<group>";
@@ -260,6 +269,7 @@
 		525B8ABD133BEBAD006A3728 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3A5897B8136594F30064CEB8 /* evedump_notrans_nomaps.db */,
 				3A7615DF135ED4FD005A191C /* evedump.db */,
 				526ED094133E3F2E00F26046 /* Windows */,
 				525B8ABE133BEBC1006A3728 /* README */,
@@ -420,6 +430,7 @@
 				5279180B133FB058009C694C /* LICENSE in Resources */,
 				3A7615E0135ED4FD005A191C /* evedump.db in Resources */,
 				3A7615E2135ED59D005A191C /* DBTest.xib in Resources */,
+				3A5897B9136594F30064CEB8 /* evedump_notrans_nomaps.db in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -481,7 +492,8 @@
 				3AF0C5E9134FDAB500E47914 /* SQLBridge.m in Sources */,
 				3A7615E5135ED6E4005A191C /* DBTestDelegate.m in Sources */,
 				3A286A7D135FFD0E0089D6DB /* SQLView.m in Sources */,
-				3AA8544A1361016F0099C073 /* SQLTable.m in Sources */,
+				3AA8544A1361016F0099C073 /* SQLMutableTable.m in Sources */,
+				3A7EA09A1364FF59002DCB5E /* SQLTable.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

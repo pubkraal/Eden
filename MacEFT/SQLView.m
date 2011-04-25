@@ -6,8 +6,10 @@
 //  Copyright 2011 Netframe. All rights reserved.
 //
 
+#import "SQLBridge_object.h"
 #import "SQLView.h"
-
+#import "SQLTable.h"
+#import "SQLMutableTable.h"
 
 @implementation SQLView
 
@@ -17,12 +19,13 @@
     if ((self = [super init])) {
 		tableName = [aTableName retain];
 		bridge    = aBridge; // Does NOT retain the bridge! The bridge is responsible for releasing US if it ever gets dealloc'ed.
-		[[bridge views] setValue:self forKey:aTableName];
+		[bridge setValue:self forKeyPath:[NSString stringWithFormat:@"views.%@", aTableName]];
 		
 		[self setColumns:nil];
 		[self setRows:nil];
 		[self setContainsData:NO];
 		[self setArrayController:nil];
+		
     }
     
     return self;
@@ -45,12 +48,12 @@
 	NSString * query;
 	NSArrayController * newController;
 	
-	query   = [NSString stringWithFormat:_Q_GET_DATA, [self tableName]];
-	results = [bridge query:query];
+	query       = [NSString stringWithFormat:_Q_GET_DATA, [self tableName]];
+	results     = [bridge query:query];
 	
 	if (results) {
 		[self setColumns:[results objectForKey:SQLBRIGDE_COLUMNS]];
-		[self setRows:[results objectForKey:SQLBRIDGE_DATA]];
+		[self doSetRows:[results objectForKey:SQLBRIDGE_DATA]];
 		
 		newController = [[NSArrayController alloc] init];
 		[self setArrayController:newController];
@@ -61,6 +64,30 @@
 	
 	return !!results;
 }
+
+- (void)doSetRows:(NSArray *)newRows {
+	[self setRows:newRows];
+}
+
+// Readonly array accessors
+
+
+- (NSUInteger)countOfRows {
+	return [rows count];
+}
+
+- (id)objectInRowsAtIndex:(NSUInteger)idx {
+	return [rows objectAtIndex:idx];
+}
+
+- (NSUInteger)indexOfObjectInRows:(id)obj {
+	return [rows indexOfObject:obj];
+}
+
+
+
+
+// UI
 
 
 - (void)attachToTableView:(NSTableView *)view {
@@ -81,7 +108,8 @@
 		[newColumn release];
 	}];
 	
-	[self modifyPropertiesOfTableView:view];}
+	[self modifyPropertiesOfTableView:view];
+}
 
 - (void)dettachFromTableView:(NSTableView *)view {
 	NSArray * tableColumns;
@@ -170,7 +198,6 @@
 	[controller retain];
 	[controller bind:@"contentArray" toObject:self withKeyPath:@"rows" options:[self bindingOptionsForArrayController]];
 
-	//[arrayController unbind:@"contentArray"];
 	[arrayController release];
 	
 	arrayController = controller;

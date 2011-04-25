@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "EveDownload.h"
-#import "SQLBridge.h"
+#import "SQLBridge_object.h"
 
 @interface MacEFTAppDelegate : NSObject <NSApplicationDelegate, EveDownloadDelegate> {
 @private

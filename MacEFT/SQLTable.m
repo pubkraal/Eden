@@ -2,419 +2,271 @@
 //  SQLTable.m
 //  MacEFT
 //
-//  Created by ugo pozo on 4/21/11.
+//  Created by ugo pozo on 4/24/11.
 //  Copyright 2011 Netframe. All rights reserved.
 //
 
+#import "SQLBridge_object.h"
+#import "SQLView.h"
 #import "SQLTable.h"
+#import "SQLMutableTable.h"
 
 
 @implementation SQLTable
 
-@synthesize rows = mutableRows, metadata, numericPrimaryKey, primaryKey;
+@synthesize metadata, numericPrimaryKey, primaryKeys, rowsByPK;
 
 - (id)initWithBridge:(SQLBridge *)aBridge andTableName:(NSString *)aTableName {
 	
 	if ((self = [super initWithBridge:aBridge andTableName:aTableName])) {
 		[self setMetadata:nil];
 		[self setNumericPrimaryKey:nil];
-		[self setPrimaryKey:nil];
-		
-		databaseAccessLock = [[NSLock alloc] init];
+		[self setPrimaryKeys:nil];
+		[self setRowsByPK:nil];
 	}
 	
 	return self;
 }
 
-- (BOOL)loadValues {
-	NSArrayController * newController;
-	NSDictionary * results, * metaResults;
-	NSString * query, * key;
-	
-	query       = [NSString stringWithFormat:_Q_GET_DATA, [self tableName]];
-	results     = [[self bridge] query:query];
-	query       = [NSString stringWithFormat:_Q_GET_METADATA, [self tableName]];
-	metaResults = [[self bridge] query:query];
-	
-	if (results && metaResults) {
-		[self setColumns:[results objectForKey:SQLBRIGDE_COLUMNS]];
-		[self setMetadata:[NSDictionary dictionaryWithObjects:[metaResults objectForKey:SQLBRIDGE_DATA] forKeys:[self columns]]];
+- (BOOL)loadMetadata {
+	NSDictionary * results, * fkResults, * info;
+	__block NSMutableDictionary * md, * fk;
+	NSMutableArray * pks;
+	NSString * query, * numPk;
+	__block NSString * key;
+
+	query     = [NSString stringWithFormat:_Q_GET_METADATA, [self tableName]];
+	results   = [[self bridge] query:query];
+	query     = [NSString stringWithFormat:_Q_GET_FOREIGN_KEYS, [self tableName]];
+	fkResults = [[self bridge] query:query];
+
+	if (fkResults) {
+		fk = [NSMutableDictionary dictionary];
+
+		[[fkResults objectForKey:SQLBRIDGE_DATA] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL * stop) {
+			NSDictionary * fkData;
+
+			fkData = [NSDictionary dictionaryWithObjectsAndKeys: \
+									[(NSDictionary *) obj objectForKey:_Q_FK_COLUMN_KEY], _Q_FK_COLUMN_KEY, \
+									[(NSDictionary *) obj objectForKey:_Q_FK_TABLE_KEY], _Q_FK_TABLE_KEY, \
+										nil];
+
+			[fk setObject:fkData forKey:[(NSDictionary *) obj objectForKey:_Q_FK_FROM_KEY]];
+		}];
+	}
+	else fk = nil;
+
+	if (results) {
+		md = [NSMutableDictionary dictionary];
+
+		[[results objectForKey:SQLBRIDGE_DATA] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL * stop) {
+			[md setValue:[NSMutableDictionary dictionaryWithDictionary:(NSDictionary *) obj] forKey:[[self columns] objectAtIndex:idx]];
+
+		}];
+
+		[self setMetadata:md];
+
+		//[self setMetadata:[NSDictionary dictionaryWithObjects:[results objectForKey:SQLBRIDGE_DATA] forKeys:[self columns]]];
 		
+		pks   = [NSMutableArray array];
+		numPk = nil;
+
 		for (key in [self columns]) {
 			if ([[[[self metadata] objectForKey:key] objectForKey:_Q_PK_KEY] boolValue]) {
-				[self setPrimaryKey:key];
+				[pks addObject:key];
 				
 				if ([[[[self metadata] objectForKey:key] objectForKey:_Q_TYPE_KEY] isEqualToString:@"integer"]) {
-					[self setNumericPrimaryKey:key];
+					numPk = key;
 				}
-				
-				break;
+			}
+
+			if (fk) {
+				info = [fk objectForKey:key];
+
+				if (info) {
+					[[[self metadata] objectForKey:key] setObject:[NSNumber numberWithBool:YES] forKey:_Q_FK_KEY];
+
+					[info enumerateKeysAndObjectsUsingBlock:^(id prop, id obj, BOOL * stop) {
+						[[[self metadata] objectForKey:key] setObject:obj forKey:prop];
+					}];
+				}
+				else [[[self metadata] objectForKey:key] setObject:[NSNumber numberWithBool:NO] forKey:_Q_FK_KEY];
 			}
 		}
-		
-		[self autoObserveRows:[results objectForKey:SQLBRIDGE_DATA]];
-		
-		newController = [[NSArrayController alloc] init];
-		[self setArrayController:newController];
-		[newController release];
+
+		if ([pks count] == 1) [self setNumericPrimaryKey:numPk];
+		[self setPrimaryKeys:[NSArray arrayWithArray:pks]];
 
 	}
-	
-	[self setContainsData:YES];
-	
-	return !!(results && metaResults);
+
+	return !!results;
 }
 
-- (void)autoObserveRows:(NSArray *)rows {
+- (NSArray *)metadataArray {
+	return [[self metadata] allValues];
+}
+
+- (void)doSetRows:(NSArray *)newRows {
+	if (![self metadata]) [self loadMetadata];
+
+	[self setRows:newRows];
+
+	if ([[self bridge] buildLookupForTable:[self tableName]]) [self updateLookup];
+}
+
+- (void)updateLookup {
+	NSArray * key;
+	NSMutableDictionary * lookup;
 	NSDictionary * row;
-	NSUInteger i, rowCount;
-	
-	if (mutableRows) {
-		[self removeObserverForAllRows];
-		[mutableRows release];
-	}
-	
-	mutableRows = [NSMutableArray arrayWithArray:rows];
-	rowCount    = [mutableRows count];
 
-	for (i = 0; i < rowCount; i++) {
-		row = [mutableRows objectAtIndex:i];
-		[mutableRows replaceObjectAtIndex:i withObject:[NSMutableDictionary dictionaryWithDictionary:row]];
-	}
-	
-	[self addObserverForAllRows];
-	
-	[self addObserver:self forKeyPath:@"rows" options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:nil];
-	
-}
+	lookup = [NSMutableDictionary dictionary];
 
-// Primitive foreign key
-
-- (NSObject *)referenceForRow:(NSMutableDictionary *)row {
-	NSUInteger idx;
-	NSObject * ref;
-	
-	idx = [[self rows] indexOfObject:row];
-	
-	if (idx != NSNotFound) ref = [self referenceForRowAtIndex:idx];
-	else ref = nil;
-	
-	return ref;
-}
-
-- (NSObject *)referenceForRowAtIndex:(NSUInteger)idx {
-	NSObject * ref;
-	NSMutableDictionary * row;
-	
-	row = [[self rows] objectAtIndex:idx];
-	ref = [row objectForKey:[self primaryKey]];
-	
-	return ref;
-}
-
-// SQL Interface
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-	__block NSMutableDictionary *row;
-	NSArray * oldRows, * newRows;
-	NSObject * oldValue, * newValue;
-	NSInteger changeType, idx;
-	NSIndexSet * indexes;
-	__block NSMutableArray * aIndexes;
-	__block BOOL success;
-	NSString * viewName;
-
-	changeType = [[change objectForKey:NSKeyValueChangeKindKey] intValue];
-	
-	[databaseAccessLock lock];
-	
-	if ((context) && (changeType == NSKeyValueChangeSetting)) {
-		row      = (NSMutableDictionary *) context;
-		oldValue = [change objectForKey:NSKeyValueChangeOldKey];
-		newValue = [change objectForKey:NSKeyValueChangeNewKey];
+	for (row in [self rows]) {
+		key = [row objectsForKeys:[self primaryKeys] notFoundMarker:[NSNull null]];
 		
-		if (![oldValue isEqualTo:newValue])	success = [self performUpdateRow:row withValue:newValue forKey:keyPath];
-		else success = YES;
-		
-		if (!success) {
-			idx = [[self rows] indexOfObject:row];
-			[self removeObserverForRowAtIndex:idx];
-			[row setValue:oldValue forKey:keyPath];
-			[self addObserverForRowAtIndex:idx];
-		}
-		
+		[lookup setObject:row forKey:key];
 	}
-	else {
-		oldRows  = [change objectForKey:NSKeyValueChangeOldKey];
-		newRows  = [change objectForKey:NSKeyValueChangeNewKey];
-		indexes  = [change objectForKey:NSKeyValueChangeIndexesKey];
-		aIndexes = [NSMutableArray array];
-		
-		[indexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
-			[aIndexes addObject:[NSNumber numberWithUnsignedLong:idx]];
-		}];
-		
 
-		if (changeType == NSKeyValueChangeInsertion) {
-			success = YES;
-			
-			[newRows enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-				row = (NSMutableDictionary *) obj;
-				
-				if (success) {
-					success = [self performInsertRow:row];
-
-					if (success) [self addObserverForRow:row];
-					else [mutableRows removeObject:row];
-				}
-				else [mutableRows removeObject:row];
-			}];
-
-		}
-		else if (changeType == NSKeyValueChangeRemoval) {
-			success = YES;
-			
-			[oldRows enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-				row = (NSMutableDictionary *) obj;
-				
-				if (success) {
-					success = [self performDeleteRow:row];
-					
-					if (success) [self removeObserverForRow:row];
-					else [mutableRows insertObject:row atIndex:[[aIndexes objectAtIndex:idx] unsignedLongValue]];
-				}
-				else [mutableRows insertObject:row atIndex:[[aIndexes objectAtIndex:idx] unsignedLongValue]];
-			}];
-		}
-		else if (changeType == NSKeyValueChangeReplacement) {
-			success = YES;
-			
-			[oldRows enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-				if (success) {
-					success = [self performDeleteRow:row];
-					
-					if (success) [self removeObserverForRow:row];
-					else [mutableRows insertObject:row atIndex:[[aIndexes objectAtIndex:idx] unsignedLongValue]];
-				}
-				else [mutableRows insertObject:row atIndex:[[aIndexes objectAtIndex:idx] unsignedLongValue]];
-			}];
-			
-			if (success) {
-				[newRows enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-					row = (NSMutableDictionary *) obj;
-					
-					if (success) {
-						success = [self performInsertRow:row];
-						
-						if (success) [self addObserverForRow:row];
-						else [mutableRows removeObject:row];
-					}
-					else [mutableRows removeObject:row];
-				}];
-			}
-			else {
-				[mutableRows insertObjects:oldRows atIndexes:indexes];
-			}
-		}
-	}
-	
-	[databaseAccessLock unlock];
-
-	
-	if (!success) {
-		NSLog(@"Error: %@", [[self bridge] lastError]);
-	}
-	else {
-		for (viewName in [[self bridge] trueViews]) {
-			[(SQLView *) [[[self bridge] views] objectForKey:viewName] loadValues];
-		}
-	}
+	[self setRowsByPK:[NSDictionary dictionaryWithDictionary:lookup]];
 }
 
-- (BOOL)performInsertRow:(NSMutableDictionary *)row {
-	BOOL success;
-	NSString * query;
-	
-	query = _QMakeInsert([self tableName], [row allKeys]);
-	
-	success = [[self bridge] execute:query withDictionary:row];
-	
-	if (success && [self numericPrimaryKey] && ([[row allKeys] indexOfObject:[self numericPrimaryKey]] == NSNotFound)) {
-		[row setValue:[[self bridge] lastInsertRowID] forKey:[self primaryKey]];
-	}
-	
-	return success;
+
+- (NSArray *)keyForRow:(NSDictionary *)row {
+	NSArray * key;
+
+	key = [row objectsForKeys:[self primaryKeys] notFoundMarker:[NSNull null]];
+
+	return key;
 }
 
-- (BOOL)performDeleteRow:(NSMutableDictionary *)row {
-	BOOL success;
-	NSString * query;
-	
-	query = _QMakeDelete([self tableName], [self primaryKey]);
-	
-	success = [[self bridge] execute:query, [row objectForKey:[self primaryKey]]];
-	
-	return success;
+- (NSArray *)keyForRowAtIndex:(NSUInteger)idx {
+	id row;
+
+	row = [self objectInRowsAtIndex:idx];
+
+	return [self keyForRow:row];
 }
 
-- (BOOL)performUpdateRow:(NSMutableDictionary *)row withValue:(NSObject *)value forKey:(NSString *)key {
-	BOOL success;
-	NSString * query;
-	
-	query = _QMakeUpdate([self tableName], [self primaryKey], key);
-	
-	success = [[self bridge] execute:query, value, [row objectForKey:[self primaryKey]]];
-	
-	return success;
-}
 
-// Convenience functions for insertion
+- (id)rowWithKey:(NSArray *)key {
+	id row;
 
-- (NSMutableDictionary *)emptyRow {
-	NSMutableDictionary * row;
-	NSString * key;
-	
-	row = [NSMutableDictionary dictionary];
-	
-	for (key in [self columns]) {
-		if (![key isEqualToString:[self numericPrimaryKey]]) [row setValue:[NSNull null] forKey:key];
-	}
-	
+	row = [[self rowsByPK] objectForKey:key];
+
 	return row;
 }
 
-- (NSMutableDictionary *)newRow {
-	NSMutableDictionary * newRow;
-	NSDictionary * colMeta;
-	NSString * key;
-	NSObject * defaultValue;
+
+- (NSUInteger)indexOfRowWithKey:(NSArray *)key {
+	id row;
+
+	row = [self rowWithKey:key];
+
+	return [self indexOfObjectInRows:row];
+}
+
+- (NSDictionary *)foreignObjectForKey:(NSString *)key inRow:(NSDictionary *)row {
+	NSDictionary * fObject, * fData;
+	SQLTable * fView;
+	NSString * fTable, * fKey;
+	NSArray * results;
+	NSPredicate * pred;
 	
-	newRow = [NSMutableDictionary dictionary];
+	fData = [[self metadata] objectForKey:key];
+
+	if (fData && [[fData objectForKey:_Q_FK_KEY] boolValue]) {
+		fTable = [fData objectForKey:_Q_FK_TABLE_KEY];
+		fKey   = [fData objectForKey:_Q_FK_COLUMN_KEY];
+		fView  = [[[self bridge] views] objectForKey:fTable];
 	
-	for (key in newRow) {
-		if ([key isEqualToString:[self numericPrimaryKey]]) continue;
-		
-		colMeta      = [[self metadata] objectForKey:key];
-		defaultValue = [colMeta objectForKey:_Q_DEFAULT_KEY];
-		
-		if ((defaultValue == [NSNull null]) && ([colMeta objectForKey:_Q_NOTNULL_KEY])) {
-			return nil;
+		if (([[fView primaryKeys] count] == 1) && ([fKey isEqualToString:[[fView primaryKeys] objectAtIndex:0]])) {
+			fObject = [fView rowWithKey:[NSArray arrayWithObject:[row objectForKey:key]]];
+		}
+		else {
+			pred    = [NSPredicate predicateWithFormat:@"SELF.%@ == %@", fKey, [row objectForKey:key]];
+			results = [[fView rows] filteredArrayUsingPredicate:pred];
+
+			if ([results count] == 1) fObject = [results objectAtIndex:0];
+			else fObject = nil;
 		}
 		
-		[newRow setValue:defaultValue forKey:key];
 	}
-	
-	[self insertInRows:newRow];
-	
-	return newRow;
+	else fObject = nil;
+
+	return fObject;
 }
 
-
-
-// Accessors
-
-- (NSUInteger)countOfRows {
-	return [mutableRows count];
-}
-
-- (id)objectInRowsAtIndex:(NSUInteger)idx {
-	return [mutableRows objectAtIndex:idx];
-}
-
-- (void)insertObject:(id)anObject inRowsAtIndex:(NSUInteger)idx {
-	[mutableRows insertObject:anObject atIndex:idx];
-}
-
-- (void)insertInRows:(id)anObject {
-	[self insertObject:anObject inRowsAtIndex:[self countOfRows]];
-}
-
-- (void)removeObjectFromRowsAtIndex:(NSUInteger)idx {
-	[mutableRows removeObjectAtIndex:idx];
-}
-
-- (void)replaceObjectInRowsAtIndex:(NSUInteger)idx withObject:(id)anObject {
-	[mutableRows replaceObjectAtIndex:idx withObject:anObject];
-}
-
-- (NSUInteger)indexOfObjectInRows:(id)obj {
-	return [mutableRows indexOfObject:obj];
-}
-
-- (void)addObserverForRow:(NSMutableDictionary *)row {
-	NSString * key;
-	
-	for (key in [self columns]) {
-		[row addObserver:self forKeyPath:key options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:row];
-	}
-}
-
-- (void)removeObserverForRow:(NSMutableDictionary *)row {
-	NSString * key;
-	
-	for (key in [self columns]) {
-		[row removeObserver:self forKeyPath:key];
-	}
-}
-
-- (void)addObserverForRowAtIndex:(NSUInteger)idx {
-	NSMutableDictionary * row;
-	
-	row = [self objectInRowsAtIndex:idx];
-	
-	[self addObserverForRow:row];
-}
-
-- (void)removeObserverForRowAtIndex:(NSUInteger)idx {
-	NSMutableDictionary * row;
+- (NSDictionary *)foreignObjectForKey:(NSString *)key inRowAtIndex:(NSUInteger)idx {
+	NSDictionary * row;
 
 	row = [self objectInRowsAtIndex:idx];
-	
-	[self removeObserverForRow:row];
+
+	return [self foreignObjectForKey:key inRow:row];
 }
 
-- (void)addObserverForAllRows {
-	NSUInteger idx, count;
+- (NSArray *)foreignObjectsInTable:(NSString *)tableName usingColumn:(NSString *)otherKey forRow:(NSDictionary *)row {
+	NSPredicate * pred;
+	NSDictionary * fData, * info;
+	NSArray * fObjects;
+	SQLTable * table;
+	NSString * selfKey;
 	
-	count = [self countOfRows];
-	
-	for (idx = 0; idx < count; idx++) {
-		[self addObserverForRowAtIndex:idx];
+	if (    ([[[self bridge] viewsNames] indexOfObject:tableName] != NSNotFound) &&
+			([[[self bridge] trueViews] indexOfObject:tableName] == NSNotFound)   ) {
+		table = [[[self bridge] views] objectForKey:tableName];
+		fData = [table metadata];
+		info  = [fData objectForKey:otherKey];
+
+		if (info && [[info objectForKey:_Q_FK_TABLE_KEY] isEqualToString:[self tableName]]) {
+			selfKey  = [info objectForKey:_Q_FK_COLUMN_KEY];
+			pred     = [NSPredicate predicateWithFormat:@"SELF.%@ == %@", otherKey, [row objectForKey:selfKey]];
+			fObjects = [[table rows] filteredArrayUsingPredicate:pred];
+
+		}
+		else fObjects = nil;
 	}
+	else fObjects = nil;
+
+	return fObjects;
 }
 
-- (void)removeObserverForAllRows {
-	NSUInteger idx, count;
 
-	count = [self countOfRows];
+- (NSArray *)foreignObjectsInTable:(NSString *)tableName usingColumn:(NSString *)otherKey forRowAtIndex:(NSUInteger)idx {
+	NSDictionary * row;
 
-	for (idx = 0; idx < count; idx++) {
-		[self removeObserverForRowAtIndex:idx];
+	row = [self objectInRowsAtIndex:idx];
+
+	return [self foreignObjectsInTable:tableName usingColumn:otherKey forRow:row];
+	
+}
+
+- (NSArray *)foreignObjectsInTable:(NSString *)tableName usingPrimaryKeyForRow:(NSDictionary *)row {
+	NSArray * obj;
+	
+	if ([[self primaryKeys] count] == 1) {
+		obj = [self foreignObjectsInTable:tableName usingColumn:[[self primaryKeys] objectAtIndex:0] forRow:row];
 	}
+	else obj = nil;
+	
+	return obj;
 }
 
-// UI
+- (NSArray *)foreignObjectsInTable:(NSString *)tableName usingPrimaryKeyForRowAtIndex:(NSUInteger)idx {
+	NSDictionary * row;
 
-- (void)modifyPropertiesOfArrayController:(NSArrayController *)controller {
-	[controller setEditable:YES];
+	row = [self objectInRowsAtIndex:idx];
+
+	return [self foreignObjectsInTable:tableName usingPrimaryKeyForRow:row];
 }
 
-- (void)modifyPropertiesOfTableColumn:(NSTableColumn *)tableColumn forColumn:(NSString *)column {
-	[tableColumn setEditable:(![column isEqualToString:[self primaryKey]])];
-}
-
-// Clean up
 
 - (void)dealloc {
-	[self removeObserver:self forKeyPath:@"rows"];
-	[self removeObserverForAllRows];
 	[self setMetadata:nil];
 	[self setNumericPrimaryKey:nil];
-	[self setPrimaryKey:nil];
-	[databaseAccessLock release];
-	
-	
-	[super dealloc];
+	[self setPrimaryKeys:nil];
+	[self setRowsByPK:nil];
+
+    [super dealloc];
 }
 
 @end
