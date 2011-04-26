@@ -18,6 +18,7 @@
 	NSArray * columns, * rows;
 	
 	NSArrayController * arrayController;
+	NSDictionary * metadata;
 
 	BOOL containsData;
 }
@@ -29,6 +30,8 @@
 @property (retain) NSArray * rows;
 
 @property (retain) NSArrayController * arrayController;
+@property (retain) NSDictionary * metadata;
+@property (readonly) NSArray * metadataArray;
 
 @property (assign) BOOL containsData;
 
@@ -36,6 +39,7 @@
 + (id)viewWithBridge:(SQLBridge *)aBridge andTableName:(NSString *)aTableName;
 
 - (BOOL)loadValues;
+- (BOOL)loadMetadata;
 - (void)doSetRows:(NSArray *)newRows;
 
 // Readonly array acessors
@@ -43,6 +47,12 @@
 - (NSUInteger)countOfRows;
 - (id)objectInRowsAtIndex:(NSUInteger)idx;
 - (NSUInteger)indexOfObjectInRows:(id)obj;
+
+// Filtering
+
+- (NSArray *)filteredRowsWithPredicate:(NSPredicate *)predicate;
+- (NSArray *)filteredRowsWithPredicateFormat:(NSString *)format, ...;
+- (NSArray *)predicateEditorRowTemplates;
 
 // UI
 

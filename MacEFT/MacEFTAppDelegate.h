@@ -21,7 +21,7 @@
 	NSMutableDictionary * labels;
 
 	NSDictionary * indicators;
-	NSWindowController * dbTestWindow;
+	NSWindowController * dumpNavWindow;
 }
 
 @property (assign) IBOutlet NSWindow *window;
@@ -33,12 +33,10 @@
 
 - (void)prepareDownloads;
 - (IBAction)startDownloads:(id)aButton;
-- (IBAction)openDBTest:(id)aButton;
+- (IBAction)openDumpNav:(id)aButton;
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context;
 
 - (void)updateWithData:(id)theData;
-
-- (void)handleCloseWindow:(NSNotification *)notification;
 
 - (void)dealloc;
 @end

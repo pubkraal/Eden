@@ -14,12 +14,11 @@
 
 @implementation SQLTable
 
-@synthesize metadata, numericPrimaryKey, primaryKeys, rowsByPK;
+@synthesize numericPrimaryKey, primaryKeys, rowsByPK;
 
 - (id)initWithBridge:(SQLBridge *)aBridge andTableName:(NSString *)aTableName {
 	
 	if ((self = [super initWithBridge:aBridge andTableName:aTableName])) {
-		[self setMetadata:nil];
 		[self setNumericPrimaryKey:nil];
 		[self setPrimaryKeys:nil];
 		[self setRowsByPK:nil];
@@ -66,8 +65,6 @@
 
 		[self setMetadata:md];
 
-		//[self setMetadata:[NSDictionary dictionaryWithObjects:[results objectForKey:SQLBRIDGE_DATA] forKeys:[self columns]]];
-		
 		pks   = [NSMutableArray array];
 		numPk = nil;
 
@@ -102,13 +99,9 @@
 	return !!results;
 }
 
-- (NSArray *)metadataArray {
-	return [[self metadata] allValues];
-}
+
 
 - (void)doSetRows:(NSArray *)newRows {
-	if (![self metadata]) [self loadMetadata];
-
 	[self setRows:newRows];
 
 	if ([[self bridge] buildLookupForTable:[self tableName]]) [self updateLookup];
@@ -164,6 +157,12 @@
 
 	return [self indexOfObjectInRows:row];
 }
+
+
+
+
+
+
 
 - (NSDictionary *)foreignObjectForKey:(NSString *)key inRow:(NSDictionary *)row {
 	NSDictionary * fObject, * fData;
@@ -261,7 +260,6 @@
 
 
 - (void)dealloc {
-	[self setMetadata:nil];
 	[self setNumericPrimaryKey:nil];
 	[self setPrimaryKeys:nil];
 	[self setRowsByPK:nil];

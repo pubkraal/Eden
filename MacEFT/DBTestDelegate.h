@@ -14,6 +14,8 @@
 @interface DBTestDelegate : NSObject <SQLBridgeDelegate> {
 @private
 	IBOutlet NSWindow * win;
+	IBOutlet NSPanel * filtersView;
+	IBOutlet NSPopUpButtonCell * tablesCell;
 	IBOutlet NSWindowController * parent;
 	IBOutlet NSArrayController * dataController;
 	IBOutlet NSTableHeaderView * headerView;
@@ -21,13 +23,18 @@
 	IBOutlet NSTableView * metaTV;
 	IBOutlet NSArrayController * errorController;
 	IBOutlet NSArrayController * metaController;
-	NSMutableArray * data;
+	IBOutlet NSPredicateEditor * predEdit;
+	IBOutlet NSProgressIndicator * loadingControl;
+	NSPredicate * currentPred;
 	NSMutableArray * errors;
 	SQLBridge * bridge;
 	NSString * selectedView;
+
+	BOOL everythingEnabled;
 }
 
 @property (assign) NSWindow * win;
+@property (assign) NSPanel * filtersView;
 @property (assign) NSWindowController * parent;
 @property (assign) NSArrayController * dataController;
 @property (assign) NSArrayController * errorController;
@@ -35,17 +42,26 @@
 @property (assign) NSTableHeaderView * headerView;
 @property (assign) NSTableView * tableView;
 @property (assign) NSTableView * metaTV;
-@property (retain) NSString * selectedView;
+@property (assign) NSPredicateEditor * predEdit;
+@property (assign) NSPopUpButtonCell * tablesCell;
+@property (assign) NSProgressIndicator * loadingControl;
 
 @property (retain) NSMutableArray * errors;
-@property (retain) NSMutableArray * data;
 @property (retain) SQLBridge * bridge;
+@property (retain) NSString * selectedView;
+@property (retain) NSPredicate * currentPred;
+
+@property (assign) BOOL everythingEnabled;
 
 - (void)awakeFromNib;
+- (void)loadBridge:(id)sender;
+- (void)alertEnded:(NSAlert *)alert code:(int)choide context:(void *)context;
+- (void)postAwakeFromNib:(id)msg;
+- (void)loadBridgeValues:(id)sender;
+- (void)postBridgeValues:(id)msg;
 - (void)dealloc;
 
 - (IBAction)reloadValues:(id)sender;
-- (void)attachMetadata:(SQLTable *)table;
-- (void)dettachMetadata:(SQLTable *)table;
+- (IBAction)toggleFiltersWindow:(id)sender;
 
 @end

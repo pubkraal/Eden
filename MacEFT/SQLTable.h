@@ -13,20 +13,16 @@
 
 @interface SQLTable : SQLView {
 @private
-	NSDictionary * metadata;
 	NSString * numericPrimaryKey;
 	NSArray * primaryKeys;
 	
 	NSDictionary * rowsByPK; 
 }
 
-@property (retain) NSDictionary * metadata;
 @property (retain) NSString * numericPrimaryKey;
 @property (retain) NSArray * primaryKeys;
 @property (retain) NSDictionary * rowsByPK;
-@property (readonly) NSArray * metadataArray;
 
-- (BOOL)loadMetadata;
 - (void)updateLookup;
 
 - (NSArray *)keyForRow:(NSDictionary *)row;

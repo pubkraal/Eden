@@ -16,23 +16,19 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 	[self prepareDownloads];
-	dbTestWindow = nil;
+	dumpNavWindow = nil;
 }
 
-- (IBAction)openDBTest:(id)aButton {
-	if (!dbTestWindow) {
-		dbTestWindow = [[NSWindowController alloc] initWithWindowNibName:@"DBTest"];
+- (IBAction)openDumpNav:(id)aButton {
+	if (!dumpNavWindow) {
+		dumpNavWindow = [[NSWindowController alloc] initWithWindowNibName:@"DBTest"];
 		
-		[dbTestWindow loadWindow];
+		[dumpNavWindow loadWindow];
 	}
-	[[dbTestWindow window] makeKeyAndOrderFront:dbTestWindow];
+	[[dumpNavWindow window] makeKeyAndOrderFront:dumpNavWindow];
 	
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleCloseWindow:) name:NSWindowWillCloseNotification object:[dbTestWindow window]];
 }
 
-- (void)handleCloseWindow:(NSNotification *)notification {
-
-}
 
 - (void)prepareDownloads {
 	[self setMaxValues:[NSMutableDictionary dictionaryWithObjectsAndKeys:\
@@ -181,7 +177,7 @@
 
 - (void)dealloc {
 	[URLList release];
-	[dbTestWindow release];
+	[dumpNavWindow release];
 	
 	[super dealloc];
 }

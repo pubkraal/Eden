@@ -28,8 +28,6 @@
 	NSDictionary * row;
 	NSUInteger i, rowCount;
 
-	if (![self metadata]) [self loadMetadata];
-	
 	if (mutableRows) {
 		[self removeObserverForAllRows];
 		[mutableRows release];

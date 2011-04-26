@@ -88,6 +88,15 @@
 									<reference key="NSOnImage" ref="35465992"/>
 									<reference key="NSMixedImage" ref="502551668"/>
 								</object>
+								<object class="NSMenuItem" id="674256732">
+									<reference key="NSMenu" ref="110575045"/>
+									<string key="NSTitle">EVE Dump Navigator...</string>
+									<string key="NSKeyEquiv">;</string>
+									<int key="NSKeyEquivModMask">1048576</int>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="35465992"/>
+									<reference key="NSMixedImage" ref="502551668"/>
+								</object>
 								<object class="NSMenuItem" id="609285721">
 									<reference key="NSMenu" ref="110575045"/>
 									<string key="NSTitle">Preferences…</string>
@@ -1325,7 +1334,7 @@
 			<object class="NSWindowTemplate" id="972006081">
 				<int key="NSWindowStyleMask">15</int>
 				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{335, 390}, {671, 517}}</string>
+				<string key="NSWindowRect">{{181, 354}, {671, 517}}</string>
 				<int key="NSWTFlags">1954021376</int>
 				<string key="NSWindowTitle">MacEFT</string>
 				<string key="NSWindowClass">NSWindow</string>
@@ -1524,7 +1533,7 @@
 							<string key="NSFrame">{{142, 143}, {177, 32}}</string>
 							<reference key="NSSuperview" ref="439893737"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="1014044573"/>
+							<reference key="NSNextKeyView"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="70141123">
 								<int key="NSCellFlags">67239424</int>
@@ -1532,28 +1541,6 @@
 								<string key="NSContents">Test Butan Best Butan</string>
 								<reference key="NSSupport" ref="143343493"/>
 								<reference key="NSControlView" ref="949092674"/>
-								<int key="NSButtonFlags">-2038284033</int>
-								<int key="NSButtonFlags2">129</int>
-								<string key="NSAlternateContents"/>
-								<string key="NSKeyEquivalent"/>
-								<int key="NSPeriodicDelay">200</int>
-								<int key="NSPeriodicInterval">25</int>
-							</object>
-						</object>
-						<object class="NSButton" id="1014044573">
-							<reference key="NSNextResponder" ref="439893737"/>
-							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{364, 143}, {109, 32}}</string>
-							<reference key="NSSuperview" ref="439893737"/>
-							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
-							<bool key="NSEnabled">YES</bool>
-							<object class="NSButtonCell" key="NSCell" id="590602606">
-								<int key="NSCellFlags">67239424</int>
-								<int key="NSCellFlags2">134217728</int>
-								<string key="NSContents">DB Testing</string>
-								<reference key="NSSupport" ref="143343493"/>
-								<reference key="NSControlView" ref="1014044573"/>
 								<int key="NSButtonFlags">-2038284033</int>
 								<int key="NSButtonFlags2">129</int>
 								<string key="NSAlternateContents"/>
@@ -2559,11 +2546,11 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">openDBTest:</string>
+						<string key="label">openDumpNav:</string>
 						<reference key="source" ref="976324537"/>
-						<reference key="destination" ref="1014044573"/>
+						<reference key="destination" ref="674256732"/>
 					</object>
-					<int key="connectionID">639</int>
+					<int key="connectionID">641</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -2905,6 +2892,7 @@
 							<reference ref="1046388886"/>
 							<reference ref="1056857174"/>
 							<reference ref="342932134"/>
+							<reference ref="674256732"/>
 						</object>
 						<reference key="parent" ref="694149608"/>
 					</object>
@@ -3132,7 +3120,6 @@
 							<reference ref="1037308476"/>
 							<reference ref="58634728"/>
 							<reference ref="949092674"/>
-							<reference ref="1014044573"/>
 						</object>
 						<reference key="parent" ref="972006081"/>
 					</object>
@@ -3751,18 +3738,9 @@
 						<reference key="parent" ref="949092674"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">637</int>
-						<reference key="object" ref="1014044573"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="590602606"/>
-						</object>
-						<reference key="parent" ref="439893737"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">638</int>
-						<reference key="object" ref="590602606"/>
-						<reference key="parent" ref="1014044573"/>
+						<int key="objectID">640</int>
+						<reference key="object" ref="674256732"/>
+						<reference key="parent" ref="110575045"/>
 					</object>
 				</object>
 			</object>
@@ -4017,8 +3995,7 @@
 					<string>573.IBPluginDependency</string>
 					<string>58.IBPluginDependency</string>
 					<string>58.ImportedFromIB2</string>
-					<string>637.IBPluginDependency</string>
-					<string>638.IBPluginDependency</string>
+					<string>640.IBPluginDependency</string>
 					<string>72.IBPluginDependency</string>
 					<string>72.ImportedFromIB2</string>
 					<string>73.IBPluginDependency</string>
@@ -4297,7 +4274,6 @@
 					<integer value="1"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
@@ -4337,7 +4313,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">639</int>
+			<int key="maxID">641</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -4349,7 +4325,7 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>openDBTest:</string>
+							<string>openDumpNav:</string>
 							<string>startDownloads:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
@@ -4362,13 +4338,13 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>openDBTest:</string>
+							<string>openDumpNav:</string>
 							<string>startDownloads:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBActionInfo">
-								<string key="name">openDBTest:</string>
+								<string key="name">openDumpNav:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
