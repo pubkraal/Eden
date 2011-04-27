@@ -29,6 +29,8 @@
 - (void)parseData:(NSString *)XMLdata {
     self.data = XMLdata;
 
+    NSLog(@"%@", data);
+    
     // Herpherp read XML, turn into Dictionary, herpherp
 }
 
