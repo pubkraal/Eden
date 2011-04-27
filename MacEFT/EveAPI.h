@@ -16,9 +16,6 @@
 #import "EveAPIResult.h"
 #import "EveDownload.h"
 
-// For use of this lib look at http://code.google.com/p/json-framework/
-#import "JSON.h"
-
 #define API_REQUIRED_FULL 1<<0;
 #define API_REQUIRED_LIMITED 1<<1;
 #define BASE_URL "https://api.eveonline.com"
@@ -26,7 +23,7 @@
 
 typedef unsigned int uint;
 
-@interface EveAPI : NSObject {
+@interface EveAPI : EveDownload {
 
 }
 

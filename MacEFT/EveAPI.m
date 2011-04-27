@@ -9,7 +9,7 @@
 #import "EveAPI.h"
 
 
-@implementation EveAPI : NSObject {
+@implementation EveAPI : EveDownload {
 
 }
 - (NSString *)buildRequestURL:(NSString *)group method:(NSString *)method {
