@@ -188,7 +188,7 @@
 	
 	[self clearError];
 	
-	NSLog(@"Query: %@", sql);
+	SQLBRIDGE_CONDLOG(@"Query: %@", sql);
 	
 	statement = [self prepareStatement:sql withArgs:args];
 	
@@ -204,7 +204,7 @@
 	
 	[self clearError];
 	
-	NSLog(@"Query: %@", sql);
+	SQLBRIDGE_CONDLOG(@"Query: %@", sql);
 	
 	statement = [self prepareStatement:sql withDictionary:args];
 	
@@ -220,7 +220,7 @@
 	
 	[self clearError];
 	
-	NSLog(@"Query: %@", sql);
+	SQLBRIDGE_CONDLOG(@"Query: %@", sql);
 	
 	statement = [self prepareStatement:sql withArray:args];
 	
@@ -302,7 +302,7 @@
 	
 	[self clearError];
 	
-	NSLog(@"Execute: %@", sql);
+	SQLBRIDGE_CONDLOG(@"Execute: %@", sql);
 	
 	statement = [self prepareStatement:sql withArgs:args];
 	
@@ -319,7 +319,7 @@
 	
 	[self clearError];
 
-	NSLog(@"Execute: %@", sql);
+	SQLBRIDGE_CONDLOG(@"Execute: %@", sql);
 
 	statement = [self prepareStatement:sql withDictionary:args];
 	
@@ -336,7 +336,7 @@
 	
 	[self clearError];
 
-	NSLog(@"Execute: %@", sql);
+	SQLBRIDGE_CONDLOG(@"Execute: %@", sql);
 	
 	statement = [self prepareStatement:sql withArray:args];
 	
@@ -644,10 +644,6 @@
 
 - (NSArray *)viewsValues {
 	return [[self views] allValues];
-}
-
-- (void)attachViewsToArrayController:(NSArrayController *)controller {
-	[controller bind:@"contentArray" toObject:self withKeyPath:@"viewsValues" options:nil];
 }
 
 - (void)dealloc

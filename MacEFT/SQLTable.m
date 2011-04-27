@@ -94,6 +94,9 @@
 		if ([pks count] == 1) [self setNumericPrimaryKey:numPk];
 		[self setPrimaryKeys:[NSArray arrayWithArray:pks]];
 
+
+		[self setPredicateEditorRowTemplates:[self generatePredicateEditorRowTemplates]];
+
 	}
 
 	return !!results;

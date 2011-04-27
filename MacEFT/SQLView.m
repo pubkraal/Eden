@@ -13,7 +13,7 @@
 
 @implementation SQLView
 
-@synthesize tableName, bridge, columns, rows, containsData, arrayController, metadata;
+@synthesize tableName, bridge, columns, rows, containsData, arrayController, metadata, predicateEditorRowTemplates;
 
 - (id)initWithBridge:(SQLBridge *)aBridge andTableName:(NSString *)aTableName {
     if ((self = [super init])) {
@@ -26,7 +26,9 @@
 		[self setContainsData:NO];
 		[self setArrayController:nil];
 		[self setMetadata:nil];
+		[self setPredicateEditorRowTemplates:nil];
 		
+		tableViewColumns = nil;
     }
     
     return self;
@@ -62,6 +64,8 @@
 		[newController release];
 	}
 
+	[tableViewColumns enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL * stop) { [(NSTableColumn *) obj unbind:@"value"]; }];
+
 	[self setContainsData:YES];
 	
 	return !!results;
@@ -76,6 +80,7 @@
 
 	if (results) {
 		[self setMetadata:[NSDictionary dictionaryWithObjects:[results objectForKey:SQLBRIDGE_DATA] forKeys:[self columns]]];
+		[self setPredicateEditorRowTemplates:[self generatePredicateEditorRowTemplates]];
 	}
 
 	return !!results;
@@ -133,7 +138,7 @@
 	return filtered;
 }
 
-- (NSArray *)predicateEditorRowTemplates {
+- (NSArray *)generatePredicateEditorRowTemplates {
 	__block NSMutableArray * strExpr, * numExpr;
 	NSMutableArray * templates;
 	NSArray * strComp, * numComp;
@@ -187,85 +192,88 @@
 
 // UI
 
+- (void)bindTableViewColumnsToController:(NSArrayController *)controller tableView:(NSTableView *)tableView {
+	__block NSMutableArray * newColumns;
+	__block NSTableColumn * newColumn, * column;
+
+	if (!tableViewColumns) {
+		newColumns = [[NSMutableArray alloc] init];
+
+		[[self columns] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+			newColumn = [[NSTableColumn alloc] initWithIdentifier:obj];
+			[[newColumn headerCell] setStringValue:[self titleForColumn:(NSString *) obj]];
+			
+			[newColumn bind:@"value"
+				   toObject:controller
+				withKeyPath:[NSString stringWithFormat:@"arrangedObjects.%@", (NSString *)obj]
+					options:[self bindingOptionsForColumn:(NSString *)obj]];
+
+			[newColumns addObject:newColumn];
+			[tableView addTableColumn:newColumn];
+			
+			[self modifyPropertiesOfTableColumn:newColumn forColumn:(NSString *)obj];
+
+			[newColumn release];
+		}];
+
+		tableViewColumns = [[NSArray alloc] initWithArray:newColumns];
+
+		[newColumns release];
+	}
+	else {
+		[[self columns] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+			NSDictionary * bindingInfo;
+
+			column      = [tableViewColumns objectAtIndex:idx];
+			bindingInfo = [column infoForBinding:@"value"];
+
+			if (!bindingInfo || ![[bindingInfo objectForKey:NSObservedObjectKey] isEqual:controller]) {
+				[column bind:@"value"
+					   toObject:controller
+					withKeyPath:[NSString stringWithFormat:@"arrangedObjects.%@", (NSString *)obj]
+						options:[self bindingOptionsForColumn:(NSString *)obj]];
+			}
+
+			[tableView addTableColumn:column];
+
+			[self modifyPropertiesOfTableColumn:column forColumn:(NSString *)obj];
+		}];
+	}
+}
+
 
 - (void)attachToTableView:(NSTableView *)view {
-	__block NSTableColumn * newColumn;
-	
-	[[self columns] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-		newColumn = [[NSTableColumn alloc] initWithIdentifier:obj];
-		[[newColumn headerCell] setStringValue:[self titleForColumn:(NSString *) obj]];
-		
-		[newColumn bind:@"value"
-			   toObject:[self arrayController]
-			withKeyPath:[NSString stringWithFormat:@"arrangedObjects.%@", (NSString *)obj]
-				options:[self bindingOptionsForColumn:(NSString *)obj]];
-		
-		[view addTableColumn:newColumn];
-		[self modifyPropertiesOfTableColumn:newColumn forColumn:(NSString *)obj];
-		
-		[newColumn release];
-	}];
-	
+	[self bindTableViewColumnsToController:[self arrayController] tableView:view];
+
 	[self modifyPropertiesOfTableView:view];
 }
 
-- (void)dettachFromTableView:(NSTableView *)view {
-	NSArray * tableColumns;
-	
-	tableColumns = [view tableColumns];
-	
-	[tableColumns enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-		NSTableColumn * column = (NSTableColumn *) obj;
-		
-		[column unbind:@"value"];
-	}];
-	
-	while ([tableColumns count] > 0) {
-		[view removeTableColumn:[tableColumns objectAtIndex:0]];
-	}
-}
+- (void)dettach {
+	[tableViewColumns enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		NSTableView * view;
+		NSTableColumn * column;
 
+		column = (NSTableColumn *) obj;
+		view   = [column tableView];
+
+		[view removeTableColumn:column];
+	}];
+
+}
 
 - (void)attachToArrayController:(NSArrayController *)controller andTableView:(NSTableView *)view {
-	__block NSTableColumn * newColumn;
-	
 	[controller bind:@"contentArray" toObject:self withKeyPath:@"rows" options:[self bindingOptionsForArrayController]];
 	[self modifyPropertiesOfArrayController:controller];
-	
-	[[self columns] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-		newColumn = [[NSTableColumn alloc] initWithIdentifier:obj];
-		[[newColumn headerCell] setStringValue:[self titleForColumn:(NSString *) obj]];
-		
-		[newColumn bind:@"value"
-			   toObject:controller
-			withKeyPath:[NSString stringWithFormat:@"arrangedObjects.%@", (NSString *)obj]
-				options:[self bindingOptionsForColumn:(NSString *)obj]];
-		
-		[view addTableColumn:newColumn];
-		[self modifyPropertiesOfTableColumn:newColumn forColumn:(NSString *)obj];
-		
-		[newColumn release];
-	}];
+
+	[self bindTableViewColumnsToController:controller tableView:view];
 	
 	[self modifyPropertiesOfTableView:view];
 }
 
-- (void)dettachFromArrayController:(NSArrayController *)controller andTableView:(NSTableView *)view {
-	NSArray * tableColumns;
-	
+- (void)dettachFromArrayController:(NSArrayController *)controller {
 	[controller unbind:@"contentArray"];
 
-	tableColumns = [view tableColumns];
-	
-	[tableColumns enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-		NSTableColumn * column = (NSTableColumn *) obj;
-		
-		[column unbind:@"value"];
-	}];
-	
-	while ([tableColumns count] > 0) {
-		[view removeTableColumn:[tableColumns objectAtIndex:0]];
-	}
+	[self dettach];
 }
 
 - (NSString *)titleForColumn:(NSString *)column {
@@ -310,11 +318,13 @@
 
 - (void)dealloc {
 	[tableName release];
+	[tableViewColumns release];
 	
 	[self setColumns:nil];
 	[self setRows:nil];
 	[self setArrayController:nil];
 	[self setMetadata:nil];
+	[self setPredicateEditorRowTemplates:nil];
 	
     [super dealloc];
 }

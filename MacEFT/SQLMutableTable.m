@@ -181,7 +181,7 @@
 
 	
 	if (!success) {
-		NSLog(@"Error: %@", [[self bridge] lastError]);
+		SQLBRIDGE_CONDLOG(@"Error: %@", [[self bridge] lastError]);
 	}
 	else {
 		for (viewName in [[self bridge] trueViews]) {

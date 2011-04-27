@@ -21,7 +21,7 @@
 
 - (IBAction)openDumpNav:(id)aButton {
 	if (!dumpNavWindow) {
-		dumpNavWindow = [[NSWindowController alloc] initWithWindowNibName:@"DBTest"];
+		dumpNavWindow = [[NSWindowController alloc] initWithWindowNibName:@"DumpNavigator"];
 		
 		[dumpNavWindow loadWindow];
 	}

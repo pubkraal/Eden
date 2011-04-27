@@ -19,6 +19,8 @@
 	
 	NSArrayController * arrayController;
 	NSDictionary * metadata;
+	NSArray * predicateEditorRowTemplates;
+	NSArray * tableViewColumns;
 
 	BOOL containsData;
 }
@@ -31,6 +33,7 @@
 
 @property (retain) NSArrayController * arrayController;
 @property (retain) NSDictionary * metadata;
+@property (retain) NSArray * predicateEditorRowTemplates;
 @property (readonly) NSArray * metadataArray;
 
 @property (assign) BOOL containsData;
@@ -52,14 +55,17 @@
 
 - (NSArray *)filteredRowsWithPredicate:(NSPredicate *)predicate;
 - (NSArray *)filteredRowsWithPredicateFormat:(NSString *)format, ...;
-- (NSArray *)predicateEditorRowTemplates;
+- (NSArray *)generatePredicateEditorRowTemplates;
 
 // UI
 
+- (void)bindTableViewColumnsToController:(NSArrayController *)controller tableView:(NSTableView *)tableView;
+
 - (void)attachToTableView:(NSTableView *)view;
-- (void)dettachFromTableView:(NSTableView *)view;
+- (void)dettach;
 - (void)attachToArrayController:(NSArrayController *)controller andTableView:(NSTableView *)view;
-- (void)dettachFromArrayController:(NSArrayController *)controller andTableView:(NSTableView *)view;
+- (void)dettachFromArrayController:(NSArrayController *)controller;
+
 - (NSString *)titleForColumn:(NSString *)column;
 - (NSDictionary *)bindingOptionsForArrayController;
 - (NSDictionary *)bindingOptionsForColumn:(NSString *)column;

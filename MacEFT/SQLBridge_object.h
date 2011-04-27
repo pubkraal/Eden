@@ -45,6 +45,14 @@
 #define _Q_FK_COLUMN_KEY @"to"
 #define _Q_FK_TABLE_KEY @"table"
 
+//#define SQLBRIDGE_LOGGING
+
+#ifdef SQLBRIDGE_LOGGING
+#define SQLBRIDGE_CONDLOG(format, ...) NSLog(format, ##__VA_ARGS__)
+#else
+#define SQLBRIDGE_CONDLOG(format, ...)
+#endif
+
 @class SQLView;
 
 @protocol SQLBridgeDelegate <NSObject>
@@ -86,6 +94,9 @@
 + (id)bridgeWithPath:(NSString *)dbPath error:(NSError **)error;
 - (BOOL)preloadViews;
 - (BOOL)loadViewsValues;
+
+// Delegate methods
+
 - (Class)classForView:(NSString *)view;
 - (Class)classForTable:(NSString *)table;
 - (BOOL)shouldAutoloadView:(NSString *)viewName;
@@ -129,9 +140,6 @@
 - (void)setErrorToDatabaseError;
 - (void)clearError;
 
-// UI
-
-- (void)attachViewsToArrayController:(NSArrayController *)controller;
 
 
 // Closing

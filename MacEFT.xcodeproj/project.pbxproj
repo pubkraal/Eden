@@ -12,8 +12,8 @@
 		3A28FC3E1361727800B251C6 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A28FC3D1361727800B251C6 /* libsqlite3.dylib */; };
 		3A5897B9136594F30064CEB8 /* evedump_notrans_nomaps.db in Resources */ = {isa = PBXBuildFile; fileRef = 3A5897B8136594F30064CEB8 /* evedump_notrans_nomaps.db */; };
 		3A7615E0135ED4FD005A191C /* evedump.db in Resources */ = {isa = PBXBuildFile; fileRef = 3A7615DF135ED4FD005A191C /* evedump.db */; };
-		3A7615E2135ED59D005A191C /* DBTest.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A7615E1135ED59D005A191C /* DBTest.xib */; };
-		3A7615E5135ED6E4005A191C /* DBTestDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A7615E4135ED6E4005A191C /* DBTestDelegate.m */; };
+		3A7615E2135ED59D005A191C /* DumpNavigator.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A7615E1135ED59D005A191C /* DumpNavigator.xib */; };
+		3A7615E5135ED6E4005A191C /* DumpNavigatorDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A7615E4135ED6E4005A191C /* DumpNavigatorDelegate.m */; };
 		3A7EA09A1364FF59002DCB5E /* SQLTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A7EA0991364FF59002DCB5E /* SQLTable.m */; };
 		3AA8544A1361016F0099C073 /* SQLMutableTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AA854491361016F0099C073 /* SQLMutableTable.m */; };
 		3AF0C5E9134FDAB500E47914 /* SQLBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AF0C5E8134FDAB500E47914 /* SQLBridge.m */; };
@@ -69,9 +69,9 @@
 		3A28FC3D1361727800B251C6 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = ../../../../usr/lib/libsqlite3.dylib; sourceTree = "<group>"; };
 		3A5897B8136594F30064CEB8 /* evedump_notrans_nomaps.db */ = {isa = PBXFileReference; lastKnownFileType = file; name = evedump_notrans_nomaps.db; path = MacEFT/evedump_notrans_nomaps.db; sourceTree = "<group>"; };
 		3A7615DF135ED4FD005A191C /* evedump.db */ = {isa = PBXFileReference; lastKnownFileType = file; name = evedump.db; path = MacEFT/evedump.db; sourceTree = "<group>"; };
-		3A7615E1135ED59D005A191C /* DBTest.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DBTest.xib; sourceTree = "<group>"; };
-		3A7615E3135ED6E4005A191C /* DBTestDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBTestDelegate.h; sourceTree = "<group>"; };
-		3A7615E4135ED6E4005A191C /* DBTestDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBTestDelegate.m; sourceTree = "<group>"; };
+		3A7615E1135ED59D005A191C /* DumpNavigator.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DumpNavigator.xib; sourceTree = "<group>"; };
+		3A7615E3135ED6E4005A191C /* DumpNavigatorDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; path = DumpNavigatorDelegate.h; sourceTree = "<group>"; };
+		3A7615E4135ED6E4005A191C /* DumpNavigatorDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DumpNavigatorDelegate.m; sourceTree = "<group>"; };
 		3A7EA0971364FEE1002DCB5E /* SQLMutableTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLMutableTable.h; sourceTree = "<group>"; };
 		3A7EA0981364FF59002DCB5E /* SQLTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLTable.h; sourceTree = "<group>"; };
 		3A7EA0991364FF59002DCB5E /* SQLTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQLTable.m; sourceTree = "<group>"; };
@@ -228,8 +228,8 @@
 				525B8A9B133BEB52006A3728 /* MacEFTAppDelegate.h */,
 				525B8A9C133BEB52006A3728 /* MacEFTAppDelegate.m */,
 				525B8A90133BEB52006A3728 /* Supporting Files */,
-				3A7615E3135ED6E4005A191C /* DBTestDelegate.h */,
-				3A7615E4135ED6E4005A191C /* DBTestDelegate.m */,
+				3A7615E3135ED6E4005A191C /* DumpNavigatorDelegate.h */,
+				3A7615E4135ED6E4005A191C /* DumpNavigatorDelegate.m */,
 			);
 			path = MacEFT;
 			sourceTree = "<group>";
@@ -282,7 +282,7 @@
 			isa = PBXGroup;
 			children = (
 				525B8A9E133BEB52006A3728 /* MainMenu.xib */,
-				3A7615E1135ED59D005A191C /* DBTest.xib */,
+				3A7615E1135ED59D005A191C /* DumpNavigator.xib */,
 			);
 			name = Windows;
 			sourceTree = "<group>";
@@ -429,7 +429,7 @@
 				525B8ABF133BEBC1006A3728 /* README in Resources */,
 				5279180B133FB058009C694C /* LICENSE in Resources */,
 				3A7615E0135ED4FD005A191C /* evedump.db in Resources */,
-				3A7615E2135ED59D005A191C /* DBTest.xib in Resources */,
+				3A7615E2135ED59D005A191C /* DumpNavigator.xib in Resources */,
 				3A5897B9136594F30064CEB8 /* evedump_notrans_nomaps.db in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -490,7 +490,7 @@
 				525C81371340FDCF008316B7 /* EveAPIResult.m in Sources */,
 				3A0197661343BD7200B40E81 /* EveDownload.m in Sources */,
 				3AF0C5E9134FDAB500E47914 /* SQLBridge.m in Sources */,
-				3A7615E5135ED6E4005A191C /* DBTestDelegate.m in Sources */,
+				3A7615E5135ED6E4005A191C /* DumpNavigatorDelegate.m in Sources */,
 				3A286A7D135FFD0E0089D6DB /* SQLView.m in Sources */,
 				3AA8544A1361016F0099C073 /* SQLMutableTable.m in Sources */,
 				3A7EA09A1364FF59002DCB5E /* SQLTable.m in Sources */,
