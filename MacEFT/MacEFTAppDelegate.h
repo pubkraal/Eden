@@ -34,6 +34,7 @@
 - (void)prepareDownloads;
 - (IBAction)startDownloads:(id)aButton;
 - (IBAction)openDumpNav:(id)aButton;
+- (IBAction)doSomeSchmancyDictionaryWork:(id)aButton;
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context;
 
 - (void)updateWithData:(id)theData;

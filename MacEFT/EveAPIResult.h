@@ -16,9 +16,8 @@
 #import <Foundation/Foundation.h>
 
 
-@interface EveAPIResult : NSObject {
-@private
-    
+@interface EveAPIResult : NSDictionary {
+
 }
 
 @end

@@ -73,6 +73,26 @@
 	
 }
 
+- (IBAction)doSomeSchmancyDictionaryWork:(id)aButton {
+    // Really, I haven't a clue what to do with dictionaries.
+    
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *d2 = [[NSMutableDictionary alloc] init];
+    
+    [dict setObject:@"John" forKey:@"Test"];
+    [dict setObject:@"Can I fit any object here? How about another dict?" forKey:@"Errm"];
+    
+    [d2 setObject:@"Another dictionary yay" forKey:@"Test2"];
+    [dict setObject:d2 forKey:@"aDict"];
+    [dict setObject:@"Wouldn't you know. Amazing!" forKey:@"Teehee"];
+    
+    NSLog(@"%@", dict);
+    NSArray *keys = [dict allKeys];
+    for (NSString *key in keys) {
+        NSLog(@"%@ is %@", key, [dict objectForKey:key]);
+    }
+}
+
 - (IBAction)startDownloads:(id)aButton {
 	EveDownload * download;
 	NSProgressIndicator * indic;
