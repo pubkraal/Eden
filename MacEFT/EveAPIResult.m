@@ -26,4 +26,12 @@
     [super dealloc];
 }
 
+- (void)parseData:(NSString *)XMLdata {
+    self.data = XMLdata;
+
+    // Herpherp read XML, turn into Dictionary, herpherp
+}
+
+@synthesize data;
+
 @end

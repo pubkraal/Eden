@@ -16,8 +16,12 @@
 #import <Foundation/Foundation.h>
 
 
-@interface EveAPIResult : NSDictionary {
-
+@interface EveAPIResult : NSObject {
+    NSString *data;
 }
+
+@property(retain) NSString *data;
+
+- (void)parseData:(NSString *)XMLdata;
 
 @end

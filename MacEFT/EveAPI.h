@@ -21,12 +21,19 @@
 
 #define API_REQUIRED_FULL 1<<0;
 #define API_REQUIRED_LIMITED 1<<1;
+#define BASE_URL "https://api.eveonline.com"
+#define BASE_URL_TEST "https://apitest.eveonline.com"
 
 typedef unsigned int uint;
 
 @interface EveAPI : NSObject {
-    
+
 }
+
+/**
+ * Utility calls
+ */
+- (NSString *)buildRequestURL:(NSString *)group method:(NSString *)method;
 
 /**
  * Account calls.
