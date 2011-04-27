@@ -14,9 +14,13 @@
 
 #import <Foundation/Foundation.h>
 #import "EveAPIResult.h"
+#import "EveDownload.h"
 
 // For use of this lib look at http://code.google.com/p/json-framework/
 #import "JSON.h"
+
+#define API_REQUIRED_FULL 1<<0;
+#define API_REQUIRED_LIMITED 1<<1;
 
 typedef unsigned int uint;
 
@@ -27,7 +31,7 @@ typedef unsigned int uint;
 /**
  * Account calls.
  */
-- (EveAPIResult *)listCharacters;
+- (EveAPIResult *)listCharacters:(uint)userID apiKey:(NSString*)apiKey;
 - (EveAPIResult *)accountStatus:(uint)userID apiKey:(NSString*)apiKey;
 
 /**
@@ -58,7 +62,31 @@ typedef unsigned int uint;
 
 /**
  * Corporation calls
+ * 
+ * All these calls are prefixed with "corp" since they have the same goddamn
+ * name as the character counterparts. :ccp:
  */
+- (EveAPIResult *)corpAccountBalances:(uint)userID apiKey:(NSString*)apiKey characterID:(uint)characterID;
+- (EveAPIResult *)corpAssetList:(uint)userID apiKeyapiKey:(NSString*)apiKey characterID:(uint)characterID;
+- (EveAPIResult *)corpContactList:(uint)userID apiKeyapiKey:(NSString*)apiKey characterID:(uint)characterID;
+- (EveAPIResult *)corpContainerLog:(uint)userID apiKeyapiKey:(NSString*)apiKey characterID:(uint)characterID;
+- (EveAPIResult *)corporationSheet:(uint)userID apiKeyapiKey:(NSString*)apiKey characterID:(uint)characterID;
+- (EveAPIResult *)corpFactionalWarfareStatus:(uint)userID apiKeyapiKey:(NSString*)apiKey characterID:(uint)characterID;
+- (EveAPIResult *)corpIndustryJobs:(uint)userID apiKeyapiKey:(NSString*)apiKey characterID:(uint)characterID;
+- (EveAPIResult *)corpKillLog:(uint)userID apiKeyapiKey:(NSString*)apiKey characterID:(uint)characterID;
+- (EveAPIResult *)corpMarketOrders:(uint)userID apiKeyapiKey:(NSString*)apiKey characterID:(uint)characterID;
+- (EveAPIResult *)corpMedals:(uint)userID apiKeyapiKey:(NSString*)apiKey characterID:(uint)characterID;
+- (EveAPIResult *)corpMemberMedals:(uint)userID apiKeyapiKey:(NSString*)apiKey characterID:(uint)characterID;
+- (EveAPIResult *)corpMemberSecurity:(uint)userID apiKeyapiKey:(NSString*)apiKey characterID:(uint)characterID;
+- (EveAPIResult *)corpMemberSecurityLog:(uint)userID apiKeyapiKey:(NSString*)apiKey characterID:(uint)characterID;
+- (EveAPIResult *)corpMemberTracking:(uint)userID apiKeyapiKey:(NSString*)apiKey characterID:(uint)characterID;
+- (EveAPIResult *)corpOutpostList:(uint)userID apiKeyapiKey:(NSString*)apiKey characterID:(uint)characterID;
+- (EveAPIResult *)corpShareholders:(uint)userID apiKeyapiKey:(NSString*)apiKey characterID:(uint)characterID;
+- (EveAPIResult *)corpStandings:(uint)userID apiKeyapiKey:(NSString*)apiKey characterID:(uint)characterID;
+- (EveAPIResult *)corpStarbaseDetail:(uint)userID apiKeyapiKey:(NSString*)apiKey characterID:(uint)characterID;
+- (EveAPIResult *)corpStarbaseList:(uint)userID apiKeyapiKey:(NSString*)apiKey characterID:(uint)characterID;
+- (EveAPIResult *)corpWalletJournal:(uint)userID apiKeyapiKey:(NSString*)apiKey characterID:(uint)characterID;
+- (EveAPIResult *)corpWalletTransactions:(uint)userID apiKeyapiKey:(NSString*)apiKey characterID:(uint)characterID;
 
 /**
  * Eve
@@ -78,13 +106,17 @@ typedef unsigned int uint;
 /**
  * Map
  */
-
-/**
- * Misc
- */
+- (EveAPIResult *)factionalWarfareSystem;
+- (EveAPIResult *)jumps;
+- (EveAPIResult *)kills;
+- (EveAPIResult *)sovereignty;
+// This shouldn't return anything, please review
+// http://www.eveonline.com/ingameboard.asp?a=topic&threadID=1228297
+- (EveAPIResult *)sovereigntyStatus;
 
 /**
  * Server
  */
+- (EveAPIResult *)serverStatus;
 
 @end
