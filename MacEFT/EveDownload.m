@@ -11,7 +11,7 @@
 
 @implementation EveDownloadInfo
 
-@synthesize URL, error, expectedLength, receivedLength, result, connection;
+@synthesize URL, error, expectedLength, receivedLength, result, connection, postBody;
 
 - (id)initWithURLString:(NSString *) url {
 	if ((self = [super init])) {
@@ -24,6 +24,8 @@
 		[self setReceivedLength:0L];
 		
 		[self setConnection:nil];
+
+		[self setPostBody:nil];
 	}
 	
 	return self;
@@ -33,11 +35,54 @@
 	return [NSData dataWithData:[self result]];
 }
 
+- (void)setPostBodyToString:(NSString *)string withEncoding:(NSStringEncoding)encoding {
+	NSData * data;
+	
+	if ([string canBeConvertedToEncoding:encoding]) {
+		string = [string stringByAddingPercentEscapesUsingEncoding:encoding];
+		data   = [string dataUsingEncoding:encoding];		
+		
+		[self setPostBody:data];
+	}
+}
+
+- (void)setPostBodyToUTF8String:(NSString *)string {
+	[self setPostBodyToString:string withEncoding:NSUTF8StringEncoding];
+}
+
+- (void)setPostBodyToDict:(NSDictionary *)dict {
+	__block NSMutableArray * data;
+	__block NSString * keyPair, * key;
+
+	data = [NSMutableArray array];
+
+	[dict enumerateKeysAndObjectsUsingBlock:^(id idKey, id obj, BOOL * stop) {
+		key = (NSString *) idKey;
+
+		if ([obj isKindOfClass:[NSArray class]]) {
+			[(NSArray *) obj enumerateObjectsUsingBlock:^(id deepObj, NSUInteger idx, BOOL * stop) {
+				keyPair = [NSString stringWithFormat:@"%@=%@", key, [deepObj description]];
+
+				[data addObject:keyPair];
+			}];
+		}
+		else {
+			keyPair = [NSString stringWithFormat:@"%@=%@", key, [obj description]];
+
+			[data addObject:keyPair];
+		}
+	}];
+
+	[self setPostBodyToUTF8String:[data componentsJoinedByString:@";"]];
+}
+
+
 - (void)dealloc {
 	[self setURL:nil];
 	[self setError:nil];
 	[self setResult:nil];
 	[self setConnection:nil];
+	[self setPostBody:nil];
 	
 	[super dealloc];
 }
@@ -75,8 +120,14 @@
 	return self;
 }
 
++ (id)downloadWithURLList:(NSDictionary *)urls {
+	return [[[self alloc] initWithURLList:urls] autorelease];
+}
+
+
 - (void)start {
 	NSURLRequest * request;
+	NSMutableURLRequest * mutableRequest;
 	NSURLConnection * connection;
 	NSURL * url;
 	EveDownloadInfo * info;
@@ -84,8 +135,20 @@
 	non_finished = (unsigned) [downloads count];
 	
 	for (info in [downloads allValues]) {
-		url        = [NSURL URLWithString:[info URL]];
-		request    = [[NSURLRequest alloc] initWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:30.0];
+		url = [NSURL URLWithString:[info URL]];
+
+		if (![info postBody]) {
+			request = [[NSURLRequest alloc] initWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:30.0];
+		}
+		else {
+			mutableRequest = [[NSMutableURLRequest alloc] initWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:30.0];
+			
+			[mutableRequest setHTTPMethod:@"POST"];
+			[mutableRequest setHTTPBody:[info postBody]];
+
+			request = (NSURLRequest *) mutableRequest;
+		}
+
 		connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
 		
 		[info setConnection:connection];

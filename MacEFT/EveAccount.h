@@ -9,8 +9,15 @@
 #import <Foundation/Foundation.h>
 
 
-@interface Account : NSObject {
+@interface EveAccount : NSObject {
+@private
+	NSString * userID;
+	NSString * apiKey;
+	BOOL isFullAPI;
     
 }
+
+@property (retain) NSString * userID, * apiKey;
+@property (assign) BOOL isFullAPI;
 
 @end

@@ -13,7 +13,6 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "EveAPIResult.h"
 #import "EveDownload.h"
 
 #define API_REQUIRED_FULL 1<<0;
@@ -21,11 +20,52 @@
 #define BASE_URL "https://api.eveonline.com"
 #define BASE_URL_TEST "https://apitest.eveonline.com"
 
+@class EveAPIResult;
+@class EveCharacter;
+
 typedef unsigned int uint;
 
-@interface EveAPI : EveDownload {
+@protocol APIDelegate <NSObject>
 
+- (void)receivedModels:(NSArray *) forTypes:(NSArray *)types;
+
+@optional
+
+- (void)receivedModel:(id)model forType:(Class)type;
+
+@end
+
+@interface EveAPI : NSObject <EveDownloadDelegate> {
+@private
+	EveCharacter * character;
+	id <APIDelegate> delegate;
 }
+
+@property (retain) EveCharacter * character;
+@property (assign) id <APIDelegate> delegate;
+
+// We don't need an EveAPI stand-alone object running all the time so that
+// we can call API functions from it. We should create them on the fly,
+// as needed, input a EveCharacter object into it, and remove all the
+// apiKey/characterID parameters from the methods (since they can be
+// pulled from character.account.apiKey and character.characterID,
+// respectively).
+//
+// Also, if we get the API to pull all the necessary data for the character
+// at once, we should use fewer methods, such as:
+
+- (void)retrieveLimitedData;
+- (void)retrieveFullData;
+- (void)retrieveAssets;
+- (void)retrieveMarketOrders;
+
+// There may be a little redundance here, but we can figure it out later.
+// Also, I thought about that idea of making EveAPI a subclass of
+// EveDownload, but their interface don't mesh well. As we have fewer
+// "retriever" methods, and if we have the all the relevant URLs in a plist,
+// it's easier to create a EveDownload for each method, each with several URLs,
+// and set the EveAPI itself as its delegate.
+
 
 /**
  * Utility calls

@@ -7,23 +7,26 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "EveObject.h"
 
-typedef unsigned int uint;
+@class SQLBridge;
 
-@interface EveShip : EveObject {
-    uint highSlots;
-    uint medSlots;
-    uint lowSlots;
+@interface EveShip : NSObject {
+    NSNumber * highSlots;
+    NSNumber * medSlots;
+    NSNumber * lowSlots;
     
-    uint missileHardpoints;
-    uint turretHardpoints;
+    NSNumber * missileHardpoints;
+    NSNumber * turretHardpoints;
 
-    float basePowergrid;
-    float baseCPU;
+    NSNumber * basePowergrid;
+    NSNumber * baseCPU;
+
 }
 
-@property(readwrite) uint highSlots, medSlots, lowSlots, missileHardPoints, turretHardpoints;
-@property(readwrite) float basePowergrid, baseCPU;
+- (id)initWithBridge:(SQLBridge *)bridge andShipID:(NSNumber *)shipID;
++ (id)shipWithBridge:(SQLBridge *)bridge andShipID:(NSNumber *)shipID;
+
+@property (retain) NSNumber * highSlots, * medSlots, * lowSlots, * missileHardPoints, * turretHardpoints, * basePowergrid, * baseCPU;
+
 
 @end

@@ -7,11 +7,13 @@
 //
 
 #import "EveAPI.h"
+#import "EveCharacter.h"
+#import "EveAPIResult.h"
 
+@implementation EveAPI 
 
-@implementation EveAPI : EveDownload {
+@synthesize character, delegate;
 
-}
 - (NSString *)buildRequestURL:(NSString *)group method:(NSString *)method {
     NSString *retURL = [[NSString alloc]initWithFormat:@"%@/%@/%@.xml.aspx", BASE_URL, group, method];
     return retURL;
@@ -41,6 +43,10 @@
     EveAPIResult *res = [[EveAPIResult alloc]init];
     [res parseData:XMLData];
     return res;
+}
+
+- (void)didFinishDownload:(EveDownload *)download withResults:(NSDictionary *)results {
+
 }
 
 @end

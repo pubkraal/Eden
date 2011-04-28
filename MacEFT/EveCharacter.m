@@ -6,10 +6,15 @@
 //  Copyright 2011 Netframe. All rights reserved.
 //
 
-#import "Character.h"
+#import "EveCharacter.h"
+#import "EveSkill.h"
+#import "EveCorporation.h"
+#import "EveAlliance.h"
+#import "EveAccount.h"
 
+@implementation EveCharacter
 
-@implementation Character
+@synthesize account;
 
 - (void)importFromAPI:(int)characterId {
     // Load the character from API.

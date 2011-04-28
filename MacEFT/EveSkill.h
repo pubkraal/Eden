@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "EveObject.h"
 
-@interface Skill : EveObject {
+@interface EveSkill : EveObject {
     
 }
 

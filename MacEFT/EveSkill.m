@@ -6,9 +6,9 @@
 //  Copyright 2011 Netframe. All rights reserved.
 //
 
-#import "Skill.h"
+#import "EveSkill.h"
 
 
-@implementation Skill
+@implementation EveSkill
 
 @end

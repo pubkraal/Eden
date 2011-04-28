@@ -157,8 +157,8 @@
 		view = [cls viewWithBridge:self andTableName:viewName];
 		
 		[[self trueViews] addObject:viewName];
-
-		[view loadValues];
+		
+		if ([self shouldAutoloadView:viewName]) [view loadValues];
 	}
 	else view = nil;
 

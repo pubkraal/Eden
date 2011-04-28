@@ -146,8 +146,27 @@
 
 - (id)rowWithKey:(NSArray *)key {
 	id row;
+	NSArray * filteredRows;
+	__block NSArray * keyCopy;
+	__block NSMutableArray * predArr;
+	
+	if ([self rowsByPK]) {
+		row = [[self rowsByPK] objectForKey:key];
+	}
+	else if ([key count] >= [[self primaryKeys] count]) {
+			predArr = [NSMutableArray array];
+			keyCopy = [NSArray arrayWithArray:key];
 
-	row = [[self rowsByPK] objectForKey:key];
+			[[self primaryKeys] enumerateObjectsUsingBlock:^(NSString * pk, NSUInteger idx, BOOL * stop) {
+				[predArr addObject:[NSString stringWithFormat:@"(%@ = %@)", pk, [keyCopy objectAtIndex:idx]]];
+			}];
+
+			filteredRows = [self filteredRowsWithPredicateFormat:[predArr componentsJoinedByString:@" AND "]];
+
+			if ([filteredRows count] == 1) row = [filteredRows objectAtIndex:0];
+			else row = nil;
+	}
+	else row = nil;
 
 	return row;
 }
@@ -206,12 +225,16 @@
 	return [self foreignObjectForKey:key inRow:row];
 }
 
-- (NSArray *)foreignObjectsInTable:(NSString *)tableName usingColumn:(NSString *)otherKey forRow:(NSDictionary *)row {
+- (NSArray *)foreignObjectsInTable:(id)tableInfo usingColumn:(NSString *)otherKey forRow:(NSDictionary *)row {
 	NSPredicate * pred;
 	NSDictionary * fData, * info;
 	NSArray * fObjects;
 	SQLTable * table;
 	NSString * selfKey;
+	NSString * tableName;
+
+	if ([tableName isKindOfClass:[SQLView class]]) tableName = [(SQLView *) tableInfo tableName];
+	else tableName = [tableInfo description];
 	
 	if (    ([[[self bridge] viewsNames] indexOfObject:tableName] != NSNotFound) &&
 			([[[self bridge] trueViews] indexOfObject:tableName] == NSNotFound)   ) {
@@ -233,32 +256,32 @@
 }
 
 
-- (NSArray *)foreignObjectsInTable:(NSString *)tableName usingColumn:(NSString *)otherKey forRowAtIndex:(NSUInteger)idx {
+- (NSArray *)foreignObjectsInTable:(id)tableInfo usingColumn:(NSString *)otherKey forRowAtIndex:(NSUInteger)idx {
 	NSDictionary * row;
 
 	row = [self objectInRowsAtIndex:idx];
 
-	return [self foreignObjectsInTable:tableName usingColumn:otherKey forRow:row];
+	return [self foreignObjectsInTable:tableInfo usingColumn:otherKey forRow:row];
 	
 }
 
-- (NSArray *)foreignObjectsInTable:(NSString *)tableName usingPrimaryKeyForRow:(NSDictionary *)row {
+- (NSArray *)foreignObjectsInTable:(id)tableInfo usingPrimaryKeyForRow:(NSDictionary *)row {
 	NSArray * obj;
 	
 	if ([[self primaryKeys] count] == 1) {
-		obj = [self foreignObjectsInTable:tableName usingColumn:[[self primaryKeys] objectAtIndex:0] forRow:row];
+		obj = [self foreignObjectsInTable:tableInfo usingColumn:[[self primaryKeys] objectAtIndex:0] forRow:row];
 	}
 	else obj = nil;
 	
 	return obj;
 }
 
-- (NSArray *)foreignObjectsInTable:(NSString *)tableName usingPrimaryKeyForRowAtIndex:(NSUInteger)idx {
+- (NSArray *)foreignObjectsInTable:(id)tableInfo usingPrimaryKeyForRowAtIndex:(NSUInteger)idx {
 	NSDictionary * row;
 
 	row = [self objectInRowsAtIndex:idx];
 
-	return [self foreignObjectsInTable:tableName usingPrimaryKeyForRow:row];
+	return [self foreignObjectsInTable:tableInfo usingPrimaryKeyForRow:row];
 }
 
 

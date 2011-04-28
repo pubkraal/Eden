@@ -29,13 +29,13 @@
 		525B8AB4133BEB52006A3728 /* MacEFTTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 525B8AB3133BEB52006A3728 /* MacEFTTests.m */; };
 		525B8ABF133BEBC1006A3728 /* README in Resources */ = {isa = PBXBuildFile; fileRef = 525B8ABE133BEBC1006A3728 /* README */; };
 		525C81371340FDCF008316B7 /* EveAPIResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 525C81361340FDCE008316B7 /* EveAPIResult.m */; };
-		526ED099133E3FE900F26046 /* Account.m in Sources */ = {isa = PBXBuildFile; fileRef = 526ED098133E3FE900F26046 /* Account.m */; };
-		526ED09C133E3FF400F26046 /* Character.m in Sources */ = {isa = PBXBuildFile; fileRef = 526ED09B133E3FF400F26046 /* Character.m */; };
+		526ED099133E3FE900F26046 /* EveAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 526ED098133E3FE900F26046 /* EveAccount.m */; };
+		526ED09C133E3FF400F26046 /* EveCharacter.m in Sources */ = {isa = PBXBuildFile; fileRef = 526ED09B133E3FF400F26046 /* EveCharacter.m */; };
 		526ED09F133E401800F26046 /* EveObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 526ED09E133E401800F26046 /* EveObject.m */; };
 		526ED0A2133E402F00F26046 /* EveShip.m in Sources */ = {isa = PBXBuildFile; fileRef = 526ED0A1133E402E00F26046 /* EveShip.m */; };
 		526ED0A5133E403A00F26046 /* EveModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 526ED0A4133E403A00F26046 /* EveModule.m */; };
 		526ED0A8133E404500F26046 /* EveCharge.m in Sources */ = {isa = PBXBuildFile; fileRef = 526ED0A7133E404500F26046 /* EveCharge.m */; };
-		527917C5133FA9B9009C694C /* Skill.m in Sources */ = {isa = PBXBuildFile; fileRef = 527917C4133FA9B9009C694C /* Skill.m */; };
+		527917C5133FA9B9009C694C /* EveSkill.m in Sources */ = {isa = PBXBuildFile; fileRef = 527917C4133FA9B9009C694C /* EveSkill.m */; };
 		527917C9133FAB9F009C694C /* EveCorporation.m in Sources */ = {isa = PBXBuildFile; fileRef = 527917C8133FAB9E009C694C /* EveCorporation.m */; };
 		527917CC133FABA7009C694C /* EveAlliance.m in Sources */ = {isa = PBXBuildFile; fileRef = 527917CB133FABA7009C694C /* EveAlliance.m */; };
 		527917D0133FAD16009C694C /* EveAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 527917CF133FAD16009C694C /* EveAPI.m */; };
@@ -92,10 +92,10 @@
 		525B8ABE133BEBC1006A3728 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		525C81351340FDCE008316B7 /* EveAPIResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EveAPIResult.h; sourceTree = "<group>"; };
 		525C81361340FDCE008316B7 /* EveAPIResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveAPIResult.m; sourceTree = "<group>"; };
-		526ED097133E3FE900F26046 /* Account.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Account.h; sourceTree = "<group>"; };
-		526ED098133E3FE900F26046 /* Account.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Account.m; sourceTree = "<group>"; };
-		526ED09A133E3FF400F26046 /* Character.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Character.h; sourceTree = "<group>"; };
-		526ED09B133E3FF400F26046 /* Character.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Character.m; sourceTree = "<group>"; };
+		526ED097133E3FE900F26046 /* EveAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; path = EveAccount.h; sourceTree = "<group>"; };
+		526ED098133E3FE900F26046 /* EveAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveAccount.m; sourceTree = "<group>"; };
+		526ED09A133E3FF400F26046 /* EveCharacter.h */ = {isa = PBXFileReference; fileEncoding = 4; path = EveCharacter.h; sourceTree = "<group>"; };
+		526ED09B133E3FF400F26046 /* EveCharacter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveCharacter.m; sourceTree = "<group>"; };
 		526ED09D133E401800F26046 /* EveObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EveObject.h; sourceTree = "<group>"; };
 		526ED09E133E401800F26046 /* EveObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveObject.m; sourceTree = "<group>"; };
 		526ED0A0133E402E00F26046 /* EveShip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EveShip.h; sourceTree = "<group>"; };
@@ -104,8 +104,8 @@
 		526ED0A4133E403A00F26046 /* EveModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveModule.m; sourceTree = "<group>"; };
 		526ED0A6133E404500F26046 /* EveCharge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EveCharge.h; sourceTree = "<group>"; };
 		526ED0A7133E404500F26046 /* EveCharge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveCharge.m; sourceTree = "<group>"; };
-		527917C3133FA9B9009C694C /* Skill.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Skill.h; sourceTree = "<group>"; };
-		527917C4133FA9B9009C694C /* Skill.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Skill.m; sourceTree = "<group>"; };
+		527917C3133FA9B9009C694C /* EveSkill.h */ = {isa = PBXFileReference; fileEncoding = 4; path = EveSkill.h; sourceTree = "<group>"; };
+		527917C4133FA9B9009C694C /* EveSkill.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveSkill.m; sourceTree = "<group>"; };
 		527917C7133FAB9E009C694C /* EveCorporation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EveCorporation.h; sourceTree = "<group>"; };
 		527917C8133FAB9E009C694C /* EveCorporation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveCorporation.m; sourceTree = "<group>"; };
 		527917CA133FABA7009C694C /* EveAlliance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EveAlliance.h; sourceTree = "<group>"; };
@@ -262,10 +262,10 @@
 		526ED096133E3FA300F26046 /* model */ = {
 			isa = PBXGroup;
 			children = (
-				526ED097133E3FE900F26046 /* Account.h */,
-				526ED098133E3FE900F26046 /* Account.m */,
-				526ED09A133E3FF400F26046 /* Character.h */,
-				526ED09B133E3FF400F26046 /* Character.m */,
+				526ED097133E3FE900F26046 /* EveAccount.h */,
+				526ED098133E3FE900F26046 /* EveAccount.m */,
+				526ED09A133E3FF400F26046 /* EveCharacter.h */,
+				526ED09B133E3FF400F26046 /* EveCharacter.m */,
 				526ED09D133E401800F26046 /* EveObject.h */,
 				526ED09E133E401800F26046 /* EveObject.m */,
 				526ED0A0133E402E00F26046 /* EveShip.h */,
@@ -274,8 +274,8 @@
 				526ED0A4133E403A00F26046 /* EveModule.m */,
 				526ED0A6133E404500F26046 /* EveCharge.h */,
 				526ED0A7133E404500F26046 /* EveCharge.m */,
-				527917C3133FA9B9009C694C /* Skill.h */,
-				527917C4133FA9B9009C694C /* Skill.m */,
+				527917C3133FA9B9009C694C /* EveSkill.h */,
+				527917C4133FA9B9009C694C /* EveSkill.m */,
 				527917C7133FAB9E009C694C /* EveCorporation.h */,
 				527917C8133FAB9E009C694C /* EveCorporation.m */,
 				527917CA133FABA7009C694C /* EveAlliance.h */,
@@ -413,13 +413,13 @@
 			files = (
 				525B8A97133BEB52006A3728 /* main.m in Sources */,
 				525B8A9D133BEB52006A3728 /* MacEFTAppDelegate.m in Sources */,
-				526ED099133E3FE900F26046 /* Account.m in Sources */,
-				526ED09C133E3FF400F26046 /* Character.m in Sources */,
+				526ED099133E3FE900F26046 /* EveAccount.m in Sources */,
+				526ED09C133E3FF400F26046 /* EveCharacter.m in Sources */,
 				526ED09F133E401800F26046 /* EveObject.m in Sources */,
 				526ED0A2133E402F00F26046 /* EveShip.m in Sources */,
 				526ED0A5133E403A00F26046 /* EveModule.m in Sources */,
 				526ED0A8133E404500F26046 /* EveCharge.m in Sources */,
-				527917C5133FA9B9009C694C /* Skill.m in Sources */,
+				527917C5133FA9B9009C694C /* EveSkill.m in Sources */,
 				527917C9133FAB9F009C694C /* EveCorporation.m in Sources */,
 				527917CC133FABA7009C694C /* EveAlliance.m in Sources */,
 				527917D0133FAD16009C694C /* EveAPI.m in Sources */,

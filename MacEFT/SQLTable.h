@@ -34,9 +34,9 @@
 - (NSDictionary *)foreignObjectForKey:(NSString *)key inRow:(NSDictionary *)row;
 - (NSDictionary *)foreignObjectForKey:(NSString *)key inRowAtIndex:(NSUInteger)idx;
 
-- (NSArray *)foreignObjectsInTable:(NSString *)tableName usingColumn:(NSString *)otherKey forRow:(NSDictionary *)row;
-- (NSArray *)foreignObjectsInTable:(NSString *)tableName usingColumn:(NSString *)otherKey forRowAtIndex:(NSUInteger)idx;
-- (NSArray *)foreignObjectsInTable:(NSString *)tableName usingPrimaryKeyForRow:(NSDictionary *)row;
-- (NSArray *)foreignObjectsInTable:(NSString *)tableName usingPrimaryKeyForRowAtIndex:(NSUInteger)idx;
+- (NSArray *)foreignObjectsInTable:(id)tableInfo usingColumn:(NSString *)otherKey forRow:(NSDictionary *)row;
+- (NSArray *)foreignObjectsInTable:(id)tableInfo usingColumn:(NSString *)otherKey forRowAtIndex:(NSUInteger)idx;
+- (NSArray *)foreignObjectsInTable:(id)tableInfo usingPrimaryKeyForRow:(NSDictionary *)row;
+- (NSArray *)foreignObjectsInTable:(id)tableInfo usingPrimaryKeyForRowAtIndex:(NSUInteger)idx;
 
 @end

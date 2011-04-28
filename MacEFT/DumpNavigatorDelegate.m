@@ -7,6 +7,7 @@
 //
 
 #import "DumpNavigatorDelegate.h"
+#import "EveShip.h"
 
 
 @implementation DumpNavigatorDelegate
@@ -134,6 +135,7 @@
 
 - (void)postAwakeFromNib:(id)msg {
 	NSAlert * alert;
+	EveShip * ship;
 
 	[loadingControl stopAnimation:self];
 	[loadingControl setHidden:YES];
@@ -176,6 +178,8 @@
 		[columnsView setFloatingPanel:YES];
 		[columnsView setReleasedWhenClosed:NO];
 
+		ship = [EveShip shipWithBridge:bridge andShipID:[NSNumber numberWithInt:29984]];
+		ship = [EveShip shipWithBridge:bridge andShipID:[NSNumber numberWithInt:17932]];
 	}
 
 }

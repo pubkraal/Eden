@@ -6,9 +6,11 @@
 //  Copyright 2011 Netframe. All rights reserved.
 //
 
-#import "Account.h"
+#import "EveAccount.h"
 
 
-@implementation Account
+@implementation EveAccount
+
+@synthesize userID, apiKey, isFullAPI;
 
 @end

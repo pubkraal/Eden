@@ -10,6 +10,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#define EVE_POST_BODY @"postBody"
+#define EVE_POST_URL @"postURL"
 
 // Information for each download.
 
@@ -21,6 +23,7 @@
 	NSError * error;
 	NSMutableData * result;
 	NSURLConnection * connection;
+	NSData * postBody;
 }
 
 - (id)initWithURLString:(NSString *) url;
@@ -31,10 +34,17 @@
 @property (retain) NSString * URL;
 @property (retain) NSError * error;
 @property (retain) NSMutableData * result;
+@property (retain) NSData * postBody;
+
 @property (assign) uint64_t expectedLength;
 @property (assign) uint64_t receivedLength;
 
-- (NSData *)data; // returns a static version of the mutable result.
+@property (readonly) NSData * data;
+
+- (void)setPostBodyToString:(NSString *)string withEncoding:(NSStringEncoding)encoding;
+- (void)setPostBodyToUTF8String:(NSString *)string;
+- (void)setPostBodyToDict:(NSDictionary *)dict;
+
 
 @end
 
@@ -68,12 +78,13 @@
 	NSObject <EveDownloadDelegate> * delegate;
 }
 
-@property (retain) NSObject <EveDownloadDelegate> * delegate;
+@property (assign) NSObject <EveDownloadDelegate> * delegate;
 @property (readonly) NSDictionary * downloads;
 
 // Starting up
 
 - (id)initWithURLList:(NSDictionary *)urls;
++ (id)downloadWithURLList:(NSDictionary *)urls;
 - (void)start;
 
 // Delegated messages from NSURLConnection

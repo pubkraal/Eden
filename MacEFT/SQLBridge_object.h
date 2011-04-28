@@ -76,14 +76,14 @@
 	
 	NSMutableArray * trueViews;
 	
-	NSObject <SQLBridgeDelegate> * delegate;
+	id <SQLBridgeDelegate> delegate;
 
 	BOOL usesForeignKeys;
 }
 
 @property (retain) NSError * lastError;
 @property (retain) NSMutableDictionary * views;
-@property (retain) NSObject <SQLBridgeDelegate> * delegate;
+@property (assign) id <SQLBridgeDelegate> delegate;
 @property (readonly) NSArray * viewsNames;
 @property (readonly) NSArray * viewsValues;
 @property (retain) NSMutableArray * trueViews;
