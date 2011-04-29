@@ -37,8 +37,6 @@
 	NSIndexPath * selectedTask;
 	CharacterDocumentDelegate * delegate;
 
-	BOOL shouldAnimateTaskChanges;
-
 }
 
 @property (assign) NSView * currentView;
