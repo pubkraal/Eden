@@ -22,6 +22,7 @@
 
 	NSDictionary * indicators;
 	NSWindowController * dumpNavWindow;
+	NSWindowController * preferencesWindow;
 }
 
 @property (assign) IBOutlet NSWindow *window;

@@ -29,6 +29,15 @@
 	
 }
 
+- (IBAction)showPreferencesWindow:(id)sender {
+	if (!preferencesWindow) {
+		preferencesWindow = [[NSWindowController alloc] initWithWindowNibName:@"Preferences"];
+
+		[preferencesWindow loadWindow];
+	}
+
+	[[preferencesWindow window] makeKeyAndOrderFront:preferencesWindow];
+}
 
 - (void)prepareDownloads {
 	[self setMaxValues:[NSMutableDictionary dictionaryWithObjectsAndKeys:\

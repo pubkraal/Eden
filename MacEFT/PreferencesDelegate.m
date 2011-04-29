@@ -7,22 +7,98 @@
 //
 
 #import "PreferencesDelegate.h"
-
+#import <QuartzCore/CoreAnimation.h>
 
 @implementation PreferencesDelegate
 
-- (id)init
-{
-    self = [super init];
-    if (self) {
-        // Initialization code here.
+- (id)init {
+    if ((self = [super init])) {
+		currentView = nil;
+		nextView    = nil;
     }
     
     return self;
 }
 
-- (void)dealloc
-{
+- (void)awakeFromNib {
+	CAAnimation * autoresize;
+
+	autoresize = [CABasicAnimation animation];
+	[autoresize setDelegate:self];
+	[mainWindow setAnimations:[NSDictionary dictionaryWithObject:autoresize forKey:@"frame"]];
+
+	[self selectToolbarItem:firstButton];
+	[self switchView:firstPane animate:NO];
+
+}
+
+- (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)finished {
+	if (nextView) {
+		[loaderView addSubview:nextView];
+		
+		currentView = nextView;
+		nextView    = nil;
+	}
+
+}
+
+- (IBAction)showPref1:(id)sender {
+	[self selectToolbarItem:(NSToolbarItem *)sender];
+	[self switchView:pref1 animate:YES];
+}
+
+- (IBAction)showPref2:(id)sender {
+	[self selectToolbarItem:(NSToolbarItem *)sender];
+	[self switchView:pref2 animate:YES];
+
+}
+
+- (IBAction)showPref3:(id)sender {
+	[self selectToolbarItem:(NSToolbarItem *)sender];
+	[self switchView:pref3 animate:YES];
+
+}
+
+- (void)switchView:(NSView *)newView animate:(BOOL)animate {
+	NSRect windowFrame, loaderFrame, newFrame;
+	
+	if (!nextView) {
+		if (currentView) [currentView removeFromSuperview];
+
+		newFrame = [newView frame];
+		
+		newFrame.origin.x = 0;
+		newFrame.origin.y = 0;
+
+		[newView setFrame:newFrame];
+
+		windowFrame = [mainWindow frame];
+		loaderFrame = [loaderView frame];
+
+		windowFrame.size.width  += newFrame.size.width  - loaderFrame.size.width;
+		windowFrame.size.height += newFrame.size.height - loaderFrame.size.height;
+		windowFrame.origin.y    -= newFrame.size.height - loaderFrame.size.height;
+
+		if (animate) {
+			nextView = newView;
+		
+			[[mainWindow animator] setFrame:windowFrame display:YES];
+		}
+		else {
+			[mainWindow setFrame:windowFrame display:NO];
+			[loaderView addSubview:newView];
+
+			currentView = newView;
+		}
+
+	}
+}
+
+- (void)selectToolbarItem:(NSToolbarItem *)tbItem {
+	[toolbar setSelectedItemIdentifier:[tbItem itemIdentifier]];
+}
+
+- (void)dealloc {
     [super dealloc];
 }
 
