@@ -10,19 +10,26 @@
 		3A0197661343BD7200B40E81 /* EveDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A0197651343BD7200B40E81 /* EveDownload.m */; };
 		3A286A7D135FFD0E0089D6DB /* SQLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A286A7C135FFD0E0089D6DB /* SQLView.m */; };
 		3A28FC3E1361727800B251C6 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A28FC3D1361727800B251C6 /* libsqlite3.dylib */; };
-		3A506F4C136A73D1005EFA9B /* Character.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A506F4B136A73D1005EFA9B /* Character.xib */; };
-		3A506F58136A74BF005EFA9B /* CharacterDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A506F57136A74BF005EFA9B /* CharacterDocument.m */; };
+		3A506F58136A74BF005EFA9B /* CharacterWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A506F57136A74BF005EFA9B /* CharacterWindowController.m */; };
 		3A506F5D136A7D06005EFA9B /* CharacterTasks.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3A506F5C136A7D06005EFA9B /* CharacterTasks.plist */; };
 		3A506F67136AC56C005EFA9B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A506F66136AC56C005EFA9B /* QuartzCore.framework */; };
-		3A506F69136ACB42005EFA9B /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A506F68136ACB42005EFA9B /* Preferences.xib */; };
 		3A506F6C136ACE4A005EFA9B /* PreferencesDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A506F6B136ACE49005EFA9B /* PreferencesDelegate.m */; };
 		3A5897B9136594F30064CEB8 /* evedump_notrans_nomaps.db in Resources */ = {isa = PBXBuildFile; fileRef = 3A5897B8136594F30064CEB8 /* evedump_notrans_nomaps.db */; };
 		3A7615E0135ED4FD005A191C /* evedump.db in Resources */ = {isa = PBXBuildFile; fileRef = 3A7615DF135ED4FD005A191C /* evedump.db */; };
-		3A7615E2135ED59D005A191C /* DumpNavigator.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A7615E1135ED59D005A191C /* DumpNavigator.xib */; };
 		3A7615E5135ED6E4005A191C /* DumpNavigatorDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A7615E4135ED6E4005A191C /* DumpNavigatorDelegate.m */; };
 		3A7EA09A1364FF59002DCB5E /* SQLTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A7EA0991364FF59002DCB5E /* SQLTable.m */; };
 		3AA8544A1361016F0099C073 /* SQLMutableTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AA854491361016F0099C073 /* SQLMutableTable.m */; };
 		3AF0C5E9134FDAB500E47914 /* SQLBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AF0C5E8134FDAB500E47914 /* SQLBridge.m */; };
+		3AFC480D136C510000CC31EA /* CharacterCreateSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AFC480F136C510000CC31EA /* CharacterCreateSheet.xib */; };
+		3AFE5D00136BC1490072FD0E /* Character.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AFE5CFE136BC1490072FD0E /* Character.xib */; };
+		3AFE5D03136BC1A00072FD0E /* DumpNavigator.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AFE5D05136BC1A00072FD0E /* DumpNavigator.xib */; };
+		3AFE5D06136BC1B20072FD0E /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AFE5D08136BC1B20072FD0E /* Preferences.xib */; };
+		3AFE5D0B136BC4750072FD0E /* CharacterDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AFE5D0A136BC4750072FD0E /* CharacterDocument.m */; };
+		3AFE5D18136BCB700072FD0E /* CharacterInfo.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AFE5D1A136BCB700072FD0E /* CharacterInfo.xib */; };
+		3AFE5D1B136BCB9F0072FD0E /* CharacterMarketOrders.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AFE5D1D136BCB9F0072FD0E /* CharacterMarketOrders.xib */; };
+		3AFE5D21136BCC3B0072FD0E /* CharacterInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AFE5D20136BCC3B0072FD0E /* CharacterInfoController.m */; };
+		3AFE5D24136BCCB50072FD0E /* EveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AFE5D23136BCCB50072FD0E /* EveViewController.m */; };
+		3AFE5D27136BE1100072FD0E /* CharacterMarketOrdersController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AFE5D26136BE1100072FD0E /* CharacterMarketOrdersController.m */; };
 		525B8A8A133BEB52006A3728 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 525B8A89133BEB52006A3728 /* Cocoa.framework */; };
 		525B8A94133BEB52006A3728 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 525B8A92133BEB52006A3728 /* InfoPlist.strings */; };
 		525B8A97133BEB52006A3728 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 525B8A96133BEB52006A3728 /* main.m */; };
@@ -64,17 +71,14 @@
 		3A286A7B135FFD0E0089D6DB /* SQLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLView.h; sourceTree = "<group>"; };
 		3A286A7C135FFD0E0089D6DB /* SQLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQLView.m; sourceTree = "<group>"; };
 		3A28FC3D1361727800B251C6 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = ../../../../usr/lib/libsqlite3.dylib; sourceTree = "<group>"; };
-		3A506F4B136A73D1005EFA9B /* Character.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Character.xib; sourceTree = "<group>"; };
-		3A506F56136A74BF005EFA9B /* CharacterDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CharacterDocument.h; sourceTree = "<group>"; };
-		3A506F57136A74BF005EFA9B /* CharacterDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CharacterDocument.m; sourceTree = "<group>"; };
-		3A506F5C136A7D06005EFA9B /* CharacterTasks.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CharacterTasks.plist; sourceTree = "<group>"; };
+		3A506F56136A74BF005EFA9B /* CharacterWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CharacterWindowController.h; sourceTree = "<group>"; };
+		3A506F57136A74BF005EFA9B /* CharacterWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CharacterWindowController.m; sourceTree = "<group>"; };
+		3A506F5C136A7D06005EFA9B /* CharacterTasks.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = CharacterTasks.plist; path = MacEFT/CharacterTasks.plist; sourceTree = "<group>"; };
 		3A506F66136AC56C005EFA9B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = ../../../../System/Library/Frameworks/QuartzCore.framework; sourceTree = "<group>"; };
-		3A506F68136ACB42005EFA9B /* Preferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Preferences.xib; path = MacEFT/Preferences.xib; sourceTree = "<group>"; };
 		3A506F6A136ACE49005EFA9B /* PreferencesDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferencesDelegate.h; sourceTree = "<group>"; };
 		3A506F6B136ACE49005EFA9B /* PreferencesDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferencesDelegate.m; sourceTree = "<group>"; };
 		3A5897B8136594F30064CEB8 /* evedump_notrans_nomaps.db */ = {isa = PBXFileReference; lastKnownFileType = file; name = evedump_notrans_nomaps.db; path = MacEFT/evedump_notrans_nomaps.db; sourceTree = "<group>"; };
 		3A7615DF135ED4FD005A191C /* evedump.db */ = {isa = PBXFileReference; lastKnownFileType = file; name = evedump.db; path = MacEFT/evedump.db; sourceTree = "<group>"; };
-		3A7615E1135ED59D005A191C /* DumpNavigator.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DumpNavigator.xib; sourceTree = "<group>"; };
 		3A7615E3135ED6E4005A191C /* DumpNavigatorDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DumpNavigatorDelegate.h; sourceTree = "<group>"; };
 		3A7615E4135ED6E4005A191C /* DumpNavigatorDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DumpNavigatorDelegate.m; sourceTree = "<group>"; };
 		3A7EA0971364FEE1002DCB5E /* SQLMutableTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLMutableTable.h; sourceTree = "<group>"; };
@@ -84,6 +88,21 @@
 		3AA854491361016F0099C073 /* SQLMutableTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQLMutableTable.m; sourceTree = "<group>"; };
 		3AF0C5E7134FDAB500E47914 /* SQLBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLBridge.h; sourceTree = "<group>"; };
 		3AF0C5E8134FDAB500E47914 /* SQLBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQLBridge.m; sourceTree = "<group>"; };
+		3AFC480E136C510000CC31EA /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/CharacterCreateSheet.xib; sourceTree = "<group>"; };
+		3AFE5CFF136BC1490072FD0E /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/Character.xib; sourceTree = "<group>"; };
+		3AFE5D04136BC1A00072FD0E /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/DumpNavigator.xib; sourceTree = "<group>"; };
+		3AFE5D07136BC1B20072FD0E /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/Preferences.xib; sourceTree = "<group>"; };
+		3AFE5D09136BC4750072FD0E /* CharacterDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CharacterDocument.h; sourceTree = "<group>"; };
+		3AFE5D0A136BC4750072FD0E /* CharacterDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CharacterDocument.m; sourceTree = "<group>"; };
+		3AFE5D19136BCB700072FD0E /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/CharacterInfo.xib; sourceTree = "<group>"; };
+		3AFE5D1C136BCB9F0072FD0E /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/CharacterMarketOrders.xib; sourceTree = "<group>"; };
+		3AFE5D1F136BCC3B0072FD0E /* CharacterInfoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CharacterInfoController.h; sourceTree = "<group>"; };
+		3AFE5D20136BCC3B0072FD0E /* CharacterInfoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CharacterInfoController.m; sourceTree = "<group>"; };
+		3AFE5D22136BCCB50072FD0E /* EveViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EveViewController.h; sourceTree = "<group>"; };
+		3AFE5D23136BCCB50072FD0E /* EveViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveViewController.m; sourceTree = "<group>"; };
+		3AFE5D25136BE1100072FD0E /* CharacterMarketOrdersController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CharacterMarketOrdersController.h; sourceTree = "<group>"; };
+		3AFE5D26136BE1100072FD0E /* CharacterMarketOrdersController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CharacterMarketOrdersController.m; sourceTree = "<group>"; };
+		3AFE5D28136BE41B0072FD0E /* CharacterViews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CharacterViews.h; sourceTree = "<group>"; };
 		525B8A85133BEB52006A3728 /* MacEFT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacEFT.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		525B8A89133BEB52006A3728 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		525B8A8C133BEB52006A3728 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -170,22 +189,66 @@
 		3A506F4D136A741B005EFA9B /* Interface */ = {
 			isa = PBXGroup;
 			children = (
+				3AFE5D13136BC9140072FD0E /* Character Views */,
+				3AFE5D05136BC1A00072FD0E /* DumpNavigator.xib */,
+				3AFE5CFE136BC1490072FD0E /* Character.xib */,
+				525B8A9E133BEB52006A3728 /* MainMenu.xib */,
+				3AFE5D08136BC1B20072FD0E /* Preferences.xib */,
+			);
+			name = Interface;
+			sourceTree = "<group>";
+		};
+		3AFE5CF2136BBFE30072FD0E /* Window Delegates */ = {
+			isa = PBXGroup;
+			children = (
 				525B8A9B133BEB52006A3728 /* MacEFTAppDelegate.h */,
 				525B8A9C133BEB52006A3728 /* MacEFTAppDelegate.m */,
 				3A7615E3135ED6E4005A191C /* DumpNavigatorDelegate.h */,
 				3A7615E4135ED6E4005A191C /* DumpNavigatorDelegate.m */,
-				3A506F56136A74BF005EFA9B /* CharacterDocument.h */,
-				3A506F57136A74BF005EFA9B /* CharacterDocument.m */,
+				3A506F56136A74BF005EFA9B /* CharacterWindowController.h */,
+				3A506F57136A74BF005EFA9B /* CharacterWindowController.m */,
 				3A506F6A136ACE49005EFA9B /* PreferencesDelegate.h */,
 				3A506F6B136ACE49005EFA9B /* PreferencesDelegate.m */,
 			);
-			name = Interface;
+			name = "Window Delegates";
+			sourceTree = "<group>";
+		};
+		3AFE5D12136BC7D30072FD0E /* Document Model */ = {
+			isa = PBXGroup;
+			children = (
+				3AFE5D09136BC4750072FD0E /* CharacterDocument.h */,
+				3AFE5D0A136BC4750072FD0E /* CharacterDocument.m */,
+			);
+			name = "Document Model";
+			sourceTree = "<group>";
+		};
+		3AFE5D13136BC9140072FD0E /* Character Views */ = {
+			isa = PBXGroup;
+			children = (
+				3AFE5D1A136BCB700072FD0E /* CharacterInfo.xib */,
+				3AFE5D1D136BCB9F0072FD0E /* CharacterMarketOrders.xib */,
+				3AFC480F136C510000CC31EA /* CharacterCreateSheet.xib */,
+			);
+			name = "Character Views";
+			sourceTree = "<group>";
+		};
+		3AFE5D1E136BCC000072FD0E /* Custom Views */ = {
+			isa = PBXGroup;
+			children = (
+				3AFE5D28136BE41B0072FD0E /* CharacterViews.h */,
+				3AFE5D1F136BCC3B0072FD0E /* CharacterInfoController.h */,
+				3AFE5D20136BCC3B0072FD0E /* CharacterInfoController.m */,
+				3AFE5D22136BCCB50072FD0E /* EveViewController.h */,
+				3AFE5D23136BCCB50072FD0E /* EveViewController.m */,
+				3AFE5D25136BE1100072FD0E /* CharacterMarketOrdersController.h */,
+				3AFE5D26136BE1100072FD0E /* CharacterMarketOrdersController.m */,
+			);
+			name = "Custom Views";
 			sourceTree = "<group>";
 		};
 		525B8A7A133BEB51006A3728 = {
 			isa = PBXGroup;
 			children = (
-				525B8ABD133BEBAD006A3728 /* Resources */,
 				525B8A8F133BEB52006A3728 /* MacEFT */,
 				525B8AAA133BEB52006A3728 /* MacEFTTests */,
 				525B8A88133BEB52006A3728 /* Frameworks */,
@@ -226,9 +289,13 @@
 		525B8A8F133BEB52006A3728 /* MacEFT */ = {
 			isa = PBXGroup;
 			children = (
+				3AFE5D1E136BCC000072FD0E /* Custom Views */,
+				3AFE5D12136BC7D30072FD0E /* Document Model */,
+				3AFE5CF2136BBFE30072FD0E /* Window Delegates */,
+				525B8ABD133BEBAD006A3728 /* Resources */,
 				3A506F4D136A741B005EFA9B /* Interface */,
 				527917CD133FACFE009C694C /* Utility */,
-				526ED096133E3FA300F26046 /* model */,
+				526ED096133E3FA300F26046 /* Eve Model */,
 				525B8A90133BEB52006A3728 /* Supporting Files */,
 			);
 			path = MacEFT;
@@ -242,7 +309,6 @@
 				525B8A95133BEB52006A3728 /* MacEFT-Prefix.pch */,
 				525B8A96133BEB52006A3728 /* main.m */,
 				525B8A98133BEB52006A3728 /* Credits.rtf */,
-				3A506F5C136A7D06005EFA9B /* CharacterTasks.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -270,27 +336,17 @@
 		525B8ABD133BEBAD006A3728 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3A506F5C136A7D06005EFA9B /* CharacterTasks.plist */,
 				3A5897B8136594F30064CEB8 /* evedump_notrans_nomaps.db */,
 				3A7615DF135ED4FD005A191C /* evedump.db */,
-				526ED094133E3F2E00F26046 /* Windows */,
 				525B8ABE133BEBC1006A3728 /* README */,
 				5279180A133FB058009C694C /* LICENSE */,
 			);
 			name = Resources;
+			path = ..;
 			sourceTree = "<group>";
 		};
-		526ED094133E3F2E00F26046 /* Windows */ = {
-			isa = PBXGroup;
-			children = (
-				525B8A9E133BEB52006A3728 /* MainMenu.xib */,
-				3A7615E1135ED59D005A191C /* DumpNavigator.xib */,
-				3A506F4B136A73D1005EFA9B /* Character.xib */,
-				3A506F68136ACB42005EFA9B /* Preferences.xib */,
-			);
-			name = Windows;
-			sourceTree = "<group>";
-		};
-		526ED096133E3FA300F26046 /* model */ = {
+		526ED096133E3FA300F26046 /* Eve Model */ = {
 			isa = PBXGroup;
 			children = (
 				526ED097133E3FE900F26046 /* EveAccount.h */,
@@ -312,7 +368,7 @@
 				527917CA133FABA7009C694C /* EveAlliance.h */,
 				527917CB133FABA7009C694C /* EveAlliance.m */,
 			);
-			name = model;
+			name = "Eve Model";
 			sourceTree = "<group>";
 		};
 		527917CD133FACFE009C694C /* Utility */ = {
@@ -405,11 +461,14 @@
 				525B8ABF133BEBC1006A3728 /* README in Resources */,
 				5279180B133FB058009C694C /* LICENSE in Resources */,
 				3A7615E0135ED4FD005A191C /* evedump.db in Resources */,
-				3A7615E2135ED59D005A191C /* DumpNavigator.xib in Resources */,
 				3A5897B9136594F30064CEB8 /* evedump_notrans_nomaps.db in Resources */,
-				3A506F4C136A73D1005EFA9B /* Character.xib in Resources */,
 				3A506F5D136A7D06005EFA9B /* CharacterTasks.plist in Resources */,
-				3A506F69136ACB42005EFA9B /* Preferences.xib in Resources */,
+				3AFE5D06136BC1B20072FD0E /* Preferences.xib in Resources */,
+				3AFE5D00136BC1490072FD0E /* Character.xib in Resources */,
+				3AFE5D03136BC1A00072FD0E /* DumpNavigator.xib in Resources */,
+				3AFE5D18136BCB700072FD0E /* CharacterInfo.xib in Resources */,
+				3AFE5D1B136BCB9F0072FD0E /* CharacterMarketOrders.xib in Resources */,
+				3AFC480D136C510000CC31EA /* CharacterCreateSheet.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -464,8 +523,12 @@
 				3A286A7D135FFD0E0089D6DB /* SQLView.m in Sources */,
 				3AA8544A1361016F0099C073 /* SQLMutableTable.m in Sources */,
 				3A7EA09A1364FF59002DCB5E /* SQLTable.m in Sources */,
-				3A506F58136A74BF005EFA9B /* CharacterDocument.m in Sources */,
+				3A506F58136A74BF005EFA9B /* CharacterWindowController.m in Sources */,
 				3A506F6C136ACE4A005EFA9B /* PreferencesDelegate.m in Sources */,
+				3AFE5D0B136BC4750072FD0E /* CharacterDocument.m in Sources */,
+				3AFE5D21136BCC3B0072FD0E /* CharacterInfoController.m in Sources */,
+				3AFE5D24136BCCB50072FD0E /* EveViewController.m in Sources */,
+				3AFE5D27136BE1100072FD0E /* CharacterMarketOrdersController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -488,6 +551,54 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		3AFC480F136C510000CC31EA /* CharacterCreateSheet.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3AFC480E136C510000CC31EA /* en */,
+			);
+			name = CharacterCreateSheet.xib;
+			sourceTree = "<group>";
+		};
+		3AFE5CFE136BC1490072FD0E /* Character.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3AFE5CFF136BC1490072FD0E /* en */,
+			);
+			name = Character.xib;
+			sourceTree = "<group>";
+		};
+		3AFE5D05136BC1A00072FD0E /* DumpNavigator.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3AFE5D04136BC1A00072FD0E /* en */,
+			);
+			name = DumpNavigator.xib;
+			sourceTree = "<group>";
+		};
+		3AFE5D08136BC1B20072FD0E /* Preferences.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3AFE5D07136BC1B20072FD0E /* en */,
+			);
+			name = Preferences.xib;
+			sourceTree = "<group>";
+		};
+		3AFE5D1A136BCB700072FD0E /* CharacterInfo.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3AFE5D19136BCB700072FD0E /* en */,
+			);
+			name = CharacterInfo.xib;
+			sourceTree = "<group>";
+		};
+		3AFE5D1D136BCB9F0072FD0E /* CharacterMarketOrders.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3AFE5D1C136BCB9F0072FD0E /* en */,
+			);
+			name = CharacterMarketOrders.xib;
+			sourceTree = "<group>";
+		};
 		525B8A92133BEB52006A3728 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -510,7 +621,6 @@
 				525B8A9F133BEB52006A3728 /* en */,
 			);
 			name = MainMenu.xib;
-			path = MacEFT;
 			sourceTree = "<group>";
 		};
 		525B8AAD133BEB52006A3728 /* InfoPlist.strings */ = {

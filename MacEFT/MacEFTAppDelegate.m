@@ -1,9 +1,9 @@
 //
-//  MacEFTAppDelegate.m
-//  MacEFT
+//	MacEFTAppDelegate.m
+//	MacEFT
 //
-//  Created by John Kraal on 3/24/11.
-//  Copyright 2011 Netframe. All rights reserved.
+//	Created by John Kraal on 3/24/11.
+//	Copyright 2011 Netframe. All rights reserved.
 //
 
 #import "MacEFTAppDelegate.h"
@@ -14,9 +14,18 @@
 
 @synthesize maxValues, currentValues, indicators, labels;
 
+- (id)init {
+	if ((self = [super init])) {
+		appStarted = NO;
+	}
+	
+	return self;
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 	[self prepareDownloads];
 	dumpNavWindow = nil;
+	appStarted = YES;
 }
 
 - (IBAction)openDumpNav:(id)aButton {
@@ -38,6 +47,32 @@
 
 	[[preferencesWindow window] makeKeyAndOrderFront:preferencesWindow];
 }
+
+- (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender {
+	NSDocumentController * controller;
+	NSArray * documents;
+	NSError * error;
+	BOOL untitled;
+
+	untitled = YES;
+	error    = nil;
+
+	if (!appStarted) {
+		controller = [NSDocumentController sharedDocumentController];
+		documents  = [controller recentDocumentURLs];
+		
+		if ([documents count] > 0) {
+			[controller openDocumentWithContentsOfURL:[documents objectAtIndex:0]
+											  display:YES
+												error:&error];
+			
+			if (!error) untitled = NO;
+		}
+	}
+	
+	return untitled;
+}
+
 
 - (void)prepareDownloads {
 	[self setMaxValues:[NSMutableDictionary dictionaryWithObjectsAndKeys:\
@@ -83,7 +118,7 @@
 }
 
 - (IBAction)doSomeSchmancyDictionaryWork:(id)aButton {
-    NSLog(@":-)");
+	NSLog(@":-)");
 }
 
 - (IBAction)startDownloads:(id)aButton {
@@ -108,7 +143,7 @@
 	NSString * key, * type, * labelFormat;
 	id value;
 
-	value       = [change objectForKey:NSKeyValueChangeNewKey];
+	value		= [change objectForKey:NSKeyValueChangeNewKey];
 	labelFormat = @"%@ of %@ bytes downloaded";
 	
 	pathComponents = [keyPath componentsSeparatedByString:@"."];
@@ -147,7 +182,7 @@
 	
 	pool = [[NSAutoreleasePool alloc] init];
 
-	data    = (NSDictionary *) theData;
+	data	= (NSDictionary *) theData;
 	keyPath = [NSString stringWithFormat:@"%@.%@", [data objectForKey:@"type"], [data objectForKey:@"key"]];
 	
 	[self setValue:[data objectForKey:@"value"] forKeyPath:keyPath];

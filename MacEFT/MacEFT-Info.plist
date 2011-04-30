@@ -12,9 +12,7 @@
 				<string>char</string>
 			</array>
 			<key>CFBundleTypeMIMETypes</key>
-			<array>
-				<string>application/octet-stream</string>
-			</array>
+			<array/>
 			<key>CFBundleTypeName</key>
 			<string>Eve Character</string>
 			<key>CFBundleTypeRole</key>
@@ -23,8 +21,6 @@
 			<true/>
 			<key>NSDocumentClass</key>
 			<string>CharacterDocument</string>
-			<key>NSPersistentStoreTypeKey</key>
-			<string>NSSQLiteStoreType</string>
 		</dict>
 	</array>
 	<key>CFBundleExecutable</key>

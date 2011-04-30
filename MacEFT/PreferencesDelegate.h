@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+// TODO: separate panels into different xibs
 
 @interface PreferencesDelegate : NSObject {
 @private

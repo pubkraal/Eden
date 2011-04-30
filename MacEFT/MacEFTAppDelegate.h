@@ -23,6 +23,8 @@
 	NSDictionary * indicators;
 	NSWindowController * dumpNavWindow;
 	NSWindowController * preferencesWindow;
+
+	BOOL appStarted;
 }
 
 @property (assign) IBOutlet NSWindow *window;
