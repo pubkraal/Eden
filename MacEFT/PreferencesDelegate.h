@@ -29,6 +29,5 @@
 - (IBAction)showPref3:(id)sender;
 
 - (void)switchView:(NSView *)newView animate:(BOOL)animate;
-- (void)selectToolbarItem:(NSToolbarItem *)tbItem;
 
 @end

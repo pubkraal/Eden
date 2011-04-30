@@ -27,7 +27,7 @@
 	[autoresize setDelegate:self];
 	[mainWindow setAnimations:[NSDictionary dictionaryWithObject:autoresize forKey:@"frame"]];
 
-	[self selectToolbarItem:firstButton];
+	[toolbar setSelectedItemIdentifier:[firstButton itemIdentifier]];
 	[self switchView:firstPane animate:NO];
 
 }
@@ -43,18 +43,15 @@
 }
 
 - (IBAction)showPref1:(id)sender {
-	[self selectToolbarItem:(NSToolbarItem *)sender];
 	[self switchView:pref1 animate:YES];
 }
 
 - (IBAction)showPref2:(id)sender {
-	[self selectToolbarItem:(NSToolbarItem *)sender];
 	[self switchView:pref2 animate:YES];
 
 }
 
 - (IBAction)showPref3:(id)sender {
-	[self selectToolbarItem:(NSToolbarItem *)sender];
 	[self switchView:pref3 animate:YES];
 
 }
@@ -79,6 +76,9 @@
 		windowFrame.size.height += newFrame.size.height - loaderFrame.size.height;
 		windowFrame.origin.y    -= newFrame.size.height - loaderFrame.size.height;
 
+		// Keep centered horizontally...
+		windowFrame.origin.x    -= (newFrame.size.width  - loaderFrame.size.width) / 2;
+
 		if (animate) {
 			nextView = newView;
 		
@@ -94,9 +94,6 @@
 	}
 }
 
-- (void)selectToolbarItem:(NSToolbarItem *)tbItem {
-	[toolbar setSelectedItemIdentifier:[tbItem itemIdentifier]];
-}
 
 - (void)dealloc {
     [super dealloc];
