@@ -9,18 +9,21 @@
 #import "CharacterDocument.h"
 #import "CharacterWindowController.h"
 #import "CharacterInfoController.h"
+#import "EveCharacter.h"
+#import "CharacterCreateSheetController.h"
 
 @implementation CharacterDocument
 
-@synthesize hasFullAPI, accountID, currentTask, viewSizes;
+@synthesize character, currentTask, viewSizes;
+@synthesize cwController, ccController;
 
 - (id)init {
 	if ((self = [super init])) {
 		currentWrapper = nil;
-		cwController = nil;
-
-		hasFullAPI = NO;
-		[self setAccountID:nil];
+		cwController   = nil;
+		ccController   = nil;
+		
+		[self setCharacter:nil];
 		[self setCurrentTask:nil];
 		[self setViewSizes:nil];
 
@@ -32,7 +35,7 @@
 - (void)dealloc {
 	if (currentWrapper) [currentWrapper release];
 
-	[self setAccountID:nil];
+	[self setCharacter:nil];
 	[self setCurrentTask:nil];
 	[self setViewSizes:nil];
 
@@ -45,17 +48,28 @@
 }
 
 - (void)makeWindowControllers {
-	CharacterWindowController * mainWindow;
+	cwController = [[CharacterWindowController alloc] init];
+	ccController = [[CharacterCreateSheetController alloc] init];
 	
-	mainWindow	 = [[CharacterWindowController alloc] init];
-	cwController = mainWindow;
+	[self addWindowController:cwController];
+	[self addWindowController:ccController];
 	
-	[self addWindowController:mainWindow];
-	
-	[mainWindow release];
+	[cwController release];
+	[ccController release];
 }
 
- - (BOOL)readFromFileWrapper:(NSFileWrapper *)wrapper ofType:(NSString *)typeName error:(NSError **)error {
+- (void)showSheet:(NSWindowController *)controller {
+	if (controller != cwController) {
+		[NSApp beginSheet:[controller window]
+		   modalForWindow:[self windowForSheet]
+			modalDelegate:controller
+		   didEndSelector:@selector(didEndSheet:returnCode:context:)
+			  contextInfo:self];
+		
+	}
+}
+
+- (BOOL)readFromFileWrapper:(NSFileWrapper *)wrapper ofType:(NSString *)typeName error:(NSError **)error {
  	NSFileWrapper * item;
 	NSMutableDictionary * errDict;
 	NSDictionary * data;
@@ -68,12 +82,12 @@
 		@try {
 			data = [NSKeyedUnarchiver unarchiveObjectWithData:[item regularFileContents]];
 
-			[self setHasFullAPI:[[data objectForKey:@"hasFullAPI"] boolValue]];
-			[self setAccountID:[data objectForKey:@"accountID"]];
-			[self setCurrentTask:[data objectForKey:@"currentTask"]];
-			[self setViewSizes:[data objectForKey:@"viewSizes"]];
+			[self unarchiveWithDictionary:data];
 
-			fileRead = YES;
+			fileRead      = YES;
+			if (currentWrapper) [currentWrapper release];
+
+			currentWrapper = [wrapper retain];
 
 		}
 		@catch (NSException * e) {
@@ -99,12 +113,7 @@
 	NSData * characterData;
 	NSFileWrapper * newWrapper, * oldItem;
 
-	characterData = [NSKeyedArchiver archivedDataWithRootObject:[NSDictionary dictionaryWithObjectsAndKeys:
-										accountID, @"accountID",
-										[NSNumber numberWithBool:hasFullAPI], @"hasFullAPI",
-										currentTask, @"currentTask",
-										viewSizes, @"viewSizes",
-										nil]];
+	characterData = [NSKeyedArchiver archivedDataWithRootObject:[self dictionaryForArchival]];
 	
 	newWrapper = (currentWrapper) ? currentWrapper : [[NSFileWrapper alloc] initDirectoryWithFileWrappers:[NSDictionary dictionary]];
 
@@ -118,4 +127,19 @@
 
 	return newWrapper;
 }
+
+- (NSDictionary *)dictionaryForArchival {
+	return [NSDictionary dictionaryWithObjectsAndKeys:
+							character, @"character",
+							currentTask, @"currentTask",
+							viewSizes, @"viewSizes",
+							nil];
+}
+
+- (void)unarchiveWithDictionary:(NSDictionary *)data {
+	[self setCharacter:[data objectForKey:@"character"]];
+	[self setCurrentTask:[data objectForKey:@"currentTask"]];
+	[self setViewSizes:[data objectForKey:@"viewSizes"]];
+}
+
 @end

@@ -73,7 +73,7 @@
 		}
 	}];
 
-	[self setPostBodyToUTF8String:[data componentsJoinedByString:@";"]];
+	[self setPostBodyToUTF8String:[data componentsJoinedByString:@"&"]];
 }
 
 
@@ -145,20 +145,26 @@
 			
 			[mutableRequest setHTTPMethod:@"POST"];
 			[mutableRequest setHTTPBody:[info postBody]];
+			[mutableRequest setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
 
 			request = (NSURLRequest *) mutableRequest;
 		}
 
+		[info setResult:[NSMutableData data]];
+
 		connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
 		
 		[info setConnection:connection];
-		[info setResult:[NSMutableData data]];
 		
 		[connection start];
 		
 		[connection release];
 		[request release];
 	}
+}
+
+- (void)setPostBodyToDictionary:(NSDictionary *)dictionary forKey:(NSString *)key {
+	[(EveDownloadInfo *) [self.downloads objectForKey:key] setPostBodyToDict:dictionary];
 }
 
 
@@ -169,7 +175,6 @@
 	NSDictionary * errorInfo;
 	NSString * errorDesc;
 	long statusCode;
-	
 	statusCode = -1;
 	
 	if ([response respondsToSelector:@selector(statusCode)]) {

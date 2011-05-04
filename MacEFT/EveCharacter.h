@@ -30,27 +30,44 @@
 	*/
 
 	// I changed that so that we can get our EveAccount model in here :)
-	EveAccount * account;
+	// UPDATE: changed my mind. we can ditch EveAccount, it's more trouble than good.
+	NSString * accountID;
+	NSString * APIKey;
 	NSString * characterID;
+	BOOL fullAPI;
+
+	NSImage * portrait;
 
 	NSString *name;
+
+	NSString * allianceID;		// Normalized!
 	NSString *race;			// Normalize?
 	NSDate *dateOfBirth;
 	NSString *bloodLine;	// Normalize/ignore?
 	NSString *ancestry;		// Normalize/ignore?
 	NSString *gender;		// Normalize?
-	uint corporationID;		// Normalized!
-	uint allianceID;		// Normalized!
 	NSString *cloneName;
 	uint cloneSkillPoints;
 	double balance;
 
 	NSArray *skills;
+
 	EveCorporation *corporation;
 	EveAlliance *alliance;
 }
 
-@property (retain) EveAccount * account;
+@property (retain) NSString * accountID, * APIKey, * characterID;
+@property (assign) BOOL fullAPI;
+
+@property (retain) NSString * name;
+@property (retain) NSImage * portrait;
+@property (retain) EveCorporation * corporation;
+
+
+- (id)initWithAccountID:(NSString *)accID andAPIKey:(NSString *)APKey;
+- (id)initWithCharacter:(EveCharacter *)character;
++ (id)characterWithAccountID:(NSString *)accID andAPIKey:(NSString *)APKey;
++ (id)characterWithCharacter:(EveCharacter *)character;
 
 // TODO: make @properties for all the attributes in the character
 
@@ -64,6 +81,5 @@
 // We also need these functions for capacitor, but they're currently less
 // important.
 
-@property(readonly) NSString *name;
 
 @end

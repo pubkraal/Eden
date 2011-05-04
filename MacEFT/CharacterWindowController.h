@@ -67,6 +67,7 @@
 
 - (void)selectedTaskChangedFrom:(NSArray *)oldTaskPaths to:(NSArray *)newTaskPaths;
 - (void)fullAPIChangedTo:(BOOL)fullAPI;
+- (void)showCharacterSelectionSheet;
 
 // Notifications received
 

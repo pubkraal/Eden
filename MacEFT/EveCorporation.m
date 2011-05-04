@@ -11,4 +11,27 @@
 
 @implementation EveCorporation
 
+@synthesize name, corporationID;
+
+
+- (id)initWithName:(NSString *)corpName andCorporationID:(NSString *)corpID {
+	if ((self = [super init])) {
+		self.name          = corpName;
+		self.corporationID = corpID;
+	}
+
+	return self;
+}
+
+- (void)dealloc {
+	self.name          = nil;
+	self.corporationID = nil;
+
+	[super dealloc];
+}
+
++ (id)corporationWithName:(NSString *)corpName andCorporationID:(NSString *)corpID {
+	return [[[self alloc] initWithName:corpName andCorporationID:corpID] autorelease];
+}
+
 @end

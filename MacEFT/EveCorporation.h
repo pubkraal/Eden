@@ -7,11 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "EveObject.h"
 
 
-@interface EveCorporation : EveObject {
-    
+@interface EveCorporation : NSObject {
+    NSString * name;
+	NSString * corporationID;
 }
+
+@property (retain) NSString * name;
+@property (retain) NSString * corporationID;
+
+- (id)initWithName:(NSString *)corpName andCorporationID:(NSString *)corpID;
++ (id)corporationWithName:(NSString *)corpName andCorporationID:(NSString *)corpID;
 
 @end

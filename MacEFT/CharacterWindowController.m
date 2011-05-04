@@ -10,6 +10,7 @@
 #import "CharacterDocument.h"
 #import <QuartzCore/CoreAnimation.h>
 #import "CharacterViews.h"
+#import "EveCharacter.h"
 
 @implementation CharacterWindowController
 
@@ -53,16 +54,17 @@
 
 	[self loadTasks];
 	[self populateSubviews];
-
 	[self addAllObservers];
 	
 	self.selectedTasks = [NSArray arrayWithObject:NSIndexPathFromString(startPath)];
+
+	if (!self.document.character) [self showCharacterSelectionSheet];
 
 }
 
 - (void)addAllObservers {
 	[self addObserver:self forKeyPath:@"selectedTasks" options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:nil];
-	[self addObserver:self forKeyPath:@"document.hasFullAPI" options:NSKeyValueObservingOptionNew context:nil];
+	[self addObserver:self forKeyPath:@"document.character.fullAPI" options:NSKeyValueObservingOptionNew context:nil];
 
 }
 
@@ -118,7 +120,7 @@
 - (void)setTasks:(NSMutableArray *)newTasks {
 	[tasks release];
 	
-	if ([(CharacterDocument *) [self document] hasFullAPI]) tasks = [newTasks retain];
+	if (!self.document.character || self.document.character.fullAPI) tasks = [newTasks retain];
 	else tasks = [[[self class] filteredTasks:newTasks usingPredicate:requiresFullAPIPred] retain];
 }
 
@@ -131,7 +133,7 @@
 	if ([keyPath isEqualToString:@"selectedTasks"]) {
 		[self selectedTaskChangedFrom:(NSArray *) [change objectForKey:NSKeyValueChangeOldKey] to:(NSArray *) [change objectForKey:NSKeyValueChangeNewKey]];
 	}
-	else if ([keyPath isEqualToString:@"document.hasFullAPI"]) {
+	else if ([keyPath isEqualToString:@"document.character.fullAPI"]) {
 		[self fullAPIChangedTo:[[change objectForKey:NSKeyValueChangeOldKey] boolValue]];
 	}
 }
@@ -159,6 +161,11 @@
 	self.activeViewName = nil;
 	self.selectedTasks = currentTasks;
 }
+
+- (void)showCharacterSelectionSheet {
+	[self.document showSheet:self.document.ccController];
+}
+
 
 // Notifications received
 

@@ -13,6 +13,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <stdarg.h>
 #import "EveDownload.h"
 
 #define API_REQUIRED_FULL 1<<0;
@@ -20,18 +21,22 @@
 #define BASE_URL "https://api.eveonline.com"
 #define BASE_URL_TEST "https://apitest.eveonline.com"
 
+#define EveAPIErrorDomain @"EVE API Error"
+
 @class EveAPIResult;
 @class EveCharacter;
+@class EveAccount;
 
 typedef unsigned int uint;
 
+@class EveAPI;
+
 @protocol APIDelegate <NSObject>
 
-- (void)receivedModels:(NSArray *) forTypes:(NSArray *)types;
+- (void)request:(EveAPI *)apiObj finishedWithErrors:(NSDictionary *)errors;
 
-@optional
 
-- (void)receivedModel:(id)model forType:(Class)type;
+
 
 @end
 
@@ -39,9 +44,16 @@ typedef unsigned int uint;
 @private
 	EveCharacter * character;
 	id <APIDelegate> delegate;
+	NSSet * lastCalls;
+
+	// Filled when -retrieveAccountData is called
+	NSArray * characterList;
 }
 
 @property (retain) EveCharacter * character;
+@property (retain) NSSet * lastCalls;
+@property (retain) NSArray * characterList;
+
 @property (assign) id <APIDelegate> delegate;
 
 // We don't need an EveAPI stand-alone object running all the time so that
@@ -54,10 +66,29 @@ typedef unsigned int uint;
 // Also, if we get the API to pull all the necessary data for the character
 // at once, we should use fewer methods, such as:
 
+- (id)initWithCharacater:(EveCharacter *)character;
+- (id)initWithAccountID:(NSString *)accountID andAPIKey:(NSString *)APIKey;
++ (id)requestWithCharacter:(EveCharacter *)character;
++ (id)requestWithAccountID:(NSString *)accountID andAPIKey:(NSString *)APIKey;
++ (NSString *)URLForKey:(NSString *)key, ...;
++ (NSDictionary *)URLListForKeys:(NSArray *)keys;
+
+- (void)retrievePortraitList;
+- (void)retrieveAccountData;
 - (void)retrieveLimitedData;
 - (void)retrieveFullData;
 - (void)retrieveAssets;
 - (void)retrieveMarketOrders;
+
+- (NSDictionary *)accountInfoForPost;
+- (NSDictionary *)characterInfoForPost;
+
+
+// Methods for specific calls
+
+- (void)characterListWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error;
+- (void)portraitListWithData:(NSData *)data forCharID:(NSString *)charID error:(NSError **)error;
+
 
 // There may be a little redundance here, but we can figure it out later.
 // Also, I thought about that idea of making EveAPI a subclass of

@@ -608,7 +608,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="97986332">
 							<int key="NSCellFlags">68288064</int>
 							<int key="NSCellFlags2">272630784</int>
-							<string key="NSContents">Alliance name</string>
+							<string key="NSContents">-</string>
 							<reference key="NSSupport" ref="402816156"/>
 							<reference key="NSControlView" ref="436434000"/>
 							<reference key="NSBackgroundColor" ref="671767347"/>
@@ -848,6 +848,62 @@
 					</object>
 					<int key="connectionID">120</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: document.character.name</string>
+						<reference key="source" ref="829622113"/>
+						<reference key="destination" ref="1001"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="829622113"/>
+							<reference key="NSDestination" ref="1001"/>
+							<string key="NSLabel">value: document.character.name</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">document.character.name</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSNullPlaceholder</string>
+								<string key="NS.object.0">-</string>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">125</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: document.character.corporation.name</string>
+						<reference key="source" ref="689748341"/>
+						<reference key="destination" ref="1001"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="689748341"/>
+							<reference key="NSDestination" ref="1001"/>
+							<string key="NSLabel">value: document.character.corporation.name</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">document.character.corporation.name</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSNullPlaceholder</string>
+								<string key="NS.object.0">-</string>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">131</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: document.character.portrait</string>
+						<reference key="source" ref="551055796"/>
+						<reference key="destination" ref="1001"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="551055796"/>
+							<reference key="NSDestination" ref="1001"/>
+							<string key="NSLabel">value: document.character.portrait</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">document.character.portrait</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">135</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -957,8 +1013,8 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="551055796"/>
 							<reference ref="829622113"/>
-							<reference ref="689748341"/>
 							<reference ref="436434000"/>
+							<reference ref="689748341"/>
 						</object>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -1246,7 +1302,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">120</int>
+			<int key="maxID">135</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

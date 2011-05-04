@@ -14,10 +14,14 @@
 	NSString * userID;
 	NSString * apiKey;
 	BOOL isFullAPI;
+
+	NSDictionary * characters;
     
 }
 
 @property (retain) NSString * userID, * apiKey;
+@property (retain) NSDictionary * characters;
+
 @property (assign) BOOL isFullAPI;
 
 @end

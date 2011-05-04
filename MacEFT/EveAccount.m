@@ -11,6 +11,6 @@
 
 @implementation EveAccount
 
-@synthesize userID, apiKey, isFullAPI;
+@synthesize userID, apiKey, isFullAPI, characters;
 
 @end

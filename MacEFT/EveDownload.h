@@ -78,7 +78,7 @@
 	NSObject <EveDownloadDelegate> * delegate;
 }
 
-@property (assign) NSObject <EveDownloadDelegate> * delegate;
+@property (retain) NSObject <EveDownloadDelegate> * delegate;
 @property (readonly) NSDictionary * downloads;
 
 // Starting up
@@ -86,6 +86,11 @@
 - (id)initWithURLList:(NSDictionary *)urls;
 + (id)downloadWithURLList:(NSDictionary *)urls;
 - (void)start;
+
+
+// Manipulation functions
+
+- (void)setPostBodyToDictionary:(NSDictionary *)dictionary forKey:(NSString *)key;
 
 // Delegated messages from NSURLConnection
 

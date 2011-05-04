@@ -11,27 +11,30 @@
 
 // TODO: Autosave, NSCoding
 
-@class CharacterWindowController;
+@class EveCharacter;
 
 @interface CharacterDocument : NSDocument {
 @private
 	// Saved properties
-	BOOL hasFullAPI;
-	NSString * accountID;
+	EveCharacter * character;
 	NSString * currentTask;
 	NSDictionary * viewSizes;
 
 	// Instance properties
 	NSFileWrapper * currentWrapper;
-	CharacterWindowController * cwController;
+	NSWindowController * cwController;
+	NSWindowController * ccController;
 }
 
-@property (assign) BOOL hasFullAPI;
+@property (assign) NSWindowController * cwController, * ccController;
 
-@property (retain) NSString * accountID;
+@property (retain) EveCharacter * character;
 @property (retain) NSString * currentTask;
 @property (retain) NSDictionary * viewSizes;
 
+- (void)showSheet:(NSWindowController *)controller;
+- (NSDictionary *)dictionaryForArchival;
+- (void)unarchiveWithDictionary:(NSDictionary *)data;
 
 
 @end
