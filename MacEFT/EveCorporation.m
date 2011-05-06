@@ -23,6 +23,20 @@
 	return self;
 }
 
+- (void)encodeWithCoder:(NSCoder *)coder {
+	[coder encodeObject:name forKey:@"corp.name"];
+	[coder encodeObject:corporationID forKey:@"corp.corporationID"];
+}
+
+- (id)initWithCoder:(NSCoder *)coder {
+	if ((self = [super init])) {
+		self.name          = [coder decodeObjectForKey:@"corp.name"];
+		self.corporationID = [coder decodeObjectForKey:@"corp.corporationID"];
+	}
+
+	return self;
+}
+
 - (void)dealloc {
 	self.name          = nil;
 	self.corporationID = nil;

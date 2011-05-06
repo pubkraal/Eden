@@ -7,25 +7,76 @@
 //
 
 #import "MacEFTAppDelegate.h"
+#import "EveDatabase.h"
+#import "SQLBridge.h"
+
 
 @implementation MacEFTAppDelegate
 
-@synthesize window;
+@synthesize window, dbLoaded;
 
-@synthesize maxValues, currentValues, indicators, labels;
 
 - (id)init {
 	if ((self = [super init])) {
 		appStarted = NO;
+		dbLoaded   = NO;
 	}
 	
 	return self;
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-	[self prepareDownloads];
-	dumpNavWindow = nil;
-	appStarted = YES;
+	preferencesWindow = nil;
+	dumpNavWindow     = nil;
+
+	[progress startAnimation:self];
+	[self performSelectorInBackground:@selector(loadDatabase:) withObject:nil];
+}
+
+- (void)loadDatabase:(id)arg {
+	NSError * error;
+	SQLBridge * bridge;
+	NSAutoreleasePool * pool;
+
+	pool = [[NSAutoreleasePool alloc] init];
+
+	bridge = [EveDatabase sharedBridge];
+	error  = (bridge) ? nil : [EveDatabase initError];
+
+	[pool drain];
+	
+	[self performSelectorOnMainThread:@selector(postLoadDatabase:) withObject:error waitUntilDone:NO];
+}
+
+- (void)postLoadDatabase:(id)arg {
+	NSError * error;
+	NSAlert * alert;
+
+	error = (NSError *) arg;
+	
+	[progress stopAnimation:self];
+
+	if (!error) {
+		self.dbLoaded = YES;
+		[window orderOut:self];
+
+		if ([self applicationShouldOpenUntitledFile:[NSApplication sharedApplication]]) {
+			[[NSDocumentController sharedDocumentController] newDocument:self];
+		}
+
+		appStarted = YES;
+	}
+	else {
+		alert = [NSAlert alertWithError:error];
+
+		[alert runModal];
+
+		[[NSApplication sharedApplication] terminate:self];
+	}
+}
+
+- (BOOL)validateUserInterfaceItem:(id)item {
+	return dbLoaded;
 }
 
 - (IBAction)openDumpNav:(id)aButton {
@@ -74,157 +125,9 @@
 }
 
 
-- (void)prepareDownloads {
-	[self setMaxValues:[NSMutableDictionary dictionaryWithObjectsAndKeys:\
-						[NSNumber numberWithInt:100], @"song1", \
-						[NSNumber numberWithInt:100], @"song2", \
-						[NSNumber numberWithInt:100], @"song3", \
-						[NSNumber numberWithInt:100], @"song4", \
-						[NSNumber numberWithInt:100], @"total", \
-						nil]];
-
-	[self setCurrentValues:[NSMutableDictionary dictionaryWithObjectsAndKeys:\
-						[NSNumber numberWithInt:0], @"song1", \
-						[NSNumber numberWithInt:0], @"song2", \
-						[NSNumber numberWithInt:0], @"song3", \
-						[NSNumber numberWithInt:0], @"song4", \
-						[NSNumber numberWithInt:0], @"total", \
-						nil]];
-	
-	[self setLabels:[NSMutableDictionary dictionaryWithObjectsAndKeys:\
-						@"Song 1", @"song1", \
-						@"Song 2", @"song2", \
-						@"Song 3", @"song3", \
-						@"Song 4", @"song4", \
-						@"Total", @"total", \
-						nil]];
-	
-	[self setIndicators:[NSDictionary dictionaryWithObjectsAndKeys:\
-						p1, @"song1", \
-						p2, @"song2", \
-						p3, @"song3", \
-						p4, @"song4", \
-						p5, @"total", \
-						nil]];
-	
-	
-	URLList = [[NSDictionary alloc] initWithObjectsAndKeys:\
-			   @"http://wiki.icmc.usp.br/images/7/73/SCC211Cap1.pdfxs", @"song1", \
-			   @"http://wiki.icmc.usp.br/images/3/37/SCC211Cap2_1.pdf", @"song2", \
-			   @"http://wiki.icmc.usp.br/images/7/71/SCC211Cap2_2.pdf", @"song3", \
-			   @"http://wiki.icmc.usp.br/images/1/1e/SCC211Cap3.pdf", @"song4", \
-			   nil];
-	
-}
-
-- (IBAction)doSomeSchmancyDictionaryWork:(id)aButton {
-	NSLog(@":-)");
-}
-
-- (IBAction)startDownloads:(id)aButton {
-	EveDownload * download;
-	NSProgressIndicator * indic;
-	
-	download = [[EveDownload alloc] initWithURLList:URLList];
-	
-	
-	[download addObserver:self];
-	[download setDelegate:self];
-	
-	for (indic in [[self indicators] allValues]) {
-		[indic setUsesThreadedAnimation:YES];
-	}
-	
-	[download start];
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-	NSArray * pathComponents;
-	NSString * key, * type, * labelFormat;
-	id value;
-
-	value		= [change objectForKey:NSKeyValueChangeNewKey];
-	labelFormat = @"%@ of %@ bytes downloaded";
-	
-	pathComponents = [keyPath componentsSeparatedByString:@"."];
-	
-	if ([pathComponents count] < 3) {
-		// This means it's an event relative to the download object itself
-		
-		key  = @"total";
-		type = keyPath;
-	}
-	else {
-		key  = [pathComponents objectAtIndex:1];
-		type = [pathComponents objectAtIndex:2];
-	}
-	
-	if ([type isEqualToString:@"expectedLength"]) {
-		type = @"maxValues";
-		[[self labels] setValue:[NSString stringWithFormat:labelFormat, [[self currentValues] objectForKey:key], value] forKey:key];
-	}
-	else {
-		type = @"currentValues";
-		[[self labels] setValue:[NSString stringWithFormat:labelFormat, value, [[self maxValues] objectForKey:key]] forKey:key];
-	}
-	
-	[self performSelectorInBackground:@selector(updateWithData:) withObject:[NSDictionary dictionaryWithObjectsAndKeys: \
-																			 key, @"key", \
-																			 type, @"type", \
-																			 value, @"value", \
-																			 nil]];
-}
-
-- (void)updateWithData:(id)theData {
-	NSAutoreleasePool * pool;
-	NSDictionary * data;
-	NSString * keyPath;
-	
-	pool = [[NSAutoreleasePool alloc] init];
-
-	data	= (NSDictionary *) theData;
-	keyPath = [NSString stringWithFormat:@"%@.%@", [data objectForKey:@"type"], [data objectForKey:@"key"]];
-	
-	[self setValue:[data objectForKey:@"value"] forKeyPath:keyPath];
-	
-	
-	[pool drain];
-}
-
-- (void)didFinishDownload:(EveDownload *)download forKey:(NSString *)key withData:(NSData *)data error:(NSError *)error {
-	NSString * content;
-	
-	content = (error) ? [error localizedDescription] : [NSString stringWithFormat:@"Download %@ has finished.", key];
-
-	[self setValue:content forKeyPath:[NSString stringWithFormat:@"labels.%@", key]];
-
-}
-
-- (void)didFinishDownload:(EveDownload *)download withResults:(NSDictionary *)results {
-	NSString * key;
-	NSDictionary * result;
-	unsigned success, failure;
-	
-	failure = 0;
-
-	for (key in [results allKeys]) {
-		result = [results objectForKey:key];
-		
-		if ([result objectForKey:@"error"] != [NSNull null]) failure++;
-	}
-	
-	success = (unsigned) [results count] - failure;
-	
-	[self setValue:[NSString stringWithFormat:@"All downloads have finished! Successes: %u - Failures %u", success, failure] forKeyPath:@"labels.total"];
-	
-	[download removeObserver:self];
-	
-	[download release];
-}
 
 
 - (void)dealloc {
-	[URLList release];
 	[dumpNavWindow release];
 	
 	[super dealloc];

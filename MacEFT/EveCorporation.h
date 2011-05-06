@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface EveCorporation : NSObject {
+@interface EveCorporation : NSObject <NSCoding> {
     NSString * name;
 	NSString * corporationID;
 }

@@ -8,6 +8,7 @@
 
 #import "DumpNavigatorDelegate.h"
 #import "EveShip.h"
+#import "EveDatabase.h"
 
 
 @implementation DumpNavigatorDelegate
@@ -35,13 +36,19 @@
 	return [SQLTable class]; // Non-mutable
 }
 
-- (BOOL)buildLookupForTable:(NSString *)table {
+- (BOOL)shouldBuildLookupForTable:(NSString *)table {
 	return NO;
 }
 
 - (void)awakeFromNib {
-	[loadingControl startAnimation:self];
+	self.bridge = [EveDatabase sharedBridge];
+
+	[bridge addObserver:self forKeyPath:@"lastError" options:(NSKeyValueObservingOptionNew) context:nil];
+
+	[self postAwakeFromNib:bridge];
+	/*[loadingControl startAnimation:self];
 	[self performSelectorInBackground:@selector(loadBridge:) withObject:nil];
+	*/
 }
 
 - (void)loadBridge:(id)sender {
@@ -53,7 +60,7 @@
 
 	sqlError = nil;
 	err      = nil;
-	dbPath   = [[NSBundle mainBundle] pathForResource:@"evedump_notrans_nomaps" ofType:@"db"];
+	dbPath   = [[NSBundle mainBundle] pathForResource:@"evedump_lite" ofType:@"db"];
 	//dbPath   = [[NSBundle mainBundle] pathForResource:@"evedump" ofType:@"db"];
 	
 	if (dbPath) {

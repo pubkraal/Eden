@@ -7,8 +7,18 @@
 //
 
 #import "EveSkill.h"
-
+#import "EveDatabase.h"
 
 @implementation EveSkill
+
+@synthesize data;
+
+- (id)initWithSkillID:(NSNumber *)skillID {
+	if ((self = [self init])) {
+		
+	}
+	
+	return self;
+}
 
 @end

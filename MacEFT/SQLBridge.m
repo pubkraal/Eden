@@ -111,11 +111,11 @@
 	return autoload;
 }
 
-- (BOOL)buildLookupForTable:(NSString *)table {
+- (BOOL)shouldBuildLookupForTable:(NSString *)table {
 	BOOL lookup;
 	
-	if ([[self delegate] respondsToSelector:@selector(buildLookupForTable:)]) {
-		lookup = [[self delegate] buildLookupForTable:table];
+	if ([[self delegate] respondsToSelector:@selector(shouldBuildLookupForTable:)]) {
+		lookup = [[self delegate] shouldBuildLookupForTable:table];
 	}
 	else lookup = YES;
 	

@@ -107,7 +107,7 @@
 - (void)doSetRows:(NSArray *)newRows {
 	[self setRows:newRows];
 
-	if ([[self bridge] buildLookupForTable:[self tableName]]) [self updateLookup];
+	if ([[self bridge] shouldBuildLookupForTable:[self tableName]]) [self updateLookup];
 }
 
 - (void)updateLookup {

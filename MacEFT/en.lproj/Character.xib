@@ -608,7 +608,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="97986332">
 							<int key="NSCellFlags">68288064</int>
 							<int key="NSCellFlags2">272630784</int>
-							<string key="NSContents">-</string>
+							<string key="NSContents">Alliance name</string>
 							<reference key="NSSupport" ref="402816156"/>
 							<reference key="NSControlView" ref="436434000"/>
 							<reference key="NSBackgroundColor" ref="671767347"/>
@@ -902,7 +902,27 @@
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">135</int>
+					<int key="connectionID">139</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: document.character.alliance.name</string>
+						<reference key="source" ref="436434000"/>
+						<reference key="destination" ref="1001"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="436434000"/>
+							<reference key="NSDestination" ref="1001"/>
+							<string key="NSLabel">value: document.character.alliance.name</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">document.character.alliance.name</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSNullPlaceholder</string>
+								<string key="NS.object.0">-</string>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">142</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1302,7 +1322,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">135</int>
+			<int key="maxID">142</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

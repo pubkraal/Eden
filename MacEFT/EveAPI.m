@@ -10,6 +10,7 @@
 #import "EveCharacter.h"
 #import "EveAPIResult.h"
 #import "EveCorporation.h"
+#import "EveAlliance.h"
 
 NSDictionary * URLDict = nil;
 
@@ -28,8 +29,22 @@ NSDictionary * URLDict = nil;
 	return self;
 }
 
+- (id)initWithCharacter:(EveCharacter *)theChar {
+	if ((self = [super init])) {
+		self.character = theChar;
+		self.lastCalls = [NSSet set];
+		self.characterList = nil;
+	}
+
+	return self;
+}
+
 + (id)requestWithAccountID:(NSString *)accountID andAPIKey:(NSString *)APIKey {
 	return [[[self alloc] initWithAccountID:accountID andAPIKey:APIKey] autorelease];
+}
+
++ (id)requestWithCharacter:(EveCharacter *)theChar {
+	return [[[self alloc] initWithCharacter:theChar] autorelease];
 }
 
 - (void)dealloc {
@@ -45,14 +60,21 @@ NSDictionary * URLDict = nil;
 	EveDownload * download;
 	NSDictionary * URLList;
 	NSArray * calls;
+	NSString * call;
 
-	calls = [NSArray arrayWithObject:@"CharacterList"];
+	calls = [NSArray arrayWithObjects:
+						@"CharacterList",
+						@"AccountStatus",
+						nil];
 	
 	URLList  = [[self class] URLListForKeys:calls];
 	download = [EveDownload downloadWithURLList:URLList];
 
 	[download setDelegate:self];
-	[download setPostBodyToDictionary:[self accountInfoForPost] forKey:@"CharacterList"];
+
+	for (call in calls) {
+		[download setPostBodyToDictionary:[self accountInfoForPost] forKey:call];
+	}
 
 	self.lastCalls = [NSSet setWithArray:calls];
 
@@ -74,11 +96,34 @@ NSDictionary * URLDict = nil;
 
 	download.delegate = self;
 
-	self.lastCalls = [NSSet setWithObject:@"Portrait 128"];
+	self.lastCalls = [NSSet setWithObject:@"PortraitList"];
 
 	[download start];
 }
 
+- (void)retrieveLimitedData {
+	EveDownload * download;
+	NSArray * calls;
+	NSDictionary * URLList;
+	NSString * call;
+
+	calls = [NSArray arrayWithObjects:
+						@"CharacterSheet",
+						nil];
+	
+	URLList  = [[self class] URLListForKeys:calls];
+	download = [EveDownload downloadWithURLList:URLList];
+
+	download.delegate = self;
+
+	for (call in calls) {
+		[download setPostBodyToDictionary:[self characterInfoForPost] forKey:call];
+	}
+
+	self.lastCalls = [NSSet setWithArray:calls];
+
+	[download start];
+}
 
 - (NSDictionary *)accountInfoForPost {
 	return [NSDictionary dictionaryWithObjectsAndKeys:
@@ -87,7 +132,11 @@ NSDictionary * URLDict = nil;
 }
 
 - (NSDictionary *)characterInfoForPost {
-	return nil;
+	return [NSDictionary dictionaryWithObjectsAndKeys:
+							character.accountID, @"userID",
+							character.APIKey, @"apiKey",
+							character.characterID, @"characterID",
+							nil];
 }
 
 
@@ -183,9 +232,106 @@ NSDictionary * URLDict = nil;
 	}
 }
 
+- (void)accountStatusWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error {
+	NSArray * nodeList;
+
+	nodeList = [[xmlDoc rootElement] nodesForXPath:@"/eveapi/result/paidUntil" error:error];
+
+	if (!(*error)) {
+		if ([nodeList count]) self.character.fullAPI = YES;
+		else self.character.fullAPI = NO;
+	}
+}
+
+- (void)characterSheetWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error {
+	NSXMLElement * root, * node;
+	NSArray * nodeList;
+	EveCorporation * corp;
+	EveAlliance * alliance;
+	NSDictionary * corpDict, * allianceDict;
+	NSString * nodeName, * propName, * propValue;
+	double balance;
+	
+	root     = [xmlDoc rootElement];
+	nodeList = [root nodesForXPath:@"/eveapi/result/*" error:error];
+
+	if (!(*error)) {
+		allianceDict = nil;
+		corpDict     = nil;
+		
+		for (node in nodeList) {
+			nodeName = [node name];
+			
+			if ([nodeName isEqualToString:@"DoB"]) {
+				[self.character setDateOfBirthWithString:[node stringValue]];
+			}
+			else if ([nodeName isEqualToString:@"attributes"]) {
+				for (node in [node children]) {
+					[self.character setValue:[NSNumber numberWithInteger:[[node stringValue] integerValue]] forKey:[node name]];
+				}
+			}
+			else if ([nodeName isEqualToString:@"attributeEnhancers"]) {
+				// ?
+			}
+			else if ([nodeName hasPrefix:@"corporation"]) {
+				if (corpDict) {
+					propName  = [[corpDict allKeys] objectAtIndex:0];
+					propValue = [corpDict objectForKey:propName];
+					
+					if ([propName isEqualToString:@"corporationName"]) {
+						corp = [EveCorporation corporationWithName:propValue andCorporationID:[node stringValue]];
+					}
+					else {
+						corp = [EveCorporation corporationWithName:[node stringValue] andCorporationID:propValue];
+					}
+					
+					corpDict = nil;
+					
+					self.character.corporation = corp;
+				}
+				else {
+					corpDict = [NSDictionary dictionaryWithObject:[node stringValue] forKey:nodeName];
+				}
+			}
+			else if ([nodeName hasPrefix:@"alliance"]) {
+				if (allianceDict) {
+					propName  = [[allianceDict allKeys] objectAtIndex:0];
+					propValue = [allianceDict objectForKey:propName];
+					
+					if ([propName isEqualToString:@"allianceName"]) {
+						alliance = [EveAlliance allianceWithName:propValue andAllianceID:[node stringValue]];
+					}
+					else {
+						alliance = [EveAlliance allianceWithName:[node stringValue] andAllianceID:propValue];
+					}
+					
+					allianceDict = nil;
+					
+					self.character.alliance = alliance;
+				}
+				else {
+					allianceDict = [NSDictionary dictionaryWithObject:[node stringValue] forKey:nodeName];
+				}
+			}
+			else if ([nodeName isEqualToString:@"cloneSkillPoints"]) {
+				self.character.cloneSkillPoints = [NSNumber numberWithInteger:[[node stringValue] integerValue]];
+			}
+			else if ([nodeName isEqualToString:@"balance"]) {
+				balance = [[node stringValue] doubleValue] * 100.0;
+				self.character.balance = [NSNumber numberWithInteger:(NSInteger) (balance + 0.5)];
+			}
+			else if ([nodeName isEqualToString:@"rowset"]) {
+				
+			}
+			else {
+				[self.character setValue:[node stringValue] forKeyPath:nodeName];
+			}
+		}
+	}
+}
+
 - (void)portraitListWithData:(NSData *)data forCharID:(NSString *)charID error:(NSError **)error {
 	EveCharacter * theChar;
-	NSImage * portrait;
 	BOOL charFound;
 
 	charFound = NO;
@@ -198,9 +344,7 @@ NSDictionary * URLDict = nil;
 	}
 
 	if (charFound) {
-		portrait = [[NSImage alloc] initWithData:data];
-		theChar.portrait = portrait;
-		[portrait release];
+		theChar.portraitData = data;
 
 	}
 	else if (error) {
@@ -221,21 +365,45 @@ NSDictionary * URLDict = nil;
 	processError = nil;
 	xmlDoc       = nil;
 
-	/*NSString * xmlStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+	NSString * xmlStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 	NSLog(@"%@", xmlStr);
-	[xmlStr release];*/
+	[xmlStr release];
 
 	if (!error) {
+		// API call to Character List
 		if ([key isEqualToString:@"CharacterList"]) {
 			xmlDoc = [[NSXMLDocument alloc] initWithData:data options:0 error:&processError];
 
 			if (!processError) [self characterListWithXML:xmlDoc error:&processError];
 
 		}
+
+		// API call to get portraits for a character list
 		else if ([key hasPrefix:@"PortraitList"]) {
 			[self portraitListWithData:data
 							 forCharID:[[key componentsSeparatedByString:@" "] objectAtIndex:1]
 								 error:&processError];
+		}
+
+		// API call to verify if it's a full API key or not
+		else if ([key isEqualToString:@"AccountStatus"]) {
+			xmlDoc = [[NSXMLDocument alloc] initWithData:data options:0 error:&processError];
+
+			if (!processError) [self accountStatusWithXML:xmlDoc error:&processError];
+		}
+
+		// API call to get the character sheet
+		else if ([key isEqualToString:@"CharacterSheet"]) {
+			xmlDoc = [[NSXMLDocument alloc] initWithData:data options:0 error:&processError];
+
+			if (!processError) [self characterSheetWithXML:xmlDoc error:&processError];
+		}
+
+		// Test call please ignore
+		else if ([key isEqualToString:@"Echo"]) {
+			processError = [NSError errorWithDomain:EveAPIErrorDomain
+											   code:-1
+										   userInfo:[NSDictionary dictionaryWithObject:@"Testing" forKey:NSLocalizedDescriptionKey]];
 		}
 
 		

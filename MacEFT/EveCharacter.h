@@ -19,7 +19,7 @@
 // that the class exists somewhere with @class and include the
 // header files in the .m file.
 
-@interface EveCharacter : NSObject {
+@interface EveCharacter : NSObject <NSCoding> {
 	// All information taken from the API as described on:
 	// http://wiki.eve-id.net/APIv2_Char_CharacterSheet_XML
 	// Please refer to that webpage for more information on the properties.
@@ -36,32 +36,52 @@
 	NSString * characterID;
 	BOOL fullAPI;
 
+	NSData * portraitData;
 	NSImage * portrait;
 
+	EveCorporation * corporation;
+	EveAlliance * alliance;
+
 	NSString *name;
+	NSString * race;
+	NSString * bloodLine;
+	NSString * ancestry;
+	NSString * gender;
+	NSString * cloneName;
 
-	NSString * allianceID;		// Normalized!
-	NSString *race;			// Normalize?
 	NSDate *dateOfBirth;
-	NSString *bloodLine;	// Normalize/ignore?
-	NSString *ancestry;		// Normalize/ignore?
-	NSString *gender;		// Normalize?
-	NSString *cloneName;
-	uint cloneSkillPoints;
-	double balance;
 
-	NSArray *skills;
+	NSNumber * cloneSkillPoints;
+	NSNumber * balance;
 
-	EveCorporation *corporation;
-	EveAlliance *alliance;
+	NSNumber * intelligence;
+	NSNumber * memory;
+	NSNumber * charisma;
+	NSNumber * perception;
+	NSNumber * willpower;
+
+	NSMutableArray * skills;
+	NSMutableArray * certificates;
 }
 
 @property (retain) NSString * accountID, * APIKey, * characterID;
 @property (assign) BOOL fullAPI;
+@property (retain) NSData * portraitData;
+@property (readonly) NSImage * portrait;
 
-@property (retain) NSString * name;
-@property (retain) NSImage * portrait;
 @property (retain) EveCorporation * corporation;
+@property (retain) EveAlliance * alliance;
+
+@property (retain) NSString * name, * race, * bloodLine, * ancestry;
+@property (retain) NSString * gender, * cloneName;
+
+@property (retain) NSDate * dateOfBirth;
+
+@property (retain) NSNumber * cloneSkillPoints, * balance;
+@property (retain) NSNumber * intelligence, * memory, * charisma;
+@property (retain) NSNumber * perception, * willpower;
+
+@property (retain) NSMutableArray * skills, * certificates;
 
 
 - (id)initWithAccountID:(NSString *)accID andAPIKey:(NSString *)APKey;
@@ -69,17 +89,6 @@
 + (id)characterWithAccountID:(NSString *)accID andAPIKey:(NSString *)APKey;
 + (id)characterWithCharacter:(EveCharacter *)character;
 
-// TODO: make @properties for all the attributes in the character
-
-- (void)importFromAPI:(int)characterId;
-- (void)updateFromAPI;
-
-- (void)loadSkills;
-- (float)getTotalCPUBonus;
-- (float)getTotalPowergridBonus;
-
-// We also need these functions for capacitor, but they're currently less
-// important.
-
+- (void)setDateOfBirthWithString:(NSString *)date;
 
 @end

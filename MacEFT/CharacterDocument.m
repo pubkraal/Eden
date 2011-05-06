@@ -10,18 +10,16 @@
 #import "CharacterWindowController.h"
 #import "CharacterInfoController.h"
 #import "EveCharacter.h"
-#import "CharacterCreateSheetController.h"
 
 @implementation CharacterDocument
 
 @synthesize character, currentTask, viewSizes;
-@synthesize cwController, ccController;
+@synthesize cwController;
 
 - (id)init {
 	if ((self = [super init])) {
 		currentWrapper = nil;
 		cwController   = nil;
-		ccController   = nil;
 		
 		[self setCharacter:nil];
 		[self setCurrentTask:nil];
@@ -49,13 +47,10 @@
 
 - (void)makeWindowControllers {
 	cwController = [[CharacterWindowController alloc] init];
-	ccController = [[CharacterCreateSheetController alloc] init];
 	
 	[self addWindowController:cwController];
-	[self addWindowController:ccController];
 	
 	[cwController release];
-	[ccController release];
 }
 
 - (void)showSheet:(NSWindowController *)controller {
@@ -70,7 +65,7 @@
 }
 
 - (BOOL)readFromFileWrapper:(NSFileWrapper *)wrapper ofType:(NSString *)typeName error:(NSError **)error {
- 	NSFileWrapper * item;
+ 	NSFileWrapper * item, * portrait;
 	NSMutableDictionary * errDict;
 	NSDictionary * data;
 	BOOL fileRead;
@@ -83,6 +78,10 @@
 			data = [NSKeyedUnarchiver unarchiveObjectWithData:[item regularFileContents]];
 
 			[self unarchiveWithDictionary:data];
+			
+			portrait = [[wrapper fileWrappers] objectForKey:@"portrait.jpg"];
+
+			if (portrait) character.portraitData = [portrait regularFileContents];
 
 			fileRead      = YES;
 			if (currentWrapper) [currentWrapper release];
@@ -122,6 +121,12 @@
 	}
 
 	[newWrapper addRegularFileWithContents:characterData preferredFilename:@"character.data"];
+
+	if ((oldItem = [[newWrapper fileWrappers] objectForKey:@"portrait.jpg"])) {
+		[newWrapper removeFileWrapper:oldItem];
+	}
+
+	[newWrapper addRegularFileWithContents:character.portraitData preferredFilename:@"portrait.jpg"];
 
 	if (!currentWrapper) currentWrapper = newWrapper;
 

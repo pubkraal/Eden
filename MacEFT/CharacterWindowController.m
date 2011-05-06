@@ -11,6 +11,7 @@
 #import <QuartzCore/CoreAnimation.h>
 #import "CharacterViews.h"
 #import "EveCharacter.h"
+#import "CharacterCreateSheetController.h"
 
 @implementation CharacterWindowController
 
@@ -163,7 +164,15 @@
 }
 
 - (void)showCharacterSelectionSheet {
-	[self.document showSheet:self.document.ccController];
+	CharacterCreateSheetController * ccController;
+
+	ccController = [[CharacterCreateSheetController alloc] init];
+
+	[self.document addWindowController:ccController];
+
+	[self.document showSheet:ccController];
+
+	[ccController release];
 }
 
 

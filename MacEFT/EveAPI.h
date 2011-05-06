@@ -87,7 +87,9 @@ typedef unsigned int uint;
 // Methods for specific calls
 
 - (void)characterListWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error;
+- (void)accountStatusWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error;
 - (void)portraitListWithData:(NSData *)data forCharID:(NSString *)charID error:(NSError **)error;
+- (void)characterSheetWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error;
 
 
 // There may be a little redundance here, but we can figure it out later.

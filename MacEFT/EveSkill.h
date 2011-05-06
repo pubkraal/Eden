@@ -7,10 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "EveObject.h"
 
-@interface EveSkill : EveObject {
-    
+@interface EveSkill : NSObject {
+@private
+	NSDictionary * data;
+	
 }
+
+@property (retain) NSDictionary * data;
+
+- (id)initWithSkillID:(NSNumber *)skillID;
 
 @end

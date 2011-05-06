@@ -127,7 +127,7 @@
 							<object class="NSTextFieldCell" key="NSCell" id="131072948">
 								<int key="NSCellFlags">68288064</int>
 								<int key="NSCellFlags2">272630784</int>
-								<string key="NSContents">Welcome to MacEFT</string>
+								<string key="NSContents">Create new character</string>
 								<object class="NSFont" key="NSSupport" id="973199385">
 									<string key="NSName">LucidaGrande-Bold</string>
 									<double key="NSSize">13</double>
@@ -241,7 +241,8 @@
 									<reference key="NSSupport" ref="900583526"/>
 								</object>
 							</object>
-							<reference key="NSSelectedCell" ref="192869479"/>
+							<int key="NSSelectedRow">-1</int>
+							<int key="NSSelectedCol">-1</int>
 							<reference key="NSBackgroundColor" ref="167403438"/>
 							<object class="NSColor" key="NSCellBackgroundColor">
 								<int key="NSColorSpace">3</int>
@@ -916,22 +917,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: representedObject.portrait</string>
-						<reference key="source" ref="533547541"/>
-						<reference key="destination" ref="97361860"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="533547541"/>
-							<reference key="NSDestination" ref="97361860"/>
-							<string key="NSLabel">value: representedObject.portrait</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">representedObject.portrait</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">167</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
 						<string key="label">enabled: controlsEnabled</string>
 						<reference key="source" ref="181312585"/>
 						<reference key="destination" ref="1001"/>
@@ -1004,6 +989,22 @@
 						</object>
 					</object>
 					<int key="connectionID">182</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: representedObject.portrait</string>
+						<reference key="source" ref="533547541"/>
+						<reference key="destination" ref="97361860"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="533547541"/>
+							<reference key="NSDestination" ref="97361860"/>
+							<string key="NSLabel">value: representedObject.portrait</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">representedObject.portrait</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">186</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1453,7 +1454,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">182</int>
+			<int key="maxID">186</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

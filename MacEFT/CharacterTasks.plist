@@ -104,22 +104,6 @@
 					<key>view</key>
 					<string></string>
 				</dict>
-				<dict>
-					<key>children</key>
-					<array/>
-					<key>groupItem</key>
-					<false/>
-					<key>icon</key>
-					<string>icon</string>
-					<key>leaf</key>
-					<false/>
-					<key>requiresFullAPI</key>
-					<false/>
-					<key>title</key>
-					<string>Plans</string>
-					<key>view</key>
-					<string></string>
-				</dict>
 			</array>
 			<key>groupItem</key>
 			<true/>
@@ -131,6 +115,22 @@
 			<false/>
 			<key>title</key>
 			<string>CHARACTER</string>
+			<key>view</key>
+			<string></string>
+		</dict>
+		<dict>
+			<key>children</key>
+			<array/>
+			<key>groupItem</key>
+			<true/>
+			<key>icon</key>
+			<string>icon</string>
+			<key>leaf</key>
+			<false/>
+			<key>requiresFullAPI</key>
+			<false/>
+			<key>title</key>
+			<string>SKILL PLANS</string>
 			<key>view</key>
 			<string></string>
 		</dict>

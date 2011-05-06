@@ -58,7 +58,7 @@
 @property (assign) NSProgressIndicator * loadingControl;
 
 @property (retain) NSMutableArray * errors;
-@property (retain) SQLBridge * bridge;
+@property (assign) SQLBridge * bridge;
 @property (retain) NSString * selectedView;
 @property (retain) NSPredicate * currentPred;
 @property (retain) NSString * quickAccessSelected;

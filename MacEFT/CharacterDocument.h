@@ -23,10 +23,9 @@
 	// Instance properties
 	NSFileWrapper * currentWrapper;
 	NSWindowController * cwController;
-	NSWindowController * ccController;
 }
 
-@property (assign) NSWindowController * cwController, * ccController;
+@property (assign) NSWindowController * cwController;
 
 @property (retain) EveCharacter * character;
 @property (retain) NSString * currentTask;

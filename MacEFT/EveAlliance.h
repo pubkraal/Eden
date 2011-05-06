@@ -7,10 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "EveObject.h"
 
-@interface EveAlliance : EveObject {
-    
+@interface EveAlliance : NSObject <NSCoding> {
+   NSString * allianceID;
+   NSString * name;
 }
+
+@property (retain) NSString * allianceID, * name;
+
+- (id)initWithName:(NSString *)allName andAllianceID:(NSString *)allID;
++ (id)allianceWithName:(NSString *)allName andAllianceID:(NSString *)allID;
 
 @end

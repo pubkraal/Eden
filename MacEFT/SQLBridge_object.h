@@ -61,7 +61,7 @@
 - (Class)classForTable:(NSString *)table;
 - (Class)classForView:(NSString *)view;
 - (BOOL)shouldAutoloadView:(NSString *)viewName;
-- (BOOL)buildLookupForTable:(NSString *)table;
+- (BOOL)shouldBuildLookupForTable:(NSString *)table;
 
 @end
 
@@ -100,7 +100,7 @@
 - (Class)classForView:(NSString *)view;
 - (Class)classForTable:(NSString *)table;
 - (BOOL)shouldAutoloadView:(NSString *)viewName;
-- (BOOL)buildLookupForTable:(NSString *)table;
+- (BOOL)shouldBuildLookupForTable:(NSString *)table;
 
 // Views
 
