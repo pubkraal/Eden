@@ -171,6 +171,9 @@
 	return row;
 }
 
+- (id)rowWithSingleKey:(id)key {
+	return [self rowWithKey:[NSArray arrayWithObject:key]];
+}
 
 - (NSUInteger)indexOfRowWithKey:(NSArray *)key {
 	id row;
@@ -201,7 +204,7 @@
 		fView  = [[[self bridge] views] objectForKey:fTable];
 	
 		if (([[fView primaryKeys] count] == 1) && ([fKey isEqualToString:[[fView primaryKeys] objectAtIndex:0]])) {
-			fObject = [fView rowWithKey:[NSArray arrayWithObject:[row objectForKey:key]]];
+			fObject = [fView rowWithSingleKey:[row objectForKey:key]];
 		}
 		else {
 			pred    = [NSPredicate predicateWithFormat:@"SELF.%@ == %@", fKey, [row objectForKey:key]];

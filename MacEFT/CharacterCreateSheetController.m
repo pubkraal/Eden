@@ -118,7 +118,7 @@
 			self.controlsEnabled = YES;
 			
 			self.document.character = apiObj.character;
-
+			
 			[NSApp endSheet:[self window] returnCode:EVE_RETRIEVE_DATA];
 		}
 		else NSLog(@"%@", errors);

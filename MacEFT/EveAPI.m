@@ -11,6 +11,7 @@
 #import "EveAPIResult.h"
 #import "EveCorporation.h"
 #import "EveAlliance.h"
+#import "EveSkill.h"
 
 NSDictionary * URLDict = nil;
 
@@ -250,6 +251,7 @@ NSDictionary * URLDict = nil;
 	EveAlliance * alliance;
 	NSDictionary * corpDict, * allianceDict;
 	NSString * nodeName, * propName, * propValue;
+	EveSkill * skill;
 	double balance;
 	
 	root     = [xmlDoc rootElement];
@@ -321,7 +323,20 @@ NSDictionary * URLDict = nil;
 				self.character.balance = [NSNumber numberWithInteger:(NSInteger) (balance + 0.5)];
 			}
 			else if ([nodeName isEqualToString:@"rowset"]) {
-				
+				if ([[[node attributeForName:@"name"] stringValue] isEqualToString:@"skills"]) {
+					for (node in [node children]) {
+						if ([[[node attributeForName:@"published"] stringValue] integerValue]) {
+							skill = [EveSkill skillWithSkillID:[[node attributeForName:@"typeID"] stringValue]];
+							
+							skill.skillPoints = [NSNumber numberWithInteger:[[[node attributeForName:@"skillpoints"] stringValue] integerValue]];
+							skill.level       = [NSNumber numberWithInteger:[[[node attributeForName:@"level"] stringValue] integerValue]];
+							
+							//NSLog(@"%@", skill.data);
+
+							[[self.character mutableArrayValueForKey:@"skills"] addObject:skill];
+						}
+					}
+				}
 			}
 			else {
 				[self.character setValue:[node stringValue] forKeyPath:nodeName];

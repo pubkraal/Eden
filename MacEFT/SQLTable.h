@@ -28,6 +28,7 @@
 - (NSArray *)keyForRow:(NSDictionary *)row;
 - (NSArray *)keyForRowAtIndex:(NSUInteger)idx;
 - (id)rowWithKey:(NSArray *)key;
+- (id)rowWithSingleKey:(id)key;
 - (NSUInteger)indexOfRowWithKey:(NSArray *)key;
 
 
