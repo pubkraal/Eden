@@ -81,6 +81,7 @@
 	[super setDocument:document];
 }
 
+
 // Tasks functions
 
 
@@ -179,8 +180,8 @@
 // Notifications received
 
 - (void)windowWillClose:(NSNotification *)notif {
+	if ([self.document fileURL]) [self.document saveDocument:self];
 	
-
 	[[[subviews objectForKey:[self activeViewName]] view] removeFromSuperview];
 	[self setSubviews:nil];
 

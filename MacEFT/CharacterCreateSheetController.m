@@ -79,23 +79,20 @@
 }
 
 - (void)request:(EveAPI *)apiObj finishedWithErrors:(NSDictionary *)errors {
-	NSError * error;
 	EveCharacter * theChar;
 
 	if ([apiObj.lastCalls containsObject:@"CharacterList"]) {
-		if ((error = [errors objectForKey:@"CharacterList"])) {
+		if ([errors count]) {
 			[progress stopAnimation:self];
 			self.controlsEnabled = YES;
 			self.retrieveFailed  = YES;
 
-			NSLog(@"%@", error);
+			NSLog(@"%@", errors);
 		}
 		else {
 			for (theChar in apiObj.characterList) {
 				theChar.fullAPI = apiObj.character.fullAPI;
 			}
-
-			NSLog(@"%@", apiObj.characterList);
 
 			[apiObj retrievePortraitList];
 		}

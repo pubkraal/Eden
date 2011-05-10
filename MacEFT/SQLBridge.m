@@ -551,7 +551,7 @@
 	else if ([value isKindOfClass:[NSNumber class]]) {
 		numberType = [(NSNumber *) value objCType];
 		
-		if (strchr("cislCISLB", *numberType)) {
+		if (strchr("cislqCISLQB", *numberType)) {
 			tempInt = [(NSNumber *) value longLongValue];
 			
 			if (tempInt <= INT_MAX) {

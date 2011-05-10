@@ -14,7 +14,6 @@ NSError * initError = nil;
 
 - (id)init {
 	if ((self = [super init])) {
-		// Initialization code here.
 	}
 	
 	return self;
@@ -24,11 +23,11 @@ NSError * initError = nil;
 	[super dealloc];
 }
 
-
 + (SQLBridge *)sharedBridge {
 	static SQLBridge * bridge = nil;
 	NSString * dbPath;
 	EveDatabase * db;
+	BOOL hasError;
 
 	if (bridge == nil) {
 		db     = [self sharedDatabase];
@@ -36,21 +35,16 @@ NSError * initError = nil;
 		
 		if (dbPath) {
 			bridge = [[SQLBridge alloc] initWithPath:dbPath error:&initError];
+			bridge.delegate = db;
 			
-			if (!initError) {
-				bridge.delegate = db;
+			hasError = !!initError;
+			
+			if (!hasError) hasError = ![bridge preloadViews];
+			if (!hasError) hasError = ![bridge loadViewsValues];
+			if (!hasError) hasError = ![bridge makeView:@"skills" asQuery:_E_SKILLS];
 
-				if (![bridge preloadViews]) {
-					initError = bridge.lastError;
-				}
-				else {
-					if (![bridge loadViewsValues]) {
-						initError = bridge.lastError;
-					}
-				}
-			}
-
-			if (initError) {
+			if (hasError) {
+				if (!initError) initError = bridge.lastError;
 				[bridge release];
 				bridge = nil;
 			}
@@ -94,6 +88,9 @@ NSError * initError = nil;
 	return [[[self sharedBridge] views] objectForKey:@"invTypes"];
 }
 
++ (EveTable *)groups {
+	return [[[self sharedBridge] views] objectForKey:@"invGroups"];
+}
 
 - (Class)classForTable:(NSString *)tableName {
 	if ([tableName isEqualToString:@"invTypes"]) return [EveTypesTable class];
@@ -101,7 +98,12 @@ NSError * initError = nil;
 }
 
 - (BOOL)shouldBuildLookupForTable:(NSString *)tableName {
-	return NO;
+	BOOL build;
+	
+	if ([tableName isEqualToString:@"invGroups"]) build = YES;
+	else build = NO;
+	
+	return build;
 }
 
 @end
@@ -112,31 +114,45 @@ NSError * initError = nil;
 
 @implementation EveTypesTable
 
-- (NSDictionary *)rowWithJoinedAttributesForKey:(NSString *)stringID {
-	NSNumber * typeID, * attrVal;
-	NSArray * attributes;
-	NSMutableDictionary * row;
-	NSDictionary * attr;
-	NSString * attrName;
-	EveTable * intermediaryTable, * attributesTable;
+- (NSArray *)attributesForKey:(NSNumber *)typeID {
+	static NSMutableDictionary * cachedAttributes = nil;
+	NSArray * results;
 	
-	typeID = [NSNumber numberWithInteger:[stringID integerValue]];
-	row    = [NSMutableDictionary dictionaryWithDictionary:[self rowWithSingleKey:typeID]];
+	if (!cachedAttributes) cachedAttributes = [[NSMutableDictionary alloc] init];
 	
-	intermediaryTable = [[self.bridge views] objectForKey:@"dgmTypeAttributes"];
-	attributesTable   = [EveDatabase attributes];
-	attributes        = [intermediaryTable filteredRowsWithPredicateFormat:@"typeID = %@", typeID];
+	results = [cachedAttributes objectForKey:typeID];
 	
-	for (attr in attributes) {
-		attrName = [[attributesTable rowWithSingleKey:[attr objectForKey:@"attributeID"]] objectForKey:@"attributeName"];
-		
-		if ([attr objectForKey:@"valueInt"] == [NSNull null]) attrVal = [attr objectForKey:@"valueFloat"];
-		else attrVal = [attr objectForKey:@"valueInt"];
-		
-		[row setObject:attrVal forKey:attrName];
+	if (!results) {
+		results = [[self.bridge query:_E_ATTRIBUTES, typeID] objectForKey:SQLBRIDGE_DATA];
+		if (results) [cachedAttributes setObject:results forKey:typeID];
 	}
 	
-	return [NSDictionary dictionaryWithDictionary:row];
+	return results;
+}
+
+- (NSDictionary *)joinAttributesForRow:(NSDictionary *)row {
+	NSArray * attributes;
+	NSDictionary * attr;
+	NSMutableDictionary * newRow;
+	
+	newRow     = [NSMutableDictionary dictionaryWithDictionary:row];
+	attributes = [self attributesForKey:[newRow objectForKey:@"typeID"]];
+	
+	for (attr in attributes) {
+		[newRow setObject:[attr objectForKey:_E_VALUE_KEY] forKey:[attr objectForKey:_E_ATTRNAME_KEY]];
+	}
+
+	return [NSDictionary dictionaryWithDictionary:newRow];
+}
+
+- (NSDictionary *)rowWithJoinedAttributesForKey:(NSString *)stringID {
+	NSNumber * typeID;
+	NSMutableDictionary * row;
+	
+	typeID     = [NSNumber numberWithInteger:[stringID integerValue]];
+	row        = [NSMutableDictionary dictionaryWithDictionary:[self rowWithSingleKey:typeID]];
+
+	return [self joinAttributesForRow:row];
 }
 
 @end

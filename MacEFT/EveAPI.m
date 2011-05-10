@@ -6,6 +6,8 @@
 //  Copyright 2011 Netframe. All rights reserved.
 //
 
+#import <time.h>
+
 #import "EveAPI.h"
 #import "EveCharacter.h"
 #import "EveAPIResult.h"
@@ -65,7 +67,6 @@ NSDictionary * URLDict = nil;
 
 	calls = [NSArray arrayWithObjects:
 						@"CharacterList",
-						@"AccountStatus",
 						nil];
 	
 	URLList  = [[self class] URLListForKeys:calls];
@@ -110,6 +111,8 @@ NSDictionary * URLDict = nil;
 
 	calls = [NSArray arrayWithObjects:
 						@"CharacterSheet",
+						@"AccountStatus",
+						@"SkillInTraining",
 						nil];
 	
 	URLList  = [[self class] URLListForKeys:calls];
@@ -235,12 +238,21 @@ NSDictionary * URLDict = nil;
 
 - (void)accountStatusWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error {
 	NSArray * nodeList;
+	NSXMLElement * errorElement;
 
-	nodeList = [[xmlDoc rootElement] nodesForXPath:@"/eveapi/result/paidUntil" error:error];
+	nodeList = [[xmlDoc rootElement] nodesForXPath:@"/eveapi/error" error:error];
 
 	if (!(*error)) {
-		if ([nodeList count]) self.character.fullAPI = YES;
-		else self.character.fullAPI = NO;
+		self.character.fullAPI = ![nodeList count];
+		
+		if (!self.character.fullAPI) {
+			// Removes the error node so that it doesn't get caught by the
+			// didFinishDownload: selector.
+			
+			errorElement = [nodeList objectAtIndex:0];
+			
+			[(NSXMLElement *) [errorElement parent] removeChildAtIndex:[errorElement index]];
+		}
 	}
 }
 
@@ -253,6 +265,9 @@ NSDictionary * URLDict = nil;
 	NSString * nodeName, * propName, * propValue;
 	EveSkill * skill;
 	double balance;
+	time_t start;
+	NSUInteger i, count;
+	long double totalTime;
 	
 	root     = [xmlDoc rootElement];
 	nodeList = [root nodesForXPath:@"/eveapi/result/*" error:error];
@@ -324,18 +339,25 @@ NSDictionary * URLDict = nil;
 			}
 			else if ([nodeName isEqualToString:@"rowset"]) {
 				if ([[[node attributeForName:@"name"] stringValue] isEqualToString:@"skills"]) {
+					i = 0;
+					totalTime = 0.0L;
+					count = [node childCount];
+					
 					for (node in [node children]) {
 						if ([[[node attributeForName:@"published"] stringValue] integerValue]) {
+							start = time(NULL);
 							skill = [EveSkill skillWithSkillID:[[node attributeForName:@"typeID"] stringValue]];
 							
 							skill.skillPoints = [NSNumber numberWithInteger:[[[node attributeForName:@"skillpoints"] stringValue] integerValue]];
 							skill.level       = [NSNumber numberWithInteger:[[[node attributeForName:@"level"] stringValue] integerValue]];
 							
-							//NSLog(@"%@", skill.data);
-
 							[[self.character mutableArrayValueForKey:@"skills"] addObject:skill];
+							
+							totalTime += (long double) time(NULL) - (long double) start;
 						}
 					}
+					
+					NSLog(@"Skills loaded: %lu skills, %Lgs total time, %Lgs average time.", count, totalTime, totalTime / (long double) count);
 				}
 			}
 			else {

@@ -8,7 +8,7 @@
 
 #import "MacEFTAppDelegate.h"
 #import "EveDatabase.h"
-#import "SQLBridge.h"
+#import "EveSkill.h"
 
 
 @implementation MacEFTAppDelegate
@@ -42,7 +42,9 @@
 
 	bridge = [EveDatabase sharedBridge];
 	error  = (bridge) ? nil : [EveDatabase initError];
-
+	
+	if (!error) [EveSkill cacheRawSkills];
+	
 	[pool drain];
 	
 	[self performSelectorOnMainThread:@selector(postLoadDatabase:) withObject:error waitUntilDone:NO];

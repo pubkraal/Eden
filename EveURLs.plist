@@ -2,21 +2,23 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>AccountStatus</key>
+	<string>http://api.eveonline.com/account/AccountStatus.xml.aspx</string>
 	<key>APIKey</key>
 	<string>http://www.eveonline.com/api</string>
 	<key>CharacterList</key>
 	<string>http://api.eveonline.com/account/Characters.xml.aspx</string>
+	<key>CharacterSheet</key>
+	<string>http://api.eveonline.com/char/CharacterSheet.xml.aspx</string>
+	<key>Echo</key>
+	<string>http://www.alignleft.net/echo.php</string>
 	<key>Portrait 1024</key>
 	<string>http://image.eveonline.com/Character/%@_1024.jpg</string>
 	<key>Portrait 128</key>
 	<string>http://image.eveonline.com/Character/%@_128.jpg</string>
 	<key>Portrait 512</key>
 	<string>http://image.eveonline.com/Character/%@_512.jpg</string>
-	<key>Echo</key>
-	<string>http://www.alignleft.net/echo.php</string>
-	<key>CharacterSheet</key>
-	<string>http://api.eveonline.com/char/CharacterSheet.xml.aspx</string>
-	<key>AccountStatus</key>
-	<string>http://api.eveonline.com/account/AccountStatus.xml.aspx</string>
+	<key>SkillInTraining</key>
+	<string>http://api.eveonline.com/char/SkillInTraining.xml.aspx</string>
 </dict>
 </plist>

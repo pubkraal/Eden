@@ -10,15 +10,21 @@
 
 @implementation CharacterInfoController
 
+@synthesize skillSortDescriptors;
+
 - (id)init {
 	if ((self = [super initWithNibName:@"CharacterInfo" bundle:nil])) {
-		// Initialization code here.
+		self.skillSortDescriptors = [NSArray arrayWithObjects:
+										[NSSortDescriptor sortDescriptorWithKey:@"skillGroup" ascending:YES],
+										[NSSortDescriptor sortDescriptorWithKey:@"data.typeName" ascending:YES],
+										nil];
 	}
 	
 	return self;
 }
 
 - (void)dealloc {
+	self.skillSortDescriptors = nil;
 	[super dealloc];
 }
 

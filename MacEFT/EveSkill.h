@@ -25,11 +25,14 @@
 @property (readonly) NSNumber * neededForCurrentLevel;
 @property (readonly) NSString * currentStatus;
 @property (readonly) NSString * attributesDescription;
+@property (readonly) NSString * skillGroup;
+@property (readonly) NSNumber * percentComplete;
 
 - (id)initWithSkillID:(NSString *)skillID;
 
 + (id)skillWithSkillID:(NSString *)skillID;
-+ (NSDictionary *)cachedRawSkillWithSkillID:(NSString *)skillID;
++ (NSDictionary *)cachedAttributedSkillWithSkillID:(NSString *)skillID;
++ (void)cacheRawSkills;
 
 - (NSUInteger)neededForLevel:(NSUInteger)level;
 @end

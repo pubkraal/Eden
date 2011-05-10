@@ -35,9 +35,6 @@ typedef unsigned int uint;
 
 - (void)request:(EveAPI *)apiObj finishedWithErrors:(NSDictionary *)errors;
 
-
-
-
 @end
 
 @interface EveAPI : NSObject <EveDownloadDelegate> {

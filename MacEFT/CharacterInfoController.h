@@ -12,8 +12,10 @@
 
 @interface CharacterInfoController : EveViewController {
 @private
-    
+	NSArray * skillSortDescriptors;
 }
+
+@property (retain) NSArray * skillSortDescriptors;
 
 
 @end
