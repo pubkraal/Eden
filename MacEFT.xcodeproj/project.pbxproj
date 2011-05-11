@@ -15,7 +15,6 @@
 		3A506F67136AC56C005EFA9B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A506F66136AC56C005EFA9B /* QuartzCore.framework */; };
 		3A506F6C136ACE4A005EFA9B /* PreferencesDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A506F6B136ACE49005EFA9B /* PreferencesDelegate.m */; };
 		3A53A31D136F77A90047FC53 /* CharacterCreateSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A53A31C136F77A90047FC53 /* CharacterCreateSheetController.m */; };
-		3A53A31F137008060047FC53 /* EveURLs.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3A53A31E137008060047FC53 /* EveURLs.plist */; };
 		3A5897B9136594F30064CEB8 /* evedump_notrans_nomaps.db in Resources */ = {isa = PBXBuildFile; fileRef = 3A5897B8136594F30064CEB8 /* evedump_notrans_nomaps.db */; };
 		3A7615E0135ED4FD005A191C /* evedump.db in Resources */ = {isa = PBXBuildFile; fileRef = 3A7615DF135ED4FD005A191C /* evedump.db */; };
 		3A7615E5135ED6E4005A191C /* DumpNavigatorDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A7615E4135ED6E4005A191C /* DumpNavigatorDelegate.m */; };
@@ -24,6 +23,7 @@
 		3ACEE6BE1372222900E40835 /* evedump_lite.db in Resources */ = {isa = PBXBuildFile; fileRef = 3ACEE6BD1372222900E40835 /* evedump_lite.db */; };
 		3ACEE6C11372266000E40835 /* EveDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ACEE6C01372266000E40835 /* EveDatabase.m */; };
 		3ACEE6C31372BD1B00E40835 /* evedump_lite_nochr.db in Resources */ = {isa = PBXBuildFile; fileRef = 3ACEE6C21372BD1B00E40835 /* evedump_lite_nochr.db */; };
+		3AD1FE26137A51F800FDE8A7 /* EveURLs.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3AD1FE25137A51F800FDE8A7 /* EveURLs.plist */; };
 		3AD94E5C137A1D8A00F9D1FB /* DebugWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AD94E5B137A1D8A00F9D1FB /* DebugWindow.m */; };
 		3AF0C5E9134FDAB500E47914 /* SQLBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AF0C5E8134FDAB500E47914 /* SQLBridge.m */; };
 		3AFC480D136C510000CC31EA /* CharacterCreateSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AFC480F136C510000CC31EA /* CharacterCreateSheet.xib */; };
@@ -85,7 +85,6 @@
 		3A506F6B136ACE49005EFA9B /* PreferencesDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferencesDelegate.m; sourceTree = "<group>"; };
 		3A53A31B136F77A90047FC53 /* CharacterCreateSheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CharacterCreateSheetController.h; sourceTree = "<group>"; };
 		3A53A31C136F77A90047FC53 /* CharacterCreateSheetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CharacterCreateSheetController.m; sourceTree = "<group>"; };
-		3A53A31E137008060047FC53 /* EveURLs.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = EveURLs.plist; sourceTree = "<group>"; };
 		3A5897B8136594F30064CEB8 /* evedump_notrans_nomaps.db */ = {isa = PBXFileReference; lastKnownFileType = file; name = evedump_notrans_nomaps.db; path = MacEFT/evedump_notrans_nomaps.db; sourceTree = "<group>"; };
 		3A7615DF135ED4FD005A191C /* evedump.db */ = {isa = PBXFileReference; lastKnownFileType = file; name = evedump.db; path = MacEFT/evedump.db; sourceTree = "<group>"; };
 		3A7615E3135ED6E4005A191C /* DumpNavigatorDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DumpNavigatorDelegate.h; sourceTree = "<group>"; };
@@ -99,6 +98,7 @@
 		3ACEE6BF1372266000E40835 /* EveDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EveDatabase.h; sourceTree = "<group>"; };
 		3ACEE6C01372266000E40835 /* EveDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveDatabase.m; sourceTree = "<group>"; };
 		3ACEE6C21372BD1B00E40835 /* evedump_lite_nochr.db */ = {isa = PBXFileReference; lastKnownFileType = file; name = evedump_lite_nochr.db; path = MacEFT/evedump_lite_nochr.db; sourceTree = "<group>"; };
+		3AD1FE25137A51F800FDE8A7 /* EveURLs.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = EveURLs.plist; path = MacEFT/EveURLs.plist; sourceTree = "<group>"; };
 		3AD94E5A137A1D8A00F9D1FB /* DebugWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DebugWindow.h; sourceTree = "<group>"; };
 		3AD94E5B137A1D8A00F9D1FB /* DebugWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DebugWindow.m; sourceTree = "<group>"; };
 		3AF0C5E7134FDAB500E47914 /* SQLBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLBridge.h; sourceTree = "<group>"; };
@@ -355,6 +355,7 @@
 		525B8ABD133BEBAD006A3728 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3AD1FE25137A51F800FDE8A7 /* EveURLs.plist */,
 				3ACEE6C21372BD1B00E40835 /* evedump_lite_nochr.db */,
 				3ACEE6BD1372222900E40835 /* evedump_lite.db */,
 				3A506F5C136A7D06005EFA9B /* CharacterTasks.plist */,
@@ -362,7 +363,6 @@
 				3A7615DF135ED4FD005A191C /* evedump.db */,
 				525B8ABE133BEBC1006A3728 /* README */,
 				5279180A133FB058009C694C /* LICENSE */,
-				3A53A31E137008060047FC53 /* EveURLs.plist */,
 			);
 			name = Resources;
 			path = ..;
@@ -493,9 +493,9 @@
 				3AFE5D18136BCB700072FD0E /* CharacterInfo.xib in Resources */,
 				3AFE5D1B136BCB9F0072FD0E /* CharacterMarketOrders.xib in Resources */,
 				3AFC480D136C510000CC31EA /* CharacterCreateSheet.xib in Resources */,
-				3A53A31F137008060047FC53 /* EveURLs.plist in Resources */,
 				3ACEE6BE1372222900E40835 /* evedump_lite.db in Resources */,
 				3ACEE6C31372BD1B00E40835 /* evedump_lite_nochr.db in Resources */,
+				3AD1FE26137A51F800FDE8A7 /* EveURLs.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
