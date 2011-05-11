@@ -49,7 +49,6 @@
 
 - (BOOL)preloadViews {
 	NSDictionary * queryResult, * row;
-	id newView;
 	Class cls;
 	NSMutableArray * newTrueViews;
 	
@@ -68,7 +67,7 @@
 				cls = [self classForTable:[row objectForKey:_Q_NAME_KEY]];
 			}
 			
-			newView = [cls viewWithBridge:self andTableName:[row objectForKey:_Q_NAME_KEY]];
+			[cls viewWithBridge:self andTableName:[row objectForKey:_Q_NAME_KEY]];
 
 		}
 		
@@ -523,7 +522,7 @@
 	else if (colType == SQLITE_BLOB) {
 		value = [NSData dataWithBytes:sqlite3_column_blob(stmt, i) length:sqlite3_column_bytes(stmt, i)];
 	}
-	else if (colType == SQLITE_NULL) {
+	else {//if (colType == SQLITE_NULL) {
 		value = [NSNull null];
 	}
 	

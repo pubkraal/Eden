@@ -19,6 +19,7 @@
 	EveCharacter * character;
 	NSString * currentTask;
 	NSDictionary * viewSizes;
+	NSDictionary * windowOrigin;
 
 	// Instance properties
 	NSFileWrapper * currentWrapper;
@@ -30,6 +31,7 @@
 @property (retain) EveCharacter * character;
 @property (retain) NSString * currentTask;
 @property (retain) NSDictionary * viewSizes;
+@property (retain) NSDictionary * windowOrigin;
 
 - (void)showSheet:(NSWindowController *)controller;
 - (NSDictionary *)dictionaryForArchival;

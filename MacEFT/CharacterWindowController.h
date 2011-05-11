@@ -16,7 +16,7 @@
 @class CharacterDocument;
 @class CharacterWindowDelegate;
 
-@interface CharacterWindowController : NSWindowController <NSSplitViewDelegate, NSOutlineViewDelegate> {
+@interface CharacterWindowController : NSWindowController <NSWindowDelegate, NSOutlineViewDelegate> {
 @private
 	// Interface Elements
 	IBOutlet NSToolbarItem * characterInfo;
@@ -38,6 +38,7 @@
 	NSPredicate * requiresFullAPIPred;
 
 	NSArray * selectedTasks;
+	
 
 }
 
@@ -56,6 +57,7 @@
 // Initialization
 
 - (void)addAllObservers;
+- (void)removeAllObservers;
 
 
 // Tasks functions

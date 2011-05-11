@@ -39,8 +39,8 @@
 	self.inputAccountID = nil;
 	self.characterList  = nil;
 
-	[mainWindow release];
-	[charactersWindow release];
+	[mainWindow autorelease];
+	[charactersWindow autorelease];
 
 	[super dealloc];
 }

@@ -24,6 +24,7 @@
 		3ACEE6BE1372222900E40835 /* evedump_lite.db in Resources */ = {isa = PBXBuildFile; fileRef = 3ACEE6BD1372222900E40835 /* evedump_lite.db */; };
 		3ACEE6C11372266000E40835 /* EveDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ACEE6C01372266000E40835 /* EveDatabase.m */; };
 		3ACEE6C31372BD1B00E40835 /* evedump_lite_nochr.db in Resources */ = {isa = PBXBuildFile; fileRef = 3ACEE6C21372BD1B00E40835 /* evedump_lite_nochr.db */; };
+		3AD94E5C137A1D8A00F9D1FB /* DebugWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AD94E5B137A1D8A00F9D1FB /* DebugWindow.m */; };
 		3AF0C5E9134FDAB500E47914 /* SQLBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AF0C5E8134FDAB500E47914 /* SQLBridge.m */; };
 		3AFC480D136C510000CC31EA /* CharacterCreateSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AFC480F136C510000CC31EA /* CharacterCreateSheet.xib */; };
 		3AFE5D00136BC1490072FD0E /* Character.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AFE5CFE136BC1490072FD0E /* Character.xib */; };
@@ -98,6 +99,8 @@
 		3ACEE6BF1372266000E40835 /* EveDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EveDatabase.h; sourceTree = "<group>"; };
 		3ACEE6C01372266000E40835 /* EveDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveDatabase.m; sourceTree = "<group>"; };
 		3ACEE6C21372BD1B00E40835 /* evedump_lite_nochr.db */ = {isa = PBXFileReference; lastKnownFileType = file; name = evedump_lite_nochr.db; path = MacEFT/evedump_lite_nochr.db; sourceTree = "<group>"; };
+		3AD94E5A137A1D8A00F9D1FB /* DebugWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DebugWindow.h; sourceTree = "<group>"; };
+		3AD94E5B137A1D8A00F9D1FB /* DebugWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DebugWindow.m; sourceTree = "<group>"; };
 		3AF0C5E7134FDAB500E47914 /* SQLBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLBridge.h; sourceTree = "<group>"; };
 		3AF0C5E8134FDAB500E47914 /* SQLBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQLBridge.m; sourceTree = "<group>"; };
 		3AFC480E136C510000CC31EA /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/CharacterCreateSheet.xib; sourceTree = "<group>"; };
@@ -256,6 +259,8 @@
 				3AFE5D26136BE1100072FD0E /* CharacterMarketOrdersController.m */,
 				3A53A31B136F77A90047FC53 /* CharacterCreateSheetController.h */,
 				3A53A31C136F77A90047FC53 /* CharacterCreateSheetController.m */,
+				3AD94E5A137A1D8A00F9D1FB /* DebugWindow.h */,
+				3AD94E5B137A1D8A00F9D1FB /* DebugWindow.m */,
 			);
 			name = "Custom Views";
 			sourceTree = "<group>";
@@ -553,6 +558,7 @@
 				3AFE5D27136BE1100072FD0E /* CharacterMarketOrdersController.m in Sources */,
 				3A53A31D136F77A90047FC53 /* CharacterCreateSheetController.m in Sources */,
 				3ACEE6C11372266000E40835 /* EveDatabase.m in Sources */,
+				3AD94E5C137A1D8A00F9D1FB /* DebugWindow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -697,6 +703,7 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_ENABLE_OBJC_GC = unsupported;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MacEFT/MacEFT-Prefix.pch";
 				INFOPLIST_FILE = "MacEFT/MacEFT-Info.plist";
@@ -716,6 +723,7 @@
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_ENABLE_OBJC_GC = unsupported;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MacEFT/MacEFT-Prefix.pch";
 				INFOPLIST_FILE = "MacEFT/MacEFT-Info.plist";

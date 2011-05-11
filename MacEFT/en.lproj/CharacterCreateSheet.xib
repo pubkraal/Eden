@@ -321,7 +321,7 @@
 				<int key="NSWindowBacking">2</int>
 				<string key="NSWindowRect">{{245, 301}, {544, 343}}</string>
 				<int key="NSWTFlags">611844096</int>
-				<string key="NSWindowTitle">Window</string>
+				<string key="NSWindowTitle">Select your character</string>
 				<string key="NSWindowClass">NSWindow</string>
 				<nil key="NSViewClass"/>
 				<object class="NSView" key="NSWindowView" id="591305871">

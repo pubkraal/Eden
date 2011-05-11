@@ -236,7 +236,7 @@
 	NSString * selfKey;
 	NSString * tableName;
 
-	if ([tableName isKindOfClass:[SQLView class]]) tableName = [(SQLView *) tableInfo tableName];
+	if ([tableInfo isKindOfClass:[SQLView class]]) tableName = [(SQLView *) tableInfo tableName];
 	else tableName = [tableInfo description];
 	
 	if (    ([[[self bridge] viewsNames] indexOfObject:tableName] != NSNotFound) &&

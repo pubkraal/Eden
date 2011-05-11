@@ -63,6 +63,7 @@
 	NSString * viewName;
 
 	changeType = [[change objectForKey:NSKeyValueChangeKindKey] intValue];
+	success    = YES;
 	
 	[databaseAccessLock lock];
 	

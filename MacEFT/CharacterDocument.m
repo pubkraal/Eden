@@ -13,7 +13,7 @@
 
 @implementation CharacterDocument
 
-@synthesize character, currentTask, viewSizes;
+@synthesize character, currentTask, viewSizes, windowOrigin;
 @synthesize cwController;
 
 - (id)init {
@@ -24,6 +24,7 @@
 		[self setCharacter:nil];
 		[self setCurrentTask:nil];
 		[self setViewSizes:nil];
+		[self setWindowOrigin:nil];
 
 	}
 	
@@ -31,11 +32,12 @@
 }
 
 - (void)dealloc {
-	if (currentWrapper) [currentWrapper release];
+	if (currentWrapper) [currentWrapper autorelease];
 
 	[self setCharacter:nil];
 	[self setCurrentTask:nil];
 	[self setViewSizes:nil];
+	[self setWindowOrigin:nil];
 
 	[super dealloc];
 }
@@ -138,6 +140,7 @@
 							character, @"character",
 							currentTask, @"currentTask",
 							viewSizes, @"viewSizes",
+							windowOrigin, @"windowOrigin",
 							nil];
 }
 
@@ -145,6 +148,7 @@
 	[self setCharacter:[data objectForKey:@"character"]];
 	[self setCurrentTask:[data objectForKey:@"currentTask"]];
 	[self setViewSizes:[data objectForKey:@"viewSizes"]];
+	[self setWindowOrigin:[data objectForKey:@"windowOrigin"]];
 }
 
 @end

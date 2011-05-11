@@ -24,7 +24,6 @@
 
 		requiresFullAPIPred = [[NSPredicate predicateWithFormat:@"requiresFullAPI == NO"] retain];
 
-
 		[self setActiveViewName:nil];
 		[self setNextViewName:nil];
 		[self setSubviews:nil];
@@ -37,18 +36,16 @@
 	CAAnimation * newAnimation;
 	NSString * startPath;
 	
+	[super windowDidLoad];
+	
 	// Presentation details
-
-	[[self window] setAutorecalculatesContentBorderThickness:YES forEdge:NSMinYEdge];
-	[[self window] setContentBorderThickness:30 forEdge:NSMinYEdge];
-
 
 	[characterInfo setView:characterInfoView];
 
 	newAnimation = [CABasicAnimation animation];
 	[newAnimation setDelegate:self];
 	[[self window] setAnimations:[NSDictionary dictionaryWithObject:newAnimation forKey:@"frame"]];
-	
+
 	// Loading the task list
 
 	startPath = (self.document.currentTask) ? self.document.currentTask : @"0.0";
@@ -61,12 +58,18 @@
 
 	if (!self.document.character) [self showCharacterSelectionSheet];
 
+
 }
 
 - (void)addAllObservers {
 	[self addObserver:self forKeyPath:@"selectedTasks" options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:nil];
 	[self addObserver:self forKeyPath:@"document.character.fullAPI" options:NSKeyValueObservingOptionNew context:nil];
 
+}
+
+- (void)removeAllObservers {
+	[self removeObserver:self forKeyPath:@"selectedTasks"];
+	[self removeObserver:self forKeyPath:@"document.character.fullAPI"];
 }
 
 - (NSUndoManager *)windowWillReturnUndoManager:(NSWindow *)window {
@@ -144,7 +147,7 @@
 	NSIndexPath * newTaskPath;
 	NSDictionary * newTask;
 	
-	if ((id) newTaskPath != [NSNull null]) {
+	if ((id) newTaskPaths != [NSNull null]) {
 		newTaskPath = [newTaskPaths objectAtIndex:0];
 		newTask = (NSDictionary *) [[[tasksController arrangedObjects] descendantNodeAtIndexPath:newTaskPath] representedObject];
 		
@@ -184,11 +187,12 @@
 	
 	[[[subviews objectForKey:[self activeViewName]] view] removeFromSuperview];
 	[self setSubviews:nil];
-
+	
+	[self removeAllObservers];
+	[[self window] setAnimations:nil];
 }
 
-
-// Delegated methods from NSOutlineView
+// Delegated methods
 
 - (BOOL)isTitleItem:(NSDictionary *)item {
 	return [[item objectForKey:@"groupItem"] boolValue];
@@ -208,6 +212,10 @@
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)item {
 	return ![self isTitleItem:[item representedObject]];
+}
+
+- (BOOL)shouldCascadeWindows {
+	return NO;
 }
 
 // Subviews handling 
@@ -266,16 +274,21 @@
 		windowFrame  = [[self window] frame];
 		currentFrame = [dynamicView frame];
 
-		windowFrame.size.width  += newDynFrame.size.width - currentFrame.size.width;
+		windowFrame.size.width  += newDynFrame.size.width  - currentFrame.size.width;
 		windowFrame.size.height += newDynFrame.size.height - currentFrame.size.height;
 		windowFrame.origin.y    -= newDynFrame.size.height - currentFrame.size.height;
 
 		if (activeView) {
 			[self setNextViewName:newViewName];
-
+			
 			[[[self window] animator] setFrame:windowFrame display:YES];
 		}
 		else {
+			if (self.document.windowOrigin) {
+				windowFrame.origin.y = [[self.document.windowOrigin objectForKey:@"y"] integerValue];
+				windowFrame.origin.x = [[self.document.windowOrigin objectForKey:@"x"] integerValue];
+			}
+			
 			[[self window] setFrame:windowFrame display:YES];
 			[dynamicView addSubview:newView];
 
@@ -290,11 +303,12 @@
 
 		[self setActiveViewName:[self nextViewName]];
 		[self setNextViewName:nil];
+		[self windowDidMove:nil];
 	}
 }
 
 
-- (void)windowDidResize:(NSWindow *)window {
+- (void)windowDidResize:(NSNotification *)notification {
 	__block NSMutableDictionary * windowSizes;
 
 
@@ -312,12 +326,30 @@
 	}
 }
 
+- (void)windowDidMove:(NSNotification *)notification {
+	NSNumber * x, * y;
+	NSRect frame;
+	
+	frame = [self window].frame;
+	
+	x = [NSNumber numberWithInteger:frame.origin.x];
+	y = [NSNumber numberWithInteger:frame.origin.y];
+	
+	self.document.windowOrigin = [NSDictionary dictionaryWithObjectsAndKeys:x, @"x", y, @"y", nil];
+}
 
 // Cleanup
 
 - (void)dealloc {
 	[requiresFullAPIPred release];
-
+	
+	tasksView.delegate = nil;
+	/* WTF, Cocoa?! I shouldn't be responsible for cleaning delegates that
+	 * were set in the Interface Builder! But if I don't this, tasksView
+	 * go apeshit calling methods on CharacterWindowController's zombie
+	 * left and right.
+	 */
+	
 	[self setTasks:nil];
 	[self setSubviews:nil];
 	[self setActiveViewName:nil];

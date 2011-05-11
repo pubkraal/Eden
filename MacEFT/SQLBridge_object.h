@@ -70,15 +70,11 @@
     sqlite3 * database;
 	NSError * lastError;
 	
-	NSDictionary * temp;
-	
 	NSMutableDictionary * views;
 	
 	NSMutableArray * trueViews;
 	
 	id <SQLBridgeDelegate> delegate;
-
-	BOOL usesForeignKeys;
 }
 
 @property (retain) NSError * lastError;

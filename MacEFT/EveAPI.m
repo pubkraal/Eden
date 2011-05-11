@@ -145,7 +145,7 @@ NSDictionary * URLDict = nil;
 
 
 - (NSString *)buildRequestURL:(NSString *)group method:(NSString *)method {
-    NSString *retURL = [[NSString alloc]initWithFormat:@"%@/%@/%@.xml.aspx", BASE_URL, group, method];
+    NSString *retURL = [NSString stringWithFormat:@"%@/%@/%@.xml.aspx", BASE_URL, group, method];
     return retURL;
 }
 
@@ -159,7 +159,7 @@ NSDictionary * URLDict = nil;
     // User ID: 7452925
     // API:
     // (No, that's not my full api)
-    NSString *XMLData = [[NSString alloc]initWithString:@"<?xml version='1.0' encoding='UTF-8'?>"
+    NSString *XMLData = @"<?xml version='1.0' encoding='UTF-8'?>"
         "<eveapi version=\"2\">"
         "<currentTime>2011-04-27 19:34:27</currentTime>"
         "<result>"
@@ -168,9 +168,9 @@ NSDictionary * URLDict = nil;
         "</rowset>"
         "</result>"
         "<cachedUntil>2011-04-27 20:31:27</cachedUntil>"
-        "</eveapi>"];
+        "</eveapi>";
     
-    EveAPIResult *res = [[EveAPIResult alloc]init];
+    EveAPIResult *res = [[[EveAPIResult alloc]init]autorelease];
     [res parseData:XMLData];
     return res;
 }
@@ -266,7 +266,7 @@ NSDictionary * URLDict = nil;
 	EveSkill * skill;
 	double balance;
 	time_t start;
-	NSUInteger i, count;
+	NSUInteger count;
 	long double totalTime;
 	
 	root     = [xmlDoc rootElement];
@@ -339,7 +339,6 @@ NSDictionary * URLDict = nil;
 			}
 			else if ([nodeName isEqualToString:@"rowset"]) {
 				if ([[[node attributeForName:@"name"] stringValue] isEqualToString:@"skills"]) {
-					i = 0;
 					totalTime = 0.0L;
 					count = [node childCount];
 					
