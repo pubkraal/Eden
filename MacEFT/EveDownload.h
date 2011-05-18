@@ -24,6 +24,7 @@
 	NSMutableData * result;
 	NSURLConnection * connection;
 	NSData * postBody;
+	BOOL chunked;
 }
 
 - (id)initWithURLString:(NSString *) url;
@@ -38,6 +39,7 @@
 
 @property (assign) uint64_t expectedLength;
 @property (assign) uint64_t receivedLength;
+@property (assign) BOOL chunked;
 
 @property (readonly) NSData * data;
 
@@ -78,7 +80,7 @@
 	NSObject <EveDownloadDelegate> * delegate;
 }
 
-@property (retain) NSObject <EveDownloadDelegate> * delegate;
+@property (assign) NSObject <EveDownloadDelegate> * delegate;
 @property (readonly) NSDictionary * downloads;
 
 // Starting up
@@ -86,6 +88,7 @@
 - (id)initWithURLList:(NSDictionary *)urls;
 + (id)downloadWithURLList:(NSDictionary *)urls;
 - (void)start;
+- (void)cancel;
 
 
 // Manipulation functions
@@ -106,8 +109,11 @@
 @property (assign) uint64_t expectedLength;
 @property (assign) uint64_t receivedLength;
 
-- (void)addObserver:(NSObject *)anObserver; // Convenience method to observe all available properties.
-- (void)removeObserver:(NSObject *)anObserver; // Convenience method to remove all observers.
+- (void)addObserver:(id)anObserver; // Convenience method to observe all available properties.
+- (void)removeObserver:(id)anObserver; // Convenience method to remove all observers.
+
+- (void)addTotalObserver:(id)anObserver;
+- (void)removeTotalObserver:(id)anObserver;
 
 - (NSDictionary *)results; // All the data downloaded and errors in a dictionary.
 

@@ -31,6 +31,8 @@
 	NSString * inputAccountID;
 	NSString * inputAPIKey;
 	
+	EveAPI * currentRequest;
+	
 }
 
 @property (assign) BOOL controlsEnabled, retrieveFailed;
@@ -39,6 +41,8 @@
 @property (retain) NSString * inputAPIKey, * inputAccountID;
 
 @property (retain) NSArray * characterList;
+
+@property (retain) EveAPI * currentRequest;
 
 - (IBAction)close:(id)sender;
 - (IBAction)send:(id)sender;

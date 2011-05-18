@@ -9,18 +9,20 @@
 #import "CharacterDocument.h"
 #import "CharacterWindowController.h"
 #import "CharacterInfoController.h"
+#import "CharacterReloadController.h"
 #import "EveCharacter.h"
 
 @implementation CharacterDocument
 
 @synthesize character, currentTask, viewSizes, windowOrigin;
-@synthesize cwController;
+@synthesize mainController;
 
 - (id)init {
 	if ((self = [super init])) {
 		currentWrapper = nil;
-		cwController   = nil;
-		
+		mainController   = nil;
+		crController   = nil;
+
 		[self setCharacter:nil];
 		[self setCurrentTask:nil];
 		[self setViewSizes:nil];
@@ -33,7 +35,7 @@
 
 - (void)dealloc {
 	if (currentWrapper) [currentWrapper autorelease];
-
+	
 	[self setCharacter:nil];
 	[self setCurrentTask:nil];
 	[self setViewSizes:nil];
@@ -48,15 +50,31 @@
 }
 
 - (void)makeWindowControllers {
-	cwController = [[CharacterWindowController alloc] init];
+	mainController = [[CharacterWindowController alloc] init];
 	
-	[self addWindowController:cwController];
+	[self addWindowController:mainController];
 	
-	[cwController release];
+	[mainController release];
+}
+
+- (NSWindowController *)reloadController {
+	if (!crController) {
+		crController = [[CharacterReloadController alloc] init];
+		[self addWindowController:crController];
+		[crController release];
+	}
+	
+	return crController;
+}
+
+- (void)removeReloadController {
+	if (crController) [self removeWindowController:crController];
+	
+	crController = nil;
 }
 
 - (void)showSheet:(NSWindowController *)controller {
-	if (controller != cwController) {
+	if (controller != mainController) {
 		[NSApp beginSheet:[controller window]
 		   modalForWindow:[self windowForSheet]
 			modalDelegate:controller
@@ -150,5 +168,8 @@
 	[self setViewSizes:[data objectForKey:@"viewSizes"]];
 	[self setWindowOrigin:[data objectForKey:@"windowOrigin"]];
 }
+
+// Actions
+
 
 @end

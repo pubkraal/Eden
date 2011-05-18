@@ -37,7 +37,7 @@
 	BOOL fullAPI;
 
 	NSData * portraitData;
-	NSImage * portrait;
+	//NSImage * portrait;
 
 	EveCorporation * corporation;
 	EveAlliance * alliance;
@@ -60,8 +60,13 @@
 	NSNumber * perception;
 	NSNumber * willpower;
 
-	NSMutableArray * skills;
-	NSMutableArray * certificates;
+	NSMutableDictionary * skills;
+	NSMutableDictionary * certificates;
+	EveSkill * skillInTraining;
+	NSArray * skillsArray;
+	NSNumber * skillTimeOffset;
+	
+	NSDictionary * trainingData;
 }
 
 @property (retain) NSString * accountID, * APIKey, * characterID;
@@ -78,10 +83,20 @@
 @property (retain) NSDate * dateOfBirth;
 
 @property (retain) NSNumber * cloneSkillPoints, * balance;
+@property (readonly) NSString * formattedBalance;
+@property (readonly) NSString * formattedCloneSkillPoints;
+
 @property (retain) NSNumber * intelligence, * memory, * charisma;
 @property (retain) NSNumber * perception, * willpower;
 
-@property (retain) NSMutableArray * skills, * certificates;
+@property (retain) NSMutableDictionary * skills, * certificates;
+@property (assign) EveSkill * skillInTraining;
+@property (retain) NSArray * skillsArray;
+@property (retain) NSNumber * skillTimeOffset;
+@property (readonly) NSNumber * skillsAtV;
+@property (readonly) NSString * totalSkillPoints;
+
+@property (retain) NSDictionary * trainingData;
 
 
 - (id)initWithAccountID:(NSString *)accID andAPIKey:(NSString *)APKey;
@@ -89,6 +104,9 @@
 + (id)characterWithAccountID:(NSString *)accID andAPIKey:(NSString *)APKey;
 + (id)characterWithCharacter:(EveCharacter *)character;
 
-- (void)setDateOfBirthWithString:(NSString *)date;
+- (void)updateSkillsArray;
+- (NSNumber *)speedForSkill:(EveSkill *)skill;
+- (void)consolidateSkillInTraining;
+- (void)updateSkillInTraining:(NSTimer *)timer;
 
 @end

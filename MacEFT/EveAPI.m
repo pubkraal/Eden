@@ -19,7 +19,7 @@ NSDictionary * URLDict = nil;
 
 @implementation EveAPI 
 
-@synthesize character, characterList, delegate, lastCalls;
+@synthesize character, characterList, delegate, lastCalls, currentDownloads;
 
 - (id)initWithAccountID:(NSString *)accountID andAPIKey:(NSString *)APIKey {
 	
@@ -27,6 +27,7 @@ NSDictionary * URLDict = nil;
 		self.character  = [EveCharacter characterWithAccountID:accountID andAPIKey:APIKey];
 		self.lastCalls  = [NSSet set];
 		self.characterList = nil;
+		self.currentDownloads = [NSMutableSet set];
 	}
 
 	return self;
@@ -37,6 +38,8 @@ NSDictionary * URLDict = nil;
 		self.character = theChar;
 		self.lastCalls = [NSSet set];
 		self.characterList = nil;
+		self.currentDownloads = [NSMutableSet set];
+		
 	}
 
 	return self;
@@ -54,10 +57,22 @@ NSDictionary * URLDict = nil;
 	self.character  = nil;
 	self.lastCalls  = nil;
 	self.characterList = nil;
-
+	self.currentDownloads = nil;
+	
 	[super dealloc];
 }
 
+- (EveDownload *)downloadWithURLList:(NSDictionary *)URLList {
+	EveDownload * download;
+	
+	download = [EveDownload downloadWithURLList:URLList];
+	download.delegate = self;
+	[download addTotalObserver:self];
+	
+	[self.currentDownloads addObject:download];
+	
+	return download;
+}
 
 - (void)retrieveAccountData {
 	EveDownload * download;
@@ -67,12 +82,11 @@ NSDictionary * URLDict = nil;
 
 	calls = [NSArray arrayWithObjects:
 						@"CharacterList",
+						@"AccountStatus",
 						nil];
 	
 	URLList  = [[self class] URLListForKeys:calls];
-	download = [EveDownload downloadWithURLList:URLList];
-
-	[download setDelegate:self];
+	download = [self downloadWithURLList:URLList];
 
 	for (call in calls) {
 		[download setPostBodyToDictionary:[self accountInfoForPost] forKey:call];
@@ -94,31 +108,32 @@ NSDictionary * URLDict = nil;
 		[URLList setObject:[[self class] URLForKey:@"Portrait 1024", pChar.characterID] forKey:[NSString stringWithFormat:@"PortraitList %@", pChar.characterID]];
 	}
 	
-	download = [EveDownload downloadWithURLList:URLList];
-
-	download.delegate = self;
+	download = [self downloadWithURLList:URLList];
 
 	self.lastCalls = [NSSet setWithObject:@"PortraitList"];
 
 	[download start];
 }
 
-- (void)retrieveLimitedData {
+- (void)retrieveCharacterData {
 	EveDownload * download;
-	NSArray * calls;
+	NSMutableArray * calls;
 	NSDictionary * URLList;
 	NSString * call;
 
-	calls = [NSArray arrayWithObjects:
+	calls = [NSMutableArray arrayWithObjects:
 						@"CharacterSheet",
-						@"AccountStatus",
 						@"SkillInTraining",
 						nil];
 	
+	if (self.character.fullAPI) {
+		[calls addObjectsFromArray:[NSArray arrayWithObjects:
+						@"MarketOrders",
+						nil]];
+	}
+	
 	URLList  = [[self class] URLListForKeys:calls];
-	download = [EveDownload downloadWithURLList:URLList];
-
-	download.delegate = self;
+	download = [self downloadWithURLList:URLList];
 
 	for (call in calls) {
 		[download setPostBodyToDictionary:[self characterInfoForPost] forKey:call];
@@ -128,6 +143,33 @@ NSDictionary * URLDict = nil;
 
 	[download start];
 }
+
+- (void)cancelRequests {
+	EveDownload * download;
+	
+	for (download in self.currentDownloads) {
+		[download cancel];
+		[download removeTotalObserver:self];
+	}
+	
+	self.currentDownloads = [NSMutableSet set];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+	if ([object isKindOfClass:[EveDownload class]]) {
+		if ([keyPath isEqualToString:@"expectedLength"]) {
+			if ([self.delegate respondsToSelector:@selector(request:changedTotalDownloadSize:)]) {
+				[self.delegate request:self changedTotalDownloadSize:(NSNumber *) [change objectForKey:NSKeyValueChangeNewKey]];
+			}
+		}
+		else if ([keyPath isEqualToString:@"receivedLength"]) {
+			if ([self.delegate respondsToSelector:@selector(request:changedDownloadedBytes:)]) {
+				[self.delegate request:self changedDownloadedBytes:(NSNumber *) [change objectForKey:NSKeyValueChangeNewKey]];
+			}
+		}
+	}
+}
+
 
 - (NSDictionary *)accountInfoForPost {
 	return [NSDictionary dictionaryWithObjectsAndKeys:
@@ -143,37 +185,6 @@ NSDictionary * URLDict = nil;
 							nil];
 }
 
-
-- (NSString *)buildRequestURL:(NSString *)group method:(NSString *)method {
-    NSString *retURL = [NSString stringWithFormat:@"%@/%@/%@.xml.aspx", BASE_URL, group, method];
-    return retURL;
-}
-
-- (EveAPIResult *)listCharacters:(uint)userID apiKey:(NSString*)apiKey {
-    
-    NSString *URL = [self buildRequestURL:@"account" method:@"Characters"];
-    NSLog(@"%@", URL);
-
-    // Turn URL into NSString data here (Eve API returns UTF-8, allways)
-    // Right now I'm using my own data:
-    // User ID: 7452925
-    // API:
-    // (No, that's not my full api)
-    NSString *XMLData = @"<?xml version='1.0' encoding='UTF-8'?>"
-        "<eveapi version=\"2\">"
-        "<currentTime>2011-04-27 19:34:27</currentTime>"
-        "<result>"
-        "<rowset name=\"characters\" key=\"characterID\" columns=\"name,characterID,corporationName,corporationID\">"
-        "<row name=\"SPAECMARNIES\" characterID=\"90296398\" corporationName=\"Dreddit\" corporationID=\"1018389948\" />"
-        "</rowset>"
-        "</result>"
-        "<cachedUntil>2011-04-27 20:31:27</cachedUntil>"
-        "</eveapi>";
-    
-    EveAPIResult *res = [[[EveAPIResult alloc]init]autorelease];
-    [res parseData:XMLData];
-    return res;
-}
 
 + (NSString *)URLForKey:(NSString *)key, ... {
 	NSString * urlStr;
@@ -256,6 +267,32 @@ NSDictionary * URLDict = nil;
 	}
 }
 
+- (void)skillInTrainingWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error {
+	NSXMLElement * root, * node;
+	NSArray * nodeList;
+	NSMutableDictionary * trainingData;
+	NSTimeInterval skillTimeOffset;
+	
+	root     = [xmlDoc rootElement];
+	nodeList = [root nodesForXPath:@"/eveapi/result/*" error:error];
+	
+	if (!(*error)) {
+		trainingData = [NSMutableDictionary dictionary];
+		
+		for (node in nodeList) {
+			[trainingData setObject:[node stringValue] forKey:[node name]];
+		}
+		
+		if ([[trainingData objectForKey:@"skillInTraining"] boolValue]) {
+			skillTimeOffset = [CCPDate([trainingData objectForKey:@"currentTQTime"]) timeIntervalSinceDate:[NSDate date]];
+			self.character.skillTimeOffset = [NSNumber numberWithDouble:skillTimeOffset];
+			self.character.trainingData    = [NSDictionary dictionaryWithDictionary:trainingData];
+		}
+		else self.character.trainingData = nil;
+	}
+}
+
+
 - (void)characterSheetWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error {
 	NSXMLElement * root, * node;
 	NSArray * nodeList;
@@ -264,7 +301,6 @@ NSDictionary * URLDict = nil;
 	NSDictionary * corpDict, * allianceDict;
 	NSString * nodeName, * propName, * propValue;
 	EveSkill * skill;
-	double balance;
 	time_t start;
 	NSUInteger count;
 	long double totalTime;
@@ -280,7 +316,7 @@ NSDictionary * URLDict = nil;
 			nodeName = [node name];
 			
 			if ([nodeName isEqualToString:@"DoB"]) {
-				[self.character setDateOfBirthWithString:[node stringValue]];
+				self.character.dateOfBirth = CCPDate([node stringValue]);
 			}
 			else if ([nodeName isEqualToString:@"attributes"]) {
 				for (node in [node children]) {
@@ -334,8 +370,7 @@ NSDictionary * URLDict = nil;
 				self.character.cloneSkillPoints = [NSNumber numberWithInteger:[[node stringValue] integerValue]];
 			}
 			else if ([nodeName isEqualToString:@"balance"]) {
-				balance = [[node stringValue] doubleValue] * 100.0;
-				self.character.balance = [NSNumber numberWithInteger:(NSInteger) (balance + 0.5)];
+				self.character.balance = [NSNumber numberWithDouble:[[node stringValue] doubleValue]];
 			}
 			else if ([nodeName isEqualToString:@"rowset"]) {
 				if ([[[node attributeForName:@"name"] stringValue] isEqualToString:@"skills"]) {
@@ -349,8 +384,12 @@ NSDictionary * URLDict = nil;
 							
 							skill.skillPoints = [NSNumber numberWithInteger:[[[node attributeForName:@"skillpoints"] stringValue] integerValue]];
 							skill.level       = [NSNumber numberWithInteger:[[[node attributeForName:@"level"] stringValue] integerValue]];
+							skill.character   = self.character;
 							
-							[[self.character mutableArrayValueForKey:@"skills"] addObject:skill];
+							//[[self.character mutableArrayValueForKey:@"skills"] addObject:skill];
+							//[self.character setValue:skill forKey:[NSString stringWithFormat:@"skills.%@", [[node attributeForName:@"typeID"] stringValue]]];
+							
+							[self.character.skills setObject:skill forKey:[[node attributeForName:@"typeID"] stringValue]];
 							
 							totalTime += (long double) time(NULL) - (long double) start;
 						}
@@ -365,6 +404,7 @@ NSDictionary * URLDict = nil;
 		}
 	}
 }
+
 
 - (void)portraitListWithData:(NSData *)data forCharID:(NSString *)charID error:(NSError **)error {
 	EveCharacter * theChar;
@@ -434,6 +474,13 @@ NSDictionary * URLDict = nil;
 
 			if (!processError) [self characterSheetWithXML:xmlDoc error:&processError];
 		}
+		
+		// API call to get the current training skill
+		else if ([key isEqualToString:@"SkillInTraining"]) {
+			xmlDoc = [[NSXMLDocument alloc] initWithData:data options:0 error:&processError];
+
+			if (!processError) [self skillInTrainingWithXML:xmlDoc error:&processError];
+		}
 
 		// Test call please ignore
 		else if ([key isEqualToString:@"Echo"]) {
@@ -460,11 +507,14 @@ NSDictionary * URLDict = nil;
 
 		if (processError) [[download.downloads objectForKey:key] setError:processError];
 	}
+	else NSLog(@"%@", error);
 
 }
 
 - (void)didFinishDownload:(EveDownload *)download withResults:(NSDictionary *)results {
 	__block NSMutableDictionary * errors;
+	
+	[self.currentDownloads removeObject:download];
 	
 	errors = [NSMutableDictionary dictionary];
 
@@ -472,8 +522,18 @@ NSDictionary * URLDict = nil;
 		if ([obj objectForKey:@"error"] != [NSNull null]) [errors setObject:[obj objectForKey:@"error"] forKey:key];
 	}];
 	
+	[download removeTotalObserver:self];
+	
+	if ([self.lastCalls containsObject:@"SkillInTraining"]) [self.character consolidateSkillInTraining];
+	
 	[self.delegate request:self finishedWithErrors:[NSDictionary dictionaryWithDictionary:errors]];
 
 }
 
 @end
+
+NSDate * CCPDate(NSString * date) {
+	// All times returned by CCP are GMT, so...
+	
+	return [NSDate dateWithString:[date stringByAppendingString:@" +0000"]];
+}

@@ -11,7 +11,7 @@
 
 @implementation EveDownloadInfo
 
-@synthesize URL, error, expectedLength, receivedLength, result, connection, postBody;
+@synthesize URL, error, expectedLength, receivedLength, result, connection, postBody, chunked;
 
 - (id)initWithURLString:(NSString *) url {
 	if ((self = [super init])) {
@@ -26,6 +26,8 @@
 		[self setConnection:nil];
 
 		[self setPostBody:nil];
+		
+		[self setChunked:NO];
 	}
 	
 	return self;
@@ -76,6 +78,9 @@
 	[self setPostBodyToUTF8String:[data componentsJoinedByString:@"&"]];
 }
 
+- (NSString *)description {
+	return [NSString stringWithFormat:@"URL: %@", [self URL]];
+}
 
 - (void)dealloc {
 	[self setURL:nil];
@@ -163,6 +168,16 @@
 	}
 }
 
+- (void)cancel {
+	EveDownloadInfo * info;
+	
+	if (non_finished) {
+		for (info in [downloads allValues]) {
+			if ([info connection]) [[info connection] cancel];
+		}
+	}
+}
+
 - (void)setPostBodyToDictionary:(NSDictionary *)dictionary forKey:(NSString *)key {
 	[(EveDownloadInfo *) [self.downloads objectForKey:key] setPostBodyToDict:dictionary];
 }
@@ -199,6 +214,7 @@
 			[info setExpectedLength:((uint64_t) [response expectedContentLength])];
 			[self setExpectedLength:([self expectedLength] + [response expectedContentLength])];
 		}
+		else [info setChunked:YES];
 	}
 }
 
@@ -210,6 +226,11 @@
 	[[info result] appendData:data];
 	[info setReceivedLength:([info receivedLength] + [data length])];
 	[self setReceivedLength:([self receivedLength] + [data length])];
+	
+	if ([info chunked]) {
+		[info setExpectedLength:([info expectedLength] + (uint64_t) [data length])];
+		[self setExpectedLength:([self expectedLength] + (uint64_t) [data length])];
+	}
 	
 }
 
@@ -240,19 +261,16 @@
 	
 	if ([self delegate] && !non_finished)
 		[[self delegate] didFinishDownload:self withResults:[self results]];
+	
+	[info setConnection:nil];
 }
 
-- (void)addObserver:(NSObject *)anObserver {
+- (void)addObserver:(id)anObserver {
 	NSString * keyPath, * key;
 	
 	keyPath = @"downloads.%@.%@";
 	
-	[self addObserver:anObserver forKeyPath:@"expectedLength" \
-			  options:NSKeyValueObservingOptionNew context:self];
-
-	[self addObserver:anObserver forKeyPath:@"receivedLength" \
-			  options:NSKeyValueObservingOptionNew context:self];
-
+	[self addTotalObserver:anObserver];
 	
 	for (key in [downloads allKeys]) {
 		[self addObserver:anObserver forKeyPath:[NSString stringWithFormat:keyPath, key, @"expectedLength"] \
@@ -263,20 +281,35 @@
 	}
 }
 
-- (void)removeObserver:(NSObject *)anObserver {
+- (void)removeObserver:(id)anObserver {
 	NSString * keyPath, * key;
 	
 	keyPath = @"downloads.%@.%@";
 
-	[self removeObserver:anObserver forKeyPath:@"expectedLength"];
-	[self removeObserver:anObserver forKeyPath:@"receivedLength"];
-	
+	[self removeTotalObserver:anObserver];
 	
 	for (key in [downloads allKeys]) {
 		[self removeObserver:anObserver forKeyPath:[NSString stringWithFormat:keyPath, key, @"expectedLength"]];
 		[self removeObserver:anObserver forKeyPath:[NSString stringWithFormat:keyPath, key, @"receivedLength"]];
 	}
 }
+
+- (void)addTotalObserver:(id)anObserver {
+	[self addObserver:anObserver forKeyPath:@"expectedLength" \
+			  options:NSKeyValueObservingOptionNew context:self];
+
+	[self addObserver:anObserver forKeyPath:@"receivedLength" \
+			  options:NSKeyValueObservingOptionNew context:self];
+
+	
+}
+
+- (void)removeTotalObserver:(id)anObserver {
+	[self removeObserver:anObserver forKeyPath:@"expectedLength"];
+	[self removeObserver:anObserver forKeyPath:@"receivedLength"];
+	
+}
+
 
 - (EveDownloadInfo *)infoForConnection:(NSURLConnection *)connection {
 	EveDownloadInfo * info, * cursor;

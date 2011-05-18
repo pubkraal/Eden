@@ -7,12 +7,13 @@
 //
 
 #import "CharacterCreateSheetController.h"
+#import "CharacterWindowController.h"
 #import "CharacterDocument.h"
 #import "EveCharacter.h"
 
 @implementation CharacterCreateSheetController
 
-@synthesize controlsEnabled, retrieveFailed, inputAPIKey, inputAccountID, characterList;
+@synthesize controlsEnabled, retrieveFailed, inputAPIKey, inputAccountID, characterList, currentRequest;
 
 - (id)init {
 	if ((self = [super initWithWindowNibName:@"CharacterCreateSheet"])) {
@@ -21,6 +22,7 @@
 		self.inputAPIKey    = nil;
 		self.inputAccountID = nil;
 		self.characterList  = nil;
+		self.currentRequest = nil;
 	}
 	
 	return self;
@@ -38,7 +40,8 @@
 	self.inputAPIKey    = nil;
 	self.inputAccountID = nil;
 	self.characterList  = nil;
-
+	self.currentRequest = nil;
+	
 	[mainWindow autorelease];
 	[charactersWindow autorelease];
 
@@ -57,6 +60,7 @@
 
 	switch (code) {
 		case EVE_CANCEL:
+			self.currentRequest = nil;
 			[self.document close];
 
 			break;
@@ -71,6 +75,11 @@
 			[self setWindow:mainWindow];
 			[self.document showSheet:self];
 			break;
+		
+		case EVE_RETRIEVE_DATA:
+			[(CharacterWindowController *) self.document.mainController scheduleSkillTimer];
+			self.currentRequest = nil;
+			break;
 
 		default:
 			break;
@@ -82,19 +91,19 @@
 	EveCharacter * theChar;
 
 	if ([apiObj.lastCalls containsObject:@"CharacterList"]) {
-		if ([errors count]) {
-			[progress stopAnimation:self];
-			self.controlsEnabled = YES;
-			self.retrieveFailed  = YES;
-
-			NSLog(@"%@", errors);
-		}
-		else {
+		if (![errors count]) {
 			for (theChar in apiObj.characterList) {
 				theChar.fullAPI = apiObj.character.fullAPI;
 			}
 
 			[apiObj retrievePortraitList];
+		}
+		else {
+			[progress stopAnimation:self];
+			self.controlsEnabled = YES;
+			self.retrieveFailed  = YES;
+
+			NSLog(@"%@", errors);
 		}
 	}
 	else if ([apiObj.lastCalls containsObject:@"PortraitList"]) {
@@ -112,9 +121,11 @@
 		if (![errors count]) {
 			[progressCharWindow stopAnimation:self];
 			
-			self.controlsEnabled = YES;
-			
 			self.document.character = apiObj.character;
+			self.characterList      = nil;
+			self.controlsEnabled    = YES;
+			
+			[self.document.character updateSkillsArray];
 			
 			[NSApp endSheet:[self window] returnCode:EVE_RETRIEVE_DATA];
 		}
@@ -130,8 +141,6 @@
 
 
 - (IBAction)send:(id)sender {
-	EveAPI * api;
-
 	if (inputAPIKey &&
 		inputAccountID &&
 		![inputAPIKey isEqualToString:@""] &&
@@ -144,10 +153,10 @@
 		self.controlsEnabled = NO;
 		[progress startAnimation:self];
 
-		api = [EveAPI requestWithAccountID:inputAccountID andAPIKey:inputAPIKey];
-		api.delegate = self;
+		self.currentRequest = [EveAPI requestWithAccountID:inputAccountID andAPIKey:inputAPIKey];
+		self.currentRequest.delegate = self;
 
-		[api retrieveAccountData]; 
+		[self.currentRequest retrieveAccountData]; 
 	}
 	else NSBeep();
 }
@@ -161,17 +170,13 @@
 }
 
 - (IBAction)select:(id)sender {
-	EveAPI * api;
-
-	self.characterList      = nil;
-
 	self.controlsEnabled = NO;
 	[progressCharWindow startAnimation:self];
 
-	api = [EveAPI requestWithCharacter:(EveCharacter *) sender];
-	api.delegate = self;
+	self.currentRequest = [EveAPI requestWithCharacter:(EveCharacter *) sender];
+	self.currentRequest.delegate = self;
 
-	[api retrieveLimitedData];
+	[self.currentRequest retrieveCharacterData];
 }
 
 @end

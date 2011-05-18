@@ -12,6 +12,7 @@
 #import "CharacterViews.h"
 #import "EveCharacter.h"
 #import "CharacterCreateSheetController.h"
+#import "CharacterReloadController.h"
 
 @implementation CharacterWindowController
 
@@ -23,7 +24,8 @@
     if ((self = [super initWithWindowNibName:@"Character"])) {
 
 		requiresFullAPIPred = [[NSPredicate predicateWithFormat:@"requiresFullAPI == NO"] retain];
-
+		skillTimer          = nil;
+		
 		[self setActiveViewName:nil];
 		[self setNextViewName:nil];
 		[self setSubviews:nil];
@@ -40,7 +42,9 @@
 	
 	// Presentation details
 
-	[characterInfo setView:characterInfoView];
+	[characterInfoItem setView:characterInfoView];
+	[trainingSkillItem setView:trainingSkillView];
+	[reloadItem setView:reloadView];
 
 	newAnimation = [CABasicAnimation animation];
 	[newAnimation setDelegate:self];
@@ -57,6 +61,7 @@
 	self.selectedTasks = [NSArray arrayWithObject:NSIndexPathFromString(startPath)];
 
 	if (!self.document.character) [self showCharacterSelectionSheet];
+	else [self scheduleSkillTimer];
 
 
 }
@@ -179,17 +184,41 @@
 	[ccController release];
 }
 
+- (IBAction)performReload:(id)sender {
+	[self cancelSkillTimer];
+	[self.document showSheet:self.document.reloadController];
+}
+
+- (void)scheduleSkillTimer {
+	[self cancelSkillTimer];
+	
+	skillTimer = [NSTimer scheduledTimerWithTimeInterval:2.0
+												  target:self.document.character
+												selector:@selector(updateSkillInTraining:)
+												userInfo:nil
+												 repeats:YES];
+}
+
+- (void)cancelSkillTimer {
+	if (skillTimer) {
+		[skillTimer invalidate];
+		skillTimer = nil;
+	}
+}
 
 // Notifications received
 
 - (void)windowWillClose:(NSNotification *)notif {
 	if ([self.document fileURL]) [self.document saveDocument:self];
 	
+	[self.document removeReloadController];
+	
 	[[[subviews objectForKey:[self activeViewName]] view] removeFromSuperview];
 	[self setSubviews:nil];
 	
 	[self removeAllObservers];
 	[[self window] setAnimations:nil];
+
 }
 
 // Delegated methods
@@ -349,6 +378,8 @@
 	 * go apeshit calling methods on CharacterWindowController's zombie
 	 * left and right.
 	 */
+	
+	if (skillTimer) [skillTimer invalidate];
 	
 	[self setTasks:nil];
 	[self setSubviews:nil];

@@ -19,8 +19,12 @@
 @interface CharacterWindowController : NSWindowController <NSWindowDelegate, NSOutlineViewDelegate> {
 @private
 	// Interface Elements
-	IBOutlet NSToolbarItem * characterInfo;
+	IBOutlet NSToolbarItem * characterInfoItem;
+	IBOutlet NSToolbarItem * trainingSkillItem;
+	IBOutlet NSToolbarItem * reloadItem;
 	IBOutlet NSView * characterInfoView;
+	IBOutlet NSView * trainingSkillView;
+	IBOutlet NSView * reloadView;
 	IBOutlet NSOutlineView * tasksView;
 	IBOutlet NSTreeController * tasksController;
 	IBOutlet NSView * dynamicView;
@@ -38,7 +42,9 @@
 	NSPredicate * requiresFullAPIPred;
 
 	NSArray * selectedTasks;
-	
+
+	// Timers
+	NSTimer * skillTimer; 
 
 }
 
@@ -50,7 +56,6 @@
 @property (retain) NSMutableArray * tasks;
 @property (retain) NSArray * selectedTasks;
 @property (retain) NSDictionary * subviews;
-
 
 @property (assign) CharacterDocument * document;
 
@@ -70,6 +75,9 @@
 - (void)selectedTaskChangedFrom:(NSArray *)oldTaskPaths to:(NSArray *)newTaskPaths;
 - (void)fullAPIChangedTo:(BOOL)fullAPI;
 - (void)showCharacterSelectionSheet;
+- (IBAction)performReload:(id)sender;
+- (void)scheduleSkillTimer;
+- (void)cancelSkillTimer;
 
 // Notifications received
 

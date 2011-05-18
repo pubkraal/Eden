@@ -10,6 +10,8 @@
 	<string>http://api.eveonline.com/account/Characters.xml.aspx</string>
 	<key>CharacterSheet</key>
 	<string>http://api.eveonline.com/char/CharacterSheet.xml.aspx</string>
+	<key>MarketOrders</key>
+	<string>http://api.eveonline.com/char/MarketOrders.xml.aspx</string>
 	<key>Echo</key>
 	<string>http://www.alignleft.net/echo.php</string>
 	<key>Portrait 1024</key>

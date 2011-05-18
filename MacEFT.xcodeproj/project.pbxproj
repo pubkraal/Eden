@@ -20,11 +20,15 @@
 		3A7615E5135ED6E4005A191C /* DumpNavigatorDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A7615E4135ED6E4005A191C /* DumpNavigatorDelegate.m */; };
 		3A7EA09A1364FF59002DCB5E /* SQLTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A7EA0991364FF59002DCB5E /* SQLTable.m */; };
 		3AA8544A1361016F0099C073 /* SQLMutableTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AA854491361016F0099C073 /* SQLMutableTable.m */; };
+		3AC7ABA81380F12000770862 /* CharacterReload.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AC7ABAA1380F12000770862 /* CharacterReload.xib */; };
 		3ACEE6BE1372222900E40835 /* evedump_lite.db in Resources */ = {isa = PBXBuildFile; fileRef = 3ACEE6BD1372222900E40835 /* evedump_lite.db */; };
 		3ACEE6C11372266000E40835 /* EveDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ACEE6C01372266000E40835 /* EveDatabase.m */; };
 		3ACEE6C31372BD1B00E40835 /* evedump_lite_nochr.db in Resources */ = {isa = PBXBuildFile; fileRef = 3ACEE6C21372BD1B00E40835 /* evedump_lite_nochr.db */; };
 		3AD1FE26137A51F800FDE8A7 /* EveURLs.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3AD1FE25137A51F800FDE8A7 /* EveURLs.plist */; };
+		3AD1FE29137A542800FDE8A7 /* CharacterReloadController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AD1FE28137A542800FDE8A7 /* CharacterReloadController.m */; };
 		3AD94E5C137A1D8A00F9D1FB /* DebugWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AD94E5B137A1D8A00F9D1FB /* DebugWindow.m */; };
+		3AE4807A138352070007B653 /* PlainProgressIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AE48079138352070007B653 /* PlainProgressIndicator.m */; };
+		3AE4807D138362AC0007B653 /* EveEquations.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AE4807C138362AC0007B653 /* EveEquations.m */; };
 		3AF0C5E9134FDAB500E47914 /* SQLBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AF0C5E8134FDAB500E47914 /* SQLBridge.m */; };
 		3AFC480D136C510000CC31EA /* CharacterCreateSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AFC480F136C510000CC31EA /* CharacterCreateSheet.xib */; };
 		3AFE5D00136BC1490072FD0E /* Character.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AFE5CFE136BC1490072FD0E /* Character.xib */; };
@@ -94,13 +98,20 @@
 		3A7EA0991364FF59002DCB5E /* SQLTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQLTable.m; sourceTree = "<group>"; };
 		3A7EA09B13650448002DCB5E /* SQLBridge_object.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLBridge_object.h; sourceTree = "<group>"; };
 		3AA854491361016F0099C073 /* SQLMutableTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQLMutableTable.m; sourceTree = "<group>"; };
+		3AC7ABA91380F12000770862 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/CharacterReload.xib; sourceTree = "<group>"; };
 		3ACEE6BD1372222900E40835 /* evedump_lite.db */ = {isa = PBXFileReference; lastKnownFileType = file; name = evedump_lite.db; path = MacEFT/evedump_lite.db; sourceTree = "<group>"; };
 		3ACEE6BF1372266000E40835 /* EveDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EveDatabase.h; sourceTree = "<group>"; };
 		3ACEE6C01372266000E40835 /* EveDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveDatabase.m; sourceTree = "<group>"; };
 		3ACEE6C21372BD1B00E40835 /* evedump_lite_nochr.db */ = {isa = PBXFileReference; lastKnownFileType = file; name = evedump_lite_nochr.db; path = MacEFT/evedump_lite_nochr.db; sourceTree = "<group>"; };
 		3AD1FE25137A51F800FDE8A7 /* EveURLs.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = EveURLs.plist; path = MacEFT/EveURLs.plist; sourceTree = "<group>"; };
+		3AD1FE27137A542800FDE8A7 /* CharacterReloadController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CharacterReloadController.h; sourceTree = "<group>"; };
+		3AD1FE28137A542800FDE8A7 /* CharacterReloadController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CharacterReloadController.m; sourceTree = "<group>"; };
 		3AD94E5A137A1D8A00F9D1FB /* DebugWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DebugWindow.h; sourceTree = "<group>"; };
 		3AD94E5B137A1D8A00F9D1FB /* DebugWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DebugWindow.m; sourceTree = "<group>"; };
+		3AE48078138352070007B653 /* PlainProgressIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlainProgressIndicator.h; sourceTree = "<group>"; };
+		3AE48079138352070007B653 /* PlainProgressIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlainProgressIndicator.m; sourceTree = "<group>"; };
+		3AE4807B138362AC0007B653 /* EveEquations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EveEquations.h; sourceTree = "<group>"; };
+		3AE4807C138362AC0007B653 /* EveEquations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveEquations.m; sourceTree = "<group>"; };
 		3AF0C5E7134FDAB500E47914 /* SQLBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLBridge.h; sourceTree = "<group>"; };
 		3AF0C5E8134FDAB500E47914 /* SQLBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQLBridge.m; sourceTree = "<group>"; };
 		3AFC480E136C510000CC31EA /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/CharacterCreateSheet.xib; sourceTree = "<group>"; };
@@ -213,6 +224,15 @@
 			name = Interface;
 			sourceTree = "<group>";
 		};
+		3AE48077138351DD0007B653 /* Custom Controls */ = {
+			isa = PBXGroup;
+			children = (
+				3AE48078138352070007B653 /* PlainProgressIndicator.h */,
+				3AE48079138352070007B653 /* PlainProgressIndicator.m */,
+			);
+			name = "Custom Controls";
+			sourceTree = "<group>";
+		};
 		3AFE5CF2136BBFE30072FD0E /* Window Delegates */ = {
 			isa = PBXGroup;
 			children = (
@@ -243,6 +263,7 @@
 				3AFE5D1A136BCB700072FD0E /* CharacterInfo.xib */,
 				3AFE5D1D136BCB9F0072FD0E /* CharacterMarketOrders.xib */,
 				3AFC480F136C510000CC31EA /* CharacterCreateSheet.xib */,
+				3AC7ABAA1380F12000770862 /* CharacterReload.xib */,
 			);
 			name = "Character Views";
 			sourceTree = "<group>";
@@ -261,6 +282,8 @@
 				3A53A31C136F77A90047FC53 /* CharacterCreateSheetController.m */,
 				3AD94E5A137A1D8A00F9D1FB /* DebugWindow.h */,
 				3AD94E5B137A1D8A00F9D1FB /* DebugWindow.m */,
+				3AD1FE27137A542800FDE8A7 /* CharacterReloadController.h */,
+				3AD1FE28137A542800FDE8A7 /* CharacterReloadController.m */,
 			);
 			name = "Custom Views";
 			sourceTree = "<group>";
@@ -308,6 +331,7 @@
 		525B8A8F133BEB52006A3728 /* MacEFT */ = {
 			isa = PBXGroup;
 			children = (
+				3AE48077138351DD0007B653 /* Custom Controls */,
 				3AFE5D1E136BCC000072FD0E /* Custom Views */,
 				3AFE5D12136BC7D30072FD0E /* Document Model */,
 				3AFE5CF2136BBFE30072FD0E /* Window Delegates */,
@@ -391,6 +415,8 @@
 				527917CB133FABA7009C694C /* EveAlliance.m */,
 				3ACEE6BF1372266000E40835 /* EveDatabase.h */,
 				3ACEE6C01372266000E40835 /* EveDatabase.m */,
+				3AE4807B138362AC0007B653 /* EveEquations.h */,
+				3AE4807C138362AC0007B653 /* EveEquations.m */,
 			);
 			name = "Eve Model";
 			sourceTree = "<group>";
@@ -496,6 +522,7 @@
 				3ACEE6BE1372222900E40835 /* evedump_lite.db in Resources */,
 				3ACEE6C31372BD1B00E40835 /* evedump_lite_nochr.db in Resources */,
 				3AD1FE26137A51F800FDE8A7 /* EveURLs.plist in Resources */,
+				3AC7ABA81380F12000770862 /* CharacterReload.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -559,6 +586,9 @@
 				3A53A31D136F77A90047FC53 /* CharacterCreateSheetController.m in Sources */,
 				3ACEE6C11372266000E40835 /* EveDatabase.m in Sources */,
 				3AD94E5C137A1D8A00F9D1FB /* DebugWindow.m in Sources */,
+				3AD1FE29137A542800FDE8A7 /* CharacterReloadController.m in Sources */,
+				3AE4807A138352070007B653 /* PlainProgressIndicator.m in Sources */,
+				3AE4807D138362AC0007B653 /* EveEquations.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -581,6 +611,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		3AC7ABAA1380F12000770862 /* CharacterReload.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3AC7ABA91380F12000770862 /* en */,
+			);
+			name = CharacterReload.xib;
+			sourceTree = "<group>";
+		};
 		3AFC480F136C510000CC31EA /* CharacterCreateSheet.xib */ = {
 			isa = PBXVariantGroup;
 			children = (

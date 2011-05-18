@@ -23,10 +23,11 @@
 
 	// Instance properties
 	NSFileWrapper * currentWrapper;
-	NSWindowController * cwController;
+	NSWindowController * mainController, * crController;
 }
 
-@property (assign) NSWindowController * cwController;
+@property (readonly) NSWindowController * mainController;
+@property (readonly) NSWindowController * reloadController;
 
 @property (retain) EveCharacter * character;
 @property (retain) NSString * currentTask;
@@ -34,8 +35,13 @@
 @property (retain) NSDictionary * windowOrigin;
 
 - (void)showSheet:(NSWindowController *)controller;
+- (void)removeReloadController;
+
 - (NSDictionary *)dictionaryForArchival;
 - (void)unarchiveWithDictionary:(NSDictionary *)data;
+
+// Actions that can be called from Menus
+
 
 
 @end
