@@ -18,8 +18,9 @@
 
 - (id)init {
 	if ((self = [super init])) {
-		appStarted = NO;
-		dbLoaded   = NO;
+		appStarted   = NO;
+		dbLoaded     = NO;
+		willOpenFile = NO;
 	}
 	
 	return self;
@@ -107,10 +108,10 @@
 	NSError * error;
 	BOOL untitled;
 
-	untitled = YES;
+	untitled = !willOpenFile;
 	error    = nil;
 
-	if (!appStarted) {
+	if (untitled && !appStarted) {
 		controller = [NSDocumentController sharedDocumentController];
 		documents  = [controller recentDocumentURLs];
 		
@@ -126,7 +127,46 @@
 	return untitled;
 }
 
+- (BOOL)application:(NSApplication *)app openFile:(NSString *)filename {
+	willOpenFile = YES;
+	[self performSelectorInBackground:@selector(delayedOpening:) withObject:filename];
+	
+	return YES;
+}
 
+- (void)delayedOpening:(id)arg {
+	NSAutoreleasePool * pool;
+	NSURL * fileURL;
+	
+	while (!appStarted) ;
+	
+	pool = [[NSAutoreleasePool alloc] init];
+	
+	fileURL = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"file:%@", [(NSString *) arg stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+	
+	[self performSelectorOnMainThread:@selector(postDelayedOpening:) withObject:fileURL waitUntilDone:NO];
+	
+	[pool drain];
+}
+
+- (void)postDelayedOpening:(id)arg {
+	NSURL * fileURL;
+	NSError * error;
+	NSAlert * alert;
+	
+	fileURL = (NSURL *) arg;
+	error   = nil;
+	
+	[[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:fileURL display:YES error:&error];
+
+	[fileURL autorelease];
+	
+	if (error) {
+		alert = [NSAlert alertWithError:error];
+
+		[alert runModal];
+	}
+}
 
 
 - (void)dealloc {

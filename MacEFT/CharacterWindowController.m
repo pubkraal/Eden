@@ -16,7 +16,7 @@
 
 @implementation CharacterWindowController
 
-@synthesize dynamicView, activeViewName, nextViewName, subviews, selectedTasks;
+@synthesize dynamicView, activeViewName, nextViewName, subviews, selectedTasks, reloadEnabled;
 
 // Initialization
 
@@ -29,6 +29,7 @@
 		[self setActiveViewName:nil];
 		[self setNextViewName:nil];
 		[self setSubviews:nil];
+		[self setReloadEnabled:YES];
     }
     
     return self;
@@ -365,6 +366,27 @@
 	y = [NSNumber numberWithInteger:frame.origin.y];
 	
 	self.document.windowOrigin = [NSDictionary dictionaryWithObjectsAndKeys:x, @"x", y, @"y", nil];
+}
+
+- (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName {
+	if (self.document.character && [self.document fileURL]) {
+		displayName = [NSString stringWithFormat:@"%@ (%@)", self.document.character.name, displayName];
+	}
+	
+	return displayName;
+}
+
+
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
+	BOOL enabled;
+	
+	enabled = YES;
+	
+	if ([menuItem tag] == 1) {
+		enabled = reloadEnabled;
+	}
+	
+	return enabled;
 }
 
 // Cleanup

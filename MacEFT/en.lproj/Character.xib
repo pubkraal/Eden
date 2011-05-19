@@ -109,10 +109,9 @@
 								<string key="NSToolbarItemPaletteLabel">Current skill</string>
 								<nil key="NSToolbarItemToolTip"/>
 								<object class="NSCustomView" key="NSToolbarItemView" id="445859815">
-									<reference key="NSNextResponder"/>
+									<nil key="NSNextResponder"/>
 									<int key="NSvFlags">268</int>
 									<string key="NSFrame">{{0, 14}, {272, 50}}</string>
-									<reference key="NSSuperview"/>
 									<string key="NSClassName">NSView</string>
 								</object>
 								<nil key="NSToolbarItemImage"/>
@@ -134,10 +133,9 @@
 								<string key="NSToolbarItemPaletteLabel">Reload</string>
 								<nil key="NSToolbarItemToolTip"/>
 								<object class="NSCustomView" key="NSToolbarItemView" id="936291388">
-									<reference key="NSNextResponder"/>
+									<nil key="NSNextResponder"/>
 									<int key="NSvFlags">268</int>
 									<string key="NSFrame">{{0, 14}, {49, 50}}</string>
-									<reference key="NSSuperview"/>
 									<string key="NSClassName">NSView</string>
 								</object>
 								<nil key="NSToolbarItemImage"/>
@@ -159,10 +157,9 @@
 								<string key="NSToolbarItemPaletteLabel">Character info</string>
 								<nil key="NSToolbarItemToolTip"/>
 								<object class="NSCustomView" key="NSToolbarItemView" id="774364484">
-									<reference key="NSNextResponder"/>
+									<nil key="NSNextResponder"/>
 									<int key="NSvFlags">268</int>
 									<string key="NSFrame">{{0, 14}, {250, 50}}</string>
-									<reference key="NSSuperview"/>
 									<bool key="NSViewCanDrawConcurrently">YES</bool>
 									<string key="NSClassName">NSView</string>
 								</object>
@@ -1214,6 +1211,22 @@
 					</object>
 					<int key="connectionID">186</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: reloadEnabled</string>
+						<reference key="source" ref="312667922"/>
+						<reference key="destination" ref="1001"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="312667922"/>
+							<reference key="NSDestination" ref="1001"/>
+							<string key="NSLabel">enabled: reloadEnabled</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">reloadEnabled</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">187</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -1730,7 +1743,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">186</int>
+			<int key="maxID">187</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

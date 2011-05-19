@@ -18,6 +18,7 @@
 
 	BOOL appStarted;
 	BOOL dbLoaded;
+	BOOL willOpenFile;
 }
 
 @property (assign) IBOutlet NSWindow *window;
@@ -27,6 +28,8 @@
 
 - (void)loadDatabase:(id)arg;
 - (void)postLoadDatabase:(id)arg;
+- (void)delayedOpening:(id)arg;
+- (void)postDelayedOpening:(id)arg;
 
 - (void)dealloc;
 @end

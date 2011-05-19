@@ -49,6 +49,21 @@
 	return NO;
 }
 
+- (NSString *)displayName {
+	NSString * displayName;
+	
+	displayName = [super displayName];
+	
+	if (![self fileURL] && self.character) {
+		// This means the document hasn't yet been saved and
+		// that we already have loaded a character
+		
+		displayName = self.character.name;
+	}
+	return displayName;
+}
+
+
 - (void)makeWindowControllers {
 	mainController = [[CharacterWindowController alloc] init];
 	

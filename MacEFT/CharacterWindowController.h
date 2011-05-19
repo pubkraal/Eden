@@ -36,11 +36,11 @@
 	NSString * nextViewName;
 
 	// Interface data
-	NSMutableArray * tasks;
+	BOOL reloadEnabled;
 	
 	// Tasks
+	NSMutableArray * tasks;
 	NSPredicate * requiresFullAPIPred;
-
 	NSArray * selectedTasks;
 
 	// Timers
@@ -58,6 +58,7 @@
 @property (retain) NSDictionary * subviews;
 
 @property (assign) CharacterDocument * document;
+@property (assign) BOOL reloadEnabled;
 
 // Initialization
 

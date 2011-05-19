@@ -51,9 +51,12 @@
 	self.currentRequest = nil;
 	
 	[(CharacterWindowController *) self.document.mainController scheduleSkillTimer];
+	[(CharacterWindowController *) self.document.mainController setReloadEnabled:YES];
 }
 
 - (void)windowDidBecomeKey:(NSNotification *)notification {
+	[(CharacterWindowController *) self.document.mainController setReloadEnabled:NO];
+
 	self.currentRequest = [EveAPI requestWithCharacter:self.document.character];
 	self.currentRequest.delegate = self;
 	
