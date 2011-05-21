@@ -31,7 +31,7 @@ NSError * initError = nil;
 
 	if (bridge == nil) {
 		db     = [self sharedDatabase];
-		dbPath = [[NSBundle mainBundle] pathForResource:@"evedump_lite_nochr" ofType:@"db"];
+		dbPath = [[NSBundle mainBundle] pathForResource:@"evedump" ofType:@"db"];
 		
 		if (dbPath) {
 			bridge = [[SQLBridge alloc] initWithPath:dbPath error:&initError];
