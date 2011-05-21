@@ -445,70 +445,71 @@ NSDictionary * URLDict = nil;
 	NSLog(@"%@", xmlStr);
 	[xmlStr release];
 
-	if (!error) {
-		// API call to Character List
-		if ([key isEqualToString:@"CharacterList"]) {
-			xmlDoc = [[NSXMLDocument alloc] initWithData:data options:0 error:&processError];
+	if (error) {
+        NSLog(@"%@", error);
+        return;
+    }
 
-			if (!processError) [self characterListWithXML:xmlDoc error:&processError];
+    // API call to Character List
+    if ([key isEqualToString:@"CharacterList"]) {
+        xmlDoc = [[NSXMLDocument alloc] initWithData:data options:0 error:&processError];
 
-		}
+        if (!processError) [self characterListWithXML:xmlDoc error:&processError];
 
-		// API call to get portraits for a character list
-		else if ([key hasPrefix:@"PortraitList"]) {
-			[self portraitListWithData:data
-							 forCharID:[[key componentsSeparatedByString:@" "] objectAtIndex:1]
-								 error:&processError];
-		}
+    }
 
-		// API call to verify if it's a full API key or not
-		else if ([key isEqualToString:@"AccountStatus"]) {
-			xmlDoc = [[NSXMLDocument alloc] initWithData:data options:0 error:&processError];
+    // API call to get portraits for a character list
+    else if ([key hasPrefix:@"PortraitList"]) {
+        [self portraitListWithData:data
+                         forCharID:[[key componentsSeparatedByString:@" "] objectAtIndex:1]
+                             error:&processError];
+    }
 
-			if (!processError) [self accountStatusWithXML:xmlDoc error:&processError];
-		}
+    // API call to verify if it's a full API key or not
+    else if ([key isEqualToString:@"AccountStatus"]) {
+        xmlDoc = [[NSXMLDocument alloc] initWithData:data options:0 error:&processError];
 
-		// API call to get the character sheet
-		else if ([key isEqualToString:@"CharacterSheet"]) {
-			xmlDoc = [[NSXMLDocument alloc] initWithData:data options:0 error:&processError];
+        if (!processError) [self accountStatusWithXML:xmlDoc error:&processError];
+    }
 
-			if (!processError) [self characterSheetWithXML:xmlDoc error:&processError];
-		}
-		
-		// API call to get the current training skill
-		else if ([key isEqualToString:@"SkillInTraining"]) {
-			xmlDoc = [[NSXMLDocument alloc] initWithData:data options:0 error:&processError];
+    // API call to get the character sheet
+    else if ([key isEqualToString:@"CharacterSheet"]) {
+        xmlDoc = [[NSXMLDocument alloc] initWithData:data options:0 error:&processError];
 
-			if (!processError) [self skillInTrainingWithXML:xmlDoc error:&processError];
-		}
+        if (!processError) [self characterSheetWithXML:xmlDoc error:&processError];
+    }
+    
+    // API call to get the current training skill
+    else if ([key isEqualToString:@"SkillInTraining"]) {
+        xmlDoc = [[NSXMLDocument alloc] initWithData:data options:0 error:&processError];
 
-		// Test call please ignore
-		else if ([key isEqualToString:@"Echo"]) {
-			processError = [NSError errorWithDomain:EveAPIErrorDomain
-											   code:-1
-										   userInfo:[NSDictionary dictionaryWithObject:@"Testing" forKey:NSLocalizedDescriptionKey]];
-		}
+        if (!processError) [self skillInTrainingWithXML:xmlDoc error:&processError];
+    }
 
-		
-		if (xmlDoc) {
-			errorList = [[xmlDoc rootElement] nodesForXPath:@"/eveapi/error" error:&authError];
+    // Test call please ignore
+    else if ([key isEqualToString:@"Echo"]) {
+        processError = [NSError errorWithDomain:EveAPIErrorDomain
+                                           code:-1
+                                       userInfo:[NSDictionary dictionaryWithObject:@"Testing" forKey:NSLocalizedDescriptionKey]];
+    }
 
-			if (!authError && [errorList count]) {
-				errorNode = [errorList objectAtIndex:0];
-				authError = [NSError errorWithDomain:EveAPIErrorDomain
-												code:[[[errorNode attributeForName:@"code"] stringValue] integerValue]
-											userInfo:[NSDictionary dictionaryWithObject:[errorNode stringValue] forKey:NSLocalizedDescriptionKey]];
+    
+    if (xmlDoc) {
+        errorList = [[xmlDoc rootElement] nodesForXPath:@"/eveapi/error" error:&authError];
 
-				processError = authError;
-			}
-			
-			[xmlDoc release];
-		}
+        if (!authError && [errorList count]) {
+            errorNode = [errorList objectAtIndex:0];
+            authError = [NSError errorWithDomain:EveAPIErrorDomain
+                                            code:[[[errorNode attributeForName:@"code"] stringValue] integerValue]
+                                        userInfo:[NSDictionary dictionaryWithObject:[errorNode stringValue] forKey:NSLocalizedDescriptionKey]];
 
-		if (processError) [[download.downloads objectForKey:key] setError:processError];
-	}
-	else NSLog(@"%@", error);
+            processError = authError;
+        }
+        
+        [xmlDoc release];
+    }
 
+    if (processError) [[download.downloads objectForKey:key] setError:processError];
 }
 
 - (void)didFinishDownload:(EveDownload *)download withResults:(NSDictionary *)results {
