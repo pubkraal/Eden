@@ -16,7 +16,7 @@
 
 @implementation CharacterWindowController
 
-@synthesize dynamicView, activeViewName, nextViewName, subviews, selectedTasks, reloadEnabled;
+@synthesize dynamicView, activeViewName, nextViewName, subviews, selectedTasks, reloadEnabled, hasError, errors;
 
 // Initialization
 
@@ -30,6 +30,8 @@
 		[self setNextViewName:nil];
 		[self setSubviews:nil];
 		[self setReloadEnabled:YES];
+		[self setHasError:NO];
+		[self setErrors:nil];
     }
     
     return self;
@@ -210,11 +212,16 @@
 // Notifications received
 
 - (void)windowWillClose:(NSNotification *)notif {
+	EveViewController * view;
+	
 	if ([self.document fileURL]) [self.document saveDocument:self];
 	
 	[self.document removeReloadController];
 	
 	[[[subviews objectForKey:[self activeViewName]] view] removeFromSuperview];
+	
+	for (view in [subviews allValues]) [view documentWillClose];
+	
 	[self setSubviews:nil];
 	
 	[self removeAllObservers];
@@ -389,6 +396,35 @@
 	return enabled;
 }
 
+// Errors
+
++ (NSSet *)keyPathsForValuesAffectingValueForKey:(NSString *)dependentKey {
+	NSSet * rootKeys;
+	
+	if ([dependentKey isEqualToString:@"errorString"]) {
+		rootKeys = [NSSet setWithObject:@"errors"];
+	}
+	else rootKeys = [NSSet set];
+	
+	return rootKeys;
+}
+
+- (NSString *)errorString {
+	NSMutableArray * errorDescriptions;
+	NSError * error;
+	NSString * key;
+	
+	errorDescriptions = [NSMutableArray array];
+	
+	for (key in errors) {
+		error = [errors objectForKey:key];
+		NSLog(@"%@", error);
+		[errorDescriptions addObject:[NSString stringWithFormat:@"(%@) Error %d: %@", key, [error code], [error localizedDescription]]];
+	}
+	
+	return [errorDescriptions componentsJoinedByString:@"\n"];
+}
+
 // Cleanup
 
 - (void)dealloc {
@@ -407,6 +443,7 @@
 	[self setSubviews:nil];
 	[self setActiveViewName:nil];
 	[self setNextViewName:nil];
+	[self setErrors:nil];
 
     [super dealloc];
 }

@@ -10,7 +10,7 @@
 
 @class EveCharacter;
 
-@interface EveSkill : NSObject <NSCoding> {
+@interface EveSkill : NSObject <NSCoding, NSCopying> {
 @private
 	EveCharacter * character;
 	
@@ -44,6 +44,7 @@
 @property (readonly) NSString * skillGroup;
 @property (readonly) NSNumber * percentComplete;
 @property (readonly) NSString * finishesIn;
+
 
 - (id)initWithSkillID:(NSString *)skillID;
 + (id)skillWithSkillID:(NSString *)skillID;

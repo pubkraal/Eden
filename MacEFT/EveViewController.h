@@ -20,4 +20,6 @@
 
 + (id)viewController;
 
+- (void)documentWillClose;
+
 @end

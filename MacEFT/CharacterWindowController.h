@@ -37,6 +37,8 @@
 
 	// Interface data
 	BOOL reloadEnabled;
+	BOOL hasError;
+	NSDictionary * errors;
 	
 	// Tasks
 	NSMutableArray * tasks;
@@ -59,6 +61,10 @@
 
 @property (assign) CharacterDocument * document;
 @property (assign) BOOL reloadEnabled;
+
+@property (assign) BOOL hasError;
+@property (retain) NSDictionary * errors;
+@property (readonly) NSString * errorString;
 
 // Initialization
 

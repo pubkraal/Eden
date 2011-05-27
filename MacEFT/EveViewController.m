@@ -24,9 +24,11 @@
 	return [[[self alloc] init] autorelease];
 }
 
+- (void)documentWillClose {
+	self.document = nil;
+}
 
-- (void)dealloc
-{
+- (void)dealloc {
     [super dealloc];
 }
 

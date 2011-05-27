@@ -64,7 +64,15 @@
 
 }
 
-- (void)request:(EveAPI *)api finishedWithErrors:(NSArray *)errors {
+- (void)request:(EveAPI *)api finishedWithErrors:(NSDictionary *)errors {
+	if ([errors count]) {
+		[(CharacterWindowController *) self.document.mainController setErrors:errors];
+		[(CharacterWindowController *) self.document.mainController setHasError:YES];
+	}
+	else {
+		[(CharacterWindowController *) self.document.mainController setHasError:NO];
+	}
+	
 	[NSApp endSheet:[self window] returnCode:0];
 	[self.document.character updateSkillsArray];
 }

@@ -10,9 +10,13 @@
 #import "EveDatabase.h"
 #import "EveCharacter.h"
 #import "EveEquations.h"
+#import "NSDateComponents+EnglishRepresentation.h"
 #import <stdlib.h>
 
 NSDictionary * rawSkills = nil;
+NSCalendarUnit units = NSMonthCalendarUnit | NSWeekCalendarUnit |
+						NSDayCalendarUnit | NSHourCalendarUnit |
+						NSMinuteCalendarUnit | NSSecondCalendarUnit;
 
 @implementation EveSkill
 
@@ -38,18 +42,36 @@ NSDictionary * rawSkills = nil;
 
 - (id)initWithCoder:(NSCoder *)coder {
 	if ((self = [self init])) {
-		self.character = [coder decodeObjectForKey:@"skill.char"];
-		self.data = [[self class] cachedAttributedSkillWithSkillID:[coder decodeObjectForKey:@"skill.typeID"]];
-		self.primaryAttribute = [coder decodeObjectForKey:@"skill.primaryAttribute"];
+		self.character          = [coder decodeObjectForKey:@"skill.char"];
+		self.data               = [[self class] cachedAttributedSkillWithSkillID:[coder decodeObjectForKey:@"skill.typeID"]];
+		self.primaryAttribute   = [coder decodeObjectForKey:@"skill.primaryAttribute"];
 		self.secondaryAttribute = [coder decodeObjectForKey:@"skill.secondaryAttribute"];
-		self.skillPoints = [coder decodeObjectForKey:@"skill.skillPoints"];
-		self.level = [coder decodeObjectForKey:@"skill.level"];
-		self.isTraining = [coder decodeBoolForKey:@"skill.isTraining"];
-		self.startDate = [coder decodeObjectForKey:@"skill.startDate"];
-		self.endDate = [coder decodeObjectForKey:@"skill.endDate"];
+		self.skillPoints        = [coder decodeObjectForKey:@"skill.skillPoints"];
+		self.level              = [coder decodeObjectForKey:@"skill.level"];
+		self.isTraining         = [coder decodeBoolForKey:@"skill.isTraining"];
+		self.startDate          = [coder decodeObjectForKey:@"skill.startDate"];
+		self.endDate            = [coder decodeObjectForKey:@"skill.endDate"];
 	}
 	
 	return self;
+}
+
+- (id)copyWithZone:(NSZone *)zone {
+	EveSkill * copy;
+	
+	copy = [[EveSkill allocWithZone:zone] init];
+	
+	copy.character          = character;
+	copy.data               = [[data copyWithZone:zone] autorelease];
+	copy.primaryAttribute   = [[primaryAttribute copyWithZone:zone] autorelease];
+	copy.secondaryAttribute = [[secondaryAttribute copyWithZone:zone] autorelease];
+	copy.skillPoints        = [[skillPoints copyWithZone:zone] autorelease];
+	copy.level              = [[level copyWithZone:zone] autorelease];
+	copy.isTraining         = isTraining;
+	copy.startDate          = [[startDate copyWithZone:zone] autorelease];
+	copy.endDate            = [[endDate copyWithZone:zone] autorelease];
+	
+	return copy;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
@@ -172,6 +194,8 @@ NSDictionary * rawSkills = nil;
 
 - (NSString *)attributesDescription {
 	NSString * desc;
+	NSDate * nextLevelDate;
+	NSDateComponents * components;
 	
 	desc = [NSString stringWithFormat:@"Primary attribute: %@\nSecondary attribute: %@\n\nDescription: %@",
 			[self.primaryAttribute capitalizedString],
@@ -180,6 +204,15 @@ NSDictionary * rawSkills = nil;
 
 	if (self.character) {
 		desc = [desc stringByAppendingFormat:@"\n\nTraining speed: %@ SP/hour", [self.character speedForSkill:self]];
+	}
+	
+	if ([level integerValue] < 5) {
+		if (!isTraining) {
+			nextLevelDate = [NSDate dateWithTimeIntervalSinceNow:([self.neededForNextLevel doubleValue] - [self.neededForCurrentLevel doubleValue]) / [[self.character speedForSkill:self] doubleValue] * 3600.0];
+			components    = [[NSCalendar currentCalendar] components:units fromDate:[NSDate date] toDate:nextLevelDate options:0];
+			desc          = [desc stringByAppendingFormat:@"\nNext level in: %@", [components englishRepresentation]];
+		}
+		else desc = [desc stringByAppendingFormat:@"\n%@", self.finishesIn];
 	}
 			
 	return desc;
@@ -225,58 +258,14 @@ NSDictionary * rawSkills = nil;
 
 - (NSString *)finishesIn {
 	NSDate * eveNow;
-	NSCalendar * calendar;
 	NSDateComponents * components;
-	NSCalendarUnit units;
-	//const char ** unitsNames;
-	NSString * unit;
-	NSMutableString * finishesIn;
-	NSUInteger i, c;
-	NSInteger * qty;
-	NSInvocation * iv;
-	SEL ivs;
+	NSString * finishesIn;
 	
 	if (!isTraining) return nil;
 	
-	units = NSMonthCalendarUnit | NSWeekCalendarUnit |
-			NSDayCalendarUnit | NSHourCalendarUnit |
-			NSMinuteCalendarUnit | NSSecondCalendarUnit;
-	
-	const char * unitsNames[6] = { "month", "week", "day", "hour", "minute", "second" };
-	
-	calendar   = [NSCalendar currentCalendar];
 	eveNow     = [NSDate dateWithTimeIntervalSinceNow:[[character skillTimeOffset] doubleValue]];
-	components = [calendar components:units fromDate:eveNow toDate:self.endDate options:0];
-	finishesIn = [NSMutableString string];
-	
-	for (i = 0, c = 0; (i < 6) && (c < 3); i++) {
-		unit = [NSString stringWithUTF8String:unitsNames[i]];
-		
-		ivs  = NSSelectorFromString(unit);
-		iv   = [NSInvocation invocationWithMethodSignature:[[components class] instanceMethodSignatureForSelector:ivs]];
-		
-		[iv setSelector:ivs];
-		[iv setTarget:components];
-		
-		qty  = malloc([[iv methodSignature] methodReturnLength]);
-		
-		[iv invoke];
-		
-		[iv getReturnValue:qty];
-		
-		//NSLog(@"%ld %@", *qty, unit);
-		
-		if (*qty || c || i > 2) {
-			[finishesIn appendFormat:@"%ld %@%s", *qty, unit, (*qty != 1) ? "s" : ""];
-			
-			if (!c) [finishesIn appendString:@", "];
-			else if (c == 1) [finishesIn appendString:@" and "];
-			
-			c++;
-		}
-		
-		free(qty);
-	}
+	components = [[NSCalendar currentCalendar] components:units fromDate:eveNow toDate:self.endDate options:0];
+	finishesIn = [components englishRepresentation];
 	
 	return [NSString stringWithFormat:@"Finishes in %@.", finishesIn];
 }
@@ -308,11 +297,16 @@ NSDictionary * rawSkills = nil;
 											@"character.charisma",
 											@"character.perception",
 											@"character.willpower",
+											@"skillPoints",
 											nil];
 	}
 	else rootKeys = [NSSet set];
 	
 	return rootKeys;
+}
+
+- (NSString *)description {
+	return [NSString stringWithFormat:@"%@ %@", self.name, self.level];
 }
 
 - (void)dealloc {

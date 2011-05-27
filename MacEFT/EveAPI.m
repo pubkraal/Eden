@@ -1,9 +1,9 @@
 //
-//  EveAPI.m
-//  MacEFT
+//	EveAPI.m
+//	MacEFT
 //
-//  Created by John Kraal on 3/27/11.
-//  Copyright 2011 Netframe. All rights reserved.
+//	Created by John Kraal on 3/27/11.
+//	Copyright 2011 Netframe. All rights reserved.
 //
 
 #import <time.h>
@@ -24,8 +24,8 @@ NSDictionary * URLDict = nil;
 - (id)initWithAccountID:(NSString *)accountID andAPIKey:(NSString *)APIKey {
 	
 	if ((self = [super init])) {
-		self.character  = [EveCharacter characterWithAccountID:accountID andAPIKey:APIKey];
-		self.lastCalls  = [NSSet set];
+		self.character	= [EveCharacter characterWithAccountID:accountID andAPIKey:APIKey];
+		self.lastCalls	= [NSSet set];
 		self.characterList = nil;
 		self.currentDownloads = [NSMutableSet set];
 	}
@@ -54,8 +54,8 @@ NSDictionary * URLDict = nil;
 }
 
 - (void)dealloc {
-	self.character  = nil;
-	self.lastCalls  = nil;
+	self.character	= nil;
+	self.lastCalls	= nil;
 	self.characterList = nil;
 	self.currentDownloads = nil;
 	
@@ -85,7 +85,7 @@ NSDictionary * URLDict = nil;
 						@"AccountStatus",
 						nil];
 	
-	URLList  = [[self class] URLListForKeys:calls];
+	URLList	 = [[self class] URLListForKeys:calls];
 	download = [self downloadWithURLList:URLList];
 
 	for (call in calls) {
@@ -132,7 +132,7 @@ NSDictionary * URLDict = nil;
 						nil]];
 	}
 	
-	URLList  = [[self class] URLListForKeys:calls];
+	URLList	 = [[self class] URLListForKeys:calls];
 	download = [self downloadWithURLList:URLList];
 
 	for (call in calls) {
@@ -225,7 +225,7 @@ NSDictionary * URLDict = nil;
 	EveCorporation * newCorp;
 	NSArray * nodeList;
 
-	root     = [xmlDoc rootElement];
+	root	 = [xmlDoc rootElement];
 	nodeList = [root nodesForXPath:@"/eveapi/result/rowset/row" error:error];
 
 	if (!(*error)) {
@@ -236,9 +236,9 @@ NSDictionary * URLDict = nil;
 			newCorp = [EveCorporation corporationWithName:[[node attributeForName:@"corporationName"] stringValue]
 										 andCorporationID:[[node attributeForName:@"corporationID"] stringValue]];
 			
-			newChar.name          = [[node attributeForName:@"name"] stringValue];
-			newChar.characterID   = [[node attributeForName:@"characterID"] stringValue];
-			newChar.corporation   = newCorp;
+			newChar.name		  = [[node attributeForName:@"name"] stringValue];
+			newChar.characterID	  = [[node attributeForName:@"characterID"] stringValue];
+			newChar.corporation	  = newCorp;
 
 			[chars addObject:newChar];
 		}
@@ -273,7 +273,7 @@ NSDictionary * URLDict = nil;
 	NSMutableDictionary * trainingData;
 	NSTimeInterval skillTimeOffset;
 	
-	root     = [xmlDoc rootElement];
+	root	 = [xmlDoc rootElement];
 	nodeList = [root nodesForXPath:@"/eveapi/result/*" error:error];
 	
 	if (!(*error)) {
@@ -286,7 +286,7 @@ NSDictionary * URLDict = nil;
 		if ([[trainingData objectForKey:@"skillInTraining"] boolValue]) {
 			skillTimeOffset = [CCPDate([trainingData objectForKey:@"currentTQTime"]) timeIntervalSinceDate:[NSDate date]];
 			self.character.skillTimeOffset = [NSNumber numberWithDouble:skillTimeOffset];
-			self.character.trainingData    = [NSDictionary dictionaryWithDictionary:trainingData];
+			self.character.trainingData	   = [NSDictionary dictionaryWithDictionary:trainingData];
 		}
 		else self.character.trainingData = nil;
 	}
@@ -305,12 +305,12 @@ NSDictionary * URLDict = nil;
 	NSUInteger count;
 	long double totalTime;
 	
-	root     = [xmlDoc rootElement];
+	root	 = [xmlDoc rootElement];
 	nodeList = [root nodesForXPath:@"/eveapi/result/*" error:error];
 
 	if (!(*error)) {
 		allianceDict = nil;
-		corpDict     = nil;
+		corpDict	 = nil;
 		
 		for (node in nodeList) {
 			nodeName = [node name];
@@ -383,8 +383,8 @@ NSDictionary * URLDict = nil;
 							skill = [EveSkill skillWithSkillID:[[node attributeForName:@"typeID"] stringValue]];
 							
 							skill.skillPoints = [NSNumber numberWithInteger:[[[node attributeForName:@"skillpoints"] stringValue] integerValue]];
-							skill.level       = [NSNumber numberWithInteger:[[[node attributeForName:@"level"] stringValue] integerValue]];
-							skill.character   = self.character;
+							skill.level		  = [NSNumber numberWithInteger:[[[node attributeForName:@"level"] stringValue] integerValue]];
+							skill.character	  = self.character;
 							
 							//[[self.character mutableArrayValueForKey:@"skills"] addObject:skill];
 							//[self.character setValue:skill forKey:[NSString stringWithFormat:@"skills.%@", [[node attributeForName:@"typeID"] stringValue]]];
@@ -439,77 +439,77 @@ NSDictionary * URLDict = nil;
 	NSArray * errorList;
 
 	processError = nil;
-	xmlDoc       = nil;
+	xmlDoc		 = nil;
 
 	NSString * xmlStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 	NSLog(@"%@", xmlStr);
 	[xmlStr release];
 
 	if (error) {
-        NSLog(@"%@", error);
-        return;
-    }
+		NSLog(@"%@", error);
+		return;
+	}
 
-    // API call to Character List
-    if ([key isEqualToString:@"CharacterList"]) {
-        xmlDoc = [[NSXMLDocument alloc] initWithData:data options:0 error:&processError];
+	// API call to Character List
+	if ([key isEqualToString:@"CharacterList"]) {
+		xmlDoc = [[NSXMLDocument alloc] initWithData:data options:0 error:&processError];
 
-        if (!processError) [self characterListWithXML:xmlDoc error:&processError];
+		if (!processError) [self characterListWithXML:xmlDoc error:&processError];
 
-    }
+	}
 
-    // API call to get portraits for a character list
-    else if ([key hasPrefix:@"PortraitList"]) {
-        [self portraitListWithData:data
-                         forCharID:[[key componentsSeparatedByString:@" "] objectAtIndex:1]
-                             error:&processError];
-    }
+	// API call to get portraits for a character list
+	else if ([key hasPrefix:@"PortraitList"]) {
+		[self portraitListWithData:data
+						 forCharID:[[key componentsSeparatedByString:@" "] objectAtIndex:1]
+							 error:&processError];
+	}
 
-    // API call to verify if it's a full API key or not
-    else if ([key isEqualToString:@"AccountStatus"]) {
-        xmlDoc = [[NSXMLDocument alloc] initWithData:data options:0 error:&processError];
+	// API call to verify if it's a full API key or not
+	else if ([key isEqualToString:@"AccountStatus"]) {
+		xmlDoc = [[NSXMLDocument alloc] initWithData:data options:0 error:&processError];
 
-        if (!processError) [self accountStatusWithXML:xmlDoc error:&processError];
-    }
+		if (!processError) [self accountStatusWithXML:xmlDoc error:&processError];
+	}
 
-    // API call to get the character sheet
-    else if ([key isEqualToString:@"CharacterSheet"]) {
-        xmlDoc = [[NSXMLDocument alloc] initWithData:data options:0 error:&processError];
+	// API call to get the character sheet
+	else if ([key isEqualToString:@"CharacterSheet"]) {
+		xmlDoc = [[NSXMLDocument alloc] initWithData:data options:0 error:&processError];
 
-        if (!processError) [self characterSheetWithXML:xmlDoc error:&processError];
-    }
-    
-    // API call to get the current training skill
-    else if ([key isEqualToString:@"SkillInTraining"]) {
-        xmlDoc = [[NSXMLDocument alloc] initWithData:data options:0 error:&processError];
+		if (!processError) [self characterSheetWithXML:xmlDoc error:&processError];
+	}
+	
+	// API call to get the current training skill
+	else if ([key isEqualToString:@"SkillInTraining"]) {
+		xmlDoc = [[NSXMLDocument alloc] initWithData:data options:0 error:&processError];
 
-        if (!processError) [self skillInTrainingWithXML:xmlDoc error:&processError];
-    }
+		if (!processError) [self skillInTrainingWithXML:xmlDoc error:&processError];
+	}
 
-    // Test call please ignore
-    else if ([key isEqualToString:@"Echo"]) {
-        processError = [NSError errorWithDomain:EveAPIErrorDomain
-                                           code:-1
-                                       userInfo:[NSDictionary dictionaryWithObject:@"Testing" forKey:NSLocalizedDescriptionKey]];
-    }
+	// Test call please ignore
+	else if ([key isEqualToString:@"Echo"]) {
+		processError = [NSError errorWithDomain:EveAPIErrorDomain
+										   code:-1
+									   userInfo:[NSDictionary dictionaryWithObject:@"Testing" forKey:NSLocalizedDescriptionKey]];
+	}
 
-    
-    if (xmlDoc) {
-        errorList = [[xmlDoc rootElement] nodesForXPath:@"/eveapi/error" error:&authError];
+	
+	if (xmlDoc) {
+		errorList = [[xmlDoc rootElement] nodesForXPath:@"/eveapi/error" error:&authError];
 
-        if (!authError && [errorList count]) {
-            errorNode = [errorList objectAtIndex:0];
-            authError = [NSError errorWithDomain:EveAPIErrorDomain
-                                            code:[[[errorNode attributeForName:@"code"] stringValue] integerValue]
-                                        userInfo:[NSDictionary dictionaryWithObject:[errorNode stringValue] forKey:NSLocalizedDescriptionKey]];
+		if (!authError && [errorList count]) {
+			errorNode = [errorList objectAtIndex:0];
+			authError = [NSError errorWithDomain:EveAPIErrorDomain
+											code:[[[errorNode attributeForName:@"code"] stringValue] integerValue]
+										userInfo:[NSDictionary dictionaryWithObject:[errorNode stringValue] forKey:NSLocalizedDescriptionKey]];
 
-            processError = authError;
-        }
-        
-        [xmlDoc release];
-    }
+			processError = authError;
+		}
+		
+		[xmlDoc release];
+	}
 
-    if (processError) [[download.downloads objectForKey:key] setError:processError];
+	if (processError) [[download.downloads objectForKey:key] setError:processError];
 }
 
 - (void)didFinishDownload:(EveDownload *)download withResults:(NSDictionary *)results {
