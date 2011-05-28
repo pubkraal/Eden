@@ -71,8 +71,7 @@
 }
 
 - (void)removeSubviews {
-	[groupView removeFromSuperview];
-	[[self view] removeFromSuperview];
+	[self.mainView removeFromSuperview];
 }
 
 
@@ -91,7 +90,7 @@
 		
 		for (child in [node objectForKey:@"children"]) {
 			childSkill = [child objectForKey:@"object"];
-			sp   += [childSkill.skillPoints unsignedIntegerValue];
+			sp        += [childSkill.skillPoints unsignedIntegerValue];
 		}
 	}
 	else sp = [skill.skillPoints unsignedIntegerValue];
@@ -99,6 +98,10 @@
 	gsp = [NSNumber numberWithUnsignedInteger:sp];
 	
 	return [formatter stringFromNumber:gsp];
+}
+
+- (NSString *)description {
+	return (isGroup) ? [node objectForKey:@"object"] : [(EveSkill *) [node objectForKey:@"object"] name];
 }
 
 - (void)dealloc {

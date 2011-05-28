@@ -202,7 +202,7 @@
 												<bytes key="NSWhite">MC41AA</bytes>
 											</object>
 										</object>
-										<double key="NSRowHeight">42</double>
+										<double key="NSRowHeight">19</double>
 										<int key="NSTvFlags">314572800</int>
 										<reference key="NSDelegate"/>
 										<reference key="NSDataSource"/>
@@ -253,7 +253,7 @@
 						<reference key="NSVScroller" ref="61719948"/>
 						<reference key="NSHScroller" ref="648790322"/>
 						<reference key="NSContentView" ref="589205034"/>
-						<bytes key="NSScrollAmts">QSAAAEEgAABCMAAAQjAAAA</bytes>
+						<bytes key="NSScrollAmts">QSAAAEEgAABBqAAAQagAAA</bytes>
 					</object>
 					<object class="NSTextField" id="482480518">
 						<reference key="NSNextResponder" ref="648409673"/>
@@ -1647,11 +1647,13 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>scrollView</string>
 							<string>skillTreeController</string>
 							<string>skillsView</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>NSScrollView</string>
 							<string>NSTreeController</string>
 							<string>NSOutlineView</string>
 						</object>
@@ -1660,11 +1662,16 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>scrollView</string>
 							<string>skillTreeController</string>
 							<string>skillsView</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">scrollView</string>
+								<string key="candidateClassName">NSScrollView</string>
+							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">skillTreeController</string>
 								<string key="candidateClassName">NSTreeController</string>

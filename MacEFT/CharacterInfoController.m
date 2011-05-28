@@ -30,11 +30,6 @@
 	return self;
 }
 
-- (void)awakeFromNib {
-	//NSLog(@"%@", self.skillTree);
-}
-
-
 + (NSSet *)keyPathsForValuesAffectingValueForKey:(NSString *)dependentKey {
 	NSSet * rootKeys;
 	
@@ -45,8 +40,6 @@
 	
 	return rootKeys;
 }
-
-
 
 - (NSArray *)skillTree {
 	NSMutableArray * skillTree;
@@ -104,6 +97,7 @@
 	}
 }
 
+
 #pragma mark Delegated from NSOutlineView
 
 - (void)outlineView:(NSOutlineView *)view willDisplayCell:(id)cellObject forTableColumn:(NSTableColumn *)tableColumn item:(id)item {
@@ -111,34 +105,22 @@
 	SkillCellController * controller;
 	SkillCell * cell;
 	
-	//if ([cellObject isKindOfClass:[SkillCell class]]) {
-		cell = (SkillCell *) cellObject;
-		node = [item representedObject];
+	cell = (SkillCell *) cellObject;
+	node = [item representedObject];
 
-		controller = [skillControllers objectForKey:node];
+	controller = [skillControllers objectForKey:node];
 
-		if (!controller) {
-			controller = [SkillCellController controllerWithNode:node];
-			controller.document = self.document;
-			[skillControllers setObject:controller forKey:node];
-		}
-		
-		cell.controller = controller;
-	//}
+	if (!controller) {
+		controller = [SkillCellController controllerWithNode:node];
+		controller.document = self.document;
+		[skillControllers setObject:controller forKey:node];
+	}
+	
+	cell.controller = controller;
 }
 
 - (NSCell *)outlineView:(NSOutlineView *)view dataCellForTableColumn:(NSTableColumn *)column item:(id)item {
-	NSCell * cell;
-	NSDictionary * node;
-	
-	// If it's a leaf node (that is, a proper skill) and is the first column, display our custom cell.
-	// Otherwise, use the default text cell.
-
-	node = [item representedObject];
-	//cell = ([[node objectForKey:@"leaf"] boolValue] && [[column identifier] isEqualToString:@"skill"]) ? [SkillCell cell] : [column dataCellForRow:-1];
-	cell = [SkillCell cell];
-	
-	return cell;
+	return [SkillCell cell];
 }
 
 - (CGFloat)outlineView:(NSOutlineView *)view heightOfRowByItem:(id)item {
@@ -161,6 +143,13 @@
 }
 
 - (void)outlineViewItemDidExpand:(NSNotification *)notif {
+	SkillCellController * controller;
+	
+	for (controller in [skillControllers allValues]) {
+		// removing the subviews forces them to be redrawn in the
+		// right place and avoid overlaps
+		[controller removeSubviews];
+	}
 
 }
 

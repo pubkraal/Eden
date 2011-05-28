@@ -299,7 +299,7 @@ NSDictionary * URLDict = nil;
 	EveCorporation * corp;
 	EveAlliance * alliance;
 	NSDictionary * corpDict, * allianceDict;
-	NSString * nodeName, * propName, * propValue;
+	NSString * nodeName, * propName, * propValue, * key;
 	EveSkill * skill;
 	time_t start;
 	NSUInteger count;
@@ -380,7 +380,14 @@ NSDictionary * URLDict = nil;
 					for (node in [node children]) {
 						if ([[[node attributeForName:@"published"] stringValue] integerValue]) {
 							start = time(NULL);
-							skill = [EveSkill skillWithSkillID:[[node attributeForName:@"typeID"] stringValue]];
+							
+							key   = [[node attributeForName:@"typeID"] stringValue];
+							skill = [self.character.skills objectForKey:key];
+							
+							if (!skill) {
+								skill = [EveSkill skillWithSkillID:key];
+								[self.character.skills setObject:skill forKey:key];
+							}
 							
 							skill.skillPoints = [NSNumber numberWithInteger:[[[node attributeForName:@"skillpoints"] stringValue] integerValue]];
 							skill.level		  = [NSNumber numberWithInteger:[[[node attributeForName:@"level"] stringValue] integerValue]];
@@ -389,13 +396,14 @@ NSDictionary * URLDict = nil;
 							//[[self.character mutableArrayValueForKey:@"skills"] addObject:skill];
 							//[self.character setValue:skill forKey:[NSString stringWithFormat:@"skills.%@", [[node attributeForName:@"typeID"] stringValue]]];
 							
-							[self.character.skills setObject:skill forKey:[[node attributeForName:@"typeID"] stringValue]];
 							
 							totalTime += (long double) time(NULL) - (long double) start;
 						}
 					}
 					
 					NSLog(@"Skills loaded: %lu skills, %Lgs total time, %Lgs average time.", count, totalTime, totalTime / (long double) count);
+
+					//self.character.skills = self.character.skills;
 				}
 			}
 			else {
