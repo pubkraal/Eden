@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'Eden' target in the 'Eden' project
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif

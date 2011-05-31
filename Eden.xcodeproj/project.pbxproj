@@ -1,0 +1,939 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3A0197661343BD7200B40E81 /* EveDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A0197651343BD7200B40E81 /* EveDownload.m */; };
+		3A286A7D135FFD0E0089D6DB /* SQLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A286A7C135FFD0E0089D6DB /* SQLView.m */; };
+		3A28FC3E1361727800B251C6 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A28FC3D1361727800B251C6 /* libsqlite3.dylib */; };
+		3A506F58136A74BF005EFA9B /* CharacterWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A506F57136A74BF005EFA9B /* CharacterWindowController.m */; };
+		3A506F5D136A7D06005EFA9B /* CharacterTasks.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3A506F5C136A7D06005EFA9B /* CharacterTasks.plist */; };
+		3A506F67136AC56C005EFA9B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A506F66136AC56C005EFA9B /* QuartzCore.framework */; };
+		3A506F6C136ACE4A005EFA9B /* PreferencesDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A506F6B136ACE49005EFA9B /* PreferencesDelegate.m */; };
+		3A53A31D136F77A90047FC53 /* CharacterCreateSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A53A31C136F77A90047FC53 /* CharacterCreateSheetController.m */; };
+		3A6A988B1388B0C600CB9861 /* NSDateComponents+EnglishRepresentation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A6A988A1388B0C600CB9861 /* NSDateComponents+EnglishRepresentation.m */; };
+		3A7615E0135ED4FD005A191C /* evedump.db in Resources */ = {isa = PBXBuildFile; fileRef = 3A7615DF135ED4FD005A191C /* evedump.db */; };
+		3A7615E5135ED6E4005A191C /* DumpNavigatorDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A7615E4135ED6E4005A191C /* DumpNavigatorDelegate.m */; };
+		3A792302139166FC007F2F8F /* TaskCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A792301139166FC007F2F8F /* TaskCell.m */; };
+		3A7923051391670D007F2F8F /* TaskCellController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A7923041391670D007F2F8F /* TaskCellController.m */; };
+		3A7923081391673F007F2F8F /* TaskView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A79230A1391673F007F2F8F /* TaskView.xib */; };
+		3A7EA09A1364FF59002DCB5E /* SQLTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A7EA0991364FF59002DCB5E /* SQLTable.m */; };
+		3AA16758138F67A6002AC1EA /* SkillView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AA1675A138F67A6002AC1EA /* SkillView.xib */; };
+		3AA8544A1361016F0099C073 /* SQLMutableTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AA854491361016F0099C073 /* SQLMutableTable.m */; };
+		3AC7ABA81380F12000770862 /* CharacterReload.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AC7ABAA1380F12000770862 /* CharacterReload.xib */; };
+		3ACEE6C11372266000E40835 /* EveDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ACEE6C01372266000E40835 /* EveDatabase.m */; };
+		3AD1FE26137A51F800FDE8A7 /* EveURLs.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3AD1FE25137A51F800FDE8A7 /* EveURLs.plist */; };
+		3AD1FE29137A542800FDE8A7 /* CharacterReloadController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AD1FE28137A542800FDE8A7 /* CharacterReloadController.m */; };
+		3AD94E5C137A1D8A00F9D1FB /* DebugWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AD94E5B137A1D8A00F9D1FB /* DebugWindow.m */; };
+		3ADE0130138A0B620020342C /* SkillCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ADE012F138A0B620020342C /* SkillCell.m */; };
+		3ADE0133138A0B850020342C /* SkillCellController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ADE0132138A0B850020342C /* SkillCellController.m */; };
+		3AE0F2781394A2CC004E61DE /* copy-type-images.sh in Resources */ = {isa = PBXBuildFile; fileRef = 3AE0F2771394A2CC004E61DE /* copy-type-images.sh */; };
+		3AE4807A138352070007B653 /* PlainProgressIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AE48079138352070007B653 /* PlainProgressIndicator.m */; };
+		3AE4807D138362AC0007B653 /* EveEquations.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AE4807C138362AC0007B653 /* EveEquations.m */; };
+		3AF0C5E9134FDAB500E47914 /* SQLBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AF0C5E8134FDAB500E47914 /* SQLBridge.m */; };
+		3AFC480D136C510000CC31EA /* CharacterCreateSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AFC480F136C510000CC31EA /* CharacterCreateSheet.xib */; };
+		3AFE5D00136BC1490072FD0E /* Character.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AFE5CFE136BC1490072FD0E /* Character.xib */; };
+		3AFE5D03136BC1A00072FD0E /* DumpNavigator.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AFE5D05136BC1A00072FD0E /* DumpNavigator.xib */; };
+		3AFE5D06136BC1B20072FD0E /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AFE5D08136BC1B20072FD0E /* Preferences.xib */; };
+		3AFE5D0B136BC4750072FD0E /* CharacterDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AFE5D0A136BC4750072FD0E /* CharacterDocument.m */; };
+		3AFE5D18136BCB700072FD0E /* CharacterInfo.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AFE5D1A136BCB700072FD0E /* CharacterInfo.xib */; };
+		3AFE5D1B136BCB9F0072FD0E /* CharacterMarketOrders.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AFE5D1D136BCB9F0072FD0E /* CharacterMarketOrders.xib */; };
+		3AFE5D21136BCC3B0072FD0E /* CharacterInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AFE5D20136BCC3B0072FD0E /* CharacterInfoController.m */; };
+		3AFE5D24136BCCB50072FD0E /* EveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AFE5D23136BCCB50072FD0E /* EveViewController.m */; };
+		3AFE5D27136BE1100072FD0E /* CharacterMarketOrdersController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AFE5D26136BE1100072FD0E /* CharacterMarketOrdersController.m */; };
+		525B8A8A133BEB52006A3728 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 525B8A89133BEB52006A3728 /* Cocoa.framework */; };
+		525B8A94133BEB52006A3728 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 525B8A92133BEB52006A3728 /* InfoPlist.strings */; };
+		525B8A97133BEB52006A3728 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 525B8A96133BEB52006A3728 /* main.m */; };
+		525B8A9A133BEB52006A3728 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 525B8A98133BEB52006A3728 /* Credits.rtf */; };
+		525B8A9D133BEB52006A3728 /* EdenAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 525B8A9C133BEB52006A3728 /* EdenAppDelegate.m */; };
+		525B8AA0133BEB52006A3728 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 525B8A9E133BEB52006A3728 /* MainMenu.xib */; };
+		525B8AA7133BEB52006A3728 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 525B8A89133BEB52006A3728 /* Cocoa.framework */; };
+		525B8AAF133BEB52006A3728 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 525B8AAD133BEB52006A3728 /* InfoPlist.strings */; };
+		525B8AB2133BEB52006A3728 /* EdenTests.h in Resources */ = {isa = PBXBuildFile; fileRef = 525B8AB1133BEB52006A3728 /* EdenTests.h */; };
+		525B8AB4133BEB52006A3728 /* EdenTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 525B8AB3133BEB52006A3728 /* EdenTests.m */; };
+		525B8ABF133BEBC1006A3728 /* README in Resources */ = {isa = PBXBuildFile; fileRef = 525B8ABE133BEBC1006A3728 /* README */; };
+		525C81371340FDCF008316B7 /* EveAPIResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 525C81361340FDCE008316B7 /* EveAPIResult.m */; };
+		526ED099133E3FE900F26046 /* EveAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 526ED098133E3FE900F26046 /* EveAccount.m */; };
+		526ED09C133E3FF400F26046 /* EveCharacter.m in Sources */ = {isa = PBXBuildFile; fileRef = 526ED09B133E3FF400F26046 /* EveCharacter.m */; };
+		526ED09F133E401800F26046 /* EveObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 526ED09E133E401800F26046 /* EveObject.m */; };
+		526ED0A2133E402F00F26046 /* EveShip.m in Sources */ = {isa = PBXBuildFile; fileRef = 526ED0A1133E402E00F26046 /* EveShip.m */; };
+		526ED0A5133E403A00F26046 /* EveModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 526ED0A4133E403A00F26046 /* EveModule.m */; };
+		526ED0A8133E404500F26046 /* EveCharge.m in Sources */ = {isa = PBXBuildFile; fileRef = 526ED0A7133E404500F26046 /* EveCharge.m */; };
+		527917C5133FA9B9009C694C /* EveSkill.m in Sources */ = {isa = PBXBuildFile; fileRef = 527917C4133FA9B9009C694C /* EveSkill.m */; };
+		527917C9133FAB9F009C694C /* EveCorporation.m in Sources */ = {isa = PBXBuildFile; fileRef = 527917C8133FAB9E009C694C /* EveCorporation.m */; };
+		527917CC133FABA7009C694C /* EveAlliance.m in Sources */ = {isa = PBXBuildFile; fileRef = 527917CB133FABA7009C694C /* EveAlliance.m */; };
+		527917D0133FAD16009C694C /* EveAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 527917CF133FAD16009C694C /* EveAPI.m */; };
+		5279180B133FB058009C694C /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 5279180A133FB058009C694C /* LICENSE */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		525B8AA8133BEB52006A3728 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 525B8A7C133BEB51006A3728 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 525B8A84133BEB52006A3728;
+			remoteInfo = Eden;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		3A0197641343BD7200B40E81 /* EveDownload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EveDownload.h; sourceTree = "<group>"; };
+		3A0197651343BD7200B40E81 /* EveDownload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveDownload.m; sourceTree = "<group>"; };
+		3A286A7B135FFD0E0089D6DB /* SQLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLView.h; sourceTree = "<group>"; };
+		3A286A7C135FFD0E0089D6DB /* SQLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQLView.m; sourceTree = "<group>"; };
+		3A28FC3D1361727800B251C6 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = ../../../../usr/lib/libsqlite3.dylib; sourceTree = "<group>"; };
+		3A506F56136A74BF005EFA9B /* CharacterWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CharacterWindowController.h; sourceTree = "<group>"; };
+		3A506F57136A74BF005EFA9B /* CharacterWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CharacterWindowController.m; sourceTree = "<group>"; };
+		3A506F5C136A7D06005EFA9B /* CharacterTasks.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = CharacterTasks.plist; path = Eden/CharacterTasks.plist; sourceTree = "<group>"; };
+		3A506F66136AC56C005EFA9B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = ../../../../System/Library/Frameworks/QuartzCore.framework; sourceTree = "<group>"; };
+		3A506F6A136ACE49005EFA9B /* PreferencesDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferencesDelegate.h; sourceTree = "<group>"; };
+		3A506F6B136ACE49005EFA9B /* PreferencesDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferencesDelegate.m; sourceTree = "<group>"; };
+		3A53A31B136F77A90047FC53 /* CharacterCreateSheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CharacterCreateSheetController.h; sourceTree = "<group>"; };
+		3A53A31C136F77A90047FC53 /* CharacterCreateSheetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CharacterCreateSheetController.m; sourceTree = "<group>"; };
+		3A6A98891388B0C600CB9861 /* NSDateComponents+EnglishRepresentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDateComponents+EnglishRepresentation.h"; sourceTree = "<group>"; };
+		3A6A988A1388B0C600CB9861 /* NSDateComponents+EnglishRepresentation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDateComponents+EnglishRepresentation.m"; sourceTree = "<group>"; };
+		3A7615DF135ED4FD005A191C /* evedump.db */ = {isa = PBXFileReference; lastKnownFileType = file; name = evedump.db; path = Eden/evedump.db; sourceTree = "<group>"; };
+		3A7615E3135ED6E4005A191C /* DumpNavigatorDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DumpNavigatorDelegate.h; sourceTree = "<group>"; };
+		3A7615E4135ED6E4005A191C /* DumpNavigatorDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DumpNavigatorDelegate.m; sourceTree = "<group>"; };
+		3A792300139166FC007F2F8F /* TaskCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskCell.h; sourceTree = "<group>"; };
+		3A792301139166FC007F2F8F /* TaskCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskCell.m; sourceTree = "<group>"; };
+		3A7923031391670D007F2F8F /* TaskCellController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskCellController.h; sourceTree = "<group>"; };
+		3A7923041391670D007F2F8F /* TaskCellController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskCellController.m; sourceTree = "<group>"; };
+		3A7923091391673F007F2F8F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/TaskView.xib; sourceTree = "<group>"; };
+		3A7EA0971364FEE1002DCB5E /* SQLMutableTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLMutableTable.h; sourceTree = "<group>"; };
+		3A7EA0981364FF59002DCB5E /* SQLTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLTable.h; sourceTree = "<group>"; };
+		3A7EA0991364FF59002DCB5E /* SQLTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQLTable.m; sourceTree = "<group>"; };
+		3A7EA09B13650448002DCB5E /* SQLBridge_object.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLBridge_object.h; sourceTree = "<group>"; };
+		3AA16759138F67A6002AC1EA /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SkillView.xib; sourceTree = "<group>"; };
+		3AA854491361016F0099C073 /* SQLMutableTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQLMutableTable.m; sourceTree = "<group>"; };
+		3AC7ABA91380F12000770862 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/CharacterReload.xib; sourceTree = "<group>"; };
+		3ACEE6BF1372266000E40835 /* EveDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EveDatabase.h; sourceTree = "<group>"; };
+		3ACEE6C01372266000E40835 /* EveDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveDatabase.m; sourceTree = "<group>"; };
+		3AD1FE25137A51F800FDE8A7 /* EveURLs.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = EveURLs.plist; path = Eden/EveURLs.plist; sourceTree = "<group>"; };
+		3AD1FE27137A542800FDE8A7 /* CharacterReloadController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CharacterReloadController.h; sourceTree = "<group>"; };
+		3AD1FE28137A542800FDE8A7 /* CharacterReloadController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CharacterReloadController.m; sourceTree = "<group>"; };
+		3AD94E5A137A1D8A00F9D1FB /* DebugWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DebugWindow.h; sourceTree = "<group>"; };
+		3AD94E5B137A1D8A00F9D1FB /* DebugWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DebugWindow.m; sourceTree = "<group>"; };
+		3ADE012E138A0B620020342C /* SkillCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillCell.h; sourceTree = "<group>"; };
+		3ADE012F138A0B620020342C /* SkillCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillCell.m; sourceTree = "<group>"; };
+		3ADE0131138A0B850020342C /* SkillCellController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillCellController.h; sourceTree = "<group>"; };
+		3ADE0132138A0B850020342C /* SkillCellController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillCellController.m; sourceTree = "<group>"; };
+		3AE0F2771394A2CC004E61DE /* copy-type-images.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "copy-type-images.sh"; sourceTree = "<group>"; };
+		3AE48078138352070007B653 /* PlainProgressIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlainProgressIndicator.h; sourceTree = "<group>"; };
+		3AE48079138352070007B653 /* PlainProgressIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlainProgressIndicator.m; sourceTree = "<group>"; };
+		3AE4807B138362AC0007B653 /* EveEquations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EveEquations.h; sourceTree = "<group>"; };
+		3AE4807C138362AC0007B653 /* EveEquations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveEquations.m; sourceTree = "<group>"; };
+		3AF0C5E7134FDAB500E47914 /* SQLBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLBridge.h; sourceTree = "<group>"; };
+		3AF0C5E8134FDAB500E47914 /* SQLBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQLBridge.m; sourceTree = "<group>"; };
+		3AFC480E136C510000CC31EA /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/CharacterCreateSheet.xib; sourceTree = "<group>"; };
+		3AFE5CFF136BC1490072FD0E /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/Character.xib; sourceTree = "<group>"; };
+		3AFE5D04136BC1A00072FD0E /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/DumpNavigator.xib; sourceTree = "<group>"; };
+		3AFE5D07136BC1B20072FD0E /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/Preferences.xib; sourceTree = "<group>"; };
+		3AFE5D09136BC4750072FD0E /* CharacterDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CharacterDocument.h; sourceTree = "<group>"; };
+		3AFE5D0A136BC4750072FD0E /* CharacterDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CharacterDocument.m; sourceTree = "<group>"; };
+		3AFE5D19136BCB700072FD0E /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/CharacterInfo.xib; sourceTree = "<group>"; };
+		3AFE5D1C136BCB9F0072FD0E /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/CharacterMarketOrders.xib; sourceTree = "<group>"; };
+		3AFE5D1F136BCC3B0072FD0E /* CharacterInfoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CharacterInfoController.h; sourceTree = "<group>"; };
+		3AFE5D20136BCC3B0072FD0E /* CharacterInfoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CharacterInfoController.m; sourceTree = "<group>"; };
+		3AFE5D22136BCCB50072FD0E /* EveViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EveViewController.h; sourceTree = "<group>"; };
+		3AFE5D23136BCCB50072FD0E /* EveViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveViewController.m; sourceTree = "<group>"; };
+		3AFE5D25136BE1100072FD0E /* CharacterMarketOrdersController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CharacterMarketOrdersController.h; sourceTree = "<group>"; };
+		3AFE5D26136BE1100072FD0E /* CharacterMarketOrdersController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CharacterMarketOrdersController.m; sourceTree = "<group>"; };
+		3AFE5D28136BE41B0072FD0E /* CharacterViews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CharacterViews.h; sourceTree = "<group>"; };
+		525B8A85133BEB52006A3728 /* Eden.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Eden.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		525B8A89133BEB52006A3728 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		525B8A8C133BEB52006A3728 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		525B8A8D133BEB52006A3728 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		525B8A8E133BEB52006A3728 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		525B8A91133BEB52006A3728 /* Eden-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Eden-Info.plist"; sourceTree = "<group>"; };
+		525B8A93133BEB52006A3728 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		525B8A95133BEB52006A3728 /* Eden-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Eden-Prefix.pch"; sourceTree = "<group>"; };
+		525B8A96133BEB52006A3728 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		525B8A99133BEB52006A3728 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		525B8A9B133BEB52006A3728 /* EdenAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EdenAppDelegate.h; sourceTree = "<group>"; };
+		525B8A9C133BEB52006A3728 /* EdenAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EdenAppDelegate.m; sourceTree = "<group>"; };
+		525B8A9F133BEB52006A3728 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		525B8AA6133BEB52006A3728 /* EdenTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EdenTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		525B8AAC133BEB52006A3728 /* EdenTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "EdenTests-Info.plist"; sourceTree = "<group>"; };
+		525B8AAE133BEB52006A3728 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		525B8AB0133BEB52006A3728 /* EdenTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EdenTests-Prefix.pch"; sourceTree = "<group>"; };
+		525B8AB1133BEB52006A3728 /* EdenTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EdenTests.h; sourceTree = "<group>"; };
+		525B8AB3133BEB52006A3728 /* EdenTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EdenTests.m; sourceTree = "<group>"; };
+		525B8ABE133BEBC1006A3728 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		525C81351340FDCE008316B7 /* EveAPIResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EveAPIResult.h; sourceTree = "<group>"; };
+		525C81361340FDCE008316B7 /* EveAPIResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveAPIResult.m; sourceTree = "<group>"; };
+		526ED097133E3FE900F26046 /* EveAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EveAccount.h; sourceTree = "<group>"; };
+		526ED098133E3FE900F26046 /* EveAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveAccount.m; sourceTree = "<group>"; };
+		526ED09A133E3FF400F26046 /* EveCharacter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EveCharacter.h; sourceTree = "<group>"; };
+		526ED09B133E3FF400F26046 /* EveCharacter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveCharacter.m; sourceTree = "<group>"; };
+		526ED09D133E401800F26046 /* EveObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EveObject.h; sourceTree = "<group>"; };
+		526ED09E133E401800F26046 /* EveObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveObject.m; sourceTree = "<group>"; };
+		526ED0A0133E402E00F26046 /* EveShip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EveShip.h; sourceTree = "<group>"; };
+		526ED0A1133E402E00F26046 /* EveShip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveShip.m; sourceTree = "<group>"; };
+		526ED0A3133E403A00F26046 /* EveModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EveModule.h; sourceTree = "<group>"; };
+		526ED0A4133E403A00F26046 /* EveModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveModule.m; sourceTree = "<group>"; };
+		526ED0A6133E404500F26046 /* EveCharge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EveCharge.h; sourceTree = "<group>"; };
+		526ED0A7133E404500F26046 /* EveCharge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveCharge.m; sourceTree = "<group>"; };
+		527917C3133FA9B9009C694C /* EveSkill.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EveSkill.h; sourceTree = "<group>"; };
+		527917C4133FA9B9009C694C /* EveSkill.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveSkill.m; sourceTree = "<group>"; };
+		527917C7133FAB9E009C694C /* EveCorporation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EveCorporation.h; sourceTree = "<group>"; };
+		527917C8133FAB9E009C694C /* EveCorporation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveCorporation.m; sourceTree = "<group>"; };
+		527917CA133FABA7009C694C /* EveAlliance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EveAlliance.h; sourceTree = "<group>"; };
+		527917CB133FABA7009C694C /* EveAlliance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveAlliance.m; sourceTree = "<group>"; };
+		527917CE133FAD16009C694C /* EveAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EveAPI.h; sourceTree = "<group>"; };
+		527917CF133FAD16009C694C /* EveAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveAPI.m; sourceTree = "<group>"; };
+		5279180A133FB058009C694C /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		525B8A82133BEB52006A3728 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				525B8A8A133BEB52006A3728 /* Cocoa.framework in Frameworks */,
+				3A28FC3E1361727800B251C6 /* libsqlite3.dylib in Frameworks */,
+				3A506F67136AC56C005EFA9B /* QuartzCore.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		525B8AA2133BEB52006A3728 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				525B8AA7133BEB52006A3728 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3A2E95E3134AD7960060A8E0 /* SQLBridge */ = {
+			isa = PBXGroup;
+			children = (
+				3AF0C5E7134FDAB500E47914 /* SQLBridge.h */,
+				3AF0C5E8134FDAB500E47914 /* SQLBridge.m */,
+				3A286A7B135FFD0E0089D6DB /* SQLView.h */,
+				3A286A7C135FFD0E0089D6DB /* SQLView.m */,
+				3A7EA0971364FEE1002DCB5E /* SQLMutableTable.h */,
+				3AA854491361016F0099C073 /* SQLMutableTable.m */,
+				3A7EA0981364FF59002DCB5E /* SQLTable.h */,
+				3A7EA0991364FF59002DCB5E /* SQLTable.m */,
+				3A7EA09B13650448002DCB5E /* SQLBridge_object.h */,
+			);
+			name = SQLBridge;
+			sourceTree = "<group>";
+		};
+		3A506F4D136A741B005EFA9B /* Interface */ = {
+			isa = PBXGroup;
+			children = (
+				3ADE0134138A0BFF0020342C /* Cell Views */,
+				3AFE5D13136BC9140072FD0E /* Character Views */,
+				3AFE5D05136BC1A00072FD0E /* DumpNavigator.xib */,
+				3AFE5CFE136BC1490072FD0E /* Character.xib */,
+				525B8A9E133BEB52006A3728 /* MainMenu.xib */,
+				3AFE5D08136BC1B20072FD0E /* Preferences.xib */,
+			);
+			name = Interface;
+			sourceTree = "<group>";
+		};
+		3A6A98881388B09900CB9861 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				3A6A98891388B0C600CB9861 /* NSDateComponents+EnglishRepresentation.h */,
+				3A6A988A1388B0C600CB9861 /* NSDateComponents+EnglishRepresentation.m */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
+		3ADE0134138A0BFF0020342C /* Cell Views */ = {
+			isa = PBXGroup;
+			children = (
+				3A79230A1391673F007F2F8F /* TaskView.xib */,
+				3AA1675A138F67A6002AC1EA /* SkillView.xib */,
+			);
+			name = "Cell Views";
+			sourceTree = "<group>";
+		};
+		3AE0F2761394A2A8004E61DE /* Build */ = {
+			isa = PBXGroup;
+			children = (
+				3AE0F2771394A2CC004E61DE /* copy-type-images.sh */,
+			);
+			name = Build;
+			sourceTree = "<group>";
+		};
+		3AE48077138351DD0007B653 /* Custom Controls */ = {
+			isa = PBXGroup;
+			children = (
+				3AE48078138352070007B653 /* PlainProgressIndicator.h */,
+				3AE48079138352070007B653 /* PlainProgressIndicator.m */,
+				3ADE012E138A0B620020342C /* SkillCell.h */,
+				3ADE012F138A0B620020342C /* SkillCell.m */,
+				3ADE0131138A0B850020342C /* SkillCellController.h */,
+				3ADE0132138A0B850020342C /* SkillCellController.m */,
+				3A792300139166FC007F2F8F /* TaskCell.h */,
+				3A792301139166FC007F2F8F /* TaskCell.m */,
+				3A7923031391670D007F2F8F /* TaskCellController.h */,
+				3A7923041391670D007F2F8F /* TaskCellController.m */,
+			);
+			name = "Custom Controls";
+			sourceTree = "<group>";
+		};
+		3AFE5CF2136BBFE30072FD0E /* Window Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				525B8A9B133BEB52006A3728 /* EdenAppDelegate.h */,
+				525B8A9C133BEB52006A3728 /* EdenAppDelegate.m */,
+				3A7615E3135ED6E4005A191C /* DumpNavigatorDelegate.h */,
+				3A7615E4135ED6E4005A191C /* DumpNavigatorDelegate.m */,
+				3A506F56136A74BF005EFA9B /* CharacterWindowController.h */,
+				3A506F57136A74BF005EFA9B /* CharacterWindowController.m */,
+				3A506F6A136ACE49005EFA9B /* PreferencesDelegate.h */,
+				3A506F6B136ACE49005EFA9B /* PreferencesDelegate.m */,
+			);
+			name = "Window Delegates";
+			sourceTree = "<group>";
+		};
+		3AFE5D12136BC7D30072FD0E /* Document Model */ = {
+			isa = PBXGroup;
+			children = (
+				3AFE5D09136BC4750072FD0E /* CharacterDocument.h */,
+				3AFE5D0A136BC4750072FD0E /* CharacterDocument.m */,
+			);
+			name = "Document Model";
+			sourceTree = "<group>";
+		};
+		3AFE5D13136BC9140072FD0E /* Character Views */ = {
+			isa = PBXGroup;
+			children = (
+				3AFE5D1A136BCB700072FD0E /* CharacterInfo.xib */,
+				3AFE5D1D136BCB9F0072FD0E /* CharacterMarketOrders.xib */,
+				3AFC480F136C510000CC31EA /* CharacterCreateSheet.xib */,
+				3AC7ABAA1380F12000770862 /* CharacterReload.xib */,
+			);
+			name = "Character Views";
+			sourceTree = "<group>";
+		};
+		3AFE5D1E136BCC000072FD0E /* Custom Views */ = {
+			isa = PBXGroup;
+			children = (
+				3AFE5D28136BE41B0072FD0E /* CharacterViews.h */,
+				3AFE5D1F136BCC3B0072FD0E /* CharacterInfoController.h */,
+				3AFE5D20136BCC3B0072FD0E /* CharacterInfoController.m */,
+				3AFE5D22136BCCB50072FD0E /* EveViewController.h */,
+				3AFE5D23136BCCB50072FD0E /* EveViewController.m */,
+				3AFE5D25136BE1100072FD0E /* CharacterMarketOrdersController.h */,
+				3AFE5D26136BE1100072FD0E /* CharacterMarketOrdersController.m */,
+				3A53A31B136F77A90047FC53 /* CharacterCreateSheetController.h */,
+				3A53A31C136F77A90047FC53 /* CharacterCreateSheetController.m */,
+				3AD94E5A137A1D8A00F9D1FB /* DebugWindow.h */,
+				3AD94E5B137A1D8A00F9D1FB /* DebugWindow.m */,
+				3AD1FE27137A542800FDE8A7 /* CharacterReloadController.h */,
+				3AD1FE28137A542800FDE8A7 /* CharacterReloadController.m */,
+			);
+			name = "Custom Views";
+			sourceTree = "<group>";
+		};
+		525B8A7A133BEB51006A3728 = {
+			isa = PBXGroup;
+			children = (
+				525B8A8F133BEB52006A3728 /* Eden */,
+				525B8AAA133BEB52006A3728 /* EdenTests */,
+				525B8A88133BEB52006A3728 /* Frameworks */,
+				525B8A86133BEB52006A3728 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		525B8A86133BEB52006A3728 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				525B8A85133BEB52006A3728 /* Eden.app */,
+				525B8AA6133BEB52006A3728 /* EdenTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		525B8A88133BEB52006A3728 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3A506F66136AC56C005EFA9B /* QuartzCore.framework */,
+				3A28FC3D1361727800B251C6 /* libsqlite3.dylib */,
+				525B8A89133BEB52006A3728 /* Cocoa.framework */,
+				525B8A8B133BEB52006A3728 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		525B8A8B133BEB52006A3728 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				525B8A8C133BEB52006A3728 /* AppKit.framework */,
+				525B8A8D133BEB52006A3728 /* CoreData.framework */,
+				525B8A8E133BEB52006A3728 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		525B8A8F133BEB52006A3728 /* Eden */ = {
+			isa = PBXGroup;
+			children = (
+				3AE0F2761394A2A8004E61DE /* Build */,
+				3A6A98881388B09900CB9861 /* Categories */,
+				3AE48077138351DD0007B653 /* Custom Controls */,
+				3AFE5D1E136BCC000072FD0E /* Custom Views */,
+				3AFE5D12136BC7D30072FD0E /* Document Model */,
+				3AFE5CF2136BBFE30072FD0E /* Window Delegates */,
+				525B8ABD133BEBAD006A3728 /* Resources */,
+				3A506F4D136A741B005EFA9B /* Interface */,
+				527917CD133FACFE009C694C /* Utility */,
+				526ED096133E3FA300F26046 /* Eve Model */,
+				525B8A90133BEB52006A3728 /* Supporting Files */,
+			);
+			path = Eden;
+			sourceTree = "<group>";
+		};
+		525B8A90133BEB52006A3728 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				525B8A91133BEB52006A3728 /* Eden-Info.plist */,
+				525B8A92133BEB52006A3728 /* InfoPlist.strings */,
+				525B8A95133BEB52006A3728 /* Eden-Prefix.pch */,
+				525B8A96133BEB52006A3728 /* main.m */,
+				525B8A98133BEB52006A3728 /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		525B8AAA133BEB52006A3728 /* EdenTests */ = {
+			isa = PBXGroup;
+			children = (
+				525B8AB1133BEB52006A3728 /* EdenTests.h */,
+				525B8AB3133BEB52006A3728 /* EdenTests.m */,
+				525B8AAB133BEB52006A3728 /* Supporting Files */,
+			);
+			path = EdenTests;
+			sourceTree = "<group>";
+		};
+		525B8AAB133BEB52006A3728 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				525B8AAC133BEB52006A3728 /* EdenTests-Info.plist */,
+				525B8AAD133BEB52006A3728 /* InfoPlist.strings */,
+				525B8AB0133BEB52006A3728 /* EdenTests-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		525B8ABD133BEBAD006A3728 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				3AD1FE25137A51F800FDE8A7 /* EveURLs.plist */,
+				3A506F5C136A7D06005EFA9B /* CharacterTasks.plist */,
+				3A7615DF135ED4FD005A191C /* evedump.db */,
+				525B8ABE133BEBC1006A3728 /* README */,
+				5279180A133FB058009C694C /* LICENSE */,
+			);
+			name = Resources;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		526ED096133E3FA300F26046 /* Eve Model */ = {
+			isa = PBXGroup;
+			children = (
+				526ED097133E3FE900F26046 /* EveAccount.h */,
+				526ED098133E3FE900F26046 /* EveAccount.m */,
+				526ED09A133E3FF400F26046 /* EveCharacter.h */,
+				526ED09B133E3FF400F26046 /* EveCharacter.m */,
+				526ED09D133E401800F26046 /* EveObject.h */,
+				526ED09E133E401800F26046 /* EveObject.m */,
+				526ED0A0133E402E00F26046 /* EveShip.h */,
+				526ED0A1133E402E00F26046 /* EveShip.m */,
+				526ED0A3133E403A00F26046 /* EveModule.h */,
+				526ED0A4133E403A00F26046 /* EveModule.m */,
+				526ED0A6133E404500F26046 /* EveCharge.h */,
+				526ED0A7133E404500F26046 /* EveCharge.m */,
+				527917C3133FA9B9009C694C /* EveSkill.h */,
+				527917C4133FA9B9009C694C /* EveSkill.m */,
+				527917C7133FAB9E009C694C /* EveCorporation.h */,
+				527917C8133FAB9E009C694C /* EveCorporation.m */,
+				527917CA133FABA7009C694C /* EveAlliance.h */,
+				527917CB133FABA7009C694C /* EveAlliance.m */,
+				3ACEE6BF1372266000E40835 /* EveDatabase.h */,
+				3ACEE6C01372266000E40835 /* EveDatabase.m */,
+				3AE4807B138362AC0007B653 /* EveEquations.h */,
+				3AE4807C138362AC0007B653 /* EveEquations.m */,
+			);
+			name = "Eve Model";
+			sourceTree = "<group>";
+		};
+		527917CD133FACFE009C694C /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				3A2E95E3134AD7960060A8E0 /* SQLBridge */,
+				527917CE133FAD16009C694C /* EveAPI.h */,
+				527917CF133FAD16009C694C /* EveAPI.m */,
+				525C81351340FDCE008316B7 /* EveAPIResult.h */,
+				525C81361340FDCE008316B7 /* EveAPIResult.m */,
+				3A0197641343BD7200B40E81 /* EveDownload.h */,
+				3A0197651343BD7200B40E81 /* EveDownload.m */,
+			);
+			name = Utility;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		525B8A84133BEB52006A3728 /* Eden */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 525B8AB7133BEB52006A3728 /* Build configuration list for PBXNativeTarget "Eden" */;
+			buildPhases = (
+				525B8A81133BEB52006A3728 /* Sources */,
+				525B8A82133BEB52006A3728 /* Frameworks */,
+				525B8A83133BEB52006A3728 /* Resources */,
+				3AE0F2791394A79F004E61DE /* Run Script */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Eden;
+			productName = Eden;
+			productReference = 525B8A85133BEB52006A3728 /* Eden.app */;
+			productType = "com.apple.product-type.application";
+		};
+		525B8AA5133BEB52006A3728 /* EdenTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 525B8ABA133BEB52006A3728 /* Build configuration list for PBXNativeTarget "EdenTests" */;
+			buildPhases = (
+				525B8AA1133BEB52006A3728 /* Sources */,
+				525B8AA2133BEB52006A3728 /* Frameworks */,
+				525B8AA3133BEB52006A3728 /* Resources */,
+				525B8AA4133BEB52006A3728 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				525B8AA9133BEB52006A3728 /* PBXTargetDependency */,
+			);
+			name = EdenTests;
+			productName = EdenTests;
+			productReference = 525B8AA6133BEB52006A3728 /* EdenTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		525B8A7C133BEB51006A3728 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = Netframe;
+			};
+			buildConfigurationList = 525B8A7F133BEB51006A3728 /* Build configuration list for PBXProject "Eden" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 525B8A7A133BEB51006A3728;
+			productRefGroup = 525B8A86133BEB52006A3728 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				525B8A84133BEB52006A3728 /* Eden */,
+				525B8AA5133BEB52006A3728 /* EdenTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		525B8A83133BEB52006A3728 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				525B8A94133BEB52006A3728 /* InfoPlist.strings in Resources */,
+				525B8A9A133BEB52006A3728 /* Credits.rtf in Resources */,
+				525B8AA0133BEB52006A3728 /* MainMenu.xib in Resources */,
+				525B8ABF133BEBC1006A3728 /* README in Resources */,
+				5279180B133FB058009C694C /* LICENSE in Resources */,
+				3A7615E0135ED4FD005A191C /* evedump.db in Resources */,
+				3A506F5D136A7D06005EFA9B /* CharacterTasks.plist in Resources */,
+				3AFE5D06136BC1B20072FD0E /* Preferences.xib in Resources */,
+				3AFE5D00136BC1490072FD0E /* Character.xib in Resources */,
+				3AFE5D03136BC1A00072FD0E /* DumpNavigator.xib in Resources */,
+				3AFE5D18136BCB700072FD0E /* CharacterInfo.xib in Resources */,
+				3AFE5D1B136BCB9F0072FD0E /* CharacterMarketOrders.xib in Resources */,
+				3AFC480D136C510000CC31EA /* CharacterCreateSheet.xib in Resources */,
+				3AD1FE26137A51F800FDE8A7 /* EveURLs.plist in Resources */,
+				3AC7ABA81380F12000770862 /* CharacterReload.xib in Resources */,
+				3AA16758138F67A6002AC1EA /* SkillView.xib in Resources */,
+				3A7923081391673F007F2F8F /* TaskView.xib in Resources */,
+				3AE0F2781394A2CC004E61DE /* copy-type-images.sh in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		525B8AA3133BEB52006A3728 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				525B8AAF133BEB52006A3728 /* InfoPlist.strings in Resources */,
+				525B8AB2133BEB52006A3728 /* EdenTests.h in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3AE0F2791394A79F004E61DE /* Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "script_file=\"copy-type-images.sh\"\n\necho \"Running a custom build phase script: $script_file\"\n${PROJECT_DIR}/Eden/${script_file}\nscriptExitStatus=$?\necho \"DONE with script: ${script_file} (exitStatus=${scriptExitStatus})\\n\\n\"\nexit \"${scriptExitStatus}\"";
+		};
+		525B8AA4133BEB52006A3728 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		525B8A81133BEB52006A3728 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				525B8A97133BEB52006A3728 /* main.m in Sources */,
+				525B8A9D133BEB52006A3728 /* EdenAppDelegate.m in Sources */,
+				526ED099133E3FE900F26046 /* EveAccount.m in Sources */,
+				526ED09C133E3FF400F26046 /* EveCharacter.m in Sources */,
+				526ED09F133E401800F26046 /* EveObject.m in Sources */,
+				526ED0A2133E402F00F26046 /* EveShip.m in Sources */,
+				526ED0A5133E403A00F26046 /* EveModule.m in Sources */,
+				526ED0A8133E404500F26046 /* EveCharge.m in Sources */,
+				527917C5133FA9B9009C694C /* EveSkill.m in Sources */,
+				527917C9133FAB9F009C694C /* EveCorporation.m in Sources */,
+				527917CC133FABA7009C694C /* EveAlliance.m in Sources */,
+				527917D0133FAD16009C694C /* EveAPI.m in Sources */,
+				525C81371340FDCF008316B7 /* EveAPIResult.m in Sources */,
+				3A0197661343BD7200B40E81 /* EveDownload.m in Sources */,
+				3AF0C5E9134FDAB500E47914 /* SQLBridge.m in Sources */,
+				3A7615E5135ED6E4005A191C /* DumpNavigatorDelegate.m in Sources */,
+				3A286A7D135FFD0E0089D6DB /* SQLView.m in Sources */,
+				3AA8544A1361016F0099C073 /* SQLMutableTable.m in Sources */,
+				3A7EA09A1364FF59002DCB5E /* SQLTable.m in Sources */,
+				3A506F58136A74BF005EFA9B /* CharacterWindowController.m in Sources */,
+				3A506F6C136ACE4A005EFA9B /* PreferencesDelegate.m in Sources */,
+				3AFE5D0B136BC4750072FD0E /* CharacterDocument.m in Sources */,
+				3AFE5D21136BCC3B0072FD0E /* CharacterInfoController.m in Sources */,
+				3AFE5D24136BCCB50072FD0E /* EveViewController.m in Sources */,
+				3AFE5D27136BE1100072FD0E /* CharacterMarketOrdersController.m in Sources */,
+				3A53A31D136F77A90047FC53 /* CharacterCreateSheetController.m in Sources */,
+				3ACEE6C11372266000E40835 /* EveDatabase.m in Sources */,
+				3AD94E5C137A1D8A00F9D1FB /* DebugWindow.m in Sources */,
+				3AD1FE29137A542800FDE8A7 /* CharacterReloadController.m in Sources */,
+				3AE4807A138352070007B653 /* PlainProgressIndicator.m in Sources */,
+				3AE4807D138362AC0007B653 /* EveEquations.m in Sources */,
+				3A6A988B1388B0C600CB9861 /* NSDateComponents+EnglishRepresentation.m in Sources */,
+				3ADE0130138A0B620020342C /* SkillCell.m in Sources */,
+				3ADE0133138A0B850020342C /* SkillCellController.m in Sources */,
+				3A792302139166FC007F2F8F /* TaskCell.m in Sources */,
+				3A7923051391670D007F2F8F /* TaskCellController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		525B8AA1133BEB52006A3728 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				525B8AB4133BEB52006A3728 /* EdenTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		525B8AA9133BEB52006A3728 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 525B8A84133BEB52006A3728 /* Eden */;
+			targetProxy = 525B8AA8133BEB52006A3728 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		3A79230A1391673F007F2F8F /* TaskView.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3A7923091391673F007F2F8F /* en */,
+			);
+			name = TaskView.xib;
+			sourceTree = "<group>";
+		};
+		3AA1675A138F67A6002AC1EA /* SkillView.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3AA16759138F67A6002AC1EA /* en */,
+			);
+			name = SkillView.xib;
+			sourceTree = "<group>";
+		};
+		3AC7ABAA1380F12000770862 /* CharacterReload.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3AC7ABA91380F12000770862 /* en */,
+			);
+			name = CharacterReload.xib;
+			sourceTree = "<group>";
+		};
+		3AFC480F136C510000CC31EA /* CharacterCreateSheet.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3AFC480E136C510000CC31EA /* en */,
+			);
+			name = CharacterCreateSheet.xib;
+			sourceTree = "<group>";
+		};
+		3AFE5CFE136BC1490072FD0E /* Character.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3AFE5CFF136BC1490072FD0E /* en */,
+			);
+			name = Character.xib;
+			sourceTree = "<group>";
+		};
+		3AFE5D05136BC1A00072FD0E /* DumpNavigator.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3AFE5D04136BC1A00072FD0E /* en */,
+			);
+			name = DumpNavigator.xib;
+			sourceTree = "<group>";
+		};
+		3AFE5D08136BC1B20072FD0E /* Preferences.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3AFE5D07136BC1B20072FD0E /* en */,
+			);
+			name = Preferences.xib;
+			sourceTree = "<group>";
+		};
+		3AFE5D1A136BCB700072FD0E /* CharacterInfo.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3AFE5D19136BCB700072FD0E /* en */,
+			);
+			name = CharacterInfo.xib;
+			sourceTree = "<group>";
+		};
+		3AFE5D1D136BCB9F0072FD0E /* CharacterMarketOrders.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3AFE5D1C136BCB9F0072FD0E /* en */,
+			);
+			name = CharacterMarketOrders.xib;
+			sourceTree = "<group>";
+		};
+		525B8A92133BEB52006A3728 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				525B8A93133BEB52006A3728 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		525B8A98133BEB52006A3728 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				525B8A99133BEB52006A3728 /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		525B8A9E133BEB52006A3728 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				525B8A9F133BEB52006A3728 /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		525B8AAD133BEB52006A3728 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				525B8AAE133BEB52006A3728 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		525B8AB5133BEB52006A3728 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		525B8AB6133BEB52006A3728 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		525B8AB8133BEB52006A3728 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_ENABLE_OBJC_GC = unsupported;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Eden/Eden-Prefix.pch";
+				INFOPLIST_FILE = "Eden/Eden-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		525B8AB9133BEB52006A3728 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_ENABLE_OBJC_GC = unsupported;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Eden/Eden-Prefix.pch";
+				INFOPLIST_FILE = "Eden/Eden-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		525B8ABB133BEB52006A3728 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Eden.app/Contents/MacOS/Eden";
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "EdenTests/EdenTests-Prefix.pch";
+				INFOPLIST_FILE = "EdenTests/EdenTests-Info.plist";
+				OTHER_LDFLAGS = (
+					"-framework",
+					SenTestingKit,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		525B8ABC133BEB52006A3728 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Eden.app/Contents/MacOS/Eden";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "EdenTests/EdenTests-Prefix.pch";
+				INFOPLIST_FILE = "EdenTests/EdenTests-Info.plist";
+				OTHER_LDFLAGS = (
+					"-framework",
+					SenTestingKit,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		525B8A7F133BEB51006A3728 /* Build configuration list for PBXProject "Eden" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				525B8AB5133BEB52006A3728 /* Debug */,
+				525B8AB6133BEB52006A3728 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		525B8AB7133BEB52006A3728 /* Build configuration list for PBXNativeTarget "Eden" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				525B8AB8133BEB52006A3728 /* Debug */,
+				525B8AB9133BEB52006A3728 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		525B8ABA133BEB52006A3728 /* Build configuration list for PBXNativeTarget "EdenTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				525B8ABB133BEB52006A3728 /* Debug */,
+				525B8ABC133BEB52006A3728 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 525B8A7C133BEB51006A3728 /* Project object */;
+}
