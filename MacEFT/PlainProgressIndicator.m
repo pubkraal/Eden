@@ -29,7 +29,7 @@
 	bz = [NSBezierPath bezierPathWithRoundedRect:rect xRadius:radius yRadius:radius];
 	[bz setLineWidth:1.0];
 	[bz addClip];
-	rect.size.width = floor(rect.size.width * ([self doubleValue] / [self maxValue]));
+	rect.size.width = floor(rect.size.width * (([self doubleValue] - [self minValue]) / ([self maxValue] - [self minValue])));
 	NSRectFill(rect);
 }
 

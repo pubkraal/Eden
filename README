@@ -4,3 +4,12 @@ Current contributors:
 
 Kara Belacqua [B0RT]
 Bottle ofMilk [B0RT]
+
+To compile, download this file (170 MB):
+
+http://cdn1.eveonline.com/data/Incursion_1.4_imgs_Types.zip
+
+and unzip it inside the Resources directory. You should have this
+directory structure:
+
+Resources/Types/12345_32.png

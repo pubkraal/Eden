@@ -1,37 +1,31 @@
 //
-//	SkillCellController.h
-//	MacEFT
+//  TaskCellController.h
+//  MacEFT
 //
-//	Created by ugo pozo on 5/23/11.
-//	Copyright 2011 Netframe. All rights reserved.
+//  Created by ugo pozo on 5/28/11.
+//  Copyright 2011 Netframe. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import "EveViewController.h"
 
-@class EveSkill;
-
-@interface SkillCellController : EveViewController {
+@interface TaskCellController : EveViewController {
 @private
 	IBOutlet NSView * groupView;
 
-	EveSkill * skill;
 	BOOL isGroup;
+	NSColor * textColor;
 
 	NSDictionary * node;
-	NSColor * textColor;
 }
 
-@property (assign) EveSkill * skill;
 @property (assign) BOOL isGroup;
 
 @property (retain) NSDictionary * node;
 @property (retain) NSColor * textColor;
 
-@property (readonly) NSRect frame;
 @property (readonly) NSView * mainView;
-
-@property (readonly) NSString * groupSkillPoints;
+@property (readonly) NSImage * image;
 
 - (id)initWithNode:(NSDictionary *)aNode;
 + (id)controllerWithNode:(NSDictionary *)aNode;

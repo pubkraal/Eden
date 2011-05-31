@@ -13,10 +13,13 @@
 #import "EveCharacter.h"
 #import "CharacterCreateSheetController.h"
 #import "CharacterReloadController.h"
+#import "TaskCell.h"
+#import "TaskCellController.h"
 
 @implementation CharacterWindowController
 
-@synthesize dynamicView, activeViewName, nextViewName, subviews, selectedTasks, reloadEnabled, hasError, errors;
+@synthesize dynamicView, activeViewName, nextViewName, subviews, selectedTasks;
+@synthesize reloadEnabled, hasError, errors, taskCellControllers;
 
 // Initialization
 
@@ -32,6 +35,7 @@
 		[self setReloadEnabled:YES];
 		[self setHasError:NO];
 		[self setErrors:nil];
+		[self setTaskCellControllers:[NSMutableDictionary dictionary]];
     }
     
     return self;
@@ -131,10 +135,11 @@
 }
 
 - (void)setTasks:(NSMutableArray *)newTasks {
+	if (!self.document.character || self.document.character.fullAPI) [newTasks retain];
+	else newTasks = [[[self class] filteredTasks:newTasks usingPredicate:requiresFullAPIPred] retain];
+
 	[tasks release];
-	
-	if (!self.document.character || self.document.character.fullAPI) tasks = [newTasks retain];
-	else tasks = [[[self class] filteredTasks:newTasks usingPredicate:requiresFullAPIPred] retain];
+	tasks = newTasks;
 }
 
 
@@ -250,6 +255,50 @@
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)item {
 	return ![self isTitleItem:[item representedObject]];
 }
+
+
+- (void)outlineView:(NSOutlineView *)view willDisplayCell:(id)cellObject forTableColumn:(NSTableColumn *)tableColumn item:(id)item {
+	NSDictionary * node;
+	TaskCellController * controller;
+	TaskCell * cell;
+	
+	if ([cellObject isKindOfClass:[TaskCell class]]) {
+		cell = (TaskCell *) cellObject;
+		node = [item representedObject];
+
+		controller = [taskCellControllers objectForKey:node];
+
+		if (!controller) {
+			controller = [TaskCellController controllerWithNode:node];
+			controller.document = self.document;
+			[taskCellControllers setObject:controller forKey:node];
+		}
+
+		cell.controller = controller;
+	}
+}
+
+- (NSCell *)outlineView:(NSOutlineView *)view dataCellForTableColumn:(NSTableColumn *)column item:(id)item {
+	NSDictionary * node;
+	NSCell * cell;
+	
+	node = [item representedObject];
+	cell = (![[node objectForKey:@"groupItem"] boolValue]) ? [TaskCell cell] : [column dataCellForRow:-1];
+	
+	return cell;
+}
+
+/*- (CGFloat)outlineView:(NSOutlineView *)view heightOfRowByItem:(id)item {
+	NSDictionary * node;
+	CGFloat height;
+	
+	node   = [item representedObject];
+	height = ([[node objectForKey:@"leaf"] boolValue]) ? 42.0 : 19.0;
+	
+	return height;
+}*/
+
+
 
 - (BOOL)shouldCascadeWindows {
 	return NO;
@@ -433,12 +482,13 @@
 	tasksView.delegate = nil;
 	/* WTF, Cocoa?! I shouldn't be responsible for cleaning delegates that
 	 * were set in the Interface Builder! But if I don't this, tasksView
-	 * go apeshit calling methods on CharacterWindowController's zombie
+	 * goes apeshit calling methods on CharacterWindowController's zombie
 	 * left and right.
 	 */
 	
 	if (skillTimer) [skillTimer invalidate];
 	
+	[self setTaskCellControllers:nil];
 	[self setTasks:nil];
 	[self setSubviews:nil];
 	[self setActiveViewName:nil];

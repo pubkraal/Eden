@@ -41,6 +41,7 @@
 	NSDictionary * errors;
 	
 	// Tasks
+	NSMutableDictionary * taskCellControllers;
 	NSMutableArray * tasks;
 	NSPredicate * requiresFullAPIPred;
 	NSArray * selectedTasks;
@@ -55,6 +56,7 @@
 @property (retain) NSString * activeViewName;
 @property (retain) NSString * nextViewName;
 
+@property (retain) NSMutableDictionary * taskCellControllers;
 @property (retain) NSMutableArray * tasks;
 @property (retain) NSArray * selectedTasks;
 @property (retain) NSDictionary * subviews;

@@ -43,10 +43,6 @@
 	return [[[self alloc] initWithNode:aNode] autorelease];
 }
 
-- (NSNumber *)height {
-	return [NSNumber numberWithDouble:self.frame.size.height];
-}
-
 - (NSRect)frame {
 	return (isGroup) ? [groupView frame] : [[self view] frame];
 }
