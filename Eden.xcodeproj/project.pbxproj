@@ -24,6 +24,8 @@
 		3A7EA09A1364FF59002DCB5E /* SQLTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A7EA0991364FF59002DCB5E /* SQLTable.m */; };
 		3AA16758138F67A6002AC1EA /* SkillView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AA1675A138F67A6002AC1EA /* SkillView.xib */; };
 		3AA8544A1361016F0099C073 /* SQLMutableTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AA854491361016F0099C073 /* SQLMutableTable.m */; };
+		3AB0962C1395A98B008DF2D9 /* CharacterSkillQueue.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AB0962E1395A98B008DF2D9 /* CharacterSkillQueue.xib */; };
+		3AB096311395A9A6008DF2D9 /* CharacterSkillQueueController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AB096301395A9A6008DF2D9 /* CharacterSkillQueueController.m */; };
 		3AC7ABA81380F12000770862 /* CharacterReload.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AC7ABAA1380F12000770862 /* CharacterReload.xib */; };
 		3ACEE6C11372266000E40835 /* EveDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ACEE6C01372266000E40835 /* EveDatabase.m */; };
 		3AD1FE26137A51F800FDE8A7 /* EveURLs.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3AD1FE25137A51F800FDE8A7 /* EveURLs.plist */; };
@@ -110,6 +112,9 @@
 		3A7EA09B13650448002DCB5E /* SQLBridge_object.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLBridge_object.h; sourceTree = "<group>"; };
 		3AA16759138F67A6002AC1EA /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SkillView.xib; sourceTree = "<group>"; };
 		3AA854491361016F0099C073 /* SQLMutableTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQLMutableTable.m; sourceTree = "<group>"; };
+		3AB0962D1395A98B008DF2D9 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/CharacterSkillQueue.xib; sourceTree = "<group>"; };
+		3AB0962F1395A9A6008DF2D9 /* CharacterSkillQueueController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CharacterSkillQueueController.h; sourceTree = "<group>"; };
+		3AB096301395A9A6008DF2D9 /* CharacterSkillQueueController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CharacterSkillQueueController.m; sourceTree = "<group>"; };
 		3AC7ABA91380F12000770862 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/CharacterReload.xib; sourceTree = "<group>"; };
 		3ACEE6BF1372266000E40835 /* EveDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EveDatabase.h; sourceTree = "<group>"; };
 		3ACEE6C01372266000E40835 /* EveDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveDatabase.m; sourceTree = "<group>"; };
@@ -314,6 +319,7 @@
 				3AFE5D1D136BCB9F0072FD0E /* CharacterMarketOrders.xib */,
 				3AFC480F136C510000CC31EA /* CharacterCreateSheet.xib */,
 				3AC7ABAA1380F12000770862 /* CharacterReload.xib */,
+				3AB0962E1395A98B008DF2D9 /* CharacterSkillQueue.xib */,
 			);
 			name = "Character Views";
 			sourceTree = "<group>";
@@ -334,6 +340,8 @@
 				3AD94E5B137A1D8A00F9D1FB /* DebugWindow.m */,
 				3AD1FE27137A542800FDE8A7 /* CharacterReloadController.h */,
 				3AD1FE28137A542800FDE8A7 /* CharacterReloadController.m */,
+				3AB0962F1395A9A6008DF2D9 /* CharacterSkillQueueController.h */,
+				3AB096301395A9A6008DF2D9 /* CharacterSkillQueueController.m */,
 			);
 			name = "Custom Views";
 			sourceTree = "<group>";
@@ -573,6 +581,7 @@
 				3AA16758138F67A6002AC1EA /* SkillView.xib in Resources */,
 				3A7923081391673F007F2F8F /* TaskView.xib in Resources */,
 				3AE0F2781394A2CC004E61DE /* copy-type-images.sh in Resources */,
+				3AB0962C1395A98B008DF2D9 /* CharacterSkillQueue.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -658,6 +667,7 @@
 				3ADE0133138A0B850020342C /* SkillCellController.m in Sources */,
 				3A792302139166FC007F2F8F /* TaskCell.m in Sources */,
 				3A7923051391670D007F2F8F /* TaskCellController.m in Sources */,
+				3AB096311395A9A6008DF2D9 /* CharacterSkillQueueController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -694,6 +704,14 @@
 				3AA16759138F67A6002AC1EA /* en */,
 			);
 			name = SkillView.xib;
+			sourceTree = "<group>";
+		};
+		3AB0962E1395A98B008DF2D9 /* CharacterSkillQueue.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3AB0962D1395A98B008DF2D9 /* en */,
+			);
+			name = CharacterSkillQueue.xib;
 			sourceTree = "<group>";
 		};
 		3AC7ABAA1380F12000770862 /* CharacterReload.xib */ = {

@@ -54,7 +54,7 @@
 					<key>title</key>
 					<string>Skill Queue</string>
 					<key>view</key>
-					<string></string>
+					<string>CharacterSkillQueueController</string>
 				</dict>
 				<dict>
 					<key>children</key>

@@ -66,6 +66,8 @@
 	NSArray * skillsArray;
 	NSNumber * skillTimeOffset;
 	
+	NSMutableArray * trainingQueue;
+	
 	NSDictionary * trainingData;
 }
 
@@ -96,6 +98,8 @@
 @property (readonly) NSNumber * skillsAtV;
 @property (readonly) NSString * totalSkillPoints;
 
+@property (retain) NSMutableArray * trainingQueue;
+
 @property (retain) NSDictionary * trainingData;
 
 
@@ -107,6 +111,7 @@
 - (void)updateSkillsArray;
 - (NSNumber *)speedForSkill:(EveSkill *)skill;
 - (void)consolidateSkillInTraining;
+- (void)consolidateSkillQueueWithArray:(NSArray *)queue;
 - (void)updateSkillInTraining:(NSTimer *)timer;
 
 @end

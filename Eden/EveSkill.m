@@ -208,7 +208,7 @@ NSCalendarUnit units = NSMonthCalendarUnit | NSWeekCalendarUnit |
 	
 	if ([level integerValue] < 5) {
 		if (!isTraining) {
-			nextLevelDate = [NSDate dateWithTimeIntervalSinceNow:([self.neededForNextLevel doubleValue] - [self.neededForCurrentLevel doubleValue]) / [[self.character speedForSkill:self] doubleValue] * 3600.0];
+			nextLevelDate = [NSDate dateWithTimeIntervalSinceNow:([self.neededForNextLevel doubleValue] - [self.skillPoints doubleValue]) / [[self.character speedForSkill:self] doubleValue] * 3600.0];
 			components    = [[NSCalendar currentCalendar] components:units fromDate:[NSDate date] toDate:nextLevelDate options:0];
 			desc          = [desc stringByAppendingFormat:@"\nNext level in: %@", [components englishRepresentation]];
 		}

@@ -28,6 +28,8 @@ NSDictionary * URLDict = nil;
 		self.lastCalls	= [NSSet set];
 		self.characterList = nil;
 		self.currentDownloads = [NSMutableSet set];
+		
+		temporaryData = nil;
 	}
 
 	return self;
@@ -59,6 +61,8 @@ NSDictionary * URLDict = nil;
 	self.characterList = nil;
 	self.currentDownloads = nil;
 	
+	if (temporaryData) [temporaryData release];
+	
 	[super dealloc];
 }
 
@@ -70,6 +74,8 @@ NSDictionary * URLDict = nil;
 	[download addTotalObserver:self];
 	
 	[self.currentDownloads addObject:download];
+	
+	temporaryData = [[NSMutableDictionary alloc] init];
 	
 	return download;
 }
@@ -124,12 +130,16 @@ NSDictionary * URLDict = nil;
 	calls = [NSMutableArray arrayWithObjects:
 						@"CharacterSheet",
 						@"SkillInTraining",
+						@"SkillQueue",
 						nil];
 	
 	if (self.character.fullAPI) {
-		[calls addObjectsFromArray:[NSArray arrayWithObjects:
+		// This thing is not ready, let's not piss off CCP.
+		
+		/*[calls addObjectsFromArray:[NSArray arrayWithObjects:
 						@"MarketOrders",
 						nil]];
+		*/
 	}
 	
 	URLList	 = [[self class] URLListForKeys:calls];
@@ -292,6 +302,27 @@ NSDictionary * URLDict = nil;
 	}
 }
 
+- (void)skillQueueWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error {
+	NSXMLElement * root, * node;
+	NSArray * nodeList;
+	NSDictionary * attributes;
+	NSMutableArray * queue;
+	
+	root     = [xmlDoc rootElement];
+	nodeList = [root nodesForXPath:@"/eveapi/result/rowset/row" error:error];
+	
+	if (!(*error)) {
+		queue = [NSMutableArray array];
+		
+		for (node in nodeList) {
+			attributes = NSDictionaryFromAttributes(node);
+			
+			[queue addObject:attributes];
+		}
+		
+		[temporaryData setObject:queue forKey:@"SkillQueue"];
+	}
+}
 
 - (void)characterSheetWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error {
 	NSXMLElement * root, * node;
@@ -494,6 +525,13 @@ NSDictionary * URLDict = nil;
 		if (!processError) [self skillInTrainingWithXML:xmlDoc error:&processError];
 	}
 
+	// API call to get the training queue
+	else if ([key isEqualToString:@"SkillQueue"]) {
+		xmlDoc = [[NSXMLDocument alloc] initWithData:data options:0 error:&processError];
+
+		if (!processError) [self skillQueueWithXML:xmlDoc error:&processError];
+	}
+
 	// Test call please ignore
 	else if ([key isEqualToString:@"Echo"]) {
 		processError = [NSError errorWithDomain:EveAPIErrorDomain
@@ -534,6 +572,7 @@ NSDictionary * URLDict = nil;
 	[download removeTotalObserver:self];
 	
 	if ([self.lastCalls containsObject:@"SkillInTraining"]) [self.character consolidateSkillInTraining];
+	if ([self.lastCalls containsObject:@"SkillQueue"]) [self.character consolidateSkillQueueWithArray:[temporaryData objectForKey:@"SkillQueue"]];
 	
 	[self.delegate request:self finishedWithErrors:[NSDictionary dictionaryWithDictionary:errors]];
 
@@ -545,4 +584,21 @@ NSDate * CCPDate(NSString * date) {
 	// All times returned by CCP are GMT, so...
 	
 	return [NSDate dateWithString:[date stringByAppendingString:@" +0000"]];
+}
+
+NSDictionary * NSDictionaryFromAttributes(NSXMLElement * node) {
+	NSArray * attributes;
+	NSXMLNode * attr;
+	NSMutableDictionary * dict;
+	
+	attributes = [node attributes];
+	dict       = [NSMutableDictionary dictionary];
+			
+	if (attributes) {
+		for (attr in attributes) {
+			[dict setObject:[attr stringValue] forKey:[attr name]];
+		}
+	}
+	
+	return [NSDictionary dictionaryWithDictionary:dict];
 }

@@ -48,6 +48,8 @@ typedef unsigned int uint;
 	id <APIDelegate> delegate;
 	NSSet * lastCalls;
 	NSMutableSet * currentDownloads;
+	
+	NSMutableDictionary * temporaryData;
 
 	// Filled when -retrieveAccountData is called
 	NSArray * characterList;
@@ -100,7 +102,10 @@ typedef unsigned int uint;
 - (void)portraitListWithData:(NSData *)data forCharID:(NSString *)charID error:(NSError **)error;
 - (void)characterSheetWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error;
 - (void)skillInTrainingWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error;
+- (void)skillQueueWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error;
+
 
 @end
 
 inline NSDate * CCPDate(NSString *);
+inline NSDictionary * NSDictionaryFromAttributes(NSXMLElement *);

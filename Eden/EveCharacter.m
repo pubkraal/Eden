@@ -26,6 +26,7 @@
 @synthesize intelligence, memory, charisma, perception, willpower;
 @synthesize skills, certificates, skillsArray;
 @synthesize trainingData, skillInTraining, skillTimeOffset;
+@synthesize trainingQueue;
 
 - (id)initWithAccountID:(NSString *)accID andAPIKey:(NSString *)APKey {
 
@@ -66,6 +67,8 @@
 		[self setTrainingData:nil];
 		[self setSkillInTraining:nil];
 		[self setSkillTimeOffset:[NSNumber numberWithDouble:0.0]];
+		
+		[self setTrainingQueue:nil];
 		
 	}
 
@@ -131,6 +134,7 @@
 	[self setTrainingData:nil];
 	[self setSkillInTraining:nil];
 	[self setSkillTimeOffset:nil];
+	[self setTrainingQueue:nil];
 
 	[super dealloc];
 }
@@ -167,6 +171,7 @@
 	[coder encodeObject:skillInTraining forKey:@"char.skillInTraining"];
 	[coder encodeObject:skillTimeOffset forKey:@"char.skillTimeOffset"];
 
+	[coder encodeObject:trainingQueue forKey:@"char.trainingQueue"];
 }
 
 - (id)initWithCoder:(NSCoder *)coder {
@@ -203,6 +208,8 @@
 		self.certificates     = [coder decodeObjectForKey:@"char.certificates"];
 		self.skillInTraining  = [coder decodeObjectForKey:@"char.skillInTraining"];
 		self.skillTimeOffset  = [coder decodeObjectForKey:@"char.skillTimeOffset"];
+		
+		self.trainingQueue    = [coder decodeObjectForKey:@"char.trainingQueue"];
 		
 		self.trainingData     = nil;
 	}
@@ -328,15 +335,61 @@
 	}
 }
 
+- (void)consolidateSkillQueueWithArray:(NSArray *)queue {
+	NSDictionary * queueDict;
+	EveSkill * queueSkill;
+	
+	if (queue) {
+		self.trainingQueue = [NSMutableArray array];
+		
+		queue = [queue sortedArrayUsingComparator:^(NSDictionary * d1, NSDictionary * d2) {
+			NSNumber * n1, * n2;
+			
+			n1 = [NSNumber numberWithInteger:[[d1 objectForKey:@"queuePosition"] integerValue]];
+			n2 = [NSNumber numberWithInteger:[[d2 objectForKey:@"queuePosition"] integerValue]];
+
+			return (NSComparisonResult) [n1 compare:n2];
+		}];
+		
+		for (queueDict in queue) {
+			queueSkill = [self.skills objectForKey:[queueDict objectForKey:@"typeID"]];
+			
+			if (!queueSkill.isTraining) {
+				queueSkill.startDate = CCPDate([queueDict objectForKey:@"startTime"]);
+				queueSkill.endDate   = CCPDate([queueDict objectForKey:@"endTime"]);
+			}
+			
+			[[self mutableArrayValueForKey:@"trainingQueue"] addObject:queueSkill];
+		}
+	}
+	
+	NSLog(@"%@", self.trainingQueue);
+}
+
 - (void)updateSkillInTraining:(NSTimer *)timer {
 	// TODO: When we get the skill queue as well, check whether the training
 	// has finished and update the training skill accordingly.
 	
 	NSNumber * skPoints;
+	EveSkill * nextSkill;
+	NSMutableArray * queueProxy;
 	
 	if (self.skillInTraining) {
 		skPoints = self.skillInTraining.skillPoints;
 		self.skillInTraining.skillPoints = skPoints;
+		
+		if ([skPoints integerValue] == [self.skillInTraining.neededForNextLevel integerValue]) {
+			// Training has finished
+			queueProxy = [self mutableArrayValueForKey:@"trainingQueue"];
+			
+			self.skillInTraining.level = self.skillInTraining.nextLevel;
+			self.skillInTraining.isTraining = NO;
+			
+			nextSkill = ([queueProxy count] > 1) ? [queueProxy objectAtIndex:1] : nil;
+			
+			[queueProxy removeObjectAtIndex:0];
+			self.skillInTraining = nextSkill;
+		}
 	}
 }
 
