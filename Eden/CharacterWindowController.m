@@ -11,6 +11,7 @@
 #import <QuartzCore/CoreAnimation.h>
 #import "CharacterViews.h"
 #import "EveCharacter.h"
+#import "EveSkill.h"
 #import "CharacterCreateSheetController.h"
 #import "CharacterReloadController.h"
 #import "TaskCell.h"
@@ -445,6 +446,16 @@
 	return enabled;
 }
 
+// Etc
+
+- (NSString *)currentSkillFinishesIn {
+	EveSkill * skill;
+	
+	skill = self.document.character.skillInTraining;
+
+	return (skill) ? [NSString stringWithFormat:@"Finishes in %@.", skill.finishesIn] : nil;
+}
+
 // Errors
 
 + (NSSet *)keyPathsForValuesAffectingValueForKey:(NSString *)dependentKey {
@@ -452,6 +463,9 @@
 	
 	if ([dependentKey isEqualToString:@"errorString"]) {
 		rootKeys = [NSSet setWithObject:@"errors"];
+	}
+	else if ([dependentKey isEqualToString:@"currentSkillFinishesIn"]) {
+		rootKeys = [NSSet setWithObject:@"document.character.skillInTraining.finishesIn"];
 	}
 	else rootKeys = [NSSet set];
 	

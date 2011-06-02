@@ -362,8 +362,6 @@
 			[[self mutableArrayValueForKey:@"trainingQueue"] addObject:queueSkill];
 		}
 	}
-	
-	NSLog(@"%@", self.trainingQueue);
 }
 
 - (void)updateSkillInTraining:(NSTimer *)timer {
@@ -378,17 +376,22 @@
 		skPoints = self.skillInTraining.skillPoints;
 		self.skillInTraining.skillPoints = skPoints;
 		
-		if ([skPoints integerValue] == [self.skillInTraining.neededForNextLevel integerValue]) {
+		while ([skPoints integerValue] >= [self.skillInTraining.neededForNextLevel integerValue]) {
 			// Training has finished
 			queueProxy = [self mutableArrayValueForKey:@"trainingQueue"];
 			
-			self.skillInTraining.level = self.skillInTraining.nextLevel;
-			self.skillInTraining.isTraining = NO;
+			self.skillInTraining.skillPoints = self.skillInTraining.neededForNextLevel;
+			self.skillInTraining.level       = self.skillInTraining.nextLevel;
+			self.skillInTraining.isTraining  = NO;
 			
 			nextSkill = ([queueProxy count] > 1) ? [queueProxy objectAtIndex:1] : nil;
 			
 			[queueProxy removeObjectAtIndex:0];
 			self.skillInTraining = nextSkill;
+			self.skillInTraining.isTraining = YES;
+
+			skPoints = self.skillInTraining.skillPoints;
+			self.skillInTraining.skillPoints = skPoints;
 		}
 	}
 }

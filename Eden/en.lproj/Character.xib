@@ -649,7 +649,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="97986332">
 							<int key="NSCellFlags">68288064</int>
 							<int key="NSCellFlags2">272630784</int>
-							<string key="NSContents">Alliance name</string>
+							<string key="NSContents">Balance</string>
 							<reference key="NSSupport" ref="402816156"/>
 							<reference key="NSControlView" ref="436434000"/>
 							<reference key="NSBackgroundColor" ref="671767347"/>
@@ -667,7 +667,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="982337007">
 							<int key="NSCellFlags">68288064</int>
 							<int key="NSCellFlags2">272630784</int>
-							<string key="NSContents">Corporation name</string>
+							<string key="NSContents">SP</string>
 							<reference key="NSSupport" ref="402816156"/>
 							<reference key="NSControlView" ref="689748341"/>
 							<reference key="NSBackgroundColor" ref="671767347"/>
@@ -998,46 +998,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: document.character.name</string>
-						<reference key="source" ref="829622113"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="829622113"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">value: document.character.name</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">document.character.name</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSNullPlaceholder</string>
-								<string key="NS.object.0">-</string>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">125</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: document.character.corporation.name</string>
-						<reference key="source" ref="689748341"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="689748341"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">value: document.character.corporation.name</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">document.character.corporation.name</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSNullPlaceholder</string>
-								<string key="NS.object.0">-</string>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">131</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
 						<string key="label">value: document.character.portrait</string>
 						<reference key="source" ref="551055796"/>
 						<reference key="destination" ref="1001"/>
@@ -1051,26 +1011,6 @@
 						</object>
 					</object>
 					<int key="connectionID">139</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: document.character.alliance.name</string>
-						<reference key="source" ref="436434000"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="436434000"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">value: document.character.alliance.name</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">document.character.alliance.name</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSNullPlaceholder</string>
-								<string key="NS.object.0">-</string>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">142</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -1222,22 +1162,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: document.character.skillInTraining.finishesIn</string>
-						<reference key="source" ref="868373005"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="868373005"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">value: document.character.skillInTraining.finishesIn</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">document.character.skillInTraining.finishesIn</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">186</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
 						<string key="label">enabled: reloadEnabled</string>
 						<reference key="source" ref="312667922"/>
 						<reference key="destination" ref="1001"/>
@@ -1287,6 +1211,103 @@
 						</object>
 					</object>
 					<int key="connectionID">194</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: currentSkillFinishesIn</string>
+						<reference key="source" ref="868373005"/>
+						<reference key="destination" ref="1001"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="868373005"/>
+							<reference key="NSDestination" ref="1001"/>
+							<string key="NSLabel">value: currentSkillFinishesIn</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">currentSkillFinishesIn</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">202</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">displayPatternValue1: document.character.totalSkillPoints</string>
+						<reference key="source" ref="689748341"/>
+						<reference key="destination" ref="1001"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="689748341"/>
+							<reference key="NSDestination" ref="1001"/>
+							<string key="NSLabel">displayPatternValue1: document.character.totalSkillPoints</string>
+							<string key="NSBinding">displayPatternValue1</string>
+							<string key="NSKeyPath">document.character.totalSkillPoints</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSDisplayPattern</string>
+								<string key="NS.object.0">%{value1}@ SP</string>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">204</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">displayPatternValue1: document.character.formattedBalance</string>
+						<reference key="source" ref="436434000"/>
+						<reference key="destination" ref="1001"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="436434000"/>
+							<reference key="NSDestination" ref="1001"/>
+							<string key="NSLabel">displayPatternValue1: document.character.formattedBalance</string>
+							<string key="NSBinding">displayPatternValue1</string>
+							<string key="NSKeyPath">document.character.formattedBalance</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSDisplayPattern</string>
+								<string key="NS.object.0">%{value1}@ ISK</string>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">207</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">displayPatternValue1: document.character.name</string>
+						<reference key="source" ref="829622113"/>
+						<reference key="destination" ref="1001"/>
+						<object class="NSNibBindingConnector" key="connector" id="219271104">
+							<reference key="NSSource" ref="829622113"/>
+							<reference key="NSDestination" ref="1001"/>
+							<string key="NSLabel">displayPatternValue1: document.character.name</string>
+							<string key="NSBinding">displayPatternValue1</string>
+							<string key="NSKeyPath">document.character.name</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSDisplayPattern</string>
+								<string key="NS.object.0">%{value1}@ [%{value2}@]</string>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">210</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">displayPatternValue2: document.character.corporation.ticker</string>
+						<reference key="source" ref="829622113"/>
+						<reference key="destination" ref="1001"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="829622113"/>
+							<reference key="NSDestination" ref="1001"/>
+							<string key="NSLabel">displayPatternValue2: document.character.corporation.ticker</string>
+							<string key="NSBinding">displayPatternValue2</string>
+							<string key="NSKeyPath">document.character.corporation.ticker</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSDisplayPattern</string>
+								<string key="NS.object.0">%{value1}@ [%{value2}@]</string>
+							</object>
+							<reference key="NSPreviousConnector" ref="219271104"/>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">211</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1823,7 +1844,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">194</int>
+			<int key="maxID">211</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

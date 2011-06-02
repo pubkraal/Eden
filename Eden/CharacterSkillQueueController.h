@@ -17,8 +17,16 @@
 }
 
 @property (readonly) NSArray * skillsInQueue;
+
 @property (readonly) NSString * currentlyTraining;
+@property (readonly) NSColor * skillColor;
+
+@property (readonly) NSString * trainingSpeed;
+@property (readonly) NSString * timeLeft;
 @property (readonly) NSString * nextSkillIn;
 @property (readonly) NSString * queueFinishes;
+@property (readonly) NSString * attributes;
+
+
 
 @end

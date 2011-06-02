@@ -131,6 +131,7 @@ NSDictionary * URLDict = nil;
 						@"CharacterSheet",
 						@"SkillInTraining",
 						@"SkillQueue",
+						@"CorporationSheet",
 						nil];
 	
 	if (self.character.fullAPI) {
@@ -444,6 +445,21 @@ NSDictionary * URLDict = nil;
 	}
 }
 
+- (void)corporationSheetWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error {
+	NSXMLElement * root, * node;
+	NSArray * nodeList;
+	
+	root     = [xmlDoc rootElement];
+	nodeList = [root nodesForXPath:@"/eveapi/result/ticker" error:error];
+	
+	if (!(*error)) {
+		if ([nodeList count] > 0) {
+			node = [nodeList objectAtIndex:0];
+			
+			[temporaryData setObject:[node stringValue] forKey:@"corpTicker"];
+		}
+	}
+}
 
 - (void)portraitListWithData:(NSData *)data forCharID:(NSString *)charID error:(NSError **)error {
 	EveCharacter * theChar;
@@ -532,13 +548,12 @@ NSDictionary * URLDict = nil;
 		if (!processError) [self skillQueueWithXML:xmlDoc error:&processError];
 	}
 
-	// Test call please ignore
-	else if ([key isEqualToString:@"Echo"]) {
-		processError = [NSError errorWithDomain:EveAPIErrorDomain
-										   code:-1
-									   userInfo:[NSDictionary dictionaryWithObject:@"Testing" forKey:NSLocalizedDescriptionKey]];
-	}
+	// API call to get the corporation sheet
+	else if ([key isEqualToString:@"CorporationSheet"]) {
+		xmlDoc = [[NSXMLDocument alloc] initWithData:data options:0 error:&processError];
 
+		if (!processError) [self corporationSheetWithXML:xmlDoc error:&processError];
+	}
 	
 	if (xmlDoc) {
 		errorList = [[xmlDoc rootElement] nodesForXPath:@"/eveapi/error" error:&authError];
@@ -573,6 +588,7 @@ NSDictionary * URLDict = nil;
 	
 	if ([self.lastCalls containsObject:@"SkillInTraining"]) [self.character consolidateSkillInTraining];
 	if ([self.lastCalls containsObject:@"SkillQueue"]) [self.character consolidateSkillQueueWithArray:[temporaryData objectForKey:@"SkillQueue"]];
+	if ([self.lastCalls containsObject:@"CorporationSheet"]) self.character.corporation.ticker = [temporaryData objectForKey:@"corpTicker"];
 	
 	[self.delegate request:self finishedWithErrors:[NSDictionary dictionaryWithDictionary:errors]];
 

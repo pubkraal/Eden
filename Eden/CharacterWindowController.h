@@ -66,7 +66,9 @@
 
 @property (assign) BOOL hasError;
 @property (retain) NSDictionary * errors;
+
 @property (readonly) NSString * errorString;
+@property (readonly) NSString * currentSkillFinishesIn;
 
 // Initialization
 

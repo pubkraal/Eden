@@ -101,6 +101,7 @@ typedef unsigned int uint;
 - (void)accountStatusWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error;
 - (void)portraitListWithData:(NSData *)data forCharID:(NSString *)charID error:(NSError **)error;
 - (void)characterSheetWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error;
+- (void)corporationSheetWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error;
 - (void)skillInTrainingWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error;
 - (void)skillQueueWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error;
 

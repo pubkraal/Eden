@@ -18,9 +18,21 @@
 - (id)init {
 	if ((self = [super initWithNibName:@"CharacterSkillQueue" bundle:nil])) {
 		skillControllers = [[NSMutableDictionary alloc] init];
+		
+		[self addObserver:self forKeyPath:@"skillsInQueue" options:NSKeyValueObservingOptionNew context:NULL];
 	}
 	
 	return self;
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+	SkillCellController * controller;
+	
+	if ([keyPath isEqualToString:@"skillsInQueue"]) {
+		for (controller in [skillControllers allValues]) {
+			[controller removeSubviews];
+		}
+	}
 }
 
 + (NSSet *)keyPathsForValuesAffectingValueForKey:(NSString *)dependentKey {
@@ -30,6 +42,18 @@
 		rootKeys = [NSSet setWithObject:@"document.character.trainingQueue"];
 	}
 	else if ([dependentKey isEqualToString:@"currentlyTraining"]) {
+		rootKeys = [NSSet setWithObject:@"document.character.skillInTraining"];
+	}
+	else if ([dependentKey isEqualToString:@"skillColor"]) {
+		rootKeys = [NSSet setWithObject:@"document.character.skillInTraining"];
+	}
+	else if ([dependentKey isEqualToString:@"trainingSpeed"]) {
+		rootKeys = [NSSet setWithObject:@"document.character.skillInTraining"];
+	}
+	else if ([dependentKey isEqualToString:@"timeLeft"]) {
+		rootKeys = [NSSet setWithObject:@"document.character.skillInTraining.finishesIn"];
+	}
+	else if ([dependentKey isEqualToString:@"attributes"]) {
 		rootKeys = [NSSet setWithObject:@"document.character.skillInTraining"];
 	}
 	else if ([dependentKey isEqualToString:@"nextSkillIn"]) {
@@ -67,6 +91,36 @@
 	ct       = (training) ? [NSString stringWithFormat:@"%@ %ld", training.name, [training.level integerValue] + 1] : nil;
 	
 	return ct;
+}
+
+- (NSColor *)skillColor {
+	return (self.document.character.skillInTraining) ? [NSColor blackColor] : [NSColor redColor];
+}
+
+- (NSString *)trainingSpeed {
+	EveSkill * skill;
+	EveCharacter * theChar;
+	
+	theChar = self.document.character;
+	skill   = theChar.skillInTraining;
+	
+	return (skill) ? [NSString stringWithFormat:@"%@ SP/hour", [theChar speedForSkill:skill]] : nil;
+}
+
+- (NSString *)timeLeft {
+	EveSkill * skill;
+	
+	skill = self.document.character.skillInTraining;
+	
+	return (skill) ? skill.finishesIn : nil;
+}
+
+- (NSString *)attributes {
+	EveSkill * skill;
+
+	skill = self.document.character.skillInTraining;
+	
+	return (skill) ? [NSString stringWithFormat:@"%@, %@", [skill.primaryAttribute capitalizedString], [skill.secondaryAttribute capitalizedString]]: nil;
 }
 
 - (NSString *)nextSkillIn {
@@ -107,6 +161,7 @@
 	return finishes;
 }
 
+
 - (void)tableView:(NSTableView *)view willDisplayCell:(id)cellObject forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)rowIndex {
 	NSDictionary * node;
 	SkillCellController * controller;
@@ -139,6 +194,8 @@
 }
 
 - (void)dealloc {
+	[self removeObserver:self forKeyPath:@"skillsInQueue"];
+	
 	skillQueueView.delegate = nil;
 	
 	[skillControllers release];

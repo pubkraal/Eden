@@ -212,7 +212,7 @@ NSCalendarUnit units = NSMonthCalendarUnit | NSWeekCalendarUnit |
 			components    = [[NSCalendar currentCalendar] components:units fromDate:[NSDate date] toDate:nextLevelDate options:0];
 			desc          = [desc stringByAppendingFormat:@"\nNext level in: %@", [components englishRepresentation]];
 		}
-		else desc = [desc stringByAppendingFormat:@"\n%@", self.finishesIn];
+		else desc = [desc stringByAppendingFormat:@"\nFinishes in %@.", self.finishesIn];
 	}
 			
 	return desc;
@@ -243,7 +243,7 @@ NSCalendarUnit units = NSMonthCalendarUnit | NSWeekCalendarUnit |
 	target  = [[self neededForNextLevel] doubleValue] - current;
 	sp      = [self.skillPoints doubleValue] - current;
 	
-	return (target) ? [NSNumber numberWithDouble:(sp / target)] : [NSNumber numberWithInteger:1];
+	return (target > 0) ? [NSNumber numberWithDouble:(sp / target)] : [NSNumber numberWithInteger:1];
 }
 
 - (NSNumber *)nextLevel {
@@ -259,15 +259,13 @@ NSCalendarUnit units = NSMonthCalendarUnit | NSWeekCalendarUnit |
 - (NSString *)finishesIn {
 	NSDate * eveNow;
 	NSDateComponents * components;
-	NSString * finishesIn;
 	
 	if (!isTraining) return nil;
 	
 	eveNow     = [NSDate dateWithTimeIntervalSinceNow:[[character skillTimeOffset] doubleValue]];
 	components = [[NSCalendar currentCalendar] components:units fromDate:eveNow toDate:self.endDate options:0];
-	finishesIn = [components englishRepresentation];
 	
-	return [NSString stringWithFormat:@"Finishes in %@.", finishesIn];
+	return [components englishRepresentation];
 }
 
 + (NSSet *)keyPathsForValuesAffectingValueForKey:(NSString *)dependentKey {
