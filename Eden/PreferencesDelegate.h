@@ -14,21 +14,20 @@
 @private
 	IBOutlet NSWindow * mainWindow;
     IBOutlet NSToolbar * toolbar;
-	IBOutlet NSToolbarItem * firstButton;
 	IBOutlet NSView * loaderView;
-	IBOutlet NSView * firstPane;
-
-	IBOutlet NSView * pref1, * pref2, * pref3;
+	
+	NSDictionary * panes;
 
 	NSView * currentView;
 	NSView * nextView;
 }
 
+@property (readonly) NSWindow * window;
 
-- (IBAction)showPref1:(id)sender;
-- (IBAction)showPref2:(id)sender;
-- (IBAction)showPref3:(id)sender;
+- (IBAction)selectPane:(id)sender;
 
 - (void)switchView:(NSView *)newView animate:(BOOL)animate;
+
+- (void)loadPanes;
 
 @end

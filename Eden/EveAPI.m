@@ -17,17 +17,20 @@
 
 NSDictionary * URLDict = nil;
 
+NSMutableDictionary * cachedUntil;
+
 @implementation EveAPI 
 
-@synthesize character, characterList, delegate, lastCalls, currentDownloads;
+@synthesize character, characterList, delegate, lastCalls, currentDownloads, failedStart;
 
 - (id)initWithAccountID:(NSString *)accountID andAPIKey:(NSString *)APIKey {
 	
 	if ((self = [super init])) {
-		self.character	= [EveCharacter characterWithAccountID:accountID andAPIKey:APIKey];
-		self.lastCalls	= [NSSet set];
-		self.characterList = nil;
+		self.character        = [EveCharacter characterWithAccountID:accountID andAPIKey:APIKey];
+		self.lastCalls        = [NSSet set];
 		self.currentDownloads = [NSMutableSet set];
+		self.characterList    = nil;
+		self.failedStart      = nil;
 		
 		temporaryData = nil;
 	}
@@ -60,24 +63,14 @@ NSDictionary * URLDict = nil;
 	self.lastCalls	= nil;
 	self.characterList = nil;
 	self.currentDownloads = nil;
+	self.failedStart = nil;
 	
-	if (temporaryData) [temporaryData release];
+	if (temporaryData) {
+		[temporaryData release];
+		temporaryData = nil;
+	}
 	
 	[super dealloc];
-}
-
-- (EveDownload *)downloadWithURLList:(NSDictionary *)URLList {
-	EveDownload * download;
-	
-	download = [EveDownload downloadWithURLList:URLList];
-	download.delegate = self;
-	[download addTotalObserver:self];
-	
-	[self.currentDownloads addObject:download];
-	
-	temporaryData = [[NSMutableDictionary alloc] init];
-	
-	return download;
 }
 
 - (void)retrieveAccountData {
@@ -92,7 +85,7 @@ NSDictionary * URLDict = nil;
 						nil];
 	
 	URLList	 = [[self class] URLListForKeys:calls];
-	download = [self downloadWithURLList:URLList];
+	download = [EveDownload downloadWithURLList:URLList];
 
 	for (call in calls) {
 		[download setPostBodyToDictionary:[self accountInfoForPost] forKey:call];
@@ -100,7 +93,7 @@ NSDictionary * URLDict = nil;
 
 	self.lastCalls = [NSSet setWithArray:calls];
 
-	[download start];
+	[self _startDownload:download];
 }
 
 - (void)retrievePortraitList {
@@ -114,11 +107,11 @@ NSDictionary * URLDict = nil;
 		[URLList setObject:[[self class] URLForKey:@"Portrait 1024", pChar.characterID] forKey:[NSString stringWithFormat:@"PortraitList %@", pChar.characterID]];
 	}
 	
-	download = [self downloadWithURLList:URLList];
+	download = [EveDownload downloadWithURLList:URLList];
 
 	self.lastCalls = [NSSet setWithObject:@"PortraitList"];
 
-	[download start];
+	[self _startDownload:download];
 }
 
 - (void)retrieveCharacterData {
@@ -144,7 +137,7 @@ NSDictionary * URLDict = nil;
 	}
 	
 	URLList	 = [[self class] URLListForKeys:calls];
-	download = [self downloadWithURLList:URLList];
+	download = [EveDownload downloadWithURLList:URLList];
 
 	for (call in calls) {
 		[download setPostBodyToDictionary:[self characterInfoForPost] forKey:call];
@@ -152,7 +145,46 @@ NSDictionary * URLDict = nil;
 
 	self.lastCalls = [NSSet setWithArray:calls];
 
-	[download start];
+	[self _startDownload:download];
+}
+
+- (void)_startDownload:(EveDownload *)download {
+	NSUserDefaults * prefs;
+	NSDictionary * thisPair, * blockedPair, * errorInfo;
+	NSArray * blockedKeys;
+	NSError * error;
+	BOOL canDownload;
+	
+	prefs       = [NSUserDefaults standardUserDefaults];
+	blockedKeys = [prefs arrayForKey:@"blockedAPIKeys"];
+	canDownload = YES;
+	thisPair    = [NSDictionary dictionaryWithObjectsAndKeys:
+								self.character.accountID, @"userID",
+								self.character.APIKey, @"APIKey",
+								nil];
+	
+	for (blockedPair in blockedKeys) {
+		if ([blockedPair isEqualToDictionary:thisPair]) {
+			errorInfo   = [NSDictionary dictionaryWithObject:@"The Account ID/API Key pair you are trying to use has been blocked." forKey:NSLocalizedDescriptionKey];
+			error       = [NSError errorWithDomain:EveAPIBlockedDomain code:203 userInfo:errorInfo];
+			canDownload = NO;
+			
+			break;
+		}
+	}
+	
+	if (canDownload) {
+		download.delegate = self;
+		[download addTotalObserver:self];
+
+		[self.currentDownloads addObject:download];
+		
+		if (temporaryData) [temporaryData release];
+		temporaryData = [[NSMutableDictionary alloc] init];
+		
+		[download start];
+	}
+	else self.failedStart = error;
 }
 
 - (void)cancelRequests {
@@ -492,6 +524,11 @@ NSDictionary * URLDict = nil;
 	NSError * processError, * authError;
 	NSXMLElement * errorNode;
 	NSArray * errorList;
+	NSMutableArray * blockedKeys;
+	NSDictionary * blockDict, * cursor;
+	NSUserDefaults * prefs;
+	NSInteger errorCode;
+	BOOL alreadyBlocked;
 
 	processError = nil;
 	xmlDoc		 = nil;
@@ -560,9 +597,36 @@ NSDictionary * URLDict = nil;
 
 		if (!authError && [errorList count]) {
 			errorNode = [errorList objectAtIndex:0];
+			errorCode = [[[errorNode attributeForName:@"code"] stringValue] integerValue];
 			authError = [NSError errorWithDomain:EveAPIErrorDomain
-											code:[[[errorNode attributeForName:@"code"] stringValue] integerValue]
+											code:errorCode
 										userInfo:[NSDictionary dictionaryWithObject:[errorNode stringValue] forKey:NSLocalizedDescriptionKey]];
+
+			if (errorCode == 203) { // Authentication failure
+				prefs          = [NSUserDefaults standardUserDefaults];
+				alreadyBlocked = NO;
+				blockDict      = [NSDictionary dictionaryWithObjectsAndKeys:
+											self.character.accountID, @"userID",
+											self.character.APIKey, @"APIKey",
+											nil];
+				
+				@synchronized(prefs) {
+					blockedKeys = [NSMutableArray arrayWithArray:[prefs arrayForKey:@"blockedAPIKeys"]];
+
+					for (cursor in blockedKeys) {
+						if ([cursor isEqualToDictionary:blockDict]) {
+							alreadyBlocked = YES;
+							break;
+						}
+					}		
+
+					if (!alreadyBlocked) {
+						[blockedKeys addObject:blockDict];
+
+						[prefs setObject:blockedKeys forKey:@"blockedAPIKeys"];
+					}
+				}
+			}
 
 			processError = authError;
 		}

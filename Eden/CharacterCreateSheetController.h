@@ -24,6 +24,8 @@
 	IBOutlet NSWindow * mainWindow;
 	IBOutlet NSProgressIndicator * progress;
 	IBOutlet NSProgressIndicator * progressCharWindow;
+	
+	NSString * lastError;
 
 	NSArray * characterList;
 
@@ -38,7 +40,7 @@
 @property (assign) BOOL controlsEnabled, retrieveFailed;
 @property (assign) CharacterDocument * document;
 
-@property (retain) NSString * inputAPIKey, * inputAccountID;
+@property (retain) NSString * inputAPIKey, * inputAccountID, * lastError;
 
 @property (retain) NSArray * characterList;
 

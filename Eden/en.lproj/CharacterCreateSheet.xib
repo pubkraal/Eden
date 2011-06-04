@@ -467,7 +467,7 @@
 			</object>
 			<object class="NSCollectionViewItem" id="97361860"/>
 			<object class="NSView" id="996063165">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">256</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -488,7 +488,6 @@
 						</object>
 						<string key="NSFrame">{{20, 90}, {128, 128}}</string>
 						<reference key="NSSuperview" ref="996063165"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="68004887"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSImageCell" key="NSCell" id="631361714">
@@ -506,7 +505,6 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{17, 68}, {134, 14}}</string>
 						<reference key="NSSuperview" ref="996063165"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="110555108"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="191955348">
@@ -528,7 +526,6 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{17, 52}, {134, 14}}</string>
 						<reference key="NSSuperview" ref="996063165"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="181312585"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="505415392">
@@ -550,8 +547,6 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{36, 12}, {96, 32}}</string>
 						<reference key="NSSuperview" ref="996063165"/>
-						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="717652281">
 							<int key="NSCellFlags">67239424</int>
@@ -569,8 +564,6 @@
 					</object>
 				</object>
 				<string key="NSFrameSize">{168, 238}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="533547541"/>
 			</object>
 			<object class="NSArrayController" id="55984249">
@@ -1005,6 +998,22 @@
 						</object>
 					</object>
 					<int key="connectionID">186</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: lastError</string>
+						<reference key="source" ref="141705365"/>
+						<reference key="destination" ref="1001"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="141705365"/>
+							<reference key="NSDestination" ref="1001"/>
+							<string key="NSLabel">value: lastError</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">lastError</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">187</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1454,7 +1463,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">186</int>
+			<int key="maxID">187</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

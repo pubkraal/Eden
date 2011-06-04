@@ -68,6 +68,8 @@
 @property (retain) NSDictionary * errors;
 
 @property (readonly) NSString * errorString;
+@property (readonly) NSString * firstError;
+
 @property (readonly) NSString * currentSkillFinishesIn;
 
 // Initialization

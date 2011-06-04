@@ -25,5 +25,6 @@
 
 - (IBAction)stopReload:(id)sender;
 - (void)updateData:(NSDictionary *)data;
+- (void)failStart:(NSTimer *)timer;
 
 @end

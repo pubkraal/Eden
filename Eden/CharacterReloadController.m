@@ -50,27 +50,48 @@
 	self.currentValue   = nil;
 	self.currentRequest = nil;
 	
-	[(CharacterWindowController *) self.document.mainController scheduleSkillTimer];
-	[(CharacterWindowController *) self.document.mainController setReloadEnabled:YES];
+	//[(CharacterWindowController *) self.document.mainController scheduleSkillTimer];
+	//[(CharacterWindowController *) self.document.mainController setReloadEnabled:YES];
+	[self.document.mainController scheduleSkillTimer];
+	self.document.mainController.reloadEnabled = YES;
 }
 
 - (void)windowDidBecomeKey:(NSNotification *)notification {
-	[(CharacterWindowController *) self.document.mainController setReloadEnabled:NO];
+	self.document.mainController.reloadEnabled = NO;
 
 	self.currentRequest = [EveAPI requestWithCharacter:self.document.character];
 	self.currentRequest.delegate = self;
 	
 	[self.currentRequest retrieveCharacterData];
+	
+	if (self.currentRequest.failedStart) {
+		[NSTimer scheduledTimerWithTimeInterval:0.25
+										 target:self
+									   selector:@selector(failStart:)
+									   userInfo:self.currentRequest.failedStart
+										repeats:NO];
+	}
 
+}
+
+- (void)failStart:(NSTimer *)timer {
+	self.document.mainController.errors   = [NSDictionary dictionaryWithObject:[timer userInfo] forKey:@"All"];
+	self.document.mainController.hasError = YES;
+	
+	self.currentRequest = nil;
+	
+	[timer invalidate];
+	
+	[NSApp endSheet:[self window] returnCode:0];
 }
 
 - (void)request:(EveAPI *)api finishedWithErrors:(NSDictionary *)errors {
 	if ([errors count]) {
-		[(CharacterWindowController *) self.document.mainController setErrors:errors];
-		[(CharacterWindowController *) self.document.mainController setHasError:YES];
+		self.document.mainController.errors   = errors;
+		self.document.mainController.hasError = YES;
 	}
 	else {
-		[(CharacterWindowController *) self.document.mainController setHasError:NO];
+		self.document.mainController.hasError = NO;
 	}
 	
 	[NSApp endSheet:[self window] returnCode:0];

@@ -21,7 +21,9 @@
 #define BASE_URL "https://api.eveonline.com"
 #define BASE_URL_TEST "https://apitest.eveonline.com"
 
-#define EveAPIErrorDomain @"EVE API Error"
+#define EveAPIErrorDomain @"com.pleaseignore.Eden.APIError"
+#define EveAPIBlockedDomain @"com.pleaseignore.Eden.BlockedAPIKeyError"
+#define EveAPICachedDomain @"com.pleaseignore.Eden.CachedError"
 
 @class EveAPIResult;
 @class EveCharacter;
@@ -48,6 +50,7 @@ typedef unsigned int uint;
 	id <APIDelegate> delegate;
 	NSSet * lastCalls;
 	NSMutableSet * currentDownloads;
+	NSError * failedStart;
 	
 	NSMutableDictionary * temporaryData;
 
@@ -59,6 +62,7 @@ typedef unsigned int uint;
 @property (retain) NSSet * lastCalls;
 @property (retain) NSMutableSet * currentDownloads;
 @property (retain) NSArray * characterList;
+@property (retain) NSError * failedStart;
 
 @property (assign) id <APIDelegate> delegate;
 
@@ -85,12 +89,12 @@ typedef unsigned int uint;
 - (void)retrieveAccountData;
 - (void)retrieveCharacterData;
 - (void)cancelRequests;
+- (void)_startDownload:(EveDownload *)download;
 
 // Methods returning relevant data for creating requests
 
 + (NSString *)URLForKey:(NSString *)key, ...;
 + (NSDictionary *)URLListForKeys:(NSArray *)keys;
-- (EveDownload *)downloadWithURLList:(NSDictionary *)URLList;
 - (NSDictionary *)accountInfoForPost;
 - (NSDictionary *)characterInfoForPost;
 

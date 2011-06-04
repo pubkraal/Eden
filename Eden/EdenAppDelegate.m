@@ -11,9 +11,24 @@
 #import "EveSkill.h"
 
 
+
 @implementation EdenAppDelegate
 
 @synthesize window, dbLoaded;
+
++ (void)initialize {
+	NSDictionary * defaults;
+	
+	defaults = [NSDictionary dictionaryWithObjectsAndKeys:
+				[NSNumber numberWithBool:NO], @"reloadOnFileOpened",
+				[NSNumber numberWithBool:NO], @"reloadWhenCacheExpires",
+				@"lastDocument", @"openOnStart",
+				[NSString string], @"customDocument",
+				[NSArray array], @"blockedAPIKeys",
+				nil];
+	
+	[[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
+}
 
 
 - (id)init {
@@ -88,6 +103,7 @@
 		
 		[dumpNavWindow loadWindow];
 	}
+	
 	[[dumpNavWindow window] makeKeyAndOrderFront:dumpNavWindow];
 	
 }
@@ -103,25 +119,34 @@
 }
 
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender {
+	NSUserDefaults * prefs;
 	NSDocumentController * controller;
 	NSArray * documents;
 	NSError * error;
+	NSURL * file;
+	NSString * openOnStart;
 	BOOL untitled;
 
-	untitled = !willOpenFile;
-	error    = nil;
+	prefs       = [NSUserDefaults standardUserDefaults];
+	openOnStart = [prefs stringForKey:@"openOnStart"];
+	untitled    = [openOnStart isEqualToString:@"newDocument"];
+	error       = nil;
 
-	if (untitled && !appStarted) {
+	if (!willOpenFile && !appStarted && !untitled) {
 		controller = [NSDocumentController sharedDocumentController];
-		documents  = [controller recentDocumentURLs];
-		
-		if ([documents count] > 0) {
-			[controller openDocumentWithContentsOfURL:[documents objectAtIndex:0]
-											  display:YES
-												error:&error];
-			
-			if (!error) untitled = NO;
+
+		if ([openOnStart isEqualToString:@"lastDocument"]) {
+			documents = [controller recentDocumentURLs];
+			file      = ([documents count] > 0) ? [documents objectAtIndex:0] : nil;
 		}
+		else file = [NSURL URLWithString:[prefs stringForKey:@"customDocument"]];
+		
+		if (file) {
+			[controller openDocumentWithContentsOfURL:file display:YES error:&error];
+			
+			if (error) untitled = YES;
+		}
+		else untitled = YES;
 	}
 	
 	return untitled;

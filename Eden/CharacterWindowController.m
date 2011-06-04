@@ -69,7 +69,10 @@
 	self.selectedTasks = [NSArray arrayWithObject:NSIndexPathFromString(startPath)];
 
 	if (!self.document.character) [self showCharacterSelectionSheet];
-	else [self scheduleSkillTimer];
+	else {
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"reloadOnFileOpened"]) [self.document showSheet:self.document.reloadController];
+		else [self scheduleSkillTimer];
+	}
 
 
 }
@@ -464,6 +467,9 @@
 	if ([dependentKey isEqualToString:@"errorString"]) {
 		rootKeys = [NSSet setWithObject:@"errors"];
 	}
+	else if ([dependentKey isEqualToString:@"firstError"]) {
+		rootKeys = [NSSet setWithObject:@"errors"];
+	}
 	else if ([dependentKey isEqualToString:@"currentSkillFinishesIn"]) {
 		rootKeys = [NSSet setWithObject:@"document.character.skillInTraining.finishesIn"];
 	}
@@ -486,6 +492,15 @@
 	}
 	
 	return [errorDescriptions componentsJoinedByString:@"\n"];
+}
+
+- (NSString *)firstError {
+	NSString * firstError;
+	
+	if ([errors count] > 0) firstError = [[[errors allValues] objectAtIndex:0] localizedDescription];
+	else firstError = nil;
+	
+	return firstError;
 }
 
 // Cleanup

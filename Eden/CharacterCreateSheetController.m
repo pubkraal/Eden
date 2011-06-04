@@ -13,7 +13,7 @@
 
 @implementation CharacterCreateSheetController
 
-@synthesize controlsEnabled, retrieveFailed, inputAPIKey, inputAccountID, characterList, currentRequest;
+@synthesize controlsEnabled, retrieveFailed, inputAPIKey, inputAccountID, characterList, currentRequest, lastError;
 
 - (id)init {
 	if ((self = [super initWithWindowNibName:@"CharacterCreateSheet"])) {
@@ -23,6 +23,7 @@
 		self.inputAccountID = nil;
 		self.characterList  = nil;
 		self.currentRequest = nil;
+		self.lastError      = nil;
 	}
 	
 	return self;
@@ -41,6 +42,7 @@
 	self.inputAccountID = nil;
 	self.characterList  = nil;
 	self.currentRequest = nil;
+	self.lastError      = nil;
 	
 	[mainWindow autorelease];
 	[charactersWindow autorelease];
@@ -102,6 +104,7 @@
 			[progress stopAnimation:self];
 			self.controlsEnabled = YES;
 			self.retrieveFailed  = YES;
+			self.lastError       = [(NSError *) [errors objectForKey:@"CharacterList"] localizedDescription];
 
 			NSLog(@"%@", errors);
 		}
@@ -156,7 +159,14 @@
 		self.currentRequest = [EveAPI requestWithAccountID:inputAccountID andAPIKey:inputAPIKey];
 		self.currentRequest.delegate = self;
 
-		[self.currentRequest retrieveAccountData]; 
+		[self.currentRequest retrieveAccountData];
+		
+		if (self.currentRequest.failedStart) {
+			self.retrieveFailed  = YES;
+			self.lastError       = [self.currentRequest.failedStart localizedDescription];
+			self.controlsEnabled = YES;
+			[progress stopAnimation:self];
+		}
 	}
 	else NSBeep();
 }

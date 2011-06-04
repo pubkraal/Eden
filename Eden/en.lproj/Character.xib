@@ -599,7 +599,7 @@
 						<object class="NSTextField" id="161262223">
 							<reference key="NSNextResponder" ref="1006"/>
 							<int key="NSvFlags">289</int>
-							<string key="NSFrame">{{213, 10}, {584, 17}}</string>
+							<string key="NSFrame">{{213, 10}, {575, 17}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView"/>
@@ -607,7 +607,7 @@
 							<object class="NSTextFieldCell" key="NSCell" id="606205725">
 								<int key="NSCellFlags">68288064</int>
 								<int key="NSCellFlags2">71304192</int>
-								<string key="NSContents">Some errors have ocurred.</string>
+								<string key="NSContents">Error reloading the data.</string>
 								<object class="NSFont" key="NSSupport">
 									<string key="NSName">LucidaGrande-Bold</string>
 									<double key="NSSize">13</double>
@@ -1309,6 +1309,22 @@
 					</object>
 					<int key="connectionID">211</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: firstError</string>
+						<reference key="source" ref="161262223"/>
+						<reference key="destination" ref="1001"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="161262223"/>
+							<reference key="NSDestination" ref="1001"/>
+							<string key="NSLabel">value: firstError</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">firstError</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">219</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -1844,7 +1860,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">211</int>
+			<int key="maxID">219</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

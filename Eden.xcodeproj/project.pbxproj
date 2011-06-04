@@ -9,12 +9,18 @@
 /* Begin PBXBuildFile section */
 		3A0197661343BD7200B40E81 /* EveDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A0197651343BD7200B40E81 /* EveDownload.m */; };
 		3A286A7D135FFD0E0089D6DB /* SQLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A286A7C135FFD0E0089D6DB /* SQLView.m */; };
-		3A28FC3E1361727800B251C6 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A28FC3D1361727800B251C6 /* libsqlite3.dylib */; };
 		3A506F58136A74BF005EFA9B /* CharacterWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A506F57136A74BF005EFA9B /* CharacterWindowController.m */; };
 		3A506F5D136A7D06005EFA9B /* CharacterTasks.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3A506F5C136A7D06005EFA9B /* CharacterTasks.plist */; };
-		3A506F67136AC56C005EFA9B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A506F66136AC56C005EFA9B /* QuartzCore.framework */; };
 		3A506F6C136ACE4A005EFA9B /* PreferencesDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A506F6B136ACE49005EFA9B /* PreferencesDelegate.m */; };
 		3A53A31D136F77A90047FC53 /* CharacterCreateSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A53A31C136F77A90047FC53 /* CharacterCreateSheetController.m */; };
+		3A5ED3311399D3F0005AE2EC /* PreferencesGeneralController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A5ED32F1399D3F0005AE2EC /* PreferencesGeneralController.m */; };
+		3A5ED3361399D40C005AE2EC /* PreferencesAPIKeysController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A5ED3341399D40C005AE2EC /* PreferencesAPIKeysController.m */; };
+		3A5ED3381399D608005AE2EC /* PreferencesGeneral.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A5ED33A1399D608005AE2EC /* PreferencesGeneral.xib */; };
+		3A5ED33B1399D60B005AE2EC /* PreferencesAPIKeys.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A5ED33D1399D60B005AE2EC /* PreferencesAPIKeys.xib */; };
+		3A5ED341139A0A2A005AE2EC /* PreferencesBaseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A5ED33F139A0A2A005AE2EC /* PreferencesBaseController.m */; };
+		3A5ED342139A0A2A005AE2EC /* PreferencesBaseController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A5ED340139A0A2A005AE2EC /* PreferencesBaseController.xib */; };
+		3A5ED344139A198F005AE2EC /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A5ED343139A198F005AE2EC /* libsqlite3.dylib */; };
+		3A5ED346139A19A4005AE2EC /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A5ED345139A19A4005AE2EC /* QuartzCore.framework */; };
 		3A6A988B1388B0C600CB9861 /* NSDateComponents+EnglishRepresentation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A6A988A1388B0C600CB9861 /* NSDateComponents+EnglishRepresentation.m */; };
 		3A7615E0135ED4FD005A191C /* evedump.db in Resources */ = {isa = PBXBuildFile; fileRef = 3A7615DF135ED4FD005A191C /* evedump.db */; };
 		3A7615E5135ED6E4005A191C /* DumpNavigatorDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A7615E4135ED6E4005A191C /* DumpNavigatorDelegate.m */; };
@@ -87,15 +93,25 @@
 		3A0197651343BD7200B40E81 /* EveDownload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveDownload.m; sourceTree = "<group>"; };
 		3A286A7B135FFD0E0089D6DB /* SQLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLView.h; sourceTree = "<group>"; };
 		3A286A7C135FFD0E0089D6DB /* SQLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQLView.m; sourceTree = "<group>"; };
-		3A28FC3D1361727800B251C6 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = ../../../../usr/lib/libsqlite3.dylib; sourceTree = "<group>"; };
 		3A506F56136A74BF005EFA9B /* CharacterWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CharacterWindowController.h; sourceTree = "<group>"; };
 		3A506F57136A74BF005EFA9B /* CharacterWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CharacterWindowController.m; sourceTree = "<group>"; };
 		3A506F5C136A7D06005EFA9B /* CharacterTasks.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = CharacterTasks.plist; path = Eden/CharacterTasks.plist; sourceTree = "<group>"; };
-		3A506F66136AC56C005EFA9B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = ../../../../System/Library/Frameworks/QuartzCore.framework; sourceTree = "<group>"; };
 		3A506F6A136ACE49005EFA9B /* PreferencesDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferencesDelegate.h; sourceTree = "<group>"; };
 		3A506F6B136ACE49005EFA9B /* PreferencesDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferencesDelegate.m; sourceTree = "<group>"; };
 		3A53A31B136F77A90047FC53 /* CharacterCreateSheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CharacterCreateSheetController.h; sourceTree = "<group>"; };
 		3A53A31C136F77A90047FC53 /* CharacterCreateSheetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CharacterCreateSheetController.m; sourceTree = "<group>"; };
+		3A5ED32B1399D3B1005AE2EC /* PreferencesControllers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferencesControllers.h; sourceTree = "<group>"; };
+		3A5ED32E1399D3F0005AE2EC /* PreferencesGeneralController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferencesGeneralController.h; sourceTree = "<group>"; };
+		3A5ED32F1399D3F0005AE2EC /* PreferencesGeneralController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferencesGeneralController.m; sourceTree = "<group>"; };
+		3A5ED3331399D40C005AE2EC /* PreferencesAPIKeysController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferencesAPIKeysController.h; sourceTree = "<group>"; };
+		3A5ED3341399D40C005AE2EC /* PreferencesAPIKeysController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferencesAPIKeysController.m; sourceTree = "<group>"; };
+		3A5ED3391399D608005AE2EC /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/PreferencesGeneral.xib; sourceTree = "<group>"; };
+		3A5ED33C1399D60B005AE2EC /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/PreferencesAPIKeys.xib; sourceTree = "<group>"; };
+		3A5ED33E139A0A2A005AE2EC /* PreferencesBaseController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferencesBaseController.h; sourceTree = "<group>"; };
+		3A5ED33F139A0A2A005AE2EC /* PreferencesBaseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferencesBaseController.m; sourceTree = "<group>"; };
+		3A5ED340139A0A2A005AE2EC /* PreferencesBaseController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreferencesBaseController.xib; sourceTree = "<group>"; };
+		3A5ED343139A198F005AE2EC /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		3A5ED345139A19A4005AE2EC /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		3A6A98891388B0C600CB9861 /* NSDateComponents+EnglishRepresentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDateComponents+EnglishRepresentation.h"; sourceTree = "<group>"; };
 		3A6A988A1388B0C600CB9861 /* NSDateComponents+EnglishRepresentation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDateComponents+EnglishRepresentation.m"; sourceTree = "<group>"; };
 		3A7615DF135ED4FD005A191C /* evedump.db */ = {isa = PBXFileReference; lastKnownFileType = file; name = evedump.db; path = Eden/evedump.db; sourceTree = "<group>"; };
@@ -199,9 +215,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A5ED346139A19A4005AE2EC /* QuartzCore.framework in Frameworks */,
+				3A5ED344139A198F005AE2EC /* libsqlite3.dylib in Frameworks */,
 				525B8A8A133BEB52006A3728 /* Cocoa.framework in Frameworks */,
-				3A28FC3E1361727800B251C6 /* libsqlite3.dylib in Frameworks */,
-				3A506F67136AC56C005EFA9B /* QuartzCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -235,6 +251,7 @@
 		3A506F4D136A741B005EFA9B /* Interface */ = {
 			isa = PBXGroup;
 			children = (
+				3A5ED31E1399D30C005AE2EC /* Preferences Views */,
 				3ADE0134138A0BFF0020342C /* Cell Views */,
 				3AFE5D13136BC9140072FD0E /* Character Views */,
 				3AFE5D05136BC1A00072FD0E /* DumpNavigator.xib */,
@@ -243,6 +260,30 @@
 				3AFE5D08136BC1B20072FD0E /* Preferences.xib */,
 			);
 			name = Interface;
+			sourceTree = "<group>";
+		};
+		3A5ED31E1399D30C005AE2EC /* Preferences Views */ = {
+			isa = PBXGroup;
+			children = (
+				3A5ED33A1399D608005AE2EC /* PreferencesGeneral.xib */,
+				3A5ED33D1399D60B005AE2EC /* PreferencesAPIKeys.xib */,
+			);
+			name = "Preferences Views";
+			sourceTree = "<group>";
+		};
+		3A5ED3241399D36A005AE2EC /* Preferences */ = {
+			isa = PBXGroup;
+			children = (
+				3A5ED32B1399D3B1005AE2EC /* PreferencesControllers.h */,
+				3A5ED32E1399D3F0005AE2EC /* PreferencesGeneralController.h */,
+				3A5ED32F1399D3F0005AE2EC /* PreferencesGeneralController.m */,
+				3A5ED3331399D40C005AE2EC /* PreferencesAPIKeysController.h */,
+				3A5ED3341399D40C005AE2EC /* PreferencesAPIKeysController.m */,
+				3A5ED33E139A0A2A005AE2EC /* PreferencesBaseController.h */,
+				3A5ED33F139A0A2A005AE2EC /* PreferencesBaseController.m */,
+				3A5ED340139A0A2A005AE2EC /* PreferencesBaseController.xib */,
+			);
+			name = Preferences;
 			sourceTree = "<group>";
 		};
 		3A6A98881388B09900CB9861 /* Categories */ = {
@@ -327,6 +368,7 @@
 		3AFE5D1E136BCC000072FD0E /* Custom Views */ = {
 			isa = PBXGroup;
 			children = (
+				3A5ED3241399D36A005AE2EC /* Preferences */,
 				3AFE5D28136BE41B0072FD0E /* CharacterViews.h */,
 				3AFE5D1F136BCC3B0072FD0E /* CharacterInfoController.h */,
 				3AFE5D20136BCC3B0072FD0E /* CharacterInfoController.m */,
@@ -368,8 +410,8 @@
 		525B8A88133BEB52006A3728 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				3A506F66136AC56C005EFA9B /* QuartzCore.framework */,
-				3A28FC3D1361727800B251C6 /* libsqlite3.dylib */,
+				3A5ED345139A19A4005AE2EC /* QuartzCore.framework */,
+				3A5ED343139A198F005AE2EC /* libsqlite3.dylib */,
 				525B8A89133BEB52006A3728 /* Cocoa.framework */,
 				525B8A8B133BEB52006A3728 /* Other Frameworks */,
 			);
@@ -582,6 +624,9 @@
 				3A7923081391673F007F2F8F /* TaskView.xib in Resources */,
 				3AE0F2781394A2CC004E61DE /* copy-type-images.sh in Resources */,
 				3AB0962C1395A98B008DF2D9 /* CharacterSkillQueue.xib in Resources */,
+				3A5ED3381399D608005AE2EC /* PreferencesGeneral.xib in Resources */,
+				3A5ED33B1399D60B005AE2EC /* PreferencesAPIKeys.xib in Resources */,
+				3A5ED342139A0A2A005AE2EC /* PreferencesBaseController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -668,6 +713,9 @@
 				3A792302139166FC007F2F8F /* TaskCell.m in Sources */,
 				3A7923051391670D007F2F8F /* TaskCellController.m in Sources */,
 				3AB096311395A9A6008DF2D9 /* CharacterSkillQueueController.m in Sources */,
+				3A5ED3311399D3F0005AE2EC /* PreferencesGeneralController.m in Sources */,
+				3A5ED3361399D40C005AE2EC /* PreferencesAPIKeysController.m in Sources */,
+				3A5ED341139A0A2A005AE2EC /* PreferencesBaseController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -690,6 +738,22 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		3A5ED33A1399D608005AE2EC /* PreferencesGeneral.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3A5ED3391399D608005AE2EC /* en */,
+			);
+			name = PreferencesGeneral.xib;
+			sourceTree = "<group>";
+		};
+		3A5ED33D1399D60B005AE2EC /* PreferencesAPIKeys.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3A5ED33C1399D60B005AE2EC /* en */,
+			);
+			name = PreferencesAPIKeys.xib;
+			sourceTree = "<group>";
+		};
 		3A79230A1391673F007F2F8F /* TaskView.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
