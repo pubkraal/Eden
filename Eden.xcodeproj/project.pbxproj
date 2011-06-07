@@ -64,7 +64,6 @@
 		525B8AB2133BEB52006A3728 /* EdenTests.h in Resources */ = {isa = PBXBuildFile; fileRef = 525B8AB1133BEB52006A3728 /* EdenTests.h */; };
 		525B8AB4133BEB52006A3728 /* EdenTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 525B8AB3133BEB52006A3728 /* EdenTests.m */; };
 		525B8ABF133BEBC1006A3728 /* README in Resources */ = {isa = PBXBuildFile; fileRef = 525B8ABE133BEBC1006A3728 /* README */; };
-		525C81371340FDCF008316B7 /* EveAPIResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 525C81361340FDCE008316B7 /* EveAPIResult.m */; };
 		526ED099133E3FE900F26046 /* EveAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 526ED098133E3FE900F26046 /* EveAccount.m */; };
 		526ED09C133E3FF400F26046 /* EveCharacter.m in Sources */ = {isa = PBXBuildFile; fileRef = 526ED09B133E3FF400F26046 /* EveCharacter.m */; };
 		526ED09F133E401800F26046 /* EveObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 526ED09E133E401800F26046 /* EveObject.m */; };
@@ -185,8 +184,6 @@
 		525B8AB1133BEB52006A3728 /* EdenTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EdenTests.h; sourceTree = "<group>"; };
 		525B8AB3133BEB52006A3728 /* EdenTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EdenTests.m; sourceTree = "<group>"; };
 		525B8ABE133BEBC1006A3728 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
-		525C81351340FDCE008316B7 /* EveAPIResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EveAPIResult.h; sourceTree = "<group>"; };
-		525C81361340FDCE008316B7 /* EveAPIResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveAPIResult.m; sourceTree = "<group>"; };
 		526ED097133E3FE900F26046 /* EveAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EveAccount.h; sourceTree = "<group>"; };
 		526ED098133E3FE900F26046 /* EveAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveAccount.m; sourceTree = "<group>"; };
 		526ED09A133E3FF400F26046 /* EveCharacter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EveCharacter.h; sourceTree = "<group>"; };
@@ -526,8 +523,6 @@
 				3A2E95E3134AD7960060A8E0 /* SQLBridge */,
 				527917CE133FAD16009C694C /* EveAPI.h */,
 				527917CF133FAD16009C694C /* EveAPI.m */,
-				525C81351340FDCE008316B7 /* EveAPIResult.h */,
-				525C81361340FDCE008316B7 /* EveAPIResult.m */,
 				3A0197641343BD7200B40E81 /* EveDownload.h */,
 				3A0197651343BD7200B40E81 /* EveDownload.m */,
 			);
@@ -688,7 +683,6 @@
 				527917C9133FAB9F009C694C /* EveCorporation.m in Sources */,
 				527917CC133FABA7009C694C /* EveAlliance.m in Sources */,
 				527917D0133FAD16009C694C /* EveAPI.m in Sources */,
-				525C81371340FDCF008316B7 /* EveAPIResult.m in Sources */,
 				3A0197661343BD7200B40E81 /* EveDownload.m in Sources */,
 				3AF0C5E9134FDAB500E47914 /* SQLBridge.m in Sources */,
 				3A7615E5135ED6E4005A191C /* DumpNavigatorDelegate.m in Sources */,
@@ -929,6 +923,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_ENABLE_OBJC_GC = unsupported;
+				GCC_OPTIMIZATION_LEVEL = 3;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Eden/Eden-Prefix.pch";
 				INFOPLIST_FILE = "Eden/Eden-Info.plist";

@@ -12,6 +12,7 @@
 #import "CharacterViews.h"
 #import "EveCharacter.h"
 #import "EveSkill.h"
+#import "EveAPI.h"
 #import "CharacterCreateSheetController.h"
 #import "CharacterReloadController.h"
 #import "TaskCell.h"
@@ -25,6 +26,7 @@
 // Initialization
 
 - (id)init {
+	NSNotificationCenter * nc;
     if ((self = [super initWithWindowNibName:@"Character"])) {
 
 		requiresFullAPIPred = [[NSPredicate predicateWithFormat:@"requiresFullAPI == NO"] retain];
@@ -37,6 +39,10 @@
 		[self setHasError:NO];
 		[self setErrors:nil];
 		[self setTaskCellControllers:[NSMutableDictionary dictionary]];
+		
+		nc = [NSNotificationCenter defaultCenter];
+		
+		[nc addObserver:self selector:@selector(autoReload:) name:EveAPICacheClearedNotification object:nil];
     }
     
     return self;
@@ -201,6 +207,26 @@
 	[self.document showSheet:self.document.reloadController];
 }
 
+- (void)autoReload:(NSNotification *)notification {
+	NSUserDefaults * prefs;
+	NSDictionary * info;
+	NSString * call;
+
+	prefs = [NSUserDefaults standardUserDefaults];
+	
+	if ([prefs boolForKey:@"reloadWhenCacheExpires"] && self.document.character) {
+		info = [notification userInfo];
+
+		if ([[info objectForKey:EveAPICacheAccountKey] isEqualToString:self.document.character.accountID] &&
+			[[info objectForKey:EveAPICacheCharacterKey] isEqualToString:self.document.character.characterID] ) {
+			
+			call = [info objectForKey:EveAPICacheCallKey];
+			
+			NSLog(@"Call %@ for %@", call, self.document.character.name);
+		}
+	}
+}
+
 - (void)scheduleSkillTimer {
 	[self cancelSkillTimer];
 	
@@ -212,15 +238,20 @@
 }
 
 - (void)cancelSkillTimer {
+	NSTimer * oldTimer;
+	
 	if (skillTimer) {
-		[skillTimer invalidate];
+		oldTimer   = skillTimer;
 		skillTimer = nil;
+
+		[oldTimer invalidate];
 	}
 }
 
 // Notifications received
 
 - (void)windowWillClose:(NSNotification *)notif {
+	NSNotificationCenter * nc;
 	EveViewController * view;
 	
 	if ([self.document fileURL]) [self.document saveDocument:self];
@@ -235,6 +266,10 @@
 	
 	[self removeAllObservers];
 	[[self window] setAnimations:nil];
+	
+	nc = [NSNotificationCenter defaultCenter];
+	
+	[nc removeObserver:self name:EveAPICacheClearedNotification object:nil];
 
 }
 

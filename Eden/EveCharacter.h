@@ -68,7 +68,6 @@
 	
 	NSMutableArray * trainingQueue;
 	
-	NSDictionary * trainingData;
 }
 
 @property (retain) NSString * accountID, * APIKey, * characterID;
@@ -100,8 +99,6 @@
 
 @property (retain) NSMutableArray * trainingQueue;
 
-@property (retain) NSDictionary * trainingData;
-
 
 - (id)initWithAccountID:(NSString *)accID andAPIKey:(NSString *)APKey;
 - (id)initWithCharacter:(EveCharacter *)character;
@@ -110,7 +107,7 @@
 
 - (void)updateSkillsArray;
 - (NSNumber *)speedForSkill:(EveSkill *)skill;
-- (void)consolidateSkillInTraining;
+- (void)consolidateSkillInTrainingWithDictionary:(NSDictionary *)trainingData;
 - (void)consolidateSkillQueueWithArray:(NSArray *)queue;
 - (void)updateSkillInTraining:(NSTimer *)timer;
 

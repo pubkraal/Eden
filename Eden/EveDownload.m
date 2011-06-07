@@ -11,7 +11,7 @@
 
 @implementation EveDownloadInfo
 
-@synthesize URL, error, expectedLength, receivedLength, result, connection, postBody, chunked;
+@synthesize URL, error, expectedLength, receivedLength, result, connection, postBody, chunked, cached;
 
 - (id)initWithURLString:(NSString *) url {
 	if ((self = [super init])) {
@@ -28,6 +28,7 @@
 		[self setPostBody:nil];
 		
 		[self setChunked:NO];
+		[self setCached:NO];
 	}
 	
 	return self;
@@ -154,16 +155,23 @@
 
 			request = (NSURLRequest *) mutableRequest;
 		}
+		
+		if (![info cached]) {
+			[info setResult:[NSMutableData data]];
 
-		[info setResult:[NSMutableData data]];
+			connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
 
-		connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+			[info setConnection:connection];
+
+			[connection start];
+
+			[connection release];
+		}
+		else {
+			[info setConnection:[info URL]];
+			[self performSelectorInBackground:@selector(cachedDownloadBegan:) withObject:info];
+		}
 		
-		[info setConnection:connection];
-		
-		[connection start];
-		
-		[connection release];
 		[request release];
 	}
 }
@@ -182,6 +190,14 @@
 	[(EveDownloadInfo *) [self.downloads objectForKey:key] setPostBodyToDict:dictionary];
 }
 
+- (void)useCachedData:(NSData *)data forKey:(NSString *)key {
+	EveDownloadInfo * info;
+	
+	info = [self.downloads objectForKey:key];
+	
+	[info setCached:YES];
+	[info setResult:[NSMutableData dataWithData:data]];
+}
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
 	EveDownloadInfo * info;
@@ -263,6 +279,30 @@
 		[[self delegate] didFinishDownload:self withResults:[self results]];
 	
 	[info setConnection:nil];
+}
+
+- (void)cachedDownloadBegan:(id)rawInfo {
+	EveDownloadInfo * info;
+	NSAutoreleasePool * pool;
+	
+	pool = [[NSAutoreleasePool alloc] init];
+	
+	info = (EveDownloadInfo *) rawInfo;
+	
+	[info setExpectedLength:(uint64_t) [[info data] length]];
+	[info setReceivedLength:(uint64_t) [[info data] length]];
+	
+	[self performSelectorOnMainThread:@selector(cachedDownloadFinished:) withObject:info waitUntilDone:NO];
+	
+	[pool drain];
+}
+
+- (void)cachedDownloadFinished:(id)rawInfo {
+	EveDownloadInfo * info;
+	
+	info = (EveDownloadInfo *) rawInfo;
+	
+	[self downloadFinished:[info connection] withError:nil];
 }
 
 - (void)addObserver:(id)anObserver {

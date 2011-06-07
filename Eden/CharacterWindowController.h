@@ -89,6 +89,7 @@
 - (void)fullAPIChangedTo:(BOOL)fullAPI;
 - (void)showCharacterSelectionSheet;
 - (IBAction)performReload:(id)sender;
+- (void)autoReload:(NSNotification *)notification;
 - (void)scheduleSkillTimer;
 - (void)cancelSkillTimer;
 

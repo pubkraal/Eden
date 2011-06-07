@@ -25,7 +25,7 @@
 @synthesize cloneSkillPoints, balance;
 @synthesize intelligence, memory, charisma, perception, willpower;
 @synthesize skills, certificates, skillsArray;
-@synthesize trainingData, skillInTraining, skillTimeOffset;
+@synthesize skillInTraining, skillTimeOffset;
 @synthesize trainingQueue;
 
 - (id)initWithAccountID:(NSString *)accID andAPIKey:(NSString *)APKey {
@@ -64,7 +64,6 @@
 		[self setSkills:[NSMutableDictionary dictionary]];
 		[self setCertificates:[NSMutableDictionary dictionary]];
 		
-		[self setTrainingData:nil];
 		[self setSkillInTraining:nil];
 		[self setSkillTimeOffset:[NSNumber numberWithDouble:0.0]];
 		
@@ -131,7 +130,6 @@
 	
 	[self setSkills:nil];
 	[self setCertificates:nil];
-	[self setTrainingData:nil];
 	[self setSkillInTraining:nil];
 	[self setSkillTimeOffset:nil];
 	[self setTrainingQueue:nil];
@@ -211,7 +209,6 @@
 		
 		self.trainingQueue    = [coder decodeObjectForKey:@"char.trainingQueue"];
 		
-		self.trainingData     = nil;
 	}
 
 	return self;
@@ -312,7 +309,7 @@
 	return [NSNumber numberWithInteger:speed];
 }
 
-- (void)consolidateSkillInTraining {
+- (void)consolidateSkillInTrainingWithDictionary:(NSDictionary *)trainingData {
 	EveSkill * skill;
 	
 	for (skill in [self.skills allValues]) {
@@ -330,8 +327,6 @@
 		self.skillInTraining.startDate   = CCPDate([trainingData objectForKey:@"trainingStartTime"]);
 		self.skillInTraining.endDate     = CCPDate([trainingData objectForKey:@"trainingEndTime"]);
 		self.skillInTraining.skillPoints = self.skillInTraining.skillPoints;
-		
-		self.trainingData = nil;
 	}
 }
 

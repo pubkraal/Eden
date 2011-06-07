@@ -22,16 +22,17 @@
 	uint64_t receivedLength;
 	NSError * error;
 	NSMutableData * result;
-	NSURLConnection * connection;
+	id connection;
 	NSData * postBody;
 	BOOL chunked;
+	BOOL cached;
 }
 
 - (id)initWithURLString:(NSString *) url;
 - (void)dealloc;
 
 
-@property (retain) NSURLConnection * connection;
+@property (retain) id connection;
 @property (retain) NSString * URL;
 @property (retain) NSError * error;
 @property (retain) NSMutableData * result;
@@ -40,6 +41,7 @@
 @property (assign) uint64_t expectedLength;
 @property (assign) uint64_t receivedLength;
 @property (assign) BOOL chunked;
+@property (assign) BOOL cached;
 
 @property (readonly) NSData * data;
 
@@ -94,6 +96,7 @@
 // Manipulation functions
 
 - (void)setPostBodyToDictionary:(NSDictionary *)dictionary forKey:(NSString *)key;
+- (void)useCachedData:(NSData *)data forKey:(NSString *)key;
 
 // Delegated messages from NSURLConnection
 
@@ -103,6 +106,8 @@
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection;
 
 - (void)downloadFinished:(NSURLConnection *) connection withError:(NSError *)error;
+- (void)cachedDownloadBegan:(id)rawInfo;
+- (void)cachedDownloadFinished:(id)rawInfo;
 
 // Querying messages
 

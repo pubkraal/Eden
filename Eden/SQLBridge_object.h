@@ -45,8 +45,6 @@
 #define _Q_FK_COLUMN_KEY @"to"
 #define _Q_FK_TABLE_KEY @"table"
 
-//#define SQLBRIDGE_LOGGING
-
 #ifdef SQLBRIDGE_LOGGING
 #define SQLBRIDGE_CONDLOG(format, ...) NSLog(format, ##__VA_ARGS__)
 #else

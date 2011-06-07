@@ -25,12 +25,14 @@
 #define EveAPIBlockedDomain @"com.pleaseignore.Eden.BlockedAPIKeyError"
 #define EveAPICachedDomain @"com.pleaseignore.Eden.CachedError"
 
-@class EveAPIResult;
+#define EveAPICacheClearedNotification @"EveAPICacheClearedNotification"
+
+#define EveAPICacheCallKey @"EveAPICacheCallKey"
+#define EveAPICacheAccountKey @"EveAPICacheAccountKey"
+#define EveAPICacheCharacterKey @"EveAPICacheCharacterKey"
+
 @class EveCharacter;
 @class EveAccount;
-
-typedef unsigned int uint;
-
 @class EveAPI;
 
 @protocol APIDelegate <NSObject>
@@ -89,15 +91,22 @@ typedef unsigned int uint;
 - (void)retrieveAccountData;
 - (void)retrieveCharacterData;
 - (void)cancelRequests;
-- (void)_startDownload:(EveDownload *)download;
+- (void)startDownload:(EveDownload *)download;
 
 // Methods returning relevant data for creating requests
 
 + (NSString *)URLForKey:(NSString *)key, ...;
 + (NSDictionary *)URLListForKeys:(NSArray *)keys;
++ (NSDictionary *)URLDict;
 - (NSDictionary *)accountInfoForPost;
 - (NSDictionary *)characterInfoForPost;
 
+// Methods for handling caching
+
++ (NSMutableDictionary *)cache;
+- (void)cacheCall:(NSString *)callKey withXML:(NSXMLDocument *)xmlDoc;
++ (void)cleanCache:(NSTimer *)timer;
++ (NSSet *)doNotBroadcast;
 
 // Methods for specific calls
 
@@ -109,8 +118,14 @@ typedef unsigned int uint;
 - (void)skillInTrainingWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error;
 - (void)skillQueueWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error;
 
+- (void)processErrorWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error;
+- (void)blockAPIKey;
+
 
 @end
 
 inline NSDate * CCPDate(NSString *);
 inline NSDictionary * NSDictionaryFromAttributes(NSXMLElement *);
+inline NSDictionary * NSDictionaryFromChildren(NSXMLElement *);
+
+NSDictionary * EveMakeCacheKey(NSString *, NSString *, NSString *);
