@@ -44,14 +44,12 @@
 }
 
 - (void)didEndSheet:(NSWindow *)sheet returnCode:(NSInteger)code context:(void *)context {
-	[[self window] orderOut:self];
+	[sheet orderOut:self];
 	
 	self.maxValue       = nil;
 	self.currentValue   = nil;
 	self.currentRequest = nil;
 	
-	//[(CharacterWindowController *) self.document.mainController scheduleSkillTimer];
-	//[(CharacterWindowController *) self.document.mainController setReloadEnabled:YES];
 	[self.document.mainController scheduleSkillTimer];
 	self.document.mainController.reloadEnabled = YES;
 }
@@ -75,8 +73,14 @@
 }
 
 - (void)failStart:(NSTimer *)timer {
-	self.document.mainController.errors   = [NSDictionary dictionaryWithObject:[timer userInfo] forKey:@"All"];
-	self.document.mainController.hasError = YES;
+	NSError * error;
+	
+	error = [timer userInfo];
+	
+	if (![[error domain] isEqualToString:EveAPICachedDomain]) {
+		self.document.mainController.errors   = [NSDictionary dictionaryWithObject:error forKey:@"All"];
+		self.document.mainController.hasError = YES;
+	}
 	
 	self.currentRequest = nil;
 	

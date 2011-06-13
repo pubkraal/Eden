@@ -146,7 +146,7 @@
 - (void)startDownload:(EveDownload *)download {
 	NSUserDefaults * prefs;
 	NSDictionary * thisPair, * blockedPair, * errorInfo, * cacheKey;
-	NSArray * blockedKeys;
+	NSArray * blockedKeys, * callKeys;
 	NSError * error;
 	NSString * callKey;
 	NSData * cachedData;
@@ -174,20 +174,31 @@
 		if (temporaryData) [temporaryData release];
 		temporaryData = [[NSMutableDictionary alloc] init];
 		
-		download.delegate = self;
-		[download addTotalObserver:self];
-
-		[self.currentDownloads addObject:download];
+		callKeys = [download.downloads allKeys];
 		
-		for (callKey in download.downloads) {
+		for (callKey in callKeys) {
 			cacheKey = EveMakeCacheKey(callKey, character.accountID, character.characterID);
 			
 			if ((cachedData = [[[self class] cache] objectForKey:cacheKey])) {
-				[download useCachedData:cachedData forKey:callKey];
+				//[download useCachedData:cachedData forKey:callKey];
+				[download cancelDownloadForKey:callKey];
 			}
 		} 
 		
-		[download start];
+		if ([download.downloads count] > 0) {
+			download.delegate = self;
+			[download addTotalObserver:self];
+
+			[self.currentDownloads addObject:download];
+
+			[download start];
+		}
+		else {
+			errorInfo   = [NSDictionary dictionaryWithObject:@"All possible downloads are already cached." forKey:NSLocalizedDescriptionKey];
+			error       = [NSError errorWithDomain:EveAPICachedDomain code:-1 userInfo:errorInfo];
+			
+			self.failedStart = error;
+		}
 	}
 	else self.failedStart = error;
 }

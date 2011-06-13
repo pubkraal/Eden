@@ -101,26 +101,22 @@
 @synthesize downloads, expectedLength, receivedLength, delegate;
 
 - (id)initWithURLList:(NSDictionary *)urls {
-	NSMutableDictionary * d;
 	NSString * name, * strURL;
 	EveDownloadInfo * info;
 	
 	if ((self = [super init])) {
-		d = [[NSMutableDictionary alloc] initWithCapacity:10];
+		downloads = [[NSMutableDictionary alloc] init];
 		
 		for (name in [urls allKeys]) {
 			strURL = [urls objectForKey: name];
 			info   = [[EveDownloadInfo alloc] initWithURLString:strURL];
 			
-			[d setObject:info forKey:name];
+			[downloads setObject:info forKey:name];
 			
 			[info release];
 		}
 		
 		non_finished = 0;
-		
-		downloads = [[NSDictionary alloc] initWithDictionary:d];
-		[d release];
 	}
 	
 	return self;
@@ -197,6 +193,10 @@
 	
 	[info setCached:YES];
 	[info setResult:[NSMutableData dataWithData:data]];
+}
+
+- (void)cancelDownloadForKey:(NSString *)key {
+	[downloads removeObjectForKey:key];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {

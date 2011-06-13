@@ -75,7 +75,7 @@
 
 
 @interface EveDownload : NSObject {
-	NSDictionary * downloads;
+	NSMutableDictionary * downloads;
 	uint64_t expectedLength;
 	uint64_t receivedLength;
 	unsigned non_finished;
@@ -83,7 +83,7 @@
 }
 
 @property (assign) NSObject <EveDownloadDelegate> * delegate;
-@property (readonly) NSDictionary * downloads;
+@property (readonly) NSMutableDictionary * downloads;
 
 // Starting up
 
@@ -97,6 +97,7 @@
 
 - (void)setPostBodyToDictionary:(NSDictionary *)dictionary forKey:(NSString *)key;
 - (void)useCachedData:(NSData *)data forKey:(NSString *)key;
+- (void)cancelDownloadForKey:(NSString *)key;
 
 // Delegated messages from NSURLConnection
 
