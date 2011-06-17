@@ -332,7 +332,8 @@
 
 - (void)consolidateSkillQueueWithArray:(NSArray *)queue {
 	NSDictionary * queueDict;
-	EveSkill * queueSkill;
+	EveSkill * queueSkill, * previousSkill;
+	NSMutableDictionary * skillsQueued;
 	
 	if (queue) {
 		self.trainingQueue = [NSMutableArray array];
@@ -346,13 +347,33 @@
 			return (NSComparisonResult) [n1 compare:n2];
 		}];
 		
+		skillsQueued = [NSMutableDictionary dictionary];
+		
 		for (queueDict in queue) {
 			queueSkill = [self.skills objectForKey:[queueDict objectForKey:@"typeID"]];
 			
-			if (!queueSkill.isTraining) {
+			if ((previousSkill = [skillsQueued objectForKey:queueSkill.key])) {
+				// This means we have the same skill twice in the skill queue. We take the last
+				// time the skill appeared in the queue, copy it and correct the parameters for
+				// the next iteration of the skill on the queue. This skill object is marked as
+				// a "queue-only skill", and it's NOT added to the main skill dictionary of the
+				// character.
+				
+				queueSkill = [[previousSkill copy] autorelease];
+				
+				queueSkill.startDate   = CCPDate([queueDict objectForKey:@"startTime"]);
+				queueSkill.endDate     = CCPDate([queueDict objectForKey:@"endTime"]);
+				queueSkill.skillPoints = previousSkill.neededForNextLevel;
+				queueSkill.level       = previousSkill.nextLevel;
+				queueSkill.isTraining  = NO;
+				queueSkill.queueSkill  = YES;
+			}
+			else if (!queueSkill.isTraining) {
 				queueSkill.startDate = CCPDate([queueDict objectForKey:@"startTime"]);
 				queueSkill.endDate   = CCPDate([queueDict objectForKey:@"endTime"]);
 			}
+			
+			[skillsQueued setObject:queueSkill forKey:queueSkill.key];
 			
 			[[self mutableArrayValueForKey:@"trainingQueue"] addObject:queueSkill];
 		}
@@ -360,18 +381,15 @@
 }
 
 - (void)updateSkillInTraining:(NSTimer *)timer {
-	// TODO: When we get the skill queue as well, check whether the training
-	// has finished and update the training skill accordingly.
-	
 	NSNumber * skPoints;
-	EveSkill * nextSkill;
+	EveSkill * nextSkill, * queueSkill;
 	NSMutableArray * queueProxy;
 	
 	if (self.skillInTraining) {
 		skPoints = self.skillInTraining.skillPoints;
 		self.skillInTraining.skillPoints = skPoints;
 		
-		while ([skPoints integerValue] >= [self.skillInTraining.neededForNextLevel integerValue]) {
+		while ((skPoints) && ([skPoints integerValue] >= [self.skillInTraining.neededForNextLevel integerValue])) {
 			// Training has finished
 			queueProxy = [self mutableArrayValueForKey:@"trainingQueue"];
 			
@@ -380,8 +398,22 @@
 			self.skillInTraining.isTraining  = NO;
 			
 			nextSkill = ([queueProxy count] > 1) ? [queueProxy objectAtIndex:1] : nil;
-			
+
 			[queueProxy removeObjectAtIndex:0];
+			
+			if (nextSkill.queueSkill) {
+				// If the next skill is a queue-only skill, we need to exchange it for the
+				// skill object which is actually in the skills dictionary of the character.
+				
+				queueSkill = nextSkill;
+				nextSkill  = [self.skills objectForKey:[[nextSkill.data objectForKey:@"typeID"] stringValue]];
+				
+				nextSkill.endDate   = queueSkill.endDate;
+				nextSkill.startDate = queueSkill.startDate;
+				
+				[queueProxy replaceObjectAtIndex:0 withObject:nextSkill];
+			}
+			
 			self.skillInTraining = nextSkill;
 			self.skillInTraining.isTraining = YES;
 

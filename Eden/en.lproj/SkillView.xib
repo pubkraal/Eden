@@ -101,8 +101,6 @@
 							<reference key="NSControlView" ref="76967572"/>
 							<double key="NSValue">5</double>
 							<double key="NSMaxValue">5</double>
-							<double key="NSWarningValue">5</double>
-							<double key="NSCriticalValue">5</double>
 							<int key="NSIndicatorStyle">2</int>
 						</object>
 					</object>
@@ -247,7 +245,7 @@
 				<reference key="NSNextKeyView" ref="816950060"/>
 			</object>
 			<object class="NSCustomView" id="950651117">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">268</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -256,8 +254,6 @@
 						<int key="NSvFlags">265</int>
 						<string key="NSFrame">{{310, 3}, {190, 14}}</string>
 						<reference key="NSSuperview" ref="950651117"/>
-						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="991903056">
 							<int key="NSCellFlags">68288064</int>
@@ -278,7 +274,6 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{2, 2}, {292, 17}}</string>
 						<reference key="NSSuperview" ref="950651117"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="227542306"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="439586282">
@@ -293,8 +288,6 @@
 					</object>
 				</object>
 				<string key="NSFrameSize">{502, 19}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="370766904"/>
 				<string key="NSClassName">NSView</string>
 			</object>
@@ -646,6 +639,38 @@
 					</object>
 					<int key="connectionID">84</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">warningValue: warningValue</string>
+						<reference key="source" ref="76967572"/>
+						<reference key="destination" ref="1001"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="76967572"/>
+							<reference key="NSDestination" ref="1001"/>
+							<string key="NSLabel">warningValue: warningValue</string>
+							<string key="NSBinding">warningValue</string>
+							<string key="NSKeyPath">warningValue</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">85</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">animate: skill.isTraining</string>
+						<reference key="source" ref="540416042"/>
+						<reference key="destination" ref="1001"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="540416042"/>
+							<reference key="NSDestination" ref="1001"/>
+							<string key="NSLabel">animate: skill.isTraining</string>
+							<string key="NSBinding">animate</string>
+							<string key="NSKeyPath">skill.isTraining</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">86</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -880,7 +905,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">84</int>
+			<int key="maxID">86</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

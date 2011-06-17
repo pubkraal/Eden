@@ -33,6 +33,9 @@
 	if ([dependentKey isEqualToString:@"groupSkillPoints"]) {
 		rootKeys = [NSSet setWithObject:@"document.character.skillInTraining.skillPoints"];
 	}
+	else if ([dependentKey isEqualToString:@"warningValue"]) {
+		rootKeys = [NSSet setWithObject:@"skill.queueSkill"];
+	}
 	else rootKeys = [NSSet set];
 	
 	return rootKeys;
@@ -94,6 +97,14 @@
 	gsp = [NSNumber numberWithUnsignedInteger:sp];
 	
 	return [formatter stringFromNumber:gsp];
+}
+
+- (NSNumber *)warningValue {
+	NSUInteger value;
+	
+	value = (skill.queueSkill) ? 5 : 0;
+	
+	return [NSNumber numberWithInteger:value];
 }
 
 - (NSString *)description {

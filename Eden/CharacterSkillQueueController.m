@@ -68,15 +68,18 @@
 }
 
 - (NSArray *)skillsInQueue {
-	NSDictionary * node;
+	NSMutableDictionary * node;
 	NSMutableArray * queue;
 	EveSkill * skill;
-	
-	queue = [NSMutableArray array];
+
+	queue    = [NSMutableArray array];
 	
 	for (skill in self.document.character.trainingQueue) {
-		node = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES], @"leaf", skill, @"object", nil];
-		
+		node = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES], @"leaf",
+																	skill.nextLevel, @"toLevel",
+																	skill, @"object",
+																	nil];
+																	
 		[queue addObject:node];
 	}
 	

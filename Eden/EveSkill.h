@@ -24,6 +24,8 @@
 	BOOL isTraining;
 	NSDate * startDate;
 	NSDate * endDate;
+	
+	BOOL queueSkill;
 }
 
 // Weak reference
@@ -33,6 +35,7 @@
 @property (retain) NSString * primaryAttribute, * secondaryAttribute;
 @property (retain) NSNumber * skillPoints, * level;
 @property (assign) BOOL isTraining;
+@property (assign) BOOL queueSkill;
 @property (retain) NSDate * startDate, * endDate;
 
 @property (readonly) NSString * name;
@@ -44,12 +47,14 @@
 @property (readonly) NSString * skillGroup;
 @property (readonly) NSNumber * percentComplete;
 @property (readonly) NSString * finishesIn;
-
+@property (readonly) NSString * key;
 
 - (id)initWithSkillID:(NSString *)skillID;
 + (id)skillWithSkillID:(NSString *)skillID;
 + (NSDictionary *)cachedAttributedSkillWithSkillID:(NSString *)skillID;
 + (void)cacheRawSkills;
+
+- (void)copyTo:(EveSkill *)copy;
 
 - (NSUInteger)neededForLevel:(NSUInteger)level;
 @end

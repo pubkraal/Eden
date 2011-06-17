@@ -27,6 +27,7 @@
 
 @property (retain) NSDictionary * node;
 @property (retain) NSColor * textColor;
+@property (readonly) NSNumber * warningValue;
 
 @property (readonly) NSRect frame;
 @property (readonly) NSView * mainView;
