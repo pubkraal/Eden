@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3A0197661343BD7200B40E81 /* EveDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A0197651343BD7200B40E81 /* EveDownload.m */; };
 		3A286A7D135FFD0E0089D6DB /* SQLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A286A7C135FFD0E0089D6DB /* SQLView.m */; };
+		3A326D8813AC6F65003EA995 /* SkillBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A326D8713AC6F65003EA995 /* SkillBar.m */; };
 		3A506F58136A74BF005EFA9B /* CharacterWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A506F57136A74BF005EFA9B /* CharacterWindowController.m */; };
 		3A506F5D136A7D06005EFA9B /* CharacterTasks.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3A506F5C136A7D06005EFA9B /* CharacterTasks.plist */; };
 		3A506F6C136ACE4A005EFA9B /* PreferencesDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A506F6B136ACE49005EFA9B /* PreferencesDelegate.m */; };
@@ -92,6 +93,8 @@
 		3A0197651343BD7200B40E81 /* EveDownload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveDownload.m; sourceTree = "<group>"; };
 		3A286A7B135FFD0E0089D6DB /* SQLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLView.h; sourceTree = "<group>"; };
 		3A286A7C135FFD0E0089D6DB /* SQLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQLView.m; sourceTree = "<group>"; };
+		3A326D8613AC6F65003EA995 /* SkillBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillBar.h; sourceTree = "<group>"; };
+		3A326D8713AC6F65003EA995 /* SkillBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillBar.m; sourceTree = "<group>"; };
 		3A506F56136A74BF005EFA9B /* CharacterWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CharacterWindowController.h; sourceTree = "<group>"; };
 		3A506F57136A74BF005EFA9B /* CharacterWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CharacterWindowController.m; sourceTree = "<group>"; };
 		3A506F5C136A7D06005EFA9B /* CharacterTasks.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = CharacterTasks.plist; path = Eden/CharacterTasks.plist; sourceTree = "<group>"; };
@@ -322,6 +325,8 @@
 				3A792301139166FC007F2F8F /* TaskCell.m */,
 				3A7923031391670D007F2F8F /* TaskCellController.h */,
 				3A7923041391670D007F2F8F /* TaskCellController.m */,
+				3A326D8613AC6F65003EA995 /* SkillBar.h */,
+				3A326D8713AC6F65003EA995 /* SkillBar.m */,
 			);
 			name = "Custom Controls";
 			sourceTree = "<group>";
@@ -710,6 +715,7 @@
 				3A5ED3311399D3F0005AE2EC /* PreferencesGeneralController.m in Sources */,
 				3A5ED3361399D40C005AE2EC /* PreferencesAPIKeysController.m in Sources */,
 				3A5ED341139A0A2A005AE2EC /* PreferencesBaseController.m in Sources */,
+				3A326D8813AC6F65003EA995 /* SkillBar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

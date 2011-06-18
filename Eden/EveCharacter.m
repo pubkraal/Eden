@@ -312,15 +312,13 @@
 - (void)consolidateSkillInTrainingWithDictionary:(NSDictionary *)trainingData {
 	EveSkill * skill;
 	
-	for (skill in [self.skills allValues]) {
-		skill.isTraining = NO;
-		skill.startDate  = nil;
-		skill.endDate    = nil;
-	}
-	
-	self.skillInTraining = nil;
-	
 	if (trainingData) {
+		for (skill in [self.skills allValues]) {
+			skill.isTraining = NO;
+			skill.startDate  = nil;
+			skill.endDate    = nil;
+		}
+	
 		self.skillInTraining = [self.skills objectForKey:[trainingData objectForKey:@"trainingTypeID"]];
 		
 		self.skillInTraining.isTraining  = YES;

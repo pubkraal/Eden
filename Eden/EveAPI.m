@@ -742,7 +742,7 @@
 	
 	if ([self.lastCalls containsObject:@"SkillInTraining"]) [self.character consolidateSkillInTrainingWithDictionary:[temporaryData objectForKey:@"SkillInTraining"]];
 	if ([self.lastCalls containsObject:@"SkillQueue"]) [self.character consolidateSkillQueueWithArray:[temporaryData objectForKey:@"SkillQueue"]];
-	if ([self.lastCalls containsObject:@"CorporationSheet"]) self.character.corporation.ticker = [temporaryData objectForKey:@"corpTicker"];
+	if ([self.lastCalls containsObject:@"CorporationSheet"] && [temporaryData objectForKey:@"corpTicker"]) self.character.corporation.ticker = [temporaryData objectForKey:@"corpTicker"];
 	
 	[self.delegate request:self finishedWithErrors:[NSDictionary dictionaryWithDictionary:errors]];
 

@@ -49,24 +49,24 @@
 				<int key="NSvFlags">274</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
-					<object class="NSTextField" id="762765384">
+					<object class="NSTextField" id="688037417">
 						<reference key="NSNextResponder" ref="1005"/>
-						<int key="NSvFlags">265</int>
-						<string key="NSFrame">{{378, 342}, {239, 78}}</string>
+						<int key="NSvFlags">264</int>
+						<string key="NSFrame">{{17, 406}, {359, 14}}</string>
 						<reference key="NSSuperview" ref="1005"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="695328743"/>
+						<reference key="NSNextKeyView" ref="425829370"/>
 						<bool key="NSEnabled">YES</bool>
-						<object class="NSTextFieldCell" key="NSCell" id="125645885">
-							<int key="NSCellFlags">67239424</int>
-							<int key="NSCellFlags2">71434240</int>
-							<string key="NSContents">Multiline Label</string>
+						<object class="NSTextFieldCell" key="NSCell" id="734483350">
+							<int key="NSCellFlags">68288064</int>
+							<int key="NSCellFlags2">272761856</int>
+							<string key="NSContents">Attributes</string>
 							<object class="NSFont" key="NSSupport" id="26">
 								<string key="NSName">LucidaGrande</string>
 								<double key="NSSize">11</double>
 								<int key="NSfFlags">3100</int>
 							</object>
-							<reference key="NSControlView" ref="762765384"/>
+							<reference key="NSControlView" ref="688037417"/>
 							<object class="NSColor" key="NSBackgroundColor" id="93055499">
 								<int key="NSColorSpace">6</int>
 								<string key="NSCatalogName">System</string>
@@ -87,27 +87,9 @@
 							</object>
 						</object>
 					</object>
-					<object class="NSTextField" id="688037417">
-						<reference key="NSNextResponder" ref="1005"/>
-						<int key="NSvFlags">266</int>
-						<string key="NSFrame">{{17, 406}, {359, 14}}</string>
-						<reference key="NSSuperview" ref="1005"/>
-						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="425829370"/>
-						<bool key="NSEnabled">YES</bool>
-						<object class="NSTextFieldCell" key="NSCell" id="734483350">
-							<int key="NSCellFlags">68288064</int>
-							<int key="NSCellFlags2">272761856</int>
-							<string key="NSContents">Attributes</string>
-							<reference key="NSSupport" ref="26"/>
-							<reference key="NSControlView" ref="688037417"/>
-							<reference key="NSBackgroundColor" ref="93055499"/>
-							<reference key="NSTextColor" ref="705100194"/>
-						</object>
-					</object>
 					<object class="NSTextField" id="376876907">
 						<reference key="NSNextResponder" ref="1005"/>
-						<int key="NSvFlags">266</int>
+						<int key="NSvFlags">264</int>
 						<string key="NSFrame">{{17, 374}, {359, 14}}</string>
 						<reference key="NSSuperview" ref="1005"/>
 						<reference key="NSWindow"/>
@@ -125,7 +107,7 @@
 					</object>
 					<object class="NSTextField" id="425829370">
 						<reference key="NSNextResponder" ref="1005"/>
-						<int key="NSvFlags">266</int>
+						<int key="NSvFlags">264</int>
 						<string key="NSFrame">{{17, 390}, {359, 14}}</string>
 						<reference key="NSSuperview" ref="1005"/>
 						<reference key="NSWindow"/>
@@ -183,11 +165,11 @@
 					</object>
 					<object class="NSTextField" id="512246801">
 						<reference key="NSNextResponder" ref="1005"/>
-						<int key="NSvFlags">266</int>
+						<int key="NSvFlags">264</int>
 						<string key="NSFrame">{{17, 342}, {359, 14}}</string>
 						<reference key="NSSuperview" ref="1005"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="762765384"/>
+						<reference key="NSNextKeyView"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="956574904">
 							<int key="NSCellFlags">68288064</int>
@@ -201,7 +183,7 @@
 					</object>
 					<object class="NSTextField" id="72362210">
 						<reference key="NSNextResponder" ref="1005"/>
-						<int key="NSvFlags">266</int>
+						<int key="NSvFlags">264</int>
 						<string key="NSFrame">{{17, 358}, {359, 14}}</string>
 						<reference key="NSSuperview" ref="1005"/>
 						<reference key="NSWindow"/>
@@ -242,7 +224,7 @@
 						<reference key="NSSuperview" ref="1005"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="320210546"/>
-						<string key="NSClassName">NSView</string>
+						<string key="NSClassName">SkillBar</string>
 					</object>
 					<object class="NSScrollView" id="689712087">
 						<reference key="NSNextResponder" ref="1005"/>
@@ -653,20 +635,12 @@
 					<int key="connectionID">68</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: document.character.skillInTraining.data.description</string>
-						<reference key="source" ref="762765384"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="762765384"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">value: document.character.skillInTraining.data.description</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">document.character.skillInTraining.data.description</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">skillBar</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="983795485"/>
 					</object>
-					<int key="connectionID">87</int>
+					<int key="connectionID">88</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -711,7 +685,6 @@
 							<reference ref="376876907"/>
 							<reference ref="688037417"/>
 							<reference ref="652665197"/>
-							<reference ref="762765384"/>
 						</object>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -881,20 +854,6 @@
 						<reference key="object" ref="734483350"/>
 						<reference key="parent" ref="688037417"/>
 					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">85</int>
-						<reference key="object" ref="762765384"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="125645885"/>
-						</object>
-						<reference key="parent" ref="1005"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">86</int>
-						<reference key="object" ref="125645885"/>
-						<reference key="parent" ref="762765384"/>
-					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -928,8 +887,6 @@
 					<string>65.IBPluginDependency</string>
 					<string>7.IBPluginDependency</string>
 					<string>8.IBPluginDependency</string>
-					<string>85.IBPluginDependency</string>
-					<string>86.IBPluginDependency</string>
 					<string>9.IBPluginDependency</string>
 				</object>
 				<object class="NSMutableArray" key="dict.values">
@@ -940,8 +897,6 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>{628, 654}</string>
 					<string>{{357, 416}, {480, 272}}</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -978,7 +933,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">87</int>
+			<int key="maxID">100</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -987,14 +942,35 @@
 					<string key="className">CharacterSkillQueueController</string>
 					<string key="superclassName">EveViewController</string>
 					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">skillQueueView</string>
-						<string key="NS.object.0">NSTableView</string>
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>skillBar</string>
+							<string>skillQueueView</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>SkillBar</string>
+							<string>NSTableView</string>
+						</object>
 					</object>
 					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<string key="NS.key.0">skillQueueView</string>
-						<object class="IBToOneOutletInfo" key="NS.object.0">
-							<string key="name">skillQueueView</string>
-							<string key="candidateClassName">NSTableView</string>
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>skillBar</string>
+							<string>skillQueueView</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">skillBar</string>
+								<string key="candidateClassName">SkillBar</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">skillQueueView</string>
+								<string key="candidateClassName">NSTableView</string>
+							</object>
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -1008,6 +984,14 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/EveViewController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">SkillBar</string>
+					<string key="superclassName">NSView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/SkillBar.h</string>
 					</object>
 				</object>
 			</object>

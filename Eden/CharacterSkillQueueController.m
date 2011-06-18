@@ -12,6 +12,7 @@
 #import "EveCharacter.h"
 #import "CharacterDocument.h"
 #import "EveSkill.h"
+#import "SkillBar.h"
 
 @implementation CharacterSkillQueueController
 
@@ -23,6 +24,10 @@
 	}
 	
 	return self;
+}
+
+- (void)awakeFromNib {
+	[skillBar bind:@"character" toObject:self withKeyPath:@"document.character" options:nil];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
@@ -190,6 +195,8 @@
 
 - (void)documentWillClose {
 	SkillCellController * controller;
+	
+	[skillBar unbind:@"queue"];
 
 	for (controller in [skillControllers allValues]) [controller documentWillClose];
 	

@@ -9,9 +9,12 @@
 #import <Foundation/Foundation.h>
 #import "EveViewController.h"
 
+@class SkillBar;
+
 @interface CharacterSkillQueueController : EveViewController {
 @private
 	IBOutlet NSTableView * skillQueueView;
+	IBOutlet SkillBar * skillBar;
 	
 	NSMutableDictionary * skillControllers;
 }
