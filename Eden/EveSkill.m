@@ -21,7 +21,7 @@ NSCalendarUnit units = NSMonthCalendarUnit | NSWeekCalendarUnit |
 @implementation EveSkill
 
 @synthesize data, primaryAttribute, secondaryAttribute, level, character;
-@synthesize isTraining, startDate, endDate, queueSkill;
+@synthesize isTraining, startDate, endDate, queueSkill, inQueue;
 
 - (id)initWithSkillID:(NSString *)skillID {
 	if ((self = [self init])) {
@@ -36,6 +36,7 @@ NSCalendarUnit units = NSMonthCalendarUnit | NSWeekCalendarUnit |
 		self.startDate  = nil;
 		self.endDate    = nil;
 		self.queueSkill = NO;
+		self.inQueue    = NO;
 	}
 	
 	return self;
@@ -61,6 +62,7 @@ NSCalendarUnit units = NSMonthCalendarUnit | NSWeekCalendarUnit |
 		self.startDate          = [coder decodeObjectForKey:@"skill.startDate"];
 		self.endDate            = [coder decodeObjectForKey:@"skill.endDate"];
 		self.queueSkill         = [coder decodeBoolForKey:@"skill.queueSkill"];
+		self.inQueue            = [coder decodeBoolForKey:@"skill.inQueue"];
 	}
 	
 	return self;
@@ -81,6 +83,7 @@ NSCalendarUnit units = NSMonthCalendarUnit | NSWeekCalendarUnit |
 	copy.startDate          = [[startDate copyWithZone:zone] autorelease];
 	copy.endDate            = [[endDate copyWithZone:zone] autorelease];
 	copy.queueSkill         = queueSkill;
+	copy.inQueue            = inQueue;
 	
 	return copy;
 }
@@ -103,6 +106,7 @@ NSCalendarUnit units = NSMonthCalendarUnit | NSWeekCalendarUnit |
 	[coder encodeObject:startDate forKey:@"skill.startDate"];
 	[coder encodeObject:endDate forKey:@"skill.endDate"];
 	[coder encodeBool:queueSkill forKey:@"skill.queueSkill"];
+	[coder encodeBool:inQueue forKey:@"skill.inQueue"];
 }
 
 + (id)skillWithSkillID:(NSString *)skillID {

@@ -26,6 +26,7 @@
 	NSDate * endDate;
 	
 	BOOL queueSkill;
+	BOOL inQueue;
 }
 
 // Weak reference
@@ -36,6 +37,7 @@
 @property (retain) NSNumber * skillPoints, * level;
 @property (assign) BOOL isTraining;
 @property (assign) BOOL queueSkill;
+@property (assign) BOOL inQueue;
 @property (retain) NSDate * startDate, * endDate;
 
 @property (readonly) NSString * name;

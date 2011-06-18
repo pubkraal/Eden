@@ -34,7 +34,16 @@
 		rootKeys = [NSSet setWithObject:@"document.character.skillInTraining.skillPoints"];
 	}
 	else if ([dependentKey isEqualToString:@"warningValue"]) {
-		rootKeys = [NSSet setWithObject:@"skill.queueSkill"];
+		rootKeys = [NSSet setWithObjects:@"skill.inQueue", @"skill.isTraining", nil];
+	}
+	else if ([dependentKey isEqualToString:@"criticalValue"]) {
+		rootKeys = [NSSet setWithObjects:@"skill.inQueue", @"skill.isTraining", nil];
+	}
+	else if ([dependentKey isEqualToString:@"displayLevel"]) {
+		rootKeys = [NSSet setWithObjects:@"skill.inQueue", @"skill.isTraining", nil];
+	}
+	else if ([dependentKey isEqualToString:@"displayStringLevel"]) {
+		rootKeys = [NSSet setWithObjects:@"skill.inQueue", @"skill.isTraining", nil];
 	}
 	else rootKeys = [NSSet set];
 	
@@ -99,11 +108,50 @@
 	return [formatter stringFromNumber:gsp];
 }
 
+- (NSNumber *)displayLevel {
+	NSNumber * level;
+	
+	if ((skill.isTraining) || (skill.inQueue)) {
+		level = [NSNumber numberWithInteger:[skill.level integerValue] + 1];
+	}
+	else level = skill.level;
+	
+	return level;
+}
+
+- (NSString *)displayStringLevel {
+	NSString * stringLevel;
+	
+	if (skill.isTraining)   stringLevel = [NSString stringWithFormat:@"Training: %@", self.displayLevel];
+	else if (skill.inQueue) stringLevel = [NSString stringWithFormat:@"Queued: %@", self.displayLevel];
+	else                    stringLevel = [NSString stringWithFormat:@"Level: %@", self.displayLevel];
+	
+	return stringLevel;
+}
+
+- (SkillColor)color {
+	SkillColor color;
+	
+	if (skill.isTraining) color = kColorRed;
+	else if (skill.inQueue) color = kColorYellow;
+	else color = kColorGreen;
+	
+	return color;
+}
+
 - (NSNumber *)warningValue {
 	NSUInteger value;
 	
-	value = (skill.queueSkill) ? 5 : 0;
+	value = ([self color] == kColorYellow) ? 5 : 0;
 	
+	return [NSNumber numberWithInteger:value];
+}
+
+- (NSNumber *)criticalValue {
+	NSUInteger value;
+	
+	value = ([self color] == kColorRed) ? 1 : 0;
+
 	return [NSNumber numberWithInteger:value];
 }
 

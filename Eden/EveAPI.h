@@ -50,7 +50,7 @@
 @private
 	EveCharacter * character;
 	id <APIDelegate> delegate;
-	NSSet * lastCalls;
+	NSMutableSet * lastCalls;
 	NSMutableSet * currentDownloads;
 	NSError * failedStart;
 	
@@ -61,7 +61,7 @@
 }
 
 @property (retain) EveCharacter * character;
-@property (retain) NSSet * lastCalls;
+@property (retain) NSMutableSet * lastCalls;
 @property (retain) NSMutableSet * currentDownloads;
 @property (retain) NSArray * characterList;
 @property (retain) NSError * failedStart;

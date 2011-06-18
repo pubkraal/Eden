@@ -324,6 +324,7 @@
 		self.skillInTraining = [self.skills objectForKey:[trainingData objectForKey:@"trainingTypeID"]];
 		
 		self.skillInTraining.isTraining  = YES;
+		self.skillInTraining.inQueue     = YES;
 		self.skillInTraining.startDate   = CCPDate([trainingData objectForKey:@"trainingStartTime"]);
 		self.skillInTraining.endDate     = CCPDate([trainingData objectForKey:@"trainingEndTime"]);
 		self.skillInTraining.skillPoints = self.skillInTraining.skillPoints;
@@ -336,6 +337,8 @@
 	NSMutableDictionary * skillsQueued;
 	
 	if (queue) {
+		for (queueSkill in [self.skills allValues]) queueSkill.inQueue = NO;
+		
 		self.trainingQueue = [NSMutableArray array];
 		
 		queue = [queue sortedArrayUsingComparator:^(NSDictionary * d1, NSDictionary * d2) {
@@ -372,6 +375,8 @@
 				queueSkill.startDate = CCPDate([queueDict objectForKey:@"startTime"]);
 				queueSkill.endDate   = CCPDate([queueDict objectForKey:@"endTime"]);
 			}
+
+			queueSkill.inQueue = YES;
 			
 			[skillsQueued setObject:queueSkill forKey:queueSkill.key];
 			
@@ -396,6 +401,7 @@
 			self.skillInTraining.skillPoints = self.skillInTraining.neededForNextLevel;
 			self.skillInTraining.level       = self.skillInTraining.nextLevel;
 			self.skillInTraining.isTraining  = NO;
+			self.skillInTraining.inQueue     = NO;
 			
 			nextSkill = ([queueProxy count] > 1) ? [queueProxy objectAtIndex:1] : nil;
 
@@ -416,6 +422,7 @@
 			
 			self.skillInTraining = nextSkill;
 			self.skillInTraining.isTraining = YES;
+			self.skillInTraining.inQueue    = YES;
 
 			skPoints = self.skillInTraining.skillPoints;
 			self.skillInTraining.skillPoints = skPoints;

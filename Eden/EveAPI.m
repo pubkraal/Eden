@@ -22,7 +22,7 @@
 	
 	if ((self = [super init])) {
 		self.character        = [EveCharacter characterWithAccountID:accountID andAPIKey:APIKey];
-		self.lastCalls        = [NSSet set];
+		self.lastCalls        = [NSMutableSet set];
 		self.currentDownloads = [NSMutableSet set];
 		self.characterList    = nil;
 		self.failedStart      = nil;
@@ -36,7 +36,7 @@
 - (id)initWithCharacter:(EveCharacter *)theChar {
 	if ((self = [super init])) {
 		self.character = theChar;
-		self.lastCalls = [NSSet set];
+		self.lastCalls = [NSMutableSet set];
 		self.characterList = nil;
 		self.currentDownloads = [NSMutableSet set];
 		
@@ -86,7 +86,7 @@
 		[download setPostBodyToDictionary:[self accountInfoForPost] forKey:call];
 	}
 
-	self.lastCalls = [NSSet setWithArray:calls];
+	self.lastCalls = [NSMutableSet setWithArray:calls];
 
 	[self startDownload:download];
 }
@@ -104,7 +104,7 @@
 	
 	download = [EveDownload downloadWithURLList:URLList];
 
-	self.lastCalls = [NSSet setWithObject:@"PortraitList"];
+	self.lastCalls = [NSMutableSet setWithObject:@"PortraitList"];
 
 	[self startDownload:download];
 }
@@ -138,7 +138,7 @@
 		[download setPostBodyToDictionary:[self characterInfoForPost] forKey:call];
 	}
 
-	self.lastCalls = [NSSet setWithArray:calls];
+	self.lastCalls = [NSMutableSet setWithArray:calls];
 
 	[self startDownload:download];
 }
@@ -182,6 +182,8 @@
 			if ((cachedData = [[[self class] cache] objectForKey:cacheKey])) {
 				//[download useCachedData:cachedData forKey:callKey];
 				[download cancelDownloadForKey:callKey];
+				
+				if ([lastCalls containsObject:callKey]) [lastCalls removeObject:callKey];
 			}
 		} 
 		

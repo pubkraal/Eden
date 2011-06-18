@@ -54,7 +54,6 @@
 						<int key="NSvFlags">266</int>
 						<string key="NSFrame">{{2, 23}, {222, 17}}</string>
 						<reference key="NSSuperview" ref="624062250"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="109279718"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="759060145">
@@ -92,15 +91,14 @@
 						<int key="NSvFlags">265</int>
 						<string key="NSFrame">{{307, 18}, {96, 18}}</string>
 						<reference key="NSSuperview" ref="624062250"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="540416042"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSLevelIndicatorCell" key="NSCell" id="389446886">
 							<int key="NSCellFlags">130560</int>
 							<int key="NSCellFlags2">0</int>
 							<reference key="NSControlView" ref="76967572"/>
-							<double key="NSValue">5</double>
 							<double key="NSMaxValue">5</double>
+							<double key="NSWarningValue">5</double>
 							<int key="NSIndicatorStyle">2</int>
 						</object>
 					</object>
@@ -110,7 +108,6 @@
 						<object class="NSPSMatrix" key="NSDrawMatrix"/>
 						<string key="NSFrame">{{307, 3}, {96, 12}}</string>
 						<reference key="NSSuperview" ref="624062250"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView"/>
 						<int key="NSpiFlags">16648</int>
 						<double key="NSMaxValue">100</double>
@@ -120,7 +117,6 @@
 						<int key="NSvFlags">266</int>
 						<string key="NSFrame">{{2, 3}, {222, 17}}</string>
 						<reference key="NSSuperview" ref="624062250"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="108598568"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="652490212">
@@ -142,7 +138,6 @@
 						<int key="NSvFlags">265</int>
 						<string key="NSFrame">{{226, 23}, {76, 17}}</string>
 						<reference key="NSSuperview" ref="624062250"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="692405156"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="705969474">
@@ -160,7 +155,6 @@
 						<int key="NSvFlags">265</int>
 						<string key="NSFrame">{{226, 3}, {76, 17}}</string>
 						<reference key="NSSuperview" ref="624062250"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="76967572"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="233389327">
@@ -241,7 +235,6 @@
 				</object>
 				<string key="NSFrameSize">{405, 42}</string>
 				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="816950060"/>
 			</object>
 			<object class="NSCustomView" id="950651117">
@@ -362,26 +355,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">displayPatternValue1: skill.level</string>
-						<reference key="source" ref="109279718"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="109279718"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">displayPatternValue1: skill.level</string>
-							<string key="NSBinding">displayPatternValue1</string>
-							<string key="NSKeyPath">skill.level</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSDisplayPattern</string>
-								<string key="NS.object.0">Level %{value1}@</string>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">35</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
 						<string key="label">value: skill.percentComplete</string>
 						<reference key="source" ref="108598568"/>
 						<reference key="destination" ref="1001"/>
@@ -395,22 +368,6 @@
 						</object>
 					</object>
 					<int key="connectionID">36</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: skill.level</string>
-						<reference key="source" ref="76967572"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="76967572"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">value: skill.level</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">skill.level</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">37</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -641,22 +598,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">warningValue: warningValue</string>
-						<reference key="source" ref="76967572"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="76967572"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">warningValue: warningValue</string>
-							<string key="NSBinding">warningValue</string>
-							<string key="NSKeyPath">warningValue</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">85</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
 						<string key="label">animate: skill.isTraining</string>
 						<reference key="source" ref="540416042"/>
 						<reference key="destination" ref="1001"/>
@@ -670,6 +611,71 @@
 						</object>
 					</object>
 					<int key="connectionID">86</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: displayStringLevel</string>
+						<reference key="source" ref="109279718"/>
+						<reference key="destination" ref="1001"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="109279718"/>
+							<reference key="NSDestination" ref="1001"/>
+							<string key="NSLabel">value: displayStringLevel</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">displayStringLevel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">87</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: displayLevel</string>
+						<reference key="source" ref="76967572"/>
+						<reference key="destination" ref="1001"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="76967572"/>
+							<reference key="NSDestination" ref="1001"/>
+							<string key="NSLabel">value: displayLevel</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">displayLevel</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">88</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">criticalValue: criticalValue</string>
+						<reference key="source" ref="76967572"/>
+						<reference key="destination" ref="1001"/>
+						<object class="NSNibBindingConnector" key="connector" id="43931410">
+							<reference key="NSSource" ref="76967572"/>
+							<reference key="NSDestination" ref="1001"/>
+							<string key="NSLabel">criticalValue: criticalValue</string>
+							<string key="NSBinding">criticalValue</string>
+							<string key="NSKeyPath">criticalValue</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">89</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">warningValue: warningValue</string>
+						<reference key="source" ref="76967572"/>
+						<reference key="destination" ref="1001"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="76967572"/>
+							<reference key="NSDestination" ref="1001"/>
+							<string key="NSLabel">warningValue: warningValue</string>
+							<string key="NSBinding">warningValue</string>
+							<string key="NSKeyPath">warningValue</string>
+							<reference key="NSPreviousConnector" ref="43931410"/>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">90</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -905,40 +911,9 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">86</int>
+			<int key="maxID">90</int>
 		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes">
-			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
-				<bool key="EncodedWithXMLCoder">YES</bool>
-				<object class="IBPartialClassDescription">
-					<string key="className">EveViewController</string>
-					<string key="superclassName">NSViewController</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/EveViewController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">SkillCellController</string>
-					<string key="superclassName">EveViewController</string>
-					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">groupView</string>
-						<string key="NS.object.0">NSView</string>
-					</object>
-					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<string key="NS.key.0">groupView</string>
-						<object class="IBToOneOutletInfo" key="NS.object.0">
-							<string key="name">groupView</string>
-							<string key="candidateClassName">NSView</string>
-						</object>
-					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/SkillCellController.h</string>
-					</object>
-				</object>
-			</object>
-		</object>
+		<object class="IBClassDescriber" key="IBDocument.Classes"/>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDevelopmentDependencies">
