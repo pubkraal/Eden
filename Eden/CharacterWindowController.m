@@ -204,6 +204,7 @@
 
 - (IBAction)performReload:(id)sender {
 	[self cancelSkillTimer];
+	self.document.reloadController.reloadType = kReloadData;
 	[self.document showSheet:self.document.reloadController];
 }
 
@@ -247,6 +248,12 @@
 		[oldTimer invalidate];
 	}
 }
+
+- (IBAction)reloadPortrait:(id)sender {
+	self.document.reloadController.reloadType = kReloadPortrait;
+	[self.document showSheet:self.document.reloadController];
+}
+
 
 // Notifications received
 
@@ -477,7 +484,7 @@
 	
 	enabled = YES;
 	
-	if ([menuItem tag] == 1) {
+	if (([menuItem tag] == 1) || ([menuItem tag] == 2)) {
 		enabled = reloadEnabled;
 	}
 	

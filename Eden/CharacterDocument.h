@@ -11,7 +11,7 @@
 
 // TODO: Autosave, NSCoding
 
-@class EveCharacter, CharacterWindowController;
+@class EveCharacter, CharacterWindowController, CharacterReloadController;
 
 @interface CharacterDocument : NSDocument {
 @private
@@ -24,11 +24,11 @@
 	// Instance properties
 	NSFileWrapper * currentWrapper;
 	CharacterWindowController * mainController;
-	NSWindowController * crController;
+	CharacterReloadController * crController;
 }
 
 @property (readonly) CharacterWindowController * mainController;
-@property (readonly) NSWindowController * reloadController;
+@property (readonly) CharacterReloadController * reloadController;
 
 @property (retain) EveCharacter * character;
 @property (retain) NSString * currentTask;

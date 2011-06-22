@@ -177,7 +177,9 @@
 			// This is the last part, let's make sure it covers
 			// all the space available.
 			
-			part.size.width += (outer.origin.x + outer.size.width) - (part.origin.x + part.size.width);
+			//part.size.width += (outer.origin.x + outer.size.width) - (part.origin.x + part.size.width);
+			part.size.width = outer.origin.x + outer.size.width - part.origin.x;
+			
 		}
 		
 		if ([info objectForKey:@"name"] == [NSNull null]) color = [NSColor controlColor];

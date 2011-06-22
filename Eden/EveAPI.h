@@ -88,6 +88,7 @@
 // Methods starting/stopping requests
 
 - (void)retrievePortraitList;
+- (void)retrievePortrait;
 - (void)retrieveAccountData;
 - (void)retrieveCharacterData;
 - (void)cancelRequests;
@@ -113,6 +114,7 @@
 - (void)characterListWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error;
 - (void)accountStatusWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error;
 - (void)portraitListWithData:(NSData *)data forCharID:(NSString *)charID error:(NSError **)error;
+- (void)portraitWithData:(NSData *)data error:(NSError **)error;
 - (void)characterSheetWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error;
 - (void)corporationSheetWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error;
 - (void)skillInTrainingWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error;

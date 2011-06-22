@@ -109,6 +109,18 @@
 	[self startDownload:download];
 }
 
+- (void)retrievePortrait {
+	EveDownload * download;
+	NSDictionary * URLList;
+	
+	URLList  = [NSDictionary dictionaryWithObject:[[self class] URLForKey:@"Portrait 1024", self.character.characterID] forKey:@"Portrait"];
+	download = [EveDownload downloadWithURLList:URLList];
+	
+	self.lastCalls = [NSMutableSet setWithObject:@"Portrait"];
+	
+	[self startDownload:download];
+}
+
 - (void)retrieveCharacterData {
 	EveDownload * download;
 	NSMutableArray * calls;
@@ -627,6 +639,10 @@
 	
 }
 
+- (void)portraitWithData:(NSData *)data error:(NSError **)error {
+	self.character.portraitData = data;
+}
+
 - (void)processErrorWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error  {
 	NSError * authError;
 	NSXMLElement * errorNode;
@@ -680,6 +696,11 @@
 		[self portraitListWithData:data
 						 forCharID:[[key componentsSeparatedByString:@" "] objectAtIndex:1]
 							 error:&processingError];
+	}
+	
+	// API call to reload the character portrait
+	else if ([key isEqualToString:@"Portrait"]) {
+		[self portraitWithData:data error:&processingError];
 	}
 
 	// API call to verify if it's a full API key or not

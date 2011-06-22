@@ -14,13 +14,14 @@
 
 @implementation CharacterReloadController
 
-@synthesize maxValue, currentValue, currentRequest;
+@synthesize maxValue, currentValue, currentRequest, reloadType;
 
 - (id)init {
 	if ((self = [super initWithWindowNibName:@"CharacterReload"])) {
 		self.maxValue       = nil;
 		self.currentValue   = nil;
 		self.currentRequest = nil;
+		self.reloadType     = kReloadData;
 	}
 	
 	return self;
@@ -60,7 +61,8 @@
 	self.currentRequest = [EveAPI requestWithCharacter:self.document.character];
 	self.currentRequest.delegate = self;
 	
-	[self.currentRequest retrieveCharacterData];
+	if (reloadType == kReloadData) [self.currentRequest retrieveCharacterData];
+	else if (reloadType == kReloadPortrait) [self.currentRequest retrievePortrait];
 	
 	if (self.currentRequest.failedStart) {
 		[NSTimer scheduledTimerWithTimeInterval:0.25

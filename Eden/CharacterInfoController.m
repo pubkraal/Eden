@@ -172,6 +172,7 @@
 	
 }
 
+
 - (void)documentWillClose {
 	SkillCellController * controller;
 

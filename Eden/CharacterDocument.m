@@ -72,7 +72,7 @@
 	[mainController release];
 }
 
-- (NSWindowController *)reloadController {
+- (CharacterReloadController *)reloadController {
 	if (!crController) {
 		crController = [[CharacterReloadController alloc] init];
 		[self addWindowController:crController];

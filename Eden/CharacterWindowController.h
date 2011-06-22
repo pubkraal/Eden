@@ -92,6 +92,7 @@
 - (void)autoReload:(NSNotification *)notification;
 - (void)scheduleSkillTimer;
 - (void)cancelSkillTimer;
+- (IBAction)reloadPortrait:(id)sender;
 
 // Notifications received
 
