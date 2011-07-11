@@ -68,6 +68,7 @@
 	includedTimeFrames = [NSMutableArray array];
 	now                = [NSDate date];
 	tomorrow           = [NSDate dateWithTimeInterval:86400.0 sinceDate:now]; // 24 hours
+	info               = nil;
 	
 	for (skill in self.character.trainingQueue) {
 		// CCP should guarantee that every skill in the training queue
@@ -110,7 +111,8 @@
 		[includedTimeFrames addObject:info];
 	}
 	
-	emptyInterval = [tomorrow timeIntervalSinceDate:[info objectForKey:@"endDate"]];
+	if (info == nil) emptyInterval = 86400;
+	else emptyInterval = [tomorrow timeIntervalSinceDate:[info objectForKey:@"endDate"]];
 	
 	if (emptyInterval > 0) {
 		info = [NSDictionary dictionaryWithObjectsAndKeys:
