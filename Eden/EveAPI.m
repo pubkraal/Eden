@@ -13,6 +13,7 @@
 #import "EveCorporation.h"
 #import "EveAlliance.h"
 #import "EveSkill.h"
+#import "EveAPIResult.h"
 
 @implementation EveAPI 
 
@@ -301,58 +302,46 @@
 	return cache;
 }
 
-- (void)cacheCall:(NSString *)callKey withXML:(NSXMLDocument *)xmlDoc {
+- (void)cacheCall:(NSString *)callKey withResult:(EveAPIResult *)result {
 	static NSTimeInterval interval = 5.0;
-	NSXMLElement * root, * node;
-	NSArray * nodeList;
 	NSDictionary * key;
-	NSError * error;
-	NSDate * cachedUntil, * currentTime, * trueCachedUntil;
+	NSDate * trueCachedUntil;
 	NSTimeInterval offset;
 	
-	root     = [xmlDoc rootElement];
-	nodeList = [root nodesForXPath:@"/eveapi/currentTime | /eveapi/cachedUntil" error:&error];
+	key = EveMakeCacheKey(callKey, character.accountID, character.characterID);
 	
-	if (!error) {
-		key = EveMakeCacheKey(callKey, character.accountID, character.characterID);
+	if (![[[self class] cache] objectForKey:key]) {
+
+		/*
+		 * Compensating possible discrepancies between user time and CCP time
+		 * 
+		 * Timelines:
+		 *
+		 * ... --[now]--[<- offset ->]--[currentTime]--- ... ---[trueCachedUntil]--[<- offset ->]--[cachedUntil]--- ...
+		 *
+		 * or:
+		 *
+		 * ... --[currentTime]--[<- offset ->]--[now]--- ... ---[cachedUntil]--[<- offset ->]--[trueCachedUntil]--- ...
+		 *
+		 * Assuming currentTime is ahead of now, offset is positive. So, we have to
+		 * *subtract* offset from cachedUntil to get trueCachedUntil. If now is
+		 * ahead of currentTime, offset is negative and we have to *add* offset to
+		 * cachedUntil. Hence the minus signal.
+		 */
+
+		offset          = [result.currentTime timeIntervalSinceNow];
+		trueCachedUntil = [result.cachedUntil dateByAddingTimeInterval:-offset];
+
+		//[NSTimer scheduledTimerWithTimeInterval:interval
+		[NSTimer scheduledTimerWithTimeInterval:[trueCachedUntil timeIntervalSinceNow]
+										 target:[self class]
+									   selector:@selector(cleanCache:)
+									   userInfo:key
+										repeats:NO];
 		
-		if (![[[self class] cache] objectForKey:key]) {
-			for (node in nodeList) {
-				if ([[node name] isEqualToString:@"currentTime"]) currentTime = CCPDate([node stringValue]);
-				else cachedUntil = CCPDate([node stringValue]);
-			}
-
-			/*
-			 * Compensating possible discrepancies between user time and CCP time
-			 * 
-			 * Timelines:
-			 *
-			 * ... --[now]--[<- offset ->]--[currentTime]--- ... ---[trueCachedUntil]--[<- offset ->]--[cachedUntil]--- ...
-			 *
-			 * or:
-			 *
-			 * ... --[currentTime]--[<- offset ->]--[now]--- ... ---[cachedUntil]--[<- offset ->]--[trueCachedUntil]--- ...
-			 *
-			 * Assuming currentTime is ahead of now, offset is positive. So, we have to
-			 * *subtract* offset from cachedUntil to get trueCachedUntil. If now is
-			 * ahead of currentTime, offset is negative and we have to *add* offset to
-			 * cachedUntil. Hence the minus signal.
-			 */
-
-			offset          = [currentTime timeIntervalSinceNow];
-			trueCachedUntil = [cachedUntil dateByAddingTimeInterval:-offset];
-
-			//[NSTimer scheduledTimerWithTimeInterval:interval
-			[NSTimer scheduledTimerWithTimeInterval:[trueCachedUntil timeIntervalSinceNow]
-											 target:[self class]
-										   selector:@selector(cleanCache:)
-										   userInfo:key
-											repeats:NO];
-			
-			interval += 2.0;
-			
-			[[[self class] cache] setObject:[xmlDoc XMLData] forKey:key];
-		}
+		interval += 2.0;
+		
+		[[[self class] cache] setObject:result.rawData forKey:key];
 	}
 }
 
@@ -477,125 +466,91 @@
 	}
 }
 
-- (void)characterSheetWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error {
-	NSXMLElement * root, * node;
-	NSArray * nodeList;
-	EveCorporation * corp;
-	EveAlliance * alliance;
-	NSDictionary * corpDict, * allianceDict;
-	NSString * nodeName, * propName, * propValue, * key;
+- (void)characterSheetWithResult:(EveAPIResult *)result {
+	NSNumberFormatter * formatter;
+	NSLocale * CCPLocale;
+	NSString * key;
+	NSDictionary * skillInfo;
 	EveSkill * skill;
-	time_t start;
 	NSUInteger count;
 	long double totalTime;
-	
-	root	 = [xmlDoc rootElement];
-	nodeList = [root nodesForXPath:@"/eveapi/result/*" error:error];
+	time_t start;
+	NSSet * specialKeys;
 
-	if (!(*error)) {
-		allianceDict = nil;
-		corpDict	 = nil;
-		
-		for (node in nodeList) {
-			nodeName = [node name];
-			
-			if ([nodeName isEqualToString:@"DoB"]) {
-				self.character.dateOfBirth = CCPDate([node stringValue]);
-			}
-			else if ([nodeName isEqualToString:@"attributes"]) {
-				for (node in [node children]) {
-					[self.character setValue:[NSNumber numberWithInteger:[[node stringValue] integerValue]] forKey:[node name]];
-				}
-			}
-			else if ([nodeName isEqualToString:@"attributeEnhancers"]) {
-				// ?
-			}
-			else if ([nodeName hasPrefix:@"corporation"]) {
-				if (corpDict) {
-					propName  = [[corpDict allKeys] objectAtIndex:0];
-					propValue = [corpDict objectForKey:propName];
-					
-					if ([propName isEqualToString:@"corporationName"]) {
-						corp = [EveCorporation corporationWithName:propValue andCorporationID:[node stringValue]];
-					}
-					else {
-						corp = [EveCorporation corporationWithName:[node stringValue] andCorporationID:propValue];
-					}
-					
-					corpDict = nil;
-					
-					self.character.corporation = corp;
-				}
-				else {
-					corpDict = [NSDictionary dictionaryWithObject:[node stringValue] forKey:nodeName];
-				}
-			}
-			else if ([nodeName hasPrefix:@"alliance"]) {
-				if (allianceDict) {
-					propName  = [[allianceDict allKeys] objectAtIndex:0];
-					propValue = [allianceDict objectForKey:propName];
-					
-					if ([propName isEqualToString:@"allianceName"]) {
-						alliance = [EveAlliance allianceWithName:propValue andAllianceID:[node stringValue]];
-					}
-					else {
-						alliance = [EveAlliance allianceWithName:[node stringValue] andAllianceID:propValue];
-					}
-					
-					allianceDict = nil;
-					
-					self.character.alliance = alliance;
-				}
-				else {
-					allianceDict = [NSDictionary dictionaryWithObject:[node stringValue] forKey:nodeName];
-				}
-			}
-			else if ([nodeName isEqualToString:@"cloneSkillPoints"]) {
-				self.character.cloneSkillPoints = [NSNumber numberWithInteger:[[node stringValue] integerValue]];
-			}
-			else if ([nodeName isEqualToString:@"balance"]) {
-				self.character.balance = [NSNumber numberWithDouble:[[node stringValue] doubleValue]];
-			}
-			else if ([nodeName isEqualToString:@"rowset"]) {
-				if ([[[node attributeForName:@"name"] stringValue] isEqualToString:@"skills"]) {
-					totalTime = 0.0L;
-					count = [node childCount];
-					
-					for (node in [node children]) {
-						if ([[[node attributeForName:@"published"] stringValue] integerValue]) {
-							start = time(NULL);
-							
-							key   = [[node attributeForName:@"typeID"] stringValue];
-							skill = [self.character.skills objectForKey:key];
-							
-							if (!skill) {
-								skill = [EveSkill skillWithSkillID:key];
-								[self.character.skills setObject:skill forKey:key];
-							}
-							
-							skill.skillPoints = [NSNumber numberWithInteger:[[[node attributeForName:@"skillpoints"] stringValue] integerValue]];
-							skill.level		  = [NSNumber numberWithInteger:[[[node attributeForName:@"level"] stringValue] integerValue]];
-							skill.character	  = self.character;
-							
-							//[[self.character mutableArrayValueForKey:@"skills"] addObject:skill];
-							//[self.character setValue:skill forKey:[NSString stringWithFormat:@"skills.%@", [[node attributeForName:@"typeID"] stringValue]]];
-							
-							
-							totalTime += (long double) time(NULL) - (long double) start;
-						}
-					}
-					
-					NSLog(@"Skills loaded: %lu skills, %Lgs total time, %Lgs average time.", count, totalTime, totalTime / (long double) count);
+	// These keys require special processing, which will be done afterwards
+	specialKeys = [NSSet setWithObjects:@"DoB", @"attributes", @"corporationName", @"corporationID",
+	 									@"allianceName", @"allianceID", @"cloneSkillPoints",
+										@"balance", @"skills", nil];
+	NSLog(@"%@", specialKeys);
 
-					//self.character.skills = self.character.skills;
-				}
+	// Simple string keys processing
+	for (key in [result.data allKeys]) {
+		if (![specialKeys containsObject:key]) {
+			@try {
+				[self.character setValue:[result.data objectForKey:key] forKeyPath:key];
 			}
-			else {
-				[self.character setValue:[node stringValue] forKeyPath:nodeName];
+			@catch (NSException * exception) {
+				if (![[exception name] isEqualToString:@"NSUnknownKeyException"]) [exception raise];
 			}
 		}
 	}
+	
+	// Setting up formatter
+	formatter = [[NSNumberFormatter alloc] init];
+	CCPLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
+	
+	[formatter setLocale:CCPLocale];
+	
+	// Special key: DoB
+	self.character.dateOfBirth = CCPDate([result.data objectForKey:@"DoB"]);
+	
+	// Special key: attributes
+	for (key in [[result.data objectForKey:@"attributes"] allKeys]) {
+		[self.character setValue:[formatter numberFromString:[[result.data objectForKey:@"attributes"] objectForKey:key]] forKey:key];
+	}
+	
+	// Special keys: corporationName, corporationID
+	self.character.corporation = [EveCorporation corporationWithName:[result.data objectForKey:@"corporationName"] andCorporationID:[result.data objectForKey:@"corporationID"]];
+	
+	// Special keys: allianceName, allianceID
+	self.character.alliance = [EveAlliance allianceWithName:[result.data objectForKey:@"allianceName"] andAllianceID:[result.data objectForKey:@"allianceID"]];
+
+	// Special key: cloneSkillPoints
+	self.character.cloneSkillPoints = [formatter numberFromString:[result.data objectForKey:@"cloneSkillPoints"]];
+	
+	// Special key: balance
+	self.character.balance = [formatter numberFromString:[result.data objectForKey:@"balance"]];
+	
+	// Special key: rowset name="skills"
+	totalTime = 0.0L;
+	count = [[result.data objectForKey:@"skills"] count];
+
+	for (skillInfo in [result.data objectForKey:@"skills"]) {
+		if ([[skillInfo objectForKey:@"published"] integerValue]) {
+			start = time(NULL);
+			
+			key   = [skillInfo objectForKey:@"typeID"];
+			skill = [self.character.skills objectForKey:key];
+			
+			if (!skill) {
+				skill = [EveSkill skillWithSkillID:key];
+				[self.character.skills setObject:skill forKey:key];
+			}
+			
+			skill.skillPoints = [formatter numberFromString:[skillInfo objectForKey:@"skillpoints"]];
+			skill.level		  = [formatter numberFromString:[skillInfo objectForKey:@"level"]];
+			skill.character	  = self.character;
+			
+			totalTime += (long double) time(NULL) - (long double) start;
+		}
+	}
+
+	NSLog(@"Skills loaded: %lu skills, %Lgs total time, %Lgs average time.", count, totalTime, totalTime / (long double) count);
+	
+	[formatter release];
 }
+
+
 
 - (void)corporationSheetWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error {
 	NSXMLElement * root, * node;
@@ -668,19 +623,41 @@
 - (void)didFinishDownload:(EveDownload *)download forKey:(NSString *)key withData:(NSData *)data error:(NSError *)error {
 	NSXMLDocument * xmlDoc;
 	NSError * processingError;
-
-	processingError = nil;
-	xmlDoc          = nil;
-
-	#ifdef DEBUG_XML
+	EveAPIResult * result;
+	
+#ifdef DEBUG_XML
 	NSString * xmlStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 	NSLog(@"%@", xmlStr);
 	[xmlStr release];
-	#endif
+#endif
 
 	if (error) {
 		NSLog(@"%@", error);
 		return;
+	}
+
+	xmlDoc          = nil;
+	result          = [EveAPIResult resultWithData:data];
+	processingError = result.error;
+
+#ifdef DEBUG_XML
+	NSLog(@"%@", result);
+#endif
+
+	// API call to get portraits for a character list
+	if ([key hasPrefix:@"PortraitList"]) {
+		processingError = nil;
+		
+		[self portraitListWithData:data
+						 forCharID:[[key componentsSeparatedByString:@" "] objectAtIndex:1]
+							 error:&processingError];
+	}
+	
+	// API call to reload the character portrait
+	else if ([key isEqualToString:@"Portrait"]) {
+		processingError = nil;
+
+		[self portraitWithData:data error:&processingError];
 	}
 
 	// API call to Character List
@@ -689,18 +666,6 @@
 
 		if (!processingError) [self characterListWithXML:xmlDoc error:&processingError];
 
-	}
-
-	// API call to get portraits for a character list
-	else if ([key hasPrefix:@"PortraitList"]) {
-		[self portraitListWithData:data
-						 forCharID:[[key componentsSeparatedByString:@" "] objectAtIndex:1]
-							 error:&processingError];
-	}
-	
-	// API call to reload the character portrait
-	else if ([key isEqualToString:@"Portrait"]) {
-		[self portraitWithData:data error:&processingError];
 	}
 
 	// API call to verify if it's a full API key or not
@@ -712,9 +677,7 @@
 
 	// API call to get the character sheet
 	else if ([key isEqualToString:@"CharacterSheet"]) {
-		xmlDoc = [[NSXMLDocument alloc] initWithData:data options:0 error:&processingError];
-
-		if (!processingError) [self characterSheetWithXML:xmlDoc error:&processingError];
+		if (!processingError) [self characterSheetWithResult:result];
 	}
 	
 	// API call to get the current training skill
@@ -740,10 +703,12 @@
 	
 	if (xmlDoc) {
 		[self processErrorWithXML:xmlDoc error:&processingError];
-		[self cacheCall:key withXML:xmlDoc];
+		//[self cacheCall:key withXML:xmlDoc];
 		
 		[xmlDoc release];
 	}
+	
+	if (result.data) [self cacheCall:key withResult:result];
 
 	if (processingError) [[download.downloads objectForKey:key] setError:processingError];
 }

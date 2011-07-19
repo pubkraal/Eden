@@ -33,6 +33,7 @@
 		3AA8544A1361016F0099C073 /* SQLMutableTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AA854491361016F0099C073 /* SQLMutableTable.m */; };
 		3AB0962C1395A98B008DF2D9 /* CharacterSkillQueue.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AB0962E1395A98B008DF2D9 /* CharacterSkillQueue.xib */; };
 		3AB096311395A9A6008DF2D9 /* CharacterSkillQueueController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AB096301395A9A6008DF2D9 /* CharacterSkillQueueController.m */; };
+		3AB7930513D4FF91000B7345 /* EveAPIResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AB7930413D4FF91000B7345 /* EveAPIResult.m */; };
 		3AC7ABA81380F12000770862 /* CharacterReload.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AC7ABAA1380F12000770862 /* CharacterReload.xib */; };
 		3ACEE6C11372266000E40835 /* EveDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ACEE6C01372266000E40835 /* EveDatabase.m */; };
 		3AD1FE26137A51F800FDE8A7 /* EveURLs.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3AD1FE25137A51F800FDE8A7 /* EveURLs.plist */; };
@@ -133,6 +134,8 @@
 		3AB0962D1395A98B008DF2D9 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/CharacterSkillQueue.xib; sourceTree = "<group>"; };
 		3AB0962F1395A9A6008DF2D9 /* CharacterSkillQueueController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CharacterSkillQueueController.h; sourceTree = "<group>"; };
 		3AB096301395A9A6008DF2D9 /* CharacterSkillQueueController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CharacterSkillQueueController.m; sourceTree = "<group>"; };
+		3AB7930313D4FF91000B7345 /* EveAPIResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EveAPIResult.h; sourceTree = "<group>"; };
+		3AB7930413D4FF91000B7345 /* EveAPIResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveAPIResult.m; sourceTree = "<group>"; };
 		3AC7ABA91380F12000770862 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/CharacterReload.xib; sourceTree = "<group>"; };
 		3ACEE6BF1372266000E40835 /* EveDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EveDatabase.h; sourceTree = "<group>"; };
 		3ACEE6C01372266000E40835 /* EveDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveDatabase.m; sourceTree = "<group>"; };
@@ -518,6 +521,8 @@
 				3ACEE6C01372266000E40835 /* EveDatabase.m */,
 				3AE4807B138362AC0007B653 /* EveEquations.h */,
 				3AE4807C138362AC0007B653 /* EveEquations.m */,
+				3AB7930313D4FF91000B7345 /* EveAPIResult.h */,
+				3AB7930413D4FF91000B7345 /* EveAPIResult.m */,
 			);
 			name = "Eve Model";
 			sourceTree = "<group>";
@@ -716,6 +721,7 @@
 				3A5ED3361399D40C005AE2EC /* PreferencesAPIKeysController.m in Sources */,
 				3A5ED341139A0A2A005AE2EC /* PreferencesBaseController.m in Sources */,
 				3A326D8813AC6F65003EA995 /* SkillBar.m in Sources */,
+				3AB7930513D4FF91000B7345 /* EveAPIResult.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -34,6 +34,7 @@
 @class EveCharacter;
 @class EveAccount;
 @class EveAPI;
+@class EveAPIResult;
 
 @protocol APIDelegate <NSObject>
 
@@ -105,22 +106,25 @@
 // Methods for handling caching
 
 + (NSMutableDictionary *)cache;
-- (void)cacheCall:(NSString *)callKey withXML:(NSXMLDocument *)xmlDoc;
+- (void)cacheCall:(NSString *)callKey withResult:(EveAPIResult *)result;
 + (void)cleanCache:(NSTimer *)timer;
 + (NSSet *)doNotBroadcast;
 
 // Methods for specific calls
+// This is deprecated, will be purged when the transition to the new way is completed.
 
 - (void)characterListWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error;
 - (void)accountStatusWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error;
 - (void)portraitListWithData:(NSData *)data forCharID:(NSString *)charID error:(NSError **)error;
 - (void)portraitWithData:(NSData *)data error:(NSError **)error;
-- (void)characterSheetWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error;
 - (void)corporationSheetWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error;
 - (void)skillInTrainingWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error;
 - (void)skillQueueWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error;
-
 - (void)processErrorWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error;
+
+// New methods using EveAPIResult
+- (void)characterSheetWithResult:(EveAPIResult *)result;
+
 - (void)blockAPIKey;
 
 
