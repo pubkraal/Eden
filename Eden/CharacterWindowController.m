@@ -114,6 +114,7 @@
 	NSDictionary * item;
 	NSString * tasksPath;
 	NSDictionary * tasksDict;
+	TaskCellController * controller;
 
 	tasksPath = [[NSBundle mainBundle] pathForResource:@"CharacterTasks" ofType:@"plist"];
 	tasksDict = [NSDictionary dictionaryWithContentsOfFile:tasksPath];
@@ -122,6 +123,12 @@
 
 	for (item in [[tasksController arrangedObjects] childNodes]){
 		[tasksView expandItem:item expandChildren:NO];
+	}
+	
+	for (controller in [taskCellControllers allValues]) {
+		// Force the cells to be redrawn to avoid overlaps
+		
+		[controller removeSubviews];
 	}
 }
 
@@ -185,6 +192,7 @@
 
 	currentTasks = self.selectedTasks;
 	[self loadTasks];
+	
 	[[[subviews objectForKey:[self activeViewName]] view] removeFromSuperview];
 	self.activeViewName = nil;
 	self.selectedTasks = currentTasks;

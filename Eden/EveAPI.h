@@ -108,22 +108,21 @@
 + (NSMutableDictionary *)cache;
 - (void)cacheCall:(NSString *)callKey withResult:(EveAPIResult *)result;
 + (void)cleanCache:(NSTimer *)timer;
-+ (NSSet *)doNotBroadcast;
++ (NSSet *)doNotCache;
 
 // Methods for specific calls
-// This is deprecated, will be purged when the transition to the new way is completed.
 
-- (void)characterListWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error;
-- (void)accountStatusWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error;
 - (void)portraitListWithData:(NSData *)data forCharID:(NSString *)charID error:(NSError **)error;
 - (void)portraitWithData:(NSData *)data error:(NSError **)error;
-- (void)corporationSheetWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error;
-- (void)skillInTrainingWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error;
-- (void)skillQueueWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error;
-- (void)processErrorWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error;
 
 // New methods using EveAPIResult
+
 - (void)characterSheetWithResult:(EveAPIResult *)result;
+- (void)characterListWithResult:(EveAPIResult *)result;
+- (void)accountStatusWithAPIError:(NSError **)error;
+- (void)skillInTrainingWithResult:(EveAPIResult *)result;
+- (void)skillQueueWithResult:(EveAPIResult *)result;
+- (void)corporationSheetWithResult:(EveAPIResult *)result;
 
 - (void)blockAPIKey;
 
@@ -131,7 +130,5 @@
 @end
 
 inline NSDate * CCPDate(NSString *);
-inline NSDictionary * NSDictionaryFromAttributes(NSXMLElement *);
-inline NSDictionary * NSDictionaryFromChildren(NSXMLElement *);
 
 NSDictionary * EveMakeCacheKey(NSString *, NSString *, NSString *);

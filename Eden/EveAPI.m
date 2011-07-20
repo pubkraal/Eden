@@ -310,7 +310,7 @@
 	
 	key = EveMakeCacheKey(callKey, character.accountID, character.characterID);
 	
-	if (![[[self class] cache] objectForKey:key]) {
+	if ((![[[self class] doNotCache] containsObject:callKey]) && (![[[self class] cache] objectForKey:key])) {
 
 		/*
 		 * Compensating possible discrepancies between user time and CCP time
@@ -354,116 +354,70 @@
 	
 	[[self cache] removeObjectForKey:key];
 
-	if (![[self doNotBroadcast] containsObject:[key objectForKey:EveAPICacheCallKey]]) {
-		[nc postNotificationName:EveAPICacheClearedNotification object:self userInfo:key];
-	}
+	[nc postNotificationName:EveAPICacheClearedNotification object:self userInfo:key];
 	
 	[timer invalidate];
 }
 
-+ (NSSet *)doNotBroadcast {
-	static NSSet * doNotBroadcast = nil;
++ (NSSet *)doNotCache {
+	static NSSet * doNotCache = nil;
 	
-	if (!doNotBroadcast) {
-		doNotBroadcast = [[NSSet alloc] initWithObjects:@"CharacterList", @"AccountStatus", nil];
+	if (!doNotCache) {
+		doNotCache = [[NSSet alloc] initWithObjects:@"CharacterList", @"AccountStatus", nil];
 	}
 	
-	return doNotBroadcast;
+	return doNotCache;
 }
 
-- (void)characterListWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error{
-	NSXMLElement * root, * node;
+- (void)characterListWithResult:(EveAPIResult *)result {
+	NSDictionary * charDict;
 	NSMutableArray * chars;
 	EveCharacter * newChar;
 	EveCorporation * newCorp;
-	NSArray * nodeList;
-
-	root	 = [xmlDoc rootElement];
-	nodeList = [root nodesForXPath:@"/eveapi/result/rowset/row" error:error];
-
-	if (!(*error)) {
-		chars = [NSMutableArray array];
-
-		for (node in nodeList) {
-			newChar = [EveCharacter characterWithCharacter:character];
-			newCorp = [EveCorporation corporationWithName:[[node attributeForName:@"corporationName"] stringValue]
-										 andCorporationID:[[node attributeForName:@"corporationID"] stringValue]];
-			
-			newChar.name		  = [[node attributeForName:@"name"] stringValue];
-			newChar.characterID	  = [[node attributeForName:@"characterID"] stringValue];
-			newChar.corporation	  = newCorp;
-
-			[chars addObject:newChar];
-		}
-
-		self.characterList = [NSArray arrayWithArray:chars];
-	}
-}
-
-- (void)accountStatusWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error {
-	NSArray * nodeList;
-	NSXMLElement * errorElement;
-
-	nodeList = [[xmlDoc rootElement] nodesForXPath:@"/eveapi/error" error:error];
-
-	if (!(*error)) {
-		self.character.fullAPI = ![nodeList count];
+	
+	chars = [NSMutableArray array];
+	
+	for (charDict in [result.data objectForKey:@"characters"]) {
+		newChar = [EveCharacter characterWithCharacter:character];
+		newCorp = [EveCorporation corporationWithName:[charDict objectForKey:@"corporationName"] andCorporationID:[charDict objectForKey:@"corporationID"]];
 		
-		if (!self.character.fullAPI) {
-			// Removes the error node so that it doesn't get caught by the
-			// didFinishDownload: selector.
-			
-			errorElement = [nodeList objectAtIndex:0];
-			
-			[(NSXMLElement *) [errorElement parent] removeChildAtIndex:[errorElement index]];
-		}
+		newChar.name        = [charDict objectForKey:@"name"];
+		newChar.characterID = [charDict objectForKey:@"characterID"];
+		newChar.corporation = newCorp;
+		
+		[chars addObject:newChar];
+	}
+	
+	self.characterList = [NSArray arrayWithArray:chars];
+}
+
+- (void)accountStatusWithAPIError:(NSError **)processingError {
+	NSError * error;
+	
+	error = *processingError;
+	
+	if (!error) self.character.fullAPI = YES;
+	else if ([[error domain] isEqualToString:EveAPIErrorDomain]) {
+		self.character.fullAPI = NO;
+		
+		// Code 200 - Current security level not high enough.
+		if ([error code] == 200) *processingError = nil;
 	}
 }
 
-- (void)skillInTrainingWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error {
-	NSXMLElement * root;
-	NSArray * nodeList;
-	NSDictionary * trainingData;
+- (void)skillInTrainingWithResult:(EveAPIResult *)result {
 	NSTimeInterval skillTimeOffset;
 	
-	root	 = [xmlDoc rootElement];
-	nodeList = [root nodesForXPath:@"/eveapi/result" error:error];
-	
-	if (!(*error)) {
-		if ([nodeList count] > 0) {
-			trainingData = NSDictionaryFromChildren([nodeList objectAtIndex:0]);
-		}
-		else trainingData = [NSDictionary dictionary];
+	if ([[result.data objectForKey:@"skillInTraining"] boolValue]) {
+		skillTimeOffset = [CCPDate([result.data objectForKey:@"currentTQTime"]) timeIntervalSinceNow];
+		self.character.skillTimeOffset = [NSNumber numberWithDouble:skillTimeOffset];
 		
-		if ([[trainingData objectForKey:@"skillInTraining"] boolValue]) {
-			skillTimeOffset = [CCPDate([trainingData objectForKey:@"currentTQTime"]) timeIntervalSinceNow];
-			self.character.skillTimeOffset = [NSNumber numberWithDouble:skillTimeOffset];
-			
-			[temporaryData setObject:trainingData forKey:@"SkillInTraining"];
-		}
+		[temporaryData setObject:result.data forKey:@"SkillInTraining"];
 	}
 }
 
-- (void)skillQueueWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error {
-	NSXMLElement * root, * node;
-	NSArray * nodeList;
-	NSDictionary * attributes;
-	NSMutableArray * queue;
-	
-	root     = [xmlDoc rootElement];
-	nodeList = [root nodesForXPath:@"/eveapi/result/rowset/row" error:error];
-	
-	if (!(*error)) {
-		queue = [NSMutableArray array];
-		
-		for (node in nodeList) {
-			attributes = NSDictionaryFromAttributes(node);
-			
-			[queue addObject:attributes];
-		}
-		
-		[temporaryData setObject:queue forKey:@"SkillQueue"];
-	}
+- (void)skillQueueWithResult:(EveAPIResult *)result {
+	[temporaryData setObject:[result.data objectForKey:@"skillqueue"] forKey:@"SkillQueue"];
 }
 
 - (void)characterSheetWithResult:(EveAPIResult *)result {
@@ -551,21 +505,8 @@
 }
 
 
-
-- (void)corporationSheetWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error {
-	NSXMLElement * root, * node;
-	NSArray * nodeList;
-	
-	root     = [xmlDoc rootElement];
-	nodeList = [root nodesForXPath:@"/eveapi/result/ticker" error:error];
-	
-	if (!(*error)) {
-		if ([nodeList count] > 0) {
-			node = [nodeList objectAtIndex:0];
-			
-			[temporaryData setObject:[node stringValue] forKey:@"corpTicker"];
-		}
-	}
+- (void)corporationSheetWithResult:(EveAPIResult *)result {
+	[temporaryData setObject:[result.data objectForKey:@"ticker"] forKey:@"corpTicker"];
 }
 
 - (void)portraitListWithData:(NSData *)data forCharID:(NSString *)charID error:(NSError **)error {
@@ -621,7 +562,6 @@
 }
 
 - (void)didFinishDownload:(EveDownload *)download forKey:(NSString *)key withData:(NSData *)data error:(NSError *)error {
-	NSXMLDocument * xmlDoc;
 	NSError * processingError;
 	EveAPIResult * result;
 	
@@ -636,7 +576,6 @@
 		return;
 	}
 
-	xmlDoc          = nil;
 	result          = [EveAPIResult resultWithData:data];
 	processingError = result.error;
 
@@ -662,17 +601,13 @@
 
 	// API call to Character List
 	if ([key isEqualToString:@"CharacterList"]) {
-		xmlDoc = [[NSXMLDocument alloc] initWithData:data options:0 error:&processingError];
-
-		if (!processingError) [self characterListWithXML:xmlDoc error:&processingError];
+		if (!processingError) [self characterListWithResult:result];
 
 	}
 
 	// API call to verify if it's a full API key or not
 	else if ([key isEqualToString:@"AccountStatus"]) {
-		xmlDoc = [[NSXMLDocument alloc] initWithData:data options:0 error:&processingError];
-
-		if (!processingError) [self accountStatusWithXML:xmlDoc error:&processingError];
+		[self accountStatusWithAPIError:&processingError];
 	}
 
 	// API call to get the character sheet
@@ -682,33 +617,23 @@
 	
 	// API call to get the current training skill
 	else if ([key isEqualToString:@"SkillInTraining"]) {
-		xmlDoc = [[NSXMLDocument alloc] initWithData:data options:0 error:&processingError];
-
-		if (!processingError) [self skillInTrainingWithXML:xmlDoc error:&processingError];
+		if (!processingError) [self skillInTrainingWithResult:result];
 	}
 
 	// API call to get the training queue
 	else if ([key isEqualToString:@"SkillQueue"]) {
-		xmlDoc = [[NSXMLDocument alloc] initWithData:data options:0 error:&processingError];
-
-		if (!processingError) [self skillQueueWithXML:xmlDoc error:&processingError];
+		if (!processingError) [self skillQueueWithResult:result];
 	}
 
 	// API call to get the corporation sheet
 	else if ([key isEqualToString:@"CorporationSheet"]) {
-		xmlDoc = [[NSXMLDocument alloc] initWithData:data options:0 error:&processingError];
-
-		if (!processingError) [self corporationSheetWithXML:xmlDoc error:&processingError];
-	}
-	
-	if (xmlDoc) {
-		[self processErrorWithXML:xmlDoc error:&processingError];
-		//[self cacheCall:key withXML:xmlDoc];
-		
-		[xmlDoc release];
+		if (!processingError) [self corporationSheetWithResult:result];
 	}
 	
 	if (result.data) [self cacheCall:key withResult:result];
+	
+	// Code 203 - Authentication failure.
+	if ([result.error code] == 203) [self blockAPIKey];
 
 	if (processingError) [[download.downloads objectForKey:key] setError:processingError];
 }
@@ -773,36 +698,6 @@ NSDate * CCPDate(NSString * date) {
 	// All times returned by CCP are GMT, so...
 	
 	return [NSDate dateWithString:[date stringByAppendingString:@" +0000"]];
-}
-
-NSDictionary * NSDictionaryFromAttributes(NSXMLElement * node) {
-	NSArray * attributes;
-	NSXMLNode * attr;
-	NSMutableDictionary * dict;
-	
-	attributes = [node attributes];
-	dict       = [NSMutableDictionary dictionary];
-			
-	if (attributes) {
-		for (attr in attributes) {
-			[dict setObject:[attr stringValue] forKey:[attr name]];
-		}
-	}
-	
-	return [NSDictionary dictionaryWithDictionary:dict];
-}
-
-NSDictionary * NSDictionaryFromChildren(NSXMLElement * node) {
-	NSXMLNode * child;
-	NSMutableDictionary * dict;
-	
-	dict = [NSMutableDictionary dictionary];
-	
-	for (child in [node children]) {
-		[dict setObject:[child stringValue] forKey:[child name]];
-	}
-	
-	return [NSDictionary dictionaryWithDictionary:dict];
 }
 
 NSDictionary * EveMakeCacheKey(NSString * callName, NSString * accountID, NSString * characterID) {
