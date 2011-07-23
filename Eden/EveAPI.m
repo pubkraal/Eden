@@ -435,7 +435,6 @@
 	specialKeys = [NSSet setWithObjects:@"DoB", @"attributes", @"corporationName", @"corporationID",
 	 									@"allianceName", @"allianceID", @"cloneSkillPoints",
 										@"balance", @"skills", nil];
-	NSLog(@"%@", specialKeys);
 
 	// Simple string keys processing
 	for (key in [result.data allKeys]) {
@@ -537,28 +536,6 @@
 
 - (void)portraitWithData:(NSData *)data error:(NSError **)error {
 	self.character.portraitData = data;
-}
-
-- (void)processErrorWithXML:(NSXMLDocument *)xmlDoc error:(NSError **)error  {
-	NSError * authError;
-	NSXMLElement * errorNode;
-	NSArray * errorList;
-	NSInteger errorCode;
-	
-	errorList = [[xmlDoc rootElement] nodesForXPath:@"/eveapi/error" error:&authError];
-
-	if (!authError && [errorList count]) {
-		errorNode = [errorList objectAtIndex:0];
-		errorCode = [[[errorNode attributeForName:@"code"] stringValue] integerValue];
-		authError = [NSError errorWithDomain:EveAPIErrorDomain
-										code:errorCode
-									userInfo:[NSDictionary dictionaryWithObject:[errorNode stringValue] forKey:NSLocalizedDescriptionKey]];
-
-		if (errorCode == 203) [self blockAPIKey]; // Authentication failure
-
-		*error = authError;
-	}
-	
 }
 
 - (void)didFinishDownload:(EveDownload *)download forKey:(NSString *)key withData:(NSData *)data error:(NSError *)error {

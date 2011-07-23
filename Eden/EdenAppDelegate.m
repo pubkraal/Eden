@@ -9,7 +9,7 @@
 #import "EdenAppDelegate.h"
 #import "EveDatabase.h"
 #import "EveSkill.h"
-
+#import "EdenDocumentController.h"
 
 
 @implementation EdenAppDelegate
@@ -41,10 +41,23 @@
 	return self;
 }
 
+- (void)applicationWillFinishLaunching:(NSNotification *)aNotification {
+	EdenDocumentController * docControl;
+	
+	// The shared document controller for the application is the first that is
+	// created. According to the docs, it's guaranteed that a controller
+	// created in applicationWillFinishLaunching: will assume this role, so
+	// this is the proper way to ensure that our subclassed document
+	// controller is used instead of the default one.
+	
+	docControl = [[[EdenDocumentController alloc] init] autorelease];
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 	preferencesWindow = nil;
 	dumpNavWindow     = nil;
 
+	[window makeKeyAndOrderFront:self];
 	[progress startAnimation:self];
 	[self performSelectorInBackground:@selector(loadDatabase:) withObject:nil];
 }

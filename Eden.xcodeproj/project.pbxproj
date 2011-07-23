@@ -29,6 +29,7 @@
 		3A7923051391670D007F2F8F /* TaskCellController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A7923041391670D007F2F8F /* TaskCellController.m */; };
 		3A7923081391673F007F2F8F /* TaskView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A79230A1391673F007F2F8F /* TaskView.xib */; };
 		3A7EA09A1364FF59002DCB5E /* SQLTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A7EA0991364FF59002DCB5E /* SQLTable.m */; };
+		3A9DB35313D8F7B200FDDD02 /* EdenDocumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A9DB35213D8F7B200FDDD02 /* EdenDocumentController.m */; };
 		3AA16758138F67A6002AC1EA /* SkillView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AA1675A138F67A6002AC1EA /* SkillView.xib */; };
 		3AA8544A1361016F0099C073 /* SQLMutableTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AA854491361016F0099C073 /* SQLMutableTable.m */; };
 		3AB0962C1395A98B008DF2D9 /* CharacterSkillQueue.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AB0962E1395A98B008DF2D9 /* CharacterSkillQueue.xib */; };
@@ -129,6 +130,8 @@
 		3A7EA0981364FF59002DCB5E /* SQLTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLTable.h; sourceTree = "<group>"; };
 		3A7EA0991364FF59002DCB5E /* SQLTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQLTable.m; sourceTree = "<group>"; };
 		3A7EA09B13650448002DCB5E /* SQLBridge_object.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLBridge_object.h; sourceTree = "<group>"; };
+		3A9DB35113D8F7B200FDDD02 /* EdenDocumentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EdenDocumentController.h; sourceTree = "<group>"; };
+		3A9DB35213D8F7B200FDDD02 /* EdenDocumentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EdenDocumentController.m; sourceTree = "<group>"; };
 		3AA16759138F67A6002AC1EA /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SkillView.xib; sourceTree = "<group>"; };
 		3AA854491361016F0099C073 /* SQLMutableTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQLMutableTable.m; sourceTree = "<group>"; };
 		3AB0962D1395A98B008DF2D9 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/CharacterSkillQueue.xib; sourceTree = "<group>"; };
@@ -354,6 +357,8 @@
 			children = (
 				3AFE5D09136BC4750072FD0E /* CharacterDocument.h */,
 				3AFE5D0A136BC4750072FD0E /* CharacterDocument.m */,
+				3A9DB35113D8F7B200FDDD02 /* EdenDocumentController.h */,
+				3A9DB35213D8F7B200FDDD02 /* EdenDocumentController.m */,
 			);
 			name = "Document Model";
 			sourceTree = "<group>";
@@ -722,6 +727,7 @@
 				3A5ED341139A0A2A005AE2EC /* PreferencesBaseController.m in Sources */,
 				3A326D8813AC6F65003EA995 /* SkillBar.m in Sources */,
 				3AB7930513D4FF91000B7345 /* EveAPIResult.m in Sources */,
+				3A9DB35313D8F7B200FDDD02 /* EdenDocumentController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

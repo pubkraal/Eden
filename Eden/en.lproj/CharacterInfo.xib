@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.10">
 	<data>
-		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">10J869</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1306</string>
-		<string key="IBDocument.AppKitVersion">1038.35</string>
-		<string key="IBDocument.HIToolboxVersion">461.00</string>
+		<int key="IBDocument.SystemTarget">1070</int>
+		<string key="IBDocument.SystemVersion">11A511</string>
+		<string key="IBDocument.InterfaceBuilderVersion">1617</string>
+		<string key="IBDocument.AppKitVersion">1138</string>
+		<string key="IBDocument.HIToolboxVersion">566.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">1306</string>
+			<string key="NS.object.0">1617</string>
 		</object>
 		<object class="NSArray" key="IBDocument.IntegratedClassDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -118,7 +118,7 @@
 										<string key="NSFrameSize">{584, 191}</string>
 										<reference key="NSSuperview" ref="589205034"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="61719948"/>
+										<reference key="NSNextKeyView" ref="161511599"/>
 										<bool key="NSEnabled">YES</bool>
 										<object class="_NSCornerView" key="NSCornerView">
 											<nil key="NSNextResponder"/>
@@ -206,11 +206,12 @@
 										<int key="NSTvFlags">314572800</int>
 										<reference key="NSDelegate"/>
 										<reference key="NSDataSource"/>
-										<int key="NSColumnAutoresizingStyle">4</int>
+										<int key="NSColumnAutoresizingStyle">0</int>
 										<int key="NSDraggingSourceMaskForLocal">15</int>
 										<int key="NSDraggingSourceMaskForNonLocal">0</int>
 										<bool key="NSAllowsTypeSelect">YES</bool>
 										<int key="NSTableViewDraggingDestinationStyle">0</int>
+										<int key="NSTableViewGroupRowStyle">1</int>
 									</object>
 								</object>
 								<string key="NSFrame">{{1, 1}, {584, 191}}</string>
@@ -224,7 +225,7 @@
 							<object class="NSScroller" id="61719948">
 								<reference key="NSNextResponder" ref="438380948"/>
 								<int key="NSvFlags">-2147483392</int>
-								<string key="NSFrame">{{570, 1}, {15, 210}}</string>
+								<string key="NSFrame">{{-100, -100}, {15, 210}}</string>
 								<reference key="NSSuperview" ref="438380948"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="648790322"/>
@@ -235,10 +236,10 @@
 							<object class="NSScroller" id="648790322">
 								<reference key="NSNextResponder" ref="438380948"/>
 								<int key="NSvFlags">-2147483392</int>
-								<string key="NSFrame">{{1, 211}, {584, 15}}</string>
+								<string key="NSFrame">{{-100, -100}, {584, 15}}</string>
 								<reference key="NSSuperview" ref="438380948"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="161511599"/>
+								<reference key="NSNextKeyView" ref="589205034"/>
 								<int key="NSsFlags">1</int>
 								<reference key="NSTarget" ref="438380948"/>
 								<string key="NSAction">_doScroller:</string>
@@ -248,8 +249,8 @@
 						<string key="NSFrame">{{20, 50}, {586, 193}}</string>
 						<reference key="NSSuperview" ref="648409673"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="589205034"/>
-						<int key="NSsFlags">562</int>
+						<reference key="NSNextKeyView" ref="61719948"/>
+						<int key="NSsFlags">133650</int>
 						<reference key="NSVScroller" ref="61719948"/>
 						<reference key="NSHScroller" ref="648790322"/>
 						<reference key="NSContentView" ref="589205034"/>
@@ -1504,6 +1505,8 @@
 					<string>228.IBPluginDependency</string>
 					<string>229.IBPluginDependency</string>
 					<string>23.IBPluginDependency</string>
+					<string>230.IBPluginDependency</string>
+					<string>233.IBPluginDependency</string>
 					<string>236.IBPluginDependency</string>
 					<string>24.IBPluginDependency</string>
 					<string>254.IBPluginDependency</string>
@@ -1518,6 +1521,7 @@
 					<string>40.IBPluginDependency</string>
 					<string>41.IBPluginDependency</string>
 					<string>42.IBPluginDependency</string>
+					<string>43.IBPluginDependency</string>
 					<string>49.IBPluginDependency</string>
 					<string>50.IBPluginDependency</string>
 					<string>51.IBPluginDependency</string>
@@ -1539,6 +1543,9 @@
 				</object>
 				<object class="NSMutableArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -1616,11 +1623,9 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>collapseAll:</string>
 							<string>expandAll:</string>
-							<string>reloadPortrait:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 						</object>
@@ -1631,7 +1636,6 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>collapseAll:</string>
 							<string>expandAll:</string>
-							<string>reloadPortrait:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1641,10 +1645,6 @@
 							</object>
 							<object class="IBActionInfo">
 								<string key="name">expandAll:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">reloadPortrait:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 						</object>
