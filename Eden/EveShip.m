@@ -49,7 +49,7 @@
 	return [[[self alloc] initWithBridge:bridge andShipID:shipID] autorelease];
 }
 
-@synthesize highSlots, medSlots, lowSlots, missileHardPoints, turretHardpoints;
+@synthesize highSlots, medSlots, lowSlots, missileHardpoints, turretHardpoints;
 @synthesize basePowergrid, baseCPU;
 
 @end
