@@ -26,7 +26,7 @@
 - (id)initWithBridge:(SQLBridge *)bridge andShipID:(NSNumber *)shipID;
 + (id)shipWithBridge:(SQLBridge *)bridge andShipID:(NSNumber *)shipID;
 
-@property (retain) NSNumber * highSlots, * medSlots, * lowSlots, * missileHardPoints, * turretHardpoints, * basePowergrid, * baseCPU;
+@property (retain) NSNumber * highSlots, * medSlots, * lowSlots, * missileHardpoints, * turretHardpoints, * basePowergrid, * baseCPU;
 
 
 @end
