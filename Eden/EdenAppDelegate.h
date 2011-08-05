@@ -19,12 +19,19 @@
 	BOOL appStarted;
 	BOOL dbLoaded;
 	BOOL willOpenFile;
+	
+	NSString * dbVersion;
 }
 
 @property (assign) IBOutlet NSWindow *window;
 @property (assign) BOOL dbLoaded;
+@property (retain) NSString * dbVersion;
 
 - (IBAction)openDumpNav:(id)aButton;
+
+- (NSData *)dataForUserFile:(NSString *)file ofType:(NSString *)type;
+- (BOOL)writeData:(NSData *)data toUserFile:(NSString *)file ofType:(NSString *)type;
+- (NSString *)applicationSupportFolder;
 
 - (void)loadDatabase:(id)arg;
 - (void)postLoadDatabase:(id)arg;

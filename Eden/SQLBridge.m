@@ -13,7 +13,7 @@
 
 @implementation SQLBridge
 
-@synthesize lastError, views, delegate, trueViews;
+@synthesize lastError, views, delegate, trueViews, filename;
 
 - (id)initWithPath:(NSString *)dbPath error:(NSError **)error{
 	int rc;
@@ -36,12 +36,35 @@
 			database    = NULL;
 		}
 		else {
+			[self setFilename:dbPath];
 			[self setViews:[NSMutableDictionary dictionary]];
 		}
     }
     
     return self;
 }
+
+- (id)initWithCoder:(NSCoder *)coder {
+	NSString * dbPath;
+	
+	dbPath = [coder decodeObjectForKey:@"sqlbridge.filename"];
+	self   = [self initWithPath:dbPath error:nil];
+	
+	if (self && ![self lastError]) {
+		[self setFilename:dbPath];
+		[self setViews:[coder decodeObjectForKey:@"sqlbridge.views"]];
+		[self setTrueViews:[coder decodeObjectForKey:@"sqlbridge.trueViews"]];
+	}
+	
+	return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+	[coder encodeObject:filename forKey:@"sqlbridge.filename"];
+	[coder encodeObject:views forKey:@"sqlbridge.views"];
+	[coder encodeObject:trueViews forKey:@"sqlbridge.trueViews"];
+}
+
 
 + (id)bridgeWithPath:(NSString *)dbPath error:(NSError **)error {
 	return [[[self alloc] initWithPath:dbPath error:error] autorelease];
@@ -651,6 +674,7 @@
 		sqlite3_close(database);
 	}
 	
+	[self setFilename:nil];
 	[self setViews:nil];
 	[self setLastError:nil];
 	[self setDelegate:nil];

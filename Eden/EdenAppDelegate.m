@@ -10,11 +10,12 @@
 #import "EveDatabase.h"
 #import "EveSkill.h"
 #import "EdenDocumentController.h"
+#import <time.h>
 
 
 @implementation EdenAppDelegate
 
-@synthesize window, dbLoaded;
+@synthesize window, dbLoaded, dbVersion;
 
 + (void)initialize {
 	NSDictionary * defaults;
@@ -41,8 +42,64 @@
 	return self;
 }
 
+- (NSData *)dataForUserFile:(NSString *)file ofType:(NSString *)type {
+	NSData * data;
+	NSString * path;
+	
+	path  = [self applicationSupportFolder];
+	
+	if (path) {
+		path = [[path stringByAppendingPathComponent:file] stringByAppendingPathExtension:type];
+		data = [NSData dataWithContentsOfFile:path];
+	}
+	else data = nil;
+	
+	return data;
+}
+
+- (BOOL)writeData:(NSData *)data toUserFile:(NSString *)file ofType:(NSString *)type {
+	NSString * path;
+	BOOL success;
+	
+	path  = [self applicationSupportFolder];
+	
+	if (path) {
+		path    = [[path stringByAppendingPathComponent:file] stringByAppendingPathExtension:type];
+		success = [data writeToFile:path atomically:YES];
+	}
+	else success = NO;
+	
+	return success;
+}
+
+- (NSString *)applicationSupportFolder {
+	NSArray * paths;
+	NSString * appSupport;
+	NSFileManager * fm;
+	BOOL created;
+
+	paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
+	
+	if ([paths count]) {
+		appSupport = [paths objectAtIndex:0];
+		appSupport = [appSupport stringByAppendingPathComponent:@"Eden"];
+		fm         = [NSFileManager defaultManager];
+		created    = [fm createDirectoryAtPath:appSupport
+				   withIntermediateDirectories:YES
+									attributes:nil
+										 error:nil];
+										
+		if (!created) appSupport = nil;
+	}
+	else appSupport = nil;
+	
+	return appSupport;
+}
+
+// First method called by Cocoa on launch
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification {
 	EdenDocumentController * docControl;
+	NSDictionary * eveDB;
 	
 	// The shared document controller for the application is the first that is
 	// created. According to the docs, it's guaranteed that a controller
@@ -51,21 +108,41 @@
 	// controller is used instead of the default one.
 	
 	docControl = [[[EdenDocumentController alloc] init] autorelease];
+	eveDB      = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"EveDB" ofType:@"plist"]];
+	
+	self.dbVersion = [eveDB objectForKey:@"Version"];
+	
 }
 
+// Second method called by Cocoa on launch
+- (void)application:(NSApplication *)app didDecodeRestorableState:(NSCoder *)coder {
+
+}
+
+- (void)application:(NSApplication *)app willEncodeRestorableState:(NSCoder *)coder {
+
+}
+
+
+// Third method called by Cocoa on launch
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 	preferencesWindow = nil;
 	dumpNavWindow     = nil;
-
-	[window makeKeyAndOrderFront:self];
-	[progress startAnimation:self];
-	[self performSelectorInBackground:@selector(loadDatabase:) withObject:nil];
+	
+	if (![EveDatabase bridgeLoaded]) {
+		[window makeKeyAndOrderFront:self];
+		[progress startAnimation:self];
+		[self performSelectorInBackground:@selector(loadDatabase:) withObject:nil];
+	}
+	else [self postLoadDatabase:nil];
 }
 
 - (void)loadDatabase:(id)arg {
 	NSError * error;
 	SQLBridge * bridge;
 	NSAutoreleasePool * pool;
+	NSMutableData * data;
+	NSKeyedArchiver * coder;
 
 	pool = [[NSAutoreleasePool alloc] init];
 
@@ -73,7 +150,7 @@
 	error  = (bridge) ? nil : [EveDatabase initError];
 	
 	if (!error) [EveSkill cacheRawSkills];
-	
+		
 	[pool drain];
 	
 	[self performSelectorOnMainThread:@selector(postLoadDatabase:) withObject:error waitUntilDone:NO];
@@ -91,9 +168,9 @@
 		self.dbLoaded = YES;
 		[window orderOut:self];
 
-		if ([self applicationShouldOpenUntitledFile:[NSApplication sharedApplication]]) {
+		/*if ([self applicationShouldOpenUntitledFile:[NSApplication sharedApplication]]) {
 			[[NSDocumentController sharedDocumentController] newDocument:self];
-		}
+		}*/
 
 		appStarted = YES;
 	}
@@ -131,7 +208,7 @@
 	[[preferencesWindow window] makeKeyAndOrderFront:preferencesWindow];
 }
 
-- (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender {
+/*- (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender {
 	NSUserDefaults * prefs;
 	NSDocumentController * controller;
 	NSArray * documents;
@@ -163,7 +240,7 @@
 	}
 	
 	return untitled;
-}
+}*/
 
 - (BOOL)application:(NSApplication *)app openFile:(NSString *)filename {
 	willOpenFile = YES;

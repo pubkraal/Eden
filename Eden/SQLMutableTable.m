@@ -18,10 +18,28 @@
 - (id)initWithBridge:(SQLBridge *)aBridge andTableName:(NSString *)aTableName {
 	
 	if ((self = [super initWithBridge:aBridge andTableName:aTableName])) {
+		
 		databaseAccessLock = [[NSLock alloc] init];
 	}
 	
 	return self;
+}
+
+- (id)initWithCoder:(NSCoder *)coder {
+	
+	if ((self = [super initWithCoder:coder])) {
+		mutableRows = [[coder decodeObjectForKey:@"sqlmutabletable.mutableRows"] retain];
+
+		databaseAccessLock = [[NSLock alloc] init];
+	}
+	
+	return nil;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+	[super encodeWithCoder:coder];
+	
+	[coder encodeObject:mutableRows forKey:@"sqlmutabletable.mutableRows"];
 }
 
 - (void)doSetRows:(NSArray *)rows {

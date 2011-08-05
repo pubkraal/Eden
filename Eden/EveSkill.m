@@ -140,10 +140,18 @@ NSCalendarUnit units = NSMonthCalendarUnit | NSWeekCalendarUnit |
 		[mutableSkills setObject:row forKey:[row objectForKey:@"typeID"]];
 	}
 
-	if (rawSkills) [rawSkills release];
+	[self setRawSkillCache:[NSDictionary dictionaryWithDictionary:mutableSkills]];
+}
+
++ (void)setRawSkillCache:(NSDictionary *)cache {
+	[cache retain];
+	[rawSkills release];
 	
-	rawSkills = [[NSDictionary alloc] initWithDictionary:mutableSkills];
-	
+	rawSkills = cache;
+}
+
++ (NSDictionary *)rawSkillCache {
+	return rawSkills;
 }
 
 - (void)setSkillPoints:(NSNumber *)skPoints {

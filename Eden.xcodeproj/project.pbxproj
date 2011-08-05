@@ -29,6 +29,7 @@
 		3A7923051391670D007F2F8F /* TaskCellController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A7923041391670D007F2F8F /* TaskCellController.m */; };
 		3A7923081391673F007F2F8F /* TaskView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A79230A1391673F007F2F8F /* TaskView.xib */; };
 		3A7EA09A1364FF59002DCB5E /* SQLTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A7EA0991364FF59002DCB5E /* SQLTable.m */; };
+		3A84178B13DA651000900AE8 /* EveDB.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3A84178A13DA651000900AE8 /* EveDB.plist */; };
 		3A9DB35313D8F7B200FDDD02 /* EdenDocumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A9DB35213D8F7B200FDDD02 /* EdenDocumentController.m */; };
 		3AA16758138F67A6002AC1EA /* SkillView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3AA1675A138F67A6002AC1EA /* SkillView.xib */; };
 		3AA8544A1361016F0099C073 /* SQLMutableTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AA854491361016F0099C073 /* SQLMutableTable.m */; };
@@ -130,6 +131,7 @@
 		3A7EA0981364FF59002DCB5E /* SQLTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLTable.h; sourceTree = "<group>"; };
 		3A7EA0991364FF59002DCB5E /* SQLTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQLTable.m; sourceTree = "<group>"; };
 		3A7EA09B13650448002DCB5E /* SQLBridge_object.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLBridge_object.h; sourceTree = "<group>"; };
+		3A84178A13DA651000900AE8 /* EveDB.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = EveDB.plist; sourceTree = "<group>"; };
 		3A9DB35113D8F7B200FDDD02 /* EdenDocumentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EdenDocumentController.h; sourceTree = "<group>"; };
 		3A9DB35213D8F7B200FDDD02 /* EdenDocumentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EdenDocumentController.m; sourceTree = "<group>"; };
 		3AA16759138F67A6002AC1EA /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SkillView.xib; sourceTree = "<group>"; };
@@ -496,6 +498,7 @@
 				3A7615DF135ED4FD005A191C /* evedump.db */,
 				525B8ABE133BEBC1006A3728 /* README */,
 				5279180A133FB058009C694C /* LICENSE */,
+				3A84178A13DA651000900AE8 /* EveDB.plist */,
 			);
 			name = Resources;
 			path = ..;
@@ -637,6 +640,7 @@
 				3A5ED3381399D608005AE2EC /* PreferencesGeneral.xib in Resources */,
 				3A5ED33B1399D60B005AE2EC /* PreferencesAPIKeys.xib in Resources */,
 				3A5ED342139A0A2A005AE2EC /* PreferencesBaseController.xib in Resources */,
+				3A84178B13DA651000900AE8 /* EveDB.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

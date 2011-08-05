@@ -56,6 +56,9 @@
 + (NSDictionary *)cachedAttributedSkillWithSkillID:(NSString *)skillID;
 + (void)cacheRawSkills;
 
++ (void)setRawSkillCache:(NSDictionary *)cache;
++ (NSDictionary *)rawSkillCache;
+
 - (void)copyTo:(EveSkill *)copy;
 
 - (NSUInteger)neededForLevel:(NSUInteger)level;

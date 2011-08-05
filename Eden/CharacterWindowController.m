@@ -21,20 +21,20 @@
 @implementation CharacterWindowController
 
 @synthesize dynamicView, activeViewName, nextViewName, subviews, selectedTasks;
-@synthesize reloadEnabled, hasError, errors, taskCellControllers;
+@synthesize fullScreen, reloadEnabled, hasError, errors, taskCellControllers;
 
 // Initialization
 
 - (id)init {
 	NSNotificationCenter * nc;
-    if ((self = [super initWithWindowNibName:@"Character"])) {
-
+	if ((self = [super initWithWindowNibName:@"Character"])) {
 		requiresFullAPIPred = [[NSPredicate predicateWithFormat:@"requiresFullAPI == NO"] retain];
 		skillTimer          = nil;
 		
 		[self setActiveViewName:nil];
 		[self setNextViewName:nil];
 		[self setSubviews:nil];
+		[self setFullScreen:NO];
 		[self setReloadEnabled:YES];
 		[self setHasError:NO];
 		[self setErrors:nil];
@@ -46,6 +46,15 @@
     }
     
     return self;
+}
+
+- (void)windowWillEnterFullScreen:(NSNotification *)notif {
+	self.fullScreen = YES;
+}
+
+
+- (void)windowDidExitFullScreen:(NSNotification *)notif {
+	self.fullScreen = NO;
 }
 
 - (void)windowDidLoad {
@@ -181,9 +190,10 @@
 		newTaskPath = [newTaskPaths objectAtIndex:0];
 		newTask = (NSDictionary *) [[[tasksController arrangedObjects] descendantNodeAtIndexPath:newTaskPath] representedObject];
 		
-		[self switchView:(NSString *) [newTask objectForKey:@"view"]];
-
 		[[self document] setCurrentTask:NSStringFromIndexPath(newTaskPath)];
+		if (self.activeViewName) [self.document updateChangeCount:NSChangeDone];
+
+		[self switchView:(NSString *) [newTask objectForKey:@"view"]];
 	}
 }
 
@@ -268,9 +278,7 @@
 - (void)windowWillClose:(NSNotification *)notif {
 	NSNotificationCenter * nc;
 	EveViewController * view;
-	
-	if ([self.document fileURL]) [self.document saveDocument:self];
-	
+
 	[self.document removeReloadController];
 	
 	[[[subviews objectForKey:[self activeViewName]] view] removeFromSuperview];
@@ -404,7 +412,7 @@
 		}
 		else activeView = nil;
 
-		newDynFrame = [newView frame];
+		newDynFrame = NSRectFromDictionary([self.document.viewSizes objectForKey:newViewName]);
 		
 		newDynFrame.origin.x = 0;
 		newDynFrame.origin.y = 0;
@@ -419,9 +427,25 @@
 		windowFrame.origin.y    -= newDynFrame.size.height - currentFrame.size.height;
 
 		if (activeView) {
-			[self setNextViewName:newViewName];
-			
-			[[[self window] animator] setFrame:windowFrame display:YES];
+			if (!self.fullScreen) {
+				[self setNextViewName:newViewName];
+
+				[[[self window] animator] setFrame:windowFrame display:YES];
+			}
+			else {
+				/*newDynFrame = dynamicView.frame;
+				newDynFrame.origin.x = 0;
+				newDynFrame.origin.y = 0;*/
+
+				newDynFrame.size.width  = dynamicView.frame.size.width;
+				newDynFrame.size.height = dynamicView.frame.size.height;
+				
+				[newView setFrame:newDynFrame];
+
+				[dynamicView addSubview:newView];
+
+				[self setActiveViewName:newViewName];
+			}
 		}
 		else {
 			if (self.document.windowOrigin) {
@@ -451,8 +475,7 @@
 - (void)windowDidResize:(NSNotification *)notification {
 	__block NSMutableDictionary * windowSizes;
 
-
-	if (self.subviews) {
+	if (self.subviews && !self.fullScreen) {
 		windowSizes = [NSMutableDictionary dictionary];
 
 		[self.subviews enumerateKeysAndObjectsUsingBlock:^(NSString * key, NSViewController * viewController, BOOL * stop) {
@@ -462,7 +485,7 @@
 		
 		self.document.viewSizes = [NSDictionary dictionaryWithDictionary:windowSizes];
 
-
+		if (self.activeViewName) [self.document updateChangeCount:NSChangeDone];
 	}
 }
 
@@ -470,12 +493,16 @@
 	NSNumber * x, * y;
 	NSRect frame;
 	
-	frame = [self window].frame;
-	
-	x = [NSNumber numberWithInteger:frame.origin.x];
-	y = [NSNumber numberWithInteger:frame.origin.y];
-	
-	self.document.windowOrigin = [NSDictionary dictionaryWithObjectsAndKeys:x, @"x", y, @"y", nil];
+	if (!self.fullScreen) {
+		frame = [self window].frame;
+
+		x = [NSNumber numberWithInteger:frame.origin.x];
+		y = [NSNumber numberWithInteger:frame.origin.y];
+
+		self.document.windowOrigin = [NSDictionary dictionaryWithObjectsAndKeys:x, @"x", y, @"y", nil];
+
+		if (self.activeViewName) [self.document updateChangeCount:NSChangeDone];
+	}
 }
 
 - (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName {

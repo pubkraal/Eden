@@ -102,6 +102,7 @@
 	
 	[NSApp endSheet:[self window] returnCode:0];
 	[self.document.character updateSkillsArray];
+	[self.document updateChangeCount:NSChangeDone];
 }
 
 - (void)request:(EveAPI *)api changedTotalDownloadSize:(NSNumber *)bytes {

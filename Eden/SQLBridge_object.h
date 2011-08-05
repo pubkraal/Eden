@@ -63,10 +63,11 @@
 
 @end
 
-@interface SQLBridge : NSObject {
+@interface SQLBridge : NSObject <NSCoding> {
 @private
     sqlite3 * database;
 	NSError * lastError;
+	NSString * filename;
 	
 	NSMutableDictionary * views;
 	
@@ -75,6 +76,7 @@
 	id <SQLBridgeDelegate> delegate;
 }
 
+@property (retain) NSString * filename;
 @property (retain) NSError * lastError;
 @property (retain) NSMutableDictionary * views;
 @property (assign) id <SQLBridgeDelegate> delegate;

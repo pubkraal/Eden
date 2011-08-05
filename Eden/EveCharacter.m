@@ -301,10 +301,9 @@
 - (NSNumber *)speedForSkill:(EveSkill *)skill {
 	NSUInteger primary, secondary, speed;
 	
-	primary   = [(NSNumber *)[self valueForKey:skill.primaryAttribute] unsignedIntegerValue];
-	secondary = [(NSNumber *)[self valueForKey:skill.secondaryAttribute] unsignedIntegerValue];
-	
-	speed = EveTrainingSpeed(primary, secondary);
+	primary   = [(NSNumber *) [self valueForKey:skill.primaryAttribute] unsignedIntegerValue];
+	secondary = [(NSNumber *) [self valueForKey:skill.secondaryAttribute] unsignedIntegerValue];
+	speed     = EveTrainingSpeed(primary, secondary);
 	
 	return [NSNumber numberWithInteger:speed];
 }

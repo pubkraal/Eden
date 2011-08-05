@@ -23,6 +23,10 @@
 @private
 }
 
++ (SQLBridge *)sharedBridgeFromCoder:(NSCoder *)coder;
++ (void)encodeBridgeWithCoder:(NSCoder *)coder;
++ (BOOL)bridgeLoaded;
+
 + (SQLBridge *)sharedBridge;
 + (EveDatabase *)sharedDatabase;
 + (NSError *)initError;
@@ -39,6 +43,7 @@
 @end
 
 @interface EveTypesTable : EveTable {
+	NSMutableDictionary * cachedAttributes;
 	
 }
 

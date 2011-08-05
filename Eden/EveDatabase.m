@@ -9,6 +9,8 @@
 #import "EveDatabase.h"
 
 NSError * initError = nil;
+SQLBridge * bridge  = nil;
+EveDatabase * db    = nil;
 
 @implementation EveDatabase
 
@@ -23,19 +25,34 @@ NSError * initError = nil;
 	[super dealloc];
 }
 
++ (SQLBridge *)sharedBridgeFromCoder:(NSCoder *)coder {
+	if (bridge) [bridge release];
+	
+	bridge = [[coder decodeObjectForKey:@"evedatabase.bridge"] retain];
+	
+	bridge.delegate = [self sharedDatabase];
+	
+	return bridge;
+}
+
++ (void)encodeBridgeWithCoder:(NSCoder *)coder {
+	[coder encodeObject:bridge forKey:@"evedatabase.bridge"];
+}
+
++ (BOOL)bridgeLoaded {
+	return !!bridge;
+}
+
 + (SQLBridge *)sharedBridge {
-	static SQLBridge * bridge = nil;
 	NSString * dbPath;
-	EveDatabase * db;
 	BOOL hasError;
 
 	if (bridge == nil) {
-		db     = [self sharedDatabase];
 		dbPath = [[NSBundle mainBundle] pathForResource:@"evedump" ofType:@"db"];
 		
 		if (dbPath) {
 			bridge = [[SQLBridge alloc] initWithPath:dbPath error:&initError];
-			bridge.delegate = db;
+			bridge.delegate = [self sharedDatabase];
 			
 			hasError = !!initError;
 			
@@ -71,8 +88,6 @@ NSError * initError = nil;
 }
 
 + (EveDatabase *)sharedDatabase {
-	static EveDatabase * db = nil;
-
 	if (db == nil) {
 		db = [[self alloc] init];
 	}
@@ -114,11 +129,38 @@ NSError * initError = nil;
 
 @implementation EveTypesTable
 
-- (NSArray *)attributesForKey:(NSNumber *)typeID {
-	static NSMutableDictionary * cachedAttributes = nil;
-	NSArray * results;
+- (id)initWithBridge:(SQLBridge *)aBridge andTableName:(NSString *)aTableName {
 	
-	if (!cachedAttributes) cachedAttributes = [[NSMutableDictionary alloc] init];
+	if ((self = [super initWithBridge:aBridge andTableName:aTableName])) {
+		cachedAttributes = [[NSMutableDictionary alloc] init];
+	}
+	
+	return self;
+}
+
+- (id)initWithCoder:(NSCoder *)coder {
+	
+	if ((self = [super initWithCoder:coder])) {
+		cachedAttributes = [[coder decodeObjectForKey:@"evetypestable.cachedAttributes"] retain];
+	}
+	
+	return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+	[super encodeWithCoder:coder];
+	
+	[coder encodeObject:cachedAttributes forKey:@"evetypestable.cachedAttributes"];
+}
+
+- (void)dealloc {
+	[cachedAttributes release];
+	
+	[super dealloc];
+}
+
+- (NSArray *)attributesForKey:(NSNumber *)typeID {
+	NSArray * results;
 	
 	results = [cachedAttributes objectForKey:typeID];
 	

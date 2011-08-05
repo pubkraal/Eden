@@ -10,7 +10,7 @@
 
 @class SQLBridge;
 
-@interface SQLView : NSObject {
+@interface SQLView : NSObject <NSCoding> {
 @private
     NSString * tableName;
 	SQLBridge * bridge;

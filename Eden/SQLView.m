@@ -34,6 +34,36 @@
     return self;
 }
 
+- (id)initWithCoder:(NSCoder *)coder {
+	if ((self = [super init])) {
+		tableName    = [[coder decodeObjectForKey:@"sqlview.tableName"] retain];
+		bridge       = [coder decodeObjectForKey:@"sqlview.bridge"];
+		
+		self.columns                     = [coder decodeObjectForKey:@"sqlview.columns"];
+		self.rows                        = [coder decodeObjectForKey:@"sqlview.rows"];
+		self.metadata                    = [coder decodeObjectForKey:@"sqlview.metadata"];
+		self.arrayController             = [coder decodeObjectForKey:@"sqlview.arrayController"];
+		self.containsData                = [coder decodeBoolForKey:@"sqlview.containsData"];
+		self.predicateEditorRowTemplates = [coder decodeObjectForKey:@"sqlview.predicateEditorRowTemplates"];
+
+		tableViewColumns = [[coder decodeObjectForKey:@"sqlview.tableViewColumns"] retain];
+	}
+	
+	return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+	[coder encodeObject:tableName forKey:@"sqlview.tableName"];
+	[coder encodeObject:bridge forKey:@"sqlview.bridge"];
+	[coder encodeObject:columns forKey:@"sqlview.columns"];
+	[coder encodeObject:rows forKey:@"sqlview.rows"];
+	[coder encodeObject:metadata forKey:@"sqlview.metadata"];
+	[coder encodeObject:arrayController forKey:@"sqlview.arrayController"];
+	[coder encodeBool:containsData forKey:@"sqlview.containsData"];
+	[coder encodeObject:tableViewColumns forKey:@"sqlview.tableViewColumns"];
+	[coder encodeObject:predicateEditorRowTemplates forKey:@"sqlview.predicateEditorRowTemplates"];
+}
+
 + (id)viewWithBridge:(SQLBridge *)aBridge andTableName:(NSString *)aTableName {
 	return [[[self alloc] initWithBridge:aBridge andTableName:aTableName] autorelease];
 }

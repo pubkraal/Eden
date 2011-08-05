@@ -36,6 +36,7 @@
 	NSString * nextViewName;
 
 	// Interface data
+	BOOL fullScreen;
 	BOOL reloadEnabled;
 	BOOL hasError;
 	NSDictionary * errors;
@@ -63,7 +64,7 @@
 
 @property (assign) CharacterDocument * document;
 @property (assign) BOOL reloadEnabled;
-
+@property (assign) BOOL fullScreen;
 @property (assign) BOOL hasError;
 @property (retain) NSDictionary * errors;
 

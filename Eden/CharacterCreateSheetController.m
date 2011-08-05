@@ -79,6 +79,7 @@
 			break;
 		
 		case EVE_RETRIEVE_DATA:
+			[self.document updateChangeCount:NSChangeDone];
 			[(CharacterWindowController *) self.document.mainController scheduleSkillTimer];
 			self.currentRequest = nil;
 			break;

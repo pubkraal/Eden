@@ -44,9 +44,12 @@
 	[super dealloc];
 }
 
++ (BOOL)autosavesInPlace {
+	return YES;
+}
 
-- (BOOL)isDocumentEdited {
-	return NO;
+- (BOOL)canAsynchronouslyWriteToURL:(NSURL *)url ofType:(NSString *)typeName forSaveOperation:(NSSaveOperationType)saveOperation {
+	return YES;
 }
 
 - (NSString *)displayName {
@@ -164,6 +167,8 @@
 	[newWrapper addRegularFileWithContents:character.portraitData preferredFilename:@"portrait.jpg"];
 
 	if (!currentWrapper) currentWrapper = newWrapper;
+
+	[self unblockUserInteraction];
 
 	return newWrapper;
 }

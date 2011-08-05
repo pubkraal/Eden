@@ -27,6 +27,25 @@
 	return self;
 }
 
+- (id)initWithCoder:(NSCoder *)coder {
+	
+	if ((self = [super initWithCoder:coder])) {
+		self.numericPrimaryKey = [coder decodeObjectForKey:@"sqltable.numericPrimaryKey"];
+		self.primaryKeys       = [coder decodeObjectForKey:@"sqltable.primaryKeys"];
+		self.rowsByPK          = [coder decodeObjectForKey:@"sqltable.rowsByPK"];
+	}
+	
+	return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+	[super encodeWithCoder:coder];
+	
+	[coder encodeObject:numericPrimaryKey forKey:@"sqltable.numericPrimaryKey"];
+	[coder encodeObject:primaryKeys forKey:@"sqltable.primaryKeys"];
+	[coder encodeObject:rowsByPK forKey:@"sqltable.rowsByPK"];
+}
+
 - (BOOL)loadMetadata {
 	NSDictionary * results, * fkResults, * info;
 	__block NSMutableDictionary * md, * fk;
