@@ -144,7 +144,27 @@
 
 	return fileRead;
 
- }
+}
+
+- (void)revertDocumentToSaved:(id)sender {
+	// TODO: a lot of stuff. Basically Cocoa slams the door to
+	// the current EveCharacter while the UI still has its hands
+	// on it, exchanging it for a new one without telling the UI
+	// about it. And I think it's gonna be a long long time, till
+	// touchdown brings me round again to find, I'm not the man
+	// they think I am at home, oh no no no... I'm a rocket man!
+	// (rocket maaan~~~) burning out his fuses up here alone...
+	
+	[mainController cancelSkillTimer];
+	[mainController removeAllObservers];
+	
+	[super revertDocumentToSaved:sender];
+	//self.character = self.character; // Trying to force a notification to the UI...
+	// NEWSFLASH: It didn't work.
+	
+	[mainController addAllObservers];
+	[mainController scheduleSkillTimer];
+}
 
 - (NSFileWrapper *)fileWrapperOfType:(NSString *)typeName error:(NSError **)error {
 	NSData * characterData;

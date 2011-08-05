@@ -107,6 +107,9 @@
 
 - (void)switchView:(NSString *)newViewName;
 - (void)populateSubviews;
+- (NSRect)windowFrameForTaskFrame:(NSRect)taskFrame;
+- (void)saveSubviewsSizes;
+- (void)replaceTaskSubview:(NSString *)newTaskName;
 
 @end
 

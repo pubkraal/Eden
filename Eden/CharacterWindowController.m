@@ -54,7 +54,34 @@
 
 
 - (void)windowDidExitFullScreen:(NSNotification *)notif {
+	NSRect currentFrame, savedFrame, windowFrame;
+	NSView * activeView;
+	BOOL taskChangedInFullScreen;
+	
 	self.fullScreen = NO;
+
+	currentFrame = dynamicView.frame;
+	savedFrame   = NSRectFromDictionary([self.document.viewSizes objectForKey:activeViewName]);
+
+	taskChangedInFullScreen = (savedFrame.size.width != currentFrame.size.width) || (savedFrame.size.height != currentFrame.size.height);
+
+	if (taskChangedInFullScreen) {
+		activeView = [[subviews objectForKey:activeViewName] view];
+
+		[activeView removeFromSuperview];
+	}
+
+	[self.document.viewSizes enumerateKeysAndObjectsUsingBlock:^(id key, NSDictionary * rect, BOOL * stop) {
+		[[subviews objectForKey:key] view].frame = NSRectFromDictionary(rect);
+	}];
+
+	if (taskChangedInFullScreen) {
+		self.nextViewName = activeViewName;
+		
+		windowFrame = [self windowFrameForTaskFrame:savedFrame];
+
+		[[[self window] animator] setFrame:windowFrame display:YES];
+	}
 }
 
 - (void)windowDidLoad {
@@ -83,7 +110,10 @@
 	
 	self.selectedTasks = [NSArray arrayWithObject:NSIndexPathFromString(startPath)];
 
-	if (!self.document.character) [self showCharacterSelectionSheet];
+	if (!self.document.character) {
+		[self saveSubviewsSizes];
+		[self showCharacterSelectionSheet];
+	}
 	else {
 		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"reloadOnFileOpened"]) [self.document showSheet:self.document.reloadController];
 		else [self scheduleSkillTimer];
@@ -412,24 +442,20 @@
 		}
 		else activeView = nil;
 
-		newDynFrame = NSRectFromDictionary([self.document.viewSizes objectForKey:newViewName]);
+		newDynFrame = (self.document.viewSizes) ? NSRectFromDictionary([self.document.viewSizes objectForKey:newViewName]) : dynamicView.frame;
 		
 		newDynFrame.origin.x = 0;
 		newDynFrame.origin.y = 0;
 		
 		[newView setFrame:newDynFrame];
 
-		windowFrame  = [[self window] frame];
-		currentFrame = [dynamicView frame];
-
-		windowFrame.size.width  += newDynFrame.size.width  - currentFrame.size.width;
-		windowFrame.size.height += newDynFrame.size.height - currentFrame.size.height;
-		windowFrame.origin.y    -= newDynFrame.size.height - currentFrame.size.height;
+		windowFrame = [self windowFrameForTaskFrame:newDynFrame];
 
 		if (activeView) {
 			if (!self.fullScreen) {
 				[self setNextViewName:newViewName];
-
+				
+				//[self replaceTaskSubview:newViewName];
 				[[[self window] animator] setFrame:windowFrame display:YES];
 			}
 			else {
@@ -461,6 +487,19 @@
 	}
 }
 
+- (NSRect)windowFrameForTaskFrame:(NSRect)taskFrame {
+	NSRect windowFrame, dynamicFrame;
+
+	dynamicFrame = dynamicView.frame;
+	windowFrame  = [self window].frame;
+
+	windowFrame.size.width  += taskFrame.size.width  - dynamicFrame.size.width;
+	windowFrame.size.height += taskFrame.size.height - dynamicFrame.size.height;
+	windowFrame.origin.y    -= taskFrame.size.height - dynamicFrame.size.height;
+
+	return windowFrame;
+}
+
 - (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)finished {
 	if ([self nextViewName]) {
 		[[self dynamicView] addSubview:[[[self subviews] objectForKey:[self nextViewName]] view]];
@@ -471,20 +510,34 @@
 	}
 }
 
+- (void)saveSubviewsSizes {
+	__block NSMutableDictionary * windowSizes;
+	
+	windowSizes = [NSMutableDictionary dictionary];
+
+	[self.subviews enumerateKeysAndObjectsUsingBlock:^(NSString * key, NSViewController * viewController, BOOL * stop) {
+		[windowSizes setObject:NSDictionaryFromRect([[viewController view] frame]) forKey:key];
+			
+	}];
+
+	self.document.viewSizes = [NSDictionary dictionaryWithDictionary:windowSizes];
+}
+
+- (void)replaceTaskSubview:(NSString *)newTaskName {
+	NSView * currentTask, * nextTask;
+
+	currentTask = [[subviews objectForKey:activeViewName] view];
+	nextTask    = [[subviews objectForKey:newTaskName] view];
+
+	[[dynamicView animator] replaceSubview:currentTask with:nextTask];
+
+	self.activeViewName = newTaskName;
+}
 
 - (void)windowDidResize:(NSNotification *)notification {
-	__block NSMutableDictionary * windowSizes;
-
 	if (self.subviews && !self.fullScreen) {
-		windowSizes = [NSMutableDictionary dictionary];
-
-		[self.subviews enumerateKeysAndObjectsUsingBlock:^(NSString * key, NSViewController * viewController, BOOL * stop) {
-			[windowSizes setObject:NSDictionaryFromRect([[viewController view] frame]) forKey:key];
-			
-		}];
+		[self saveSubviewsSizes];
 		
-		self.document.viewSizes = [NSDictionary dictionaryWithDictionary:windowSizes];
-
 		if (self.activeViewName) [self.document updateChangeCount:NSChangeDone];
 	}
 }
