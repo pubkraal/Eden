@@ -24,20 +24,20 @@
 										[NSSortDescriptor sortDescriptorWithKey:@"skillGroup" ascending:YES],
 										[NSSortDescriptor sortDescriptorWithKey:@"data.typeName" ascending:YES],
 										nil];
-		
+
 	}
-	
+
 	return self;
 }
 
 + (NSSet *)keyPathsForValuesAffectingValueForKey:(NSString *)dependentKey {
 	NSSet * rootKeys;
-	
+
 	if ([dependentKey isEqualToString:@"skillTree"]) {
 		rootKeys = [NSSet setWithObject:@"document.character.skills"];
 	}
 	else rootKeys = [NSSet set];
-	
+
 	return rootKeys;
 }
 
@@ -47,50 +47,50 @@
 	EveSkill * skill;
 	NSDictionary * item;
 	NSArray * descriptors, * itemDescriptors;
-	
+
 	skillTree = [NSMutableArray array];
 	skillDict = [NSMutableDictionary dictionary];
-	
+
 	for (skill in [self.document.character.skills allValues]) {
 		group = [skillDict objectForKey:skill.skillGroup];
-		
+
 		if (!group) {
 			group = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 								[NSNumber numberWithBool:NO], @"leaf",
 								[NSMutableArray array], @"children",
 								skill.skillGroup, @"object", nil];
-			
+
 			[skillDict setObject:group forKey:skill.skillGroup];
 		}
-		
+
 		item = [NSDictionary dictionaryWithObjectsAndKeys:
 								[NSNumber numberWithBool:YES], @"leaf",
 								[NSNull null], @"children",
 								skill, @"object", nil];
-		
+
 		[[group objectForKey:@"children"] addObject:item];
 	}
-	
+
 	descriptors     = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"object" ascending:YES]];
 	itemDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"object.name" ascending:YES]];
-	
+
 	for (group in [[skillDict allValues] sortedArrayUsingDescriptors:descriptors]) {
 		[group setObject:[[group objectForKey:@"children"] sortedArrayUsingDescriptors:itemDescriptors] forKey:@"children"];
 		[skillTree addObject:group];
 	}
-	
+
 	return [NSArray arrayWithArray:skillTree];
 }
 
 - (void)hideSkill:(NSDictionary *)node {
 	SkillCellController * controller;
 	NSDictionary * child;
-	
+
 	controller = [skillControllers objectForKey:node];
-	
+
 	if (controller) {
 		[controller removeSubviews];
-		
+
 		if ([node objectForKey:@"children"] != [NSNull null]) {
 			for (child in [node objectForKey:@"children"]) [self hideSkill:child];
 		}
@@ -104,7 +104,7 @@
 	NSDictionary * node;
 	SkillCellController * controller;
 	SkillCell * cell;
-	
+
 	cell = (SkillCell *) cellObject;
 	node = [item representedObject];
 
@@ -115,7 +115,7 @@
 		controller.document = self.document;
 		[skillControllers setObject:controller forKey:node];
 	}
-	
+
 	cell.controller = controller;
 }
 
@@ -126,25 +126,25 @@
 - (CGFloat)outlineView:(NSOutlineView *)view heightOfRowByItem:(id)item {
 	NSDictionary * node;
 	CGFloat height;
-	
+
 	node   = [item representedObject];
 	height = ([[node objectForKey:@"leaf"] boolValue]) ? 42.0 : 19.0;
-	
+
 	return height;
 }
 
 - (void)outlineViewItemDidCollapse:(NSNotification *)notif {
 	NSDictionary * node, * child;
-	
+
 	node = [[[notif userInfo] objectForKey:@"NSObject"] representedObject];
-	
+
 	for (child in [node objectForKey:@"children"]) [self hideSkill:child];
-	
+
 }
 
 - (void)outlineViewItemDidExpand:(NSNotification *)notif {
 	SkillCellController * controller;
-	
+
 	for (controller in [skillControllers allValues]) {
 		// removing the subviews forces them to be redrawn in the
 		// right place and avoid overlaps
@@ -157,7 +157,7 @@
 
 - (IBAction)expandAll:(id)sender {
 	id item;
-	
+
 	for (item in [[skillTreeController arrangedObjects] childNodes]) {
 		[skillsView expandItem:item];
 	}
@@ -165,11 +165,11 @@
 
 - (IBAction)collapseAll:(id)sender {
 	id item;
-	
+
 	for (item in [[skillTreeController arrangedObjects] childNodes]) {
 		[skillsView collapseItem:item];
 	}
-	
+
 }
 
 
@@ -177,16 +177,16 @@
 	SkillCellController * controller;
 
 	for (controller in [skillControllers allValues]) [controller documentWillClose];
-	
+
 	[super documentWillClose];
 }
 
 - (void)dealloc {
 	skillsView.delegate = nil;
-	
+
 	self.skillSortDescriptors = nil;
-	self.skillControllers = nil;	
-	
+	self.skillControllers = nil;
+
 	[super dealloc];
 }
 
